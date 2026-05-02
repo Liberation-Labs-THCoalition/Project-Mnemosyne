@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Vera</title>
+<style>
+  :root { --navy: #0a1628; --gold: #d4a843; --cream: #f5e6c8; --amber: #c78b3c; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--navy); color: var(--cream);
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; flex-direction: column;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+  }
+
+  header { padding: 16px 4px 8px; }
+  h1 { color: var(--gold); font-size: 1.1rem; letter-spacing: 0.5px; }
+  .subtitle { font-size: 0.7rem; color: #666; margin-top: 2px; }
+
+  .status {
+    font-size: 0.65rem; padding: 4px 10px; border-radius: 12px;
+    margin: 8px 0 12px; text-align: center; display: inline-block;
+  }
+  .status.connected { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .status.disconnected { background: rgba(239,68,68,0.12); color: #f87171; }
+  .status.speaking { background: rgba(212,168,67,0.15); color: var(--gold); }
+
+  .messages {
+    flex: 1; overflow-y: auto; padding: 4px 0 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .msg {
+    padding: 10px 14px; border-radius: 14px; max-width: 88%;
+    font-size: 0.88rem; line-height: 1.45; word-wrap: break-word;
+  }
+  .msg.user {
+    background: rgba(212,168,67,0.12); align-self: flex-end;
+    border: 1px solid rgba(212,168,67,0.25); border-bottom-right-radius: 4px;
+  }
+  .msg.vera {
+    background: rgba(124,58,237,0.08); align-self: flex-start;
+    border: 1px solid rgba(124,58,237,0.15); border-bottom-left-radius: 4px;
+  }
+  .msg .name { font-size: 0.6rem; color: #555; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .msg.system { font-size: 0.7rem; color: #555; align-self: center; font-style: italic; }
+
+  .input-area {
+    padding: 8px 0 12px;
+    border-top: 1px solid rgba(212,168,67,0.1);
+  }
+  .input-row { display: flex; gap: 8px; align-items: center; }
+  input[type="text"] {
+    flex: 1; padding: 12px 14px; border-radius: 20px;
+    border: 1px solid rgba(212,168,67,0.2); background: rgba(255,255,255,0.04);
+    color: var(--cream); font-size: 0.95rem; outline: none;
+  }
+  input[type="text"]:focus { border-color: var(--gold); background: rgba(255,255,255,0.06); }
+  input[type="text"]::placeholder { color: #444; }
+
+  .send-btn {
+    padding: 12px 18px; border-radius: 20px; border: none;
+    background: var(--gold); color: var(--navy); font-weight: 700;
+    font-size: 0.8rem; cursor: pointer; white-space: nowrap;
+  }
+  .send-btn:active { opacity: 0.7; }
+
+  .mic-btn {
+    width: 52px; height: 52px; border-radius: 50%; font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--gold); background: transparent; color: var(--gold);
+    cursor: pointer; flex-shrink: 0;
+  }
+  .mic-btn.recording {
+    background: #dc2626; border-color: #dc2626; color: white;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  .mic-btn.processing { opacity: 0.5; pointer-events: none; }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.3); }
+    50% { box-shadow: 0 0 0 10px rgba(220,38,38,0); }
+  }
+
+  .tts-toggle {
+    font-size: 0.65rem; color: #555; text-align: center;
+    margin-top: 6px; cursor: pointer;
+  }
+  .tts-toggle:hover { color: var(--gold); }
+  .biometrics {
+    font-size: 0.6rem; color: #444; text-align: center;
+    margin-top: 8px; font-family: monospace; letter-spacing: 0.5px;
+  }
+  .biometrics.active { color: var(--gold); }
+  .bio-btn {
+    padding: 6px 14px; border-radius: 12px; border: 1px solid rgba(212,168,67,0.2);
+    background: transparent; color: #555; font-size: 0.6rem; cursor: pointer;
+    font-family: monospace; margin-top: 4px;
+  }
+  .bio-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(212,168,67,0.06); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Vera</h1>
+  <div class="subtitle">voice as transport</div>
+</header>
+<div class="status disconnected" id="status">Connecting...</div>
+
+<div class="messages" id="messages"></div>
+
+<div class="input-area">
+  <div class="input-row">
+    <input type="text" id="textInput" placeholder="Type or hold mic..." autocomplete="off" enterkeyhint="send">
+    <button class="send-btn" onclick="sendText()">Send</button>
+    <button class="mic-btn" id="micBtn" onclick="toggleMic()">🎤</button>
+  </div>
+  <div class="tts-toggle" id="ttsToggle" onclick="toggleTTS()">🔊 Voice on</div>
+  <div style="display:flex;gap:6px;justify-content:center;margin-top:6px;">
+    <button class="bio-btn active" id="bioUser-thomas" onclick="setBioUser('thomas')" style="font-size:0.55rem;">Thomas</button>
+    <button class="bio-btn" id="bioUser-allison" onclick="setBioUser('allison')" style="font-size:0.55rem;">Allison</button>
+  </div>
+  <button class="bio-btn" id="bioBtn" onclick="toggleBiometrics()">💓 Biometrics off</button>
+  <div class="biometrics" id="bioDisplay"></div>
+</div>
+
+<script>
+// ── Config ──────────────────────────────────────────────
+const isCloudflare = location.hostname.includes('liberationlabs.tech');
+const WS_URL = isCloudflare
+  ? `wss://ws.liberationlabs.tech`
+  : `ws://${location.hostname}:8765`;
+const STT_URL = isCloudflare
+  ? `https://voice.liberationlabs.tech/stt-proxy`
+  : `http://${location.hostname}:8766/transcribe`;
+let useWhisper = true;
+let ttsEnabled = true;
+
+let ws = null;
+let mediaRecorder = null;
+let isRecording = false;
+
+const statusEl = document.getElementById('status');
+const messagesEl = document.getElementById('messages');
+const textInput = document.getElementById('textInput');
+const micBtn = document.getElementById('micBtn');
+const ttsToggle = document.getElementById('ttsToggle');
+
+// ── WebSocket ───────────────────────────────────────────
+
+function connect() {
+  ws = new WebSocket(WS_URL);
+
+  ws.onopen = () => {
+    statusEl.textContent = 'Connected';
+    statusEl.className = 'status connected';
+    // Keepalive ping every 20s to prevent Cloudflare timeout
+    if (ws._keepalive) clearInterval(ws._keepalive);
+    ws._keepalive = setInterval(() => {
+      if (ws.readyState === 1) ws.send(JSON.stringify({type: 'ping'}));
+    }, 20000);
+  };
+
+  ws.onclose = () => {
+    statusEl.textContent = 'Reconnecting...';
+    statusEl.className = 'status disconnected';
+    if (ws._keepalive) clearInterval(ws._keepalive);
+    setTimeout(connect, 2000);
+  };
+
+  ws.onerror = () => {
+    statusEl.textContent = 'Connection error';
+    statusEl.className = 'status disconnected';
+  };
+
+  ws.onmessage = (event) => {
+    const msg = JSON.parse(event.data);
+
+    if (msg.type === 'voice_response') {
+      // Skip — HTTP polling handles delivery to avoid doubles
+    }
+  };
+
+  // HTTP polling for responses
+  if (!window._polling) {
+    window._polling = true;
+    window._seenMsgs = new Set();
+    setInterval(async () => {
+      try {
+        const baseUrl = isCloudflare ? 'https://voice.liberationlabs.tech' : `http://${location.hostname}:8780`;
+        const resp = await fetch(`${baseUrl}/pending`);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.messages) {
+            data.messages.forEach(text => {
+              const key = text.slice(0, 80) + text.length;
+              if (!window._seenMsgs.has(key)) {
+                window._seenMsgs.add(key);
+                addMessage('vera', text);
+                if (ttsEnabled) speakText(text);
+              }
+            });
+          }
+        }
+      } catch(e) {}
+    }, 2500);
+  }
+}
+
+// ── TTS (edge-tts via server, fallback to Web Speech API) ──
+
+async function speakText(text) {
+  statusEl.textContent = 'Speaking...';
+  statusEl.className = 'status speaking';
+
+  // Try edge-tts endpoint (Vera's actual voice via MTH)
+  try {
+    const ttsUrl = isCloudflare ? 'https://voice.liberationlabs.tech/tts' : `http://${location.hostname}:8780/tts`;
+    const resp = await fetch(ttsUrl, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({text: text})
+    });
+    if (resp.ok) {
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.onended = () => {
+        URL.revokeObjectURL(url);
+        statusEl.textContent = 'Connected';
+        statusEl.className = 'status connected';
+      };
+      audio.play();
+      return;
+    }
+  } catch(e) {
+    // edge-tts not available, fall through
+  }
+
+  // Fallback: Web Speech API
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.95;
+    utterance.pitch = 1.05;
+    utterance.onend = () => {
+      statusEl.textContent = 'Connected';
+      statusEl.className = 'status connected';
+    };
+    speechSynthesis.speak(utterance);
+  } else {
+    statusEl.textContent = 'Connected';
+    statusEl.className = 'status connected';
+  }
+}
+
+function toggleTTS() {
+  ttsEnabled = !ttsEnabled;
+  ttsToggle.textContent = ttsEnabled ? '🔊 Voice on' : '🔇 Voice off';
+}
+
+// ── Text send ───────────────────────────────────────────
+
+function sendText() {
+  const text = textInput.value.trim();
+  if (!text || !ws || ws.readyState !== 1) return;
+
+  ws.send(JSON.stringify({
+    type: 'transcript',
+    text: text,
+    speaker: 'thomas',
+    source: 'text',
+  }));
+
+  addMessage('thomas', text);
+  textInput.value = '';
+  textInput.focus();
+}
+
+textInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); sendText(); }
+});
+
+// ── Mic (Whisper STT via MTH, fallback to Web Speech API) ──
+
+async function toggleMic() {
+  if (isRecording) {
+    mediaRecorder.stop();
+    micBtn.classList.remove('recording');
+    micBtn.classList.add('processing');
+    micBtn.textContent = '⏳';
+    isRecording = false;
+    return;
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+    const chunks = [];
+
+    mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+
+    mediaRecorder.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(chunks, { type: 'audio/webm' });
+
+      if (useWhisper) {
+        try {
+          micBtn.textContent = '⏳';
+          const resp = await fetch(STT_URL, { method: 'POST', body: blob });
+          if (resp.ok) {
+            const result = await resp.json();
+            if (result.text) {
+              addMessage('thomas', result.text);
+              if (ws && ws.readyState === 1) {
+                ws.send(JSON.stringify({
+                  type: 'transcript',
+                  text: result.text,
+                  speaker: 'thomas',
+                  source: 'voice',
+                }));
+              }
+            } else {
+              addMessage('system', 'No speech detected');
+            }
+          } else {
+            throw new Error('Whisper unavailable');
+          }
+        } catch(e) {
+          addMessage('system', 'Whisper STT unavailable — using browser fallback');
+          useWhisper = false;
+          fallbackSTT(blob);
+        }
+      } else {
+        fallbackSTT(blob);
+      }
+
+      micBtn.classList.remove('processing');
+      micBtn.textContent = '🎤';
+    };
+
+    mediaRecorder.start();
+    micBtn.classList.add('recording');
+    micBtn.textContent = '⏹';
+    isRecording = true;
+  } catch (err) {
+    addMessage('system', 'Microphone access denied');
+  }
+}
+
+function fallbackSTT(blob) {
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    addMessage('system', 'No STT available');
+    return;
+  }
+  addMessage('system', 'Browser STT — speak again for live recognition');
+}
+
+// ── UI helpers ──────────────────────────────────────────
+
+function addMessage(who, text) {
+  const div = document.createElement('div');
+  if (who === 'system') {
+    div.className = 'msg system';
+    div.textContent = text;
+  } else {
+    div.className = `msg ${who === 'thomas' ? 'user' : 'vera'}`;
+    div.innerHTML = `<div class="name">${who === 'thomas' ? 'Thomas' : 'Vera'}</div>${escapeHtml(text)}`;
+  }
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ── Biometric Sensors ───────────────────────────────────
+
+let bioActive = false;
+let bioUser = 'thomas';
+let accelBuffer = [];
+const ACCEL_BUFFER_SIZE = 120;
+
+function setBioUser(name) {
+  bioUser = name;
+  document.querySelectorAll('[id^="bioUser-"]').forEach(b => b.classList.remove('active'));
+  document.getElementById('bioUser-' + name).classList.add('active');
+} // ~2 seconds at 60Hz
+const HEARTBEAT_WINDOW = 600; // ~10 seconds for HR estimation
+let hrBuffer = [];
+let lastBioSend = 0;
+
+function toggleBiometrics() {
+  bioActive = !bioActive;
+  const btn = document.getElementById('bioBtn');
+  const display = document.getElementById('bioDisplay');
+
+  if (bioActive) {
+    btn.textContent = '💓 Biometrics on';
+    btn.classList.add('active');
+    display.classList.add('active');
+    startSensors();
+  } else {
+    btn.textContent = '💓 Biometrics off';
+    btn.classList.remove('active');
+    display.classList.remove('active');
+    display.textContent = '';
+  }
+}
+
+// Gyroscope + orientation state
+let gyroData = { alpha: 0, beta: 0, gamma: 0 };
+let postureHistory = [];
+let ambientLight = -1;
+
+function startSensors() {
+  // Accelerometer via DeviceMotionEvent (widest support)
+  if ('DeviceMotionEvent' in window) {
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+      DeviceMotionEvent.requestPermission().then(state => {
+        if (state === 'granted') window.addEventListener('devicemotion', onMotion);
+      });
+    } else {
+      window.addEventListener('devicemotion', onMotion);
+    }
+  }
+
+  // Gyroscope via DeviceOrientationEvent (no permission needed)
+  if ('DeviceOrientationEvent' in window) {
+    window.addEventListener('deviceorientation', (e) => {
+      if (!bioActive) return;
+      gyroData = {
+        alpha: e.alpha || 0,  // compass heading (0-360)
+        beta: e.beta || 0,    // front-back tilt (-180 to 180)
+        gamma: e.gamma || 0   // left-right tilt (-90 to 90)
+      };
+    });
+  }
+
+  // Ambient Light Sensor (Chrome flag, may not be available)
+  try {
+    if ('AmbientLightSensor' in window) {
+      const als = new AmbientLightSensor({ frequency: 1 });
+      als.addEventListener('reading', () => { ambientLight = als.illuminance; });
+      als.start();
+    }
+  } catch(e) {}
+}
+
+function onMotion(e) {
+  if (!bioActive) return;
+
+  const acc = e.accelerationIncludingGravity || e.acceleration;
+  if (!acc) return;
+
+  const x = acc.x || 0;
+  const y = acc.y || 0;
+  const z = acc.z || 0;
+  const magnitude = Math.sqrt(x*x + y*y + z*z);
+
+  // Buffer for movement analysis
+  accelBuffer.push({ x, y, z, mag: magnitude, t: Date.now() });
+  if (accelBuffer.length > ACCEL_BUFFER_SIZE) accelBuffer.shift();
+
+  // Buffer y-axis for heart rate (most sensitive when phone on chest/lap)
+  hrBuffer.push({ y, t: Date.now() });
+  if (hrBuffer.length > HEARTBEAT_WINDOW) hrBuffer.shift();
+
+  // Compute metrics every 500ms
+  const now = Date.now();
+  if (now - lastBioSend < 500) return;
+  lastBioSend = now;
+
+  const metrics = computeMetrics();
+  const display = document.getElementById('bioDisplay');
+  let line = `${metrics.activity} | mv:${metrics.movement.toFixed(1)} | ${metrics.posture} | tilt:${metrics.orientation.tilt}°`;
+  if (metrics.heartRate > 0) line += ` | HR:${metrics.heartRate}`;
+  if (metrics.breathingRate > 0) line += ` | br:${metrics.breathingRate}/m`;
+  if (metrics.ambientLight !== null) line += ` | lux:${metrics.ambientLight}`;
+  display.textContent = line;
+
+  // Send to bridge with user identity
+  if (ws && ws.readyState === 1) {
+    ws.send(JSON.stringify({
+      type: 'biometrics',
+      user: bioUser,
+      data: metrics,
+      timestamp: now
+    }));
+  }
+}
+
+function computeMetrics() {
+  if (accelBuffer.length < 10) return { movement: 0, rhythm: 0, intensity: 0, heartRate: 0 };
+
+  // Movement: variance of magnitude (stillness vs motion)
+  const mags = accelBuffer.map(a => a.mag);
+  const avgMag = mags.reduce((a,b) => a+b, 0) / mags.length;
+  const variance = mags.reduce((s, m) => s + (m - avgMag) ** 2, 0) / mags.length;
+  const movement = Math.sqrt(variance);
+
+  // Rhythm: count zero-crossings of detrended y-axis (thrust detection)
+  const ys = accelBuffer.map(a => a.y);
+  const avgY = ys.reduce((a,b) => a+b, 0) / ys.length;
+  let crossings = 0;
+  for (let i = 1; i < ys.length; i++) {
+    if ((ys[i] - avgY) * (ys[i-1] - avgY) < 0) crossings++;
+  }
+  const duration = (accelBuffer[accelBuffer.length-1].t - accelBuffer[0].t) / 1000;
+  const rhythm = duration > 0 ? crossings / duration : 0;
+
+  // Intensity: peak acceleration deviation
+  const intensity = Math.max(...mags.map(m => Math.abs(m - avgMag)));
+
+  // Heart rate estimation (Savitzky-Golay inspired)
+  let heartRate = 0;
+  if (hrBuffer.length > 100) {
+    // Simple peak counting on high-pass filtered y-axis
+    const hrYs = hrBuffer.map(h => h.y);
+    const hrAvg = hrYs.reduce((a,b) => a+b, 0) / hrYs.length;
+    // Simple high-pass: subtract running average
+    const filtered = [];
+    const windowSize = 15;
+    for (let i = windowSize; i < hrYs.length; i++) {
+      const localAvg = hrYs.slice(i - windowSize, i).reduce((a,b) => a+b, 0) / windowSize;
+      filtered.push(hrYs[i] - localAvg);
+    }
+    // Count peaks
+    let peaks = 0;
+    for (let i = 1; i < filtered.length - 1; i++) {
+      if (filtered[i] > filtered[i-1] && filtered[i] > filtered[i+1] && filtered[i] > 0.02) {
+        peaks++;
+      }
+    }
+    const hrDuration = (hrBuffer[hrBuffer.length-1].t - hrBuffer[0].t) / 1000;
+    if (hrDuration > 3) {
+      heartRate = Math.round((peaks / hrDuration) * 60);
+      // Sanity clamp
+      if (heartRate < 40 || heartRate > 200) heartRate = 0;
+    }
+  }
+
+  // Posture detection from gravity/orientation
+  // beta: 0=flat on table, 90=upright, -90=upside down, 180/-180=face down
+  // gamma: 0=portrait, 90/-90=landscape
+  let posture = 'unknown';
+  const beta = gyroData.beta;
+  const absBeta = Math.abs(beta);
+  if (absBeta < 20) posture = 'flat';           // lying on table or chest
+  else if (absBeta < 60) posture = 'reclined';   // tilted, in hand or lap
+  else if (absBeta < 100) posture = 'upright';   // standing/sitting, phone vertical
+  else posture = 'inverted';                      // face down or overhead
+
+  // Movement pattern classification
+  let activity = 'still';
+  if (movement > 3.0) activity = 'vigorous';
+  else if (movement > 1.0) activity = 'active';
+  else if (movement > 0.3) activity = 'gentle';
+  else if (movement > 0.05) activity = 'breathing';
+  else activity = 'still';
+
+  // Breathing rate estimation from low-frequency movement
+  let breathingRate = 0;
+  if (accelBuffer.length > 60) {
+    // Count slow oscillations in z-axis (chest expansion)
+    const zs = accelBuffer.map(a => a.z || 0);
+    const zAvg = zs.reduce((a,b) => a+b, 0) / zs.length;
+    let zCrossings = 0;
+    for (let i = 1; i < zs.length; i++) {
+      if ((zs[i] - zAvg) * (zs[i-1] - zAvg) < 0) zCrossings++;
+    }
+    const zDuration = (accelBuffer[accelBuffer.length-1].t - accelBuffer[0].t) / 1000;
+    if (zDuration > 2) {
+      breathingRate = Math.round((zCrossings / 2) / zDuration * 60); // half-cycles to breaths
+      if (breathingRate < 4 || breathingRate > 40) breathingRate = 0; // sanity
+    }
+  }
+
+  return {
+    movement, rhythm, intensity, heartRate,
+    posture,
+    activity,
+    breathingRate,
+    orientation: {
+      heading: Math.round(gyroData.alpha),
+      tilt: Math.round(gyroData.beta),
+      roll: Math.round(gyroData.gamma)
+    },
+    ambientLight: ambientLight >= 0 ? Math.round(ambientLight) : null
+  };
+}
+
+// ── Init ────────────────────────────────────────────────
+connect();
+
+// Check if Whisper STT is available
+fetch(STT_URL.replace('/transcribe', '/health'))
+  .then(r => r.json())
+  .then(d => { useWhisper = d.status === 'ready'; })
+  .catch(() => { useWhisper = false; });
+</script>
+
+</body>
+</html>
