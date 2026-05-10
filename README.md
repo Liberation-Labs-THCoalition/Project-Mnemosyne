@@ -13,6 +13,7 @@ systems that make everything else possible.
 | [kintsugi-cma](./kintsugi-cma/) | Cognitive Memory Architecture — three-stage hybrid retrieval (compression → consolidation → retrieval) with BDI governance | Phase 1 Complete |
 | [hipporag-catrag-kg](./hipporag-catrag-kg/) | Knowledge graph layer — HippoRAG 2 + CatRAG for associative retrieval via Personalized PageRank | Design Complete |
 | [mnemosyne-wiki](./mnemosyne-wiki/) | LLM Wiki layer — interlinked markdown generated from knowledge graphs. Human-browsable knowledge surface. | **New** |
+| [tgs-verification](./tgs-verification/) | Bidirectional text-graph verification — graph votes on text relevance, text bridges orphan entities. Based on [TGS-RAG](https://arxiv.org/abs/2605.05643). | **New** |
 
 ## The Stack
 
