@@ -14,6 +14,7 @@ systems that make everything else possible.
 | [hipporag-catrag-kg](./hipporag-catrag-kg/) | Knowledge graph layer — HippoRAG 2 + CatRAG for associative retrieval via Personalized PageRank | Design Complete |
 | [mnemosyne-wiki](./mnemosyne-wiki/) | LLM Wiki layer — interlinked markdown generated from knowledge graphs. Human-browsable knowledge surface. | **New** |
 | [tgs-verification](./tgs-verification/) | Bidirectional text-graph verification — graph votes on text relevance, text bridges orphan entities. Based on [TGS-RAG](https://arxiv.org/abs/2605.05643). | **New** |
+| [kv-knowledge-packs](./kv-knowledge-packs/) | Zero-token memory injection via pre-computed KV cache. Jailbreak-proof values, agent memory, fleet system prompts. Based on [Knowledge Packs](https://arxiv.org/abs/2604.03270). | **New** |
 
 ## The Stack
 
@@ -21,6 +22,15 @@ systems that make everything else possible.
 ┌─────────────────────────────────────────────┐
 │  LLM Wiki (mnemosyne-wiki)                  │  ← Human-readable surface
 │  Interlinked markdown pages                  │
+├─────────────────────────────────────────────┤
+│  SIRA Enrichment                            │  ← Findability layer
+│  Vocabulary expansion, search terms          │
+├─────────────────────────────────────────────┤
+│  TGS-RAG Bridge                             │  ← Retrieval (text + graph)
+│  Bidirectional verification, orphan bridging │
+├─────────────────────────────────────────────┤
+│  ★ KV Knowledge Packs ★                    │  ← Zero-token injection
+│  Pre-computed cache, jailbreak-proof values  │
 ├─────────────────────────────────────────────┤
 │  Knowledge Graph (hipporag-catrag-kg)       │  ← Associative structure
 │  Entities, typed predicates, PPR retrieval   │

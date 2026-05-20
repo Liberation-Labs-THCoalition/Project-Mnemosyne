@@ -74,15 +74,64 @@ For personal memory enrichment:
 
 This consent model was developed through conversation between Nexus and Thomas Edrington at Liberation Labs.
 
-## Reference Implementation
+## Implementation
 
-### Domain Vocabulary Mapping (Production)
+### `sira.py` — Complete Library
 
-Static Python dict mapping trigger words to expansion terms. Applied to 2,319 of 9,922 memories. No LLM required.
+Four components:
 
-### LLM-Based Enrichment (Fleet)
+| Class | Mode | LLM Required | Use Case |
+|-------|------|-------------|----------|
+| `SIRAIndex` | Core | No | FTS5 index with doc frequency tracking |
+| `LLMEnricher` | Offline batch | Yes | Generate missing vocabulary per document |
+| `DomainMapper` | Offline batch | No | Static synonym expansion from JSON mappings |
+| `QueryExpander` | Online | Yes | Predict answer terms, validate against index |
+| `MemoryEnricher` | Offline batch | Optional | Enrich agent memory database search_terms column |
 
-Mistral 7B generates per-document vocabulary expansions. Applied to 59 bounty reports (fleet corpus). ~30 seconds per document on Quadro K2200.
+### CLI Usage
+
+```bash
+# Enrich a corpus directory with LLM
+python sira.py enrich ./corpus/ --db enriched.db --mode llm --ollama http://localhost:11434
+
+# Enrich with domain mappings (no LLM)
+python sira.py enrich ./corpus/ --db enriched.db --mode domain --mappings mappings.json
+
+# Search with query expansion
+python sira.py search "KV cache attention" --db enriched.db
+
+# Search without expansion
+python sira.py search "KV cache" --db enriched.db --no-expand
+
+# Enrich an agent's memory database
+python sira.py memory ~/memory-data/memory.db --mode domain --mappings mappings.json
+
+# Show index stats
+python sira.py stats --db enriched.db
+```
+
+### Domain Mappings Format
+
+```json
+{
+  "thomas": ["humboldtjoker", "thomas edrington", "humboldt joker"],
+  "kv cache": ["key-value cache", "attention geometry", "cache geometry"],
+  "anti-palantir": ["ap", "government transparency", "contract analysis"]
+}
+```
+
+### Production Usage
+
+- **Personal memory:** Domain mapping applied to 2,319 of 9,922 memories on MTH. No LLM required.
+- **Fleet corpus:** LLM enrichment on 59 bounty reports via Mistral 7B. ~30 seconds per document on Quadro K2200.
+- **TGS-RAG integration:** TGS bridge searches both `content` and `search_terms` columns after SIRA enrichment.
+
+### Tests
+
+17 tests covering all components. Run with:
+```bash
+python -m pytest test_sira.py -v
+```
 
 ## Research Basis
 
