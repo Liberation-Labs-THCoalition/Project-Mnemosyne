@@ -13,6 +13,9 @@ from spectral_denoiser import (
     gavish_donoho_threshold,
     denoise_singular_values,
     denoise_geometry,
+    fixed_rank_denoise,
+    soft_shrinkage,
+    compare_methods,
     _spectral_entropy,
     _heuristic_rank,
     _omega_approx,
@@ -114,6 +117,86 @@ class TestDenoiseSingularValues:
         assert result["signal_fraction"] > 0.99
 
 
+class TestFixedRankDenoise:
+    def test_rank_3(self):
+        svs = [100.0, 50.0, 25.0, 0.5, 0.3, 0.1]
+        result = fixed_rank_denoise(svs, k=3)
+        assert result["denoised_rank"] == 3
+        assert len(result["signal_svs"]) == 3
+        assert result["method"] == "fixed_rank_3"
+
+    def test_rank_1(self):
+        svs = [100.0, 50.0, 25.0, 10.0]
+        result = fixed_rank_denoise(svs, k=1)
+        assert result["denoised_rank"] == 1
+        assert result["signal_svs"] == [100.0]
+
+    def test_rank_exceeds_length(self):
+        svs = [10.0, 5.0]
+        result = fixed_rank_denoise(svs, k=10)
+        assert result["denoised_rank"] == 2
+
+    def test_empty(self):
+        result = fixed_rank_denoise([], k=3)
+        assert result["denoised_rank"] == 0
+
+    def test_snr_higher_for_clean_signal(self):
+        clean = [100.0, 50.0, 25.0, 0.01, 0.01]
+        noisy = [100.0, 50.0, 25.0, 20.0, 15.0]
+        r_clean = fixed_rank_denoise(clean, k=3)
+        r_noisy = fixed_rank_denoise(noisy, k=3)
+        assert r_clean["snr"] > r_noisy["snr"]
+
+    def test_rank3_vs_rank1_more_signal(self):
+        svs = [100.0, 50.0, 25.0, 0.5, 0.1]
+        r1 = fixed_rank_denoise(svs, k=1)
+        r3 = fixed_rank_denoise(svs, k=3)
+        assert r3["signal_fraction"] > r1["signal_fraction"]
+
+
+class TestSoftShrinkage:
+    def test_basic(self):
+        svs = [100.0, 50.0, 25.0, 0.5, 0.3, 0.1]
+        result = soft_shrinkage(svs, n=200, p=64)
+        assert result["denoised_rank"] > 0
+        assert result["method"] == "soft_shrinkage"
+
+    def test_preserves_more_than_hard(self):
+        svs = [100.0, 50.0, 25.0, 12.0, 6.0, 3.0, 1.5, 0.5]
+        hard = denoise_singular_values(svs, 200, 64)
+        soft = soft_shrinkage(svs, 200, 64)
+        assert soft["denoised_rank"] >= hard["denoised_rank"]
+
+    def test_empty(self):
+        result = soft_shrinkage([], 0, 0)
+        assert result["denoised_rank"] == 0
+
+
+class TestCompareMethods:
+    def test_all_methods_present(self):
+        svs = [100.0, 50.0, 25.0, 12.0, 6.0, 3.0, 1.0, 0.5, 0.1]
+        result = compare_methods(svs, 200, 64)
+        assert "gavish_donoho" in result
+        assert "soft_shrinkage" in result
+        assert "rank_3" in result
+        assert "summary" in result
+
+    def test_custom_ranks(self):
+        svs = [100.0, 50.0, 25.0, 12.0, 6.0]
+        result = compare_methods(svs, 200, 64, fixed_ranks=[2, 4])
+        assert "rank_2" in result
+        assert "rank_4" in result
+        assert "rank_3" not in result
+
+    def test_summary_has_all(self):
+        svs = [100.0, 50.0, 25.0, 0.5, 0.1]
+        result = compare_methods(svs, 200, 64, fixed_ranks=[1, 3])
+        summary = result["summary"]
+        assert "gavish_donoho" in summary
+        assert "rank_1" in summary
+        assert "rank_3" in summary
+
+
 class TestDenoiseGeometry:
     def test_augments_geometry(self):
         geo = {
@@ -128,6 +211,25 @@ class TestDenoiseGeometry:
         assert "snr_db" in result
         assert result["effective_rank"] == 5
         assert result["norm_per_token"] == 3.5
+
+    def test_default_rank3(self):
+        geo = {"effective_rank": 5}
+        svs = [50.0, 25.0, 10.0, 0.5, 0.1]
+        result = denoise_geometry(geo, svs, n=200, p=64)
+        assert result["denoised_effective_rank"] == 3
+        assert result["denoise_method"] == "fixed_rank_3"
+
+    def test_gavish_donoho_method(self):
+        geo = {"effective_rank": 5}
+        svs = [50.0, 25.0, 10.0, 0.5, 0.1]
+        result = denoise_geometry(geo, svs, n=200, p=64, method="gavish_donoho")
+        assert result["denoise_method"] == "gavish_donoho"
+
+    def test_soft_shrinkage_method(self):
+        geo = {"effective_rank": 5}
+        svs = [50.0, 25.0, 10.0, 0.5, 0.1]
+        result = denoise_geometry(geo, svs, n=200, p=64, method="soft_shrinkage")
+        assert result["denoise_method"] == "soft_shrinkage"
 
 
 class TestSpectralEntropy:
