@@ -1219,6 +1219,9 @@ class TestOAuthHandler:
     @pytest.mark.asyncio
     async def test_exchange_code_calls_token_url(self, handler):
         """exchange_code() makes request to token URL."""
+        import sys
+        import types
+
         mock_response = {
             "ok": True,
             "access_token": "xoxb-test-token",
@@ -1226,15 +1229,21 @@ class TestOAuthHandler:
             "authed_user": {"id": "U12345"},
         }
 
-        with patch("aiohttp.ClientSession") as mock_session:
-            mock_context = AsyncMock()
-            mock_context.__aenter__.return_value.json = AsyncMock(
-                return_value=mock_response
-            )
-            mock_session.return_value.__aenter__.return_value.post = MagicMock(
-                return_value=mock_context
-            )
+        # aiohttp is an optional dependency — mock it at the module level
+        # so the lazy import inside exchange_code() picks up the mock.
+        mock_aiohttp = types.ModuleType("aiohttp")
+        mock_session_cls = MagicMock()
+        mock_aiohttp.ClientSession = mock_session_cls
 
+        mock_context = AsyncMock()
+        mock_context.__aenter__.return_value.json = AsyncMock(
+            return_value=mock_response
+        )
+        mock_session_cls.return_value.__aenter__.return_value.post = MagicMock(
+            return_value=mock_context
+        )
+
+        with patch.dict(sys.modules, {"aiohttp": mock_aiohttp}):
             installation = await handler.exchange_code("test_auth_code")
             assert installation.team_id == "T12345"
 
