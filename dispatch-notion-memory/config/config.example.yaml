@@ -41,6 +41,7 @@ significance:
   # Heuristic defaults by memory type
   defaults:
     standing_instruction: 1.0
+    agentic: 0.9
     workflow: 0.8
     project: 0.7
     person: 0.6

@@ -5,21 +5,27 @@ Maps PARA databases to memory lifecycle:
   Projects  → active project context
   Resources → reference material, facts
   Archive   → decayed/compressed memories
+
+Uses httpx directly for Notion API calls (notion-client has async issues
+in some environments).
 """
 
 from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Optional
+from typing import Any, Optional
 
-from notion_client import AsyncClient
+import httpx
 
 from ..models import (
     Entity, EntityType, Memory, MemoryStatus, MemoryType, TTLClass,
 )
 
 logger = logging.getLogger(__name__)
+
+NOTION_API_BASE = "https://api.notion.com/v1"
+NOTION_VERSION = "2022-06-28"
 
 # Mapping from Notion Category to MemoryType
 CATEGORY_TO_TYPE = {
@@ -28,6 +34,7 @@ CATEGORY_TO_TYPE = {
     "Resource": MemoryType.FACT,
     "Archive": MemoryType.FACT,
     "Inbox": MemoryType.FACT,
+    "Agentic": MemoryType.AGENTIC,
 }
 
 # Mapping from MemoryType to target PARA database
@@ -40,21 +47,32 @@ TYPE_TO_DATABASE = {
     MemoryType.PERSON: "resources",
     MemoryType.DECISION: "projects",
     MemoryType.INTERACTION: "projects",
+    MemoryType.AGENTIC: "projects",  # Agentic memories live in projects for agent continuity
 }
 
 
 class NotionStore:
-    """Read/write memories to Notion PARA databases."""
+    """Read/write memories to Notion PARA databases via httpx."""
 
     def __init__(self, token: str, database_ids: dict[str, str]):
-        """
-        Args:
-            token: Notion integration token
-            database_ids: Mapping of PARA names to database IDs
-                          e.g. {"inbox": "abc123", "projects": "def456", ...}
-        """
-        self.client = AsyncClient(auth=token)
+        self.token = token
         self.db_ids = database_ids
+        self._headers = {
+            "Authorization": f"Bearer {token}",
+            "Notion-Version": NOTION_VERSION,
+            "Content-Type": "application/json",
+        }
+        self._client = httpx.AsyncClient(
+            base_url=NOTION_API_BASE,
+            headers=self._headers,
+            timeout=30.0,
+        )
+
+    async def _request(self, method: str, path: str, **kwargs) -> dict:
+        """Make an API request to Notion."""
+        resp = await self._client.request(method, path, **kwargs)
+        resp.raise_for_status()
+        return resp.json()
 
     async def store(self, memory: Memory) -> Memory:
         """Create a new memory as a Notion page in the appropriate database."""
@@ -65,10 +83,10 @@ class NotionStore:
 
         properties = self._memory_to_properties(memory)
 
-        page = await self.client.pages.create(
-            parent={"database_id": db_id},
-            properties=properties,
-        )
+        page = await self._request("POST", "/pages", json={
+            "parent": {"database_id": db_id},
+            "properties": properties,
+        })
 
         memory.notion_page_id = page["id"]
         memory.notion_database = target_db
@@ -78,7 +96,7 @@ class NotionStore:
     async def retrieve(self, notion_page_id: str) -> Optional[Memory]:
         """Fetch a single memory by its Notion page ID."""
         try:
-            page = await self.client.pages.retrieve(page_id=notion_page_id)
+            page = await self._request("GET", f"/pages/{notion_page_id}")
             return self._page_to_memory(page)
         except Exception as e:
             logger.error(f"Failed to retrieve page {notion_page_id}: {e}")
@@ -118,15 +136,21 @@ class NotionStore:
                 "number": {"greater_than_or_equal_to": min_significance},
             })
 
-        query_params = {"database_id": db_id, "page_size": min(limit, 100)}
+        body: dict[str, Any] = {"page_size": min(limit, 100)}
         if filter_conditions:
             if len(filter_conditions) == 1:
-                query_params["filter"] = filter_conditions[0]
+                body["filter"] = filter_conditions[0]
             else:
-                query_params["filter"] = {"and": filter_conditions}
+                body["filter"] = {"and": filter_conditions}
 
-        results = await self.client.databases.query(**query_params)
-        return [self._page_to_memory(page) for page in results["results"]]
+        try:
+            results = await self._request(
+                "POST", f"/databases/{db_id}/query", json=body
+            )
+            return [self._page_to_memory(page) for page in results.get("results", [])]
+        except Exception as e:
+            logger.error(f"Failed to query database {database}: {e}")
+            return []
 
     async def query_all_active(
         self,
@@ -153,19 +177,14 @@ class NotionStore:
         memory.touch()
         properties = self._memory_to_properties(memory)
 
-        await self.client.pages.update(
-            page_id=memory.notion_page_id,
-            properties=properties,
-        )
+        await self._request("PATCH", f"/pages/{memory.notion_page_id}", json={
+            "properties": properties,
+        })
         logger.info(f"Updated memory {memory.id} in Notion")
         return memory
 
     async def archive(self, memory: Memory) -> Memory:
-        """Move a memory to the Archive database.
-
-        Creates a new page in Archive with Original Category preserved,
-        then archives the original page.
-        """
+        """Move a memory to the Archive database."""
         archive_id = self.db_ids.get("archive")
         if not archive_id:
             raise ValueError("No archive database configured")
@@ -173,7 +192,6 @@ class NotionStore:
         memory.status = MemoryStatus.ARCHIVED
         properties = self._memory_to_properties(memory)
 
-        # Add archive-specific fields
         properties["Archived Date"] = {
             "date": {"start": datetime.utcnow().isoformat()},
         }
@@ -182,18 +200,15 @@ class NotionStore:
                 "select": {"name": memory.notion_database.title()},
             }
 
-        # Create in archive
-        page = await self.client.pages.create(
-            parent={"database_id": archive_id},
-            properties=properties,
-        )
+        page = await self._request("POST", "/pages", json={
+            "parent": {"database_id": archive_id},
+            "properties": properties,
+        })
 
-        # Archive the original
         if memory.notion_page_id:
-            await self.client.pages.update(
-                page_id=memory.notion_page_id,
-                archived=True,
-            )
+            await self._request("PATCH", f"/pages/{memory.notion_page_id}", json={
+                "archived": True,
+            })
 
         memory.notion_page_id = page["id"]
         memory.notion_database = "archive"
@@ -203,10 +218,9 @@ class NotionStore:
     async def delete(self, memory: Memory) -> None:
         """Soft-delete by archiving the Notion page."""
         if memory.notion_page_id:
-            await self.client.pages.update(
-                page_id=memory.notion_page_id,
-                archived=True,
-            )
+            await self._request("PATCH", f"/pages/{memory.notion_page_id}", json={
+                "archived": True,
+            })
             logger.info(f"Deleted memory {memory.id} from Notion")
 
     async def get_stats(self) -> dict:
@@ -214,12 +228,10 @@ class NotionStore:
         stats = {}
         for db_name, db_id in self.db_ids.items():
             try:
-                results = await self.client.databases.query(
-                    database_id=db_id, page_size=1
+                results = await self._request(
+                    "POST", f"/databases/{db_id}/query", json={"page_size": 1}
                 )
-                # Notion doesn't give total count easily; we'd need to paginate
-                # For now, just indicate the database exists
-                stats[db_name] = {"configured": True}
+                stats[db_name] = {"configured": True, "has_data": len(results.get("results", [])) > 0}
             except Exception as e:
                 stats[db_name] = {"configured": False, "error": str(e)}
         return stats
@@ -239,17 +251,15 @@ class NotionStore:
         """Convert a Memory model to Notion page properties."""
         properties = {
             "Name": {"title": [{"text": {"content": memory.content[:100]}}]},
-            "Content": {"rich_text": [{"text": {"content": memory.content}}]},
+            "Content": {"rich_text": [{"text": {"content": memory.content[:2000]}}]},
             "Tags": {
                 "multi_select": [{"name": tag} for tag in memory.tags[:10]],
             },
             "Confidence": {"number": memory.quality_score},
         }
 
-        # Add Significance if the database supports it
         properties["Significance"] = {"number": memory.significance}
 
-        # Add Entities as multi-select if present
         if memory.entities:
             properties["Entities"] = {
                 "multi_select": [
@@ -257,10 +267,8 @@ class NotionStore:
                 ],
             }
 
-        # Source
-        properties["Source"] = {"select": {"name": "Text Command"}}
+        properties["Source"] = {"select": {"name": "Dispatch MCP"}}
 
-        # Captured At
         properties["Captured At"] = {
             "date": {"start": memory.created_at.isoformat()},
         }
@@ -271,25 +279,21 @@ class NotionStore:
         """Convert a Notion page to a Memory model."""
         props = page.get("properties", {})
 
-        # Extract content
         content = ""
         content_prop = props.get("Content", {})
         if content_prop.get("rich_text"):
             content = content_prop["rich_text"][0].get("text", {}).get("content", "")
 
-        # Extract title as fallback
         if not content:
             name_prop = props.get("Name", {})
             if name_prop.get("title"):
                 content = name_prop["title"][0].get("text", {}).get("content", "")
 
-        # Extract tags
         tags = []
         tags_prop = props.get("Tags", {})
         if tags_prop.get("multi_select"):
             tags = [t["name"] for t in tags_prop["multi_select"]]
 
-        # Extract entities
         entities = []
         entities_prop = props.get("Entities", {})
         if entities_prop.get("multi_select"):
@@ -298,26 +302,22 @@ class NotionStore:
                 for e in entities_prop["multi_select"]
             ]
 
-        # Extract significance
         significance = 0.5
         sig_prop = props.get("Significance", {})
         if sig_prop.get("number") is not None:
             significance = sig_prop["number"]
 
-        # Extract quality/confidence
         quality_score = 0.0
         conf_prop = props.get("Confidence", {})
         if conf_prop.get("number") is not None:
             quality_score = conf_prop["number"]
 
-        # Extract category → memory_type
         memory_type = MemoryType.FACT
         cat_prop = props.get("Category", {})
         if cat_prop.get("select"):
             cat_name = cat_prop["select"].get("name", "")
             memory_type = CATEGORY_TO_TYPE.get(cat_name, MemoryType.FACT)
 
-        # Timestamps
         created_at = datetime.utcnow()
         cap_prop = props.get("Captured At", {})
         if cap_prop.get("date") and cap_prop["date"].get("start"):

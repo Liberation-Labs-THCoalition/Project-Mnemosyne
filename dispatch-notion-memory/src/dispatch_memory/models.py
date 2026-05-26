@@ -20,6 +20,7 @@ class MemoryType(str, Enum):
     FACT = "fact"
     INTERACTION = "interaction"
     STANDING_INSTRUCTION = "standing_instruction"
+    AGENTIC = "agentic"
 
 
 class TTLClass(str, Enum):

@@ -1,17 +1,23 @@
 """MCP server exposing memory tools for Claude Desktop / Cowork / Dispatch.
 
-Run with: python -m dispatch_memory.server
+Run with:
+  stdio:  python -m dispatch_memory.server
+  http:   python -m dispatch_memory.server --transport http --port 8765
 """
 
 from __future__ import annotations
 
+import argparse
 import asyncio
 import json
 import logging
+import sys
 from pathlib import Path
 from typing import Any, Optional
 
 import yaml
+from mcp.server import Server
+from mcp.types import TextContent, Tool
 
 from .consolidation import Consolidator
 from .entities import EntityExtractor
@@ -21,6 +27,279 @@ from .models import (
 from .storage import EmbeddingCache, NotionStore
 
 logger = logging.getLogger(__name__)
+
+# ── Tool JSON Schemas ─────────────────────────────────────────────────
+
+TOOL_DEFINITIONS = [
+    Tool(
+        name="memory_store",
+        description=(
+            "Store a new memory. Extracts entities via NER, generates an embedding, "
+            "and saves to both Notion and the local vector cache. Use for facts, "
+            "preferences, project context, standing instructions, etc."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "The memory content to store.",
+                },
+                "memory_type": {
+                    "type": "string",
+                    "enum": ["preference", "project", "person", "decision",
+                             "workflow", "fact", "interaction", "standing_instruction", "agentic"],
+                    "default": "fact",
+                    "description": "Classification of the memory.",
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Optional tags for categorisation.",
+                },
+                "significance": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "Importance score (0-1). Defaults based on memory_type.",
+                },
+                "ttl_class": {
+                    "type": "string",
+                    "enum": ["permanent", "long", "medium", "short"],
+                    "default": "medium",
+                    "description": "Decay half-life class.",
+                },
+            },
+            "required": ["content"],
+        },
+    ),
+    Tool(
+        name="memory_search",
+        description=(
+            "Semantic search across stored memories using local vector embeddings. "
+            "Returns the most relevant memories ranked by cosine similarity. "
+            "Use when you need to find memories related to a topic or question."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Natural language search query.",
+                },
+                "limit": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Max results to return.",
+                },
+                "memory_type": {
+                    "type": "string",
+                    "enum": ["preference", "project", "person", "decision",
+                             "workflow", "fact", "interaction", "standing_instruction", "agentic"],
+                    "description": "Filter by memory type.",
+                },
+                "min_significance": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "Minimum significance threshold.",
+                },
+            },
+            "required": ["query"],
+        },
+    ),
+    Tool(
+        name="memory_retrieve",
+        description=(
+            "Fetch memories from Notion by page ID or by type/database. "
+            "Use when you have a specific Notion page ID or want to list "
+            "memories of a given type."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "notion_page_id": {
+                    "type": "string",
+                    "description": "Specific Notion page ID to retrieve.",
+                },
+                "memory_type": {
+                    "type": "string",
+                    "enum": ["preference", "project", "person", "decision",
+                             "workflow", "fact", "interaction", "standing_instruction", "agentic"],
+                    "description": "Filter by memory type.",
+                },
+                "database": {
+                    "type": "string",
+                    "enum": ["inbox", "projects", "resources", "archive"],
+                    "default": "projects",
+                    "description": "Which PARA database to query.",
+                },
+                "limit": {
+                    "type": "integer",
+                    "default": 20,
+                    "description": "Max results.",
+                },
+            },
+        },
+    ),
+    Tool(
+        name="memory_update",
+        description=(
+            "Update an existing memory's content, tags, or significance. "
+            "Re-extracts entities and re-indexes if content changes."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "notion_page_id": {
+                    "type": "string",
+                    "description": "Notion page ID of the memory to update.",
+                },
+                "content": {
+                    "type": "string",
+                    "description": "New content (triggers re-extraction and re-embedding).",
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Replacement tags list.",
+                },
+                "significance": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "New significance score.",
+                },
+            },
+            "required": ["notion_page_id"],
+        },
+    ),
+    Tool(
+        name="memory_delete",
+        description="Soft-delete a memory by archiving the Notion page and removing from local cache.",
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "notion_page_id": {
+                    "type": "string",
+                    "description": "Notion page ID of the memory to delete.",
+                },
+            },
+            "required": ["notion_page_id"],
+        },
+    ),
+    Tool(
+        name="memory_consolidate",
+        description=(
+            "Run a dream-inspired consolidation cycle: decay scoring, association "
+            "discovery, compression, and archival. Modes: 'light' (decay only), "
+            "'full' (decay + associations + compression), 'deep' (full + entity dedup)."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "mode": {
+                    "type": "string",
+                    "enum": ["light", "full", "deep"],
+                    "default": "full",
+                    "description": "Consolidation depth.",
+                },
+            },
+        },
+    ),
+    Tool(
+        name="memory_recall",
+        description=(
+            "Compound query combining semantic search with structured Notion filters. "
+            "Can filter by type, entities, tags, and significance simultaneously. "
+            "Use for complex recall queries."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "memory_type": {
+                    "type": "string",
+                    "enum": ["preference", "project", "person", "decision",
+                             "workflow", "fact", "interaction", "standing_instruction", "agentic"],
+                    "description": "Filter by memory type.",
+                },
+                "entities": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Filter by entity names (e.g. person or org names).",
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Filter by tags.",
+                },
+                "min_significance": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "Minimum significance threshold.",
+                },
+                "query": {
+                    "type": "string",
+                    "description": "Optional semantic search query to combine with filters.",
+                },
+                "limit": {
+                    "type": "integer",
+                    "default": 20,
+                    "description": "Max results.",
+                },
+            },
+        },
+    ),
+    Tool(
+        name="memory_refresh",
+        description=(
+            "Bump a memory's access metrics without modifying content. "
+            "Use when a memory was referenced or relevant in a conversation."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "notion_page_id": {
+                    "type": "string",
+                    "description": "Notion page ID of the memory to refresh.",
+                },
+            },
+            "required": ["notion_page_id"],
+        },
+    ),
+    Tool(
+        name="memory_compress",
+        description=(
+            "Run a significance-aware decay pass. Archives memories that have "
+            "fallen below the archive threshold and marks forgotten memories."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {},
+        },
+    ),
+    Tool(
+        name="memory_status",
+        description="Return memory statistics across all Notion databases and the local cache.",
+        inputSchema={
+            "type": "object",
+            "properties": {},
+        },
+    ),
+    Tool(
+        name="memory_bootstrap",
+        description=(
+            "Return a curated context payload for session initialization. "
+            "Includes standing instructions, active projects, and recent "
+            "high-significance memories. Call at the start of a session."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {},
+        },
+    ),
+]
 
 
 class MemoryService:
@@ -368,24 +647,172 @@ class MemoryService:
                                            "recent_high_significance": {"__all__": {"embedding"}}})
 
 
+# ── MCP Server Wiring ─────────────────────────────────────────────────
+
+def create_mcp_server(config_path: str = "config/config.yaml") -> Server:
+    """Create and configure the MCP Server with all memory tools registered."""
+
+    server = Server("dispatch-notion-memory")
+
+    # Lazy-init the service on first tool call (avoids blocking at import time
+    # and lets the transport start before heavy model loading).
+    _service: dict[str, Optional[MemoryService]] = {"instance": None}
+
+    def _get_service() -> MemoryService:
+        if _service["instance"] is None:
+            logger.info("Initialising MemoryService (first tool call)…")
+            _service["instance"] = MemoryService(config_path)
+            logger.info("MemoryService ready.")
+        return _service["instance"]
+
+    # ── list_tools ────────────────────────────────────────────────────
+
+    @server.list_tools()
+    async def handle_list_tools() -> list[Tool]:
+        return TOOL_DEFINITIONS
+
+    # ── call_tool ─────────────────────────────────────────────────────
+
+    @server.call_tool()
+    async def handle_call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
+        svc = _get_service()
+
+        try:
+            # Dispatch to the matching MemoryService method
+            handler = getattr(svc, name, None)
+            if handler is None:
+                return [TextContent(
+                    type="text",
+                    text=json.dumps({"error": f"Unknown tool: {name}"}),
+                )]
+
+            result = await handler(**arguments)
+
+            # Serialise – handle datetimes & enums via default
+            return [TextContent(
+                type="text",
+                text=json.dumps(result, default=str),
+            )]
+
+        except Exception as exc:
+            logger.exception(f"Tool {name} failed")
+            return [TextContent(
+                type="text",
+                text=json.dumps({"error": str(exc)}),
+            )]
+
+    return server
+
+
 def load_config(config_path: str = "config/config.yaml") -> dict:
     """Load configuration from YAML file."""
     with open(config_path) as f:
         return yaml.safe_load(f)
 
 
+# ── Entry Points ──────────────────────────────────────────────────────
+
 def main():
-    """Entry point for running the MCP server."""
-    logging.basicConfig(level=logging.INFO)
-    logger.info("Dispatch Notion Memory MCP server starting...")
-    # MCP server setup will go here once we wire up the transport layer
-    # For now, this validates the service can be instantiated
+    """Entry point for running the MCP server.
+
+    Supports two transports:
+      stdio (default) — for Claude Desktop / Cowork / Claude Code
+      http            — SSE-based HTTP transport on configurable port
+    """
+    parser = argparse.ArgumentParser(
+        description="Dispatch Notion Memory — MCP Server",
+    )
+    parser.add_argument(
+        "--transport", "-t",
+        choices=["stdio", "http"],
+        default=None,
+        help="Transport layer (default: read from config, fallback stdio).",
+    )
+    parser.add_argument(
+        "--port", "-p",
+        type=int,
+        default=None,
+        help="Port for HTTP transport (default: read from config, fallback 8765).",
+    )
+    parser.add_argument(
+        "--host",
+        default=None,
+        help="Host for HTTP transport (default: read from config, fallback 127.0.0.1).",
+    )
+    parser.add_argument(
+        "--config", "-c",
+        default="config/config.yaml",
+        help="Path to config YAML (default: config/config.yaml).",
+    )
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    )
+
+    # Load config for transport defaults
+    config: dict[str, Any] = {}
     try:
-        service = MemoryService()
-        logger.info("Service initialized successfully")
-    except Exception as e:
-        logger.error(f"Failed to initialize: {e}")
-        raise
+        config = load_config(args.config)
+    except FileNotFoundError:
+        logger.warning(f"Config not found at {args.config} — using defaults.")
+
+    server_cfg = config.get("server", {})
+    transport = args.transport or server_cfg.get("transport", "stdio")
+    host = args.host or server_cfg.get("host", "127.0.0.1")
+    port = args.port or server_cfg.get("port", 8765)
+
+    mcp_server = create_mcp_server(config_path=args.config)
+
+    if transport == "stdio":
+        logger.info("Starting MCP server on stdio transport…")
+        _run_stdio(mcp_server)
+    elif transport == "http":
+        logger.info(f"Starting MCP server on http://{host}:{port}/sse …")
+        _run_http(mcp_server, host, port)
+    else:
+        logger.error(f"Unknown transport: {transport}")
+        sys.exit(1)
+
+
+def _run_stdio(server: Server) -> None:
+    """Run the server over stdin/stdout (Claude Desktop / Cowork integration)."""
+    from mcp.server.stdio import stdio_server
+
+    async def _main():
+        async with stdio_server() as (read_stream, write_stream):
+            init_options = server.create_initialization_options()
+            await server.run(read_stream, write_stream, init_options)
+
+    asyncio.run(_main())
+
+
+def _run_http(server: Server, host: str, port: int) -> None:
+    """Run the server over SSE HTTP transport."""
+    import uvicorn
+    from mcp.server.sse import SseServerTransport
+    from starlette.applications import Starlette
+    from starlette.routing import Mount, Route
+
+    sse = SseServerTransport("/messages/")
+
+    async def handle_sse(request):
+        async with sse.connect_sse(
+            request.scope, request.receive, request._send
+        ) as (read_stream, write_stream):
+            init_options = server.create_initialization_options()
+            await server.run(read_stream, write_stream, init_options)
+
+    app = Starlette(
+        debug=True,
+        routes=[
+            Route("/sse", endpoint=handle_sse),
+            Mount("/messages/", app=sse.handle_post_message),
+        ],
+    )
+
+    uvicorn.run(app, host=host, port=port)
 
 
 if __name__ == "__main__":
