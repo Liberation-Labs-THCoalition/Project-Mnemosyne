@@ -1,0 +1,547 @@
+[
+  {
+    "s": "George Berkeley",
+    "p": "defines",
+    "o": "immaterialism"
+  },
+  {
+    "s": "John Locke",
+    "p": "argues_for",
+    "o": "tabula rasa theory"
+  },
+  {
+    "s": "Samuel Clarke",
+    "p": "contrasts_with",
+    "o": "immaterialism"
+  },
+  {
+    "s": "Rolls Chapel",
+    "p": "grounds",
+    "o": "George Berkeley's definition of immaterialism"
+  },
+  {
+    "s": "Oxford",
+    "p": "enables",
+    "o": "George Butler's ordination"
+  },
+  {
+    "s": "Fifteen Sermons Preached at the Rolls Chapel",
+    "p": "undermines",
+    "o": "Tabula Rasa theory of John Locke"
+  },
+  {
+    "s": "Analogy of Religion",
+    "p": "extends",
+    "o": "natural theology by grounding it in religious terms"
+  },
+  {
+    "s": "Bishop of Bristol",
+    "p": "requires",
+    "o": "George Butler's appointment as preacher at Rolls Chapel"
+  },
+  {
+    "s": "Morals",
+    "p": "defines",
+    "o": "science"
+  },
+  {
+    "s": "Butler",
+    "p": "argues_for",
+    "o": "vision"
+  },
+  {
+    "s": "speculative moral philosophy",
+    "p": "contrasts_with",
+    "o": "practical moral counsel"
+  },
+  {
+    "s": "Morals",
+    "p": "requires",
+    "o": "defense"
+  },
+  {
+    "s": "Butler",
+    "p": "enables",
+    "o": "matters of fact"
+  },
+  {
+    "s": "Clarke and William Wollaston",
+    "p": "undermines",
+    "o": "abstract relations"
+  },
+  {
+    "s": "speculative objections",
+    "p": "extends",
+    "o": "practical moral counsel"
+  },
+  {
+    "s": "Butler",
+    "p": "grounds",
+    "o": "revealed religion"
+  },
+  {
+    "s": "arguments from matters of fact",
+    "p": "requires",
+    "o": "ethics"
+  },
+  {
+    "s": "abstract relations",
+    "p": "contrasts_with",
+    "o": "matters of fact"
+  },
+  {
+    "s": "moral judgments",
+    "p": "rests on",
+    "o": "probable matters of fact"
+  },
+  {
+    "s": "moral judgments",
+    "p": "less secure",
+    "o": "those found in accordance with eternal fitnesses"
+  },
+  {
+    "s": "Butler",
+    "p": "offers",
+    "o": "methodological argument in the \u201cIntroduction\u201d to the Analogy"
+  },
+  {
+    "s": "methodological argument",
+    "p": "might respond",
+    "o": "to worry that moral judgments rest on probable matters of fact"
+  },
+  {
+    "s": "Clarke's method",
+    "p": "argues_for",
+    "o": "probable course of action"
+  },
+  {
+    "s": "Butler's method",
+    "p": "defines",
+    "o": "matters of fact about human nature"
+  },
+  {
+    "s": "Clarkes method",
+    "p": "contrasts_with",
+    "o": "Butler's reliance on matters of facts"
+  },
+  {
+    "s": "Butler's method",
+    "p": "requires",
+    "o": "moral obligation in probable reasoning"
+  },
+  {
+    "s": "probable course of action",
+    "p": "enables",
+    "o": "sufficient certainty for moral action"
+  },
+  {
+    "s": "opposed action",
+    "p": "undermines",
+    "o": "inadequate certainty for moral action"
+  },
+  {
+    "s": "matters of facts about human nature",
+    "p": "extends",
+    "o": "probable reasoning to basic Christian teachings"
+  },
+  {
+    "s": "basic Christian teachings",
+    "p": "grounds",
+    "o": "crucial probable evidence"
+  },
+  {
+    "s": "moral philosopher",
+    "p": "argues_for",
+    "o": "detailed knowledge of principles of action in human nature"
+  },
+  {
+    "s": "moral philosopher",
+    "p": "defines",
+    "o": "virtue and vice"
+  },
+  {
+    "s": "Butler",
+    "p": "contrasts_with",
+    "o": "a priori demonstrative premises"
+  },
+  {
+    "s": "human beings",
+    "p": "requires",
+    "o": "knowledge of moral psychology"
+  },
+  {
+    "s": "moral philosopher",
+    "p": "enables",
+    "o": "to show how principles had bearing on virtue and vice"
+  },
+  {
+    "s": "Butler",
+    "p": "undermines",
+    "o": "a priori demonstrative premises"
+  },
+  {
+    "s": "moral scientist",
+    "p": "extends",
+    "o": "Locke\u2019s negative program of underbrush clearing in the theory of knowledge"
+  },
+  {
+    "s": "moral philosopher",
+    "p": "grounds",
+    "o": "morality as dictated by nature"
+  },
+  {
+    "s": "Butler",
+    "p": "distinguishes",
+    "o": "between three senses of \u201cnature\u201d"
+  },
+  {
+    "s": "Nature",
+    "p": "refers",
+    "o": "to any principle or element that belongs to or motivates human beings"
+  },
+  {
+    "s": "Nature",
+    "p": "can refer",
+    "o": "to the strongest among a group of principles"
+  },
+  {
+    "s": "Conscience",
+    "p": "has natural supremacy",
+    "o": "in a united hierarchy"
+  },
+  {
+    "s": "Self-love",
+    "p": "is also a supreme principle",
+    "o": ""
+  },
+  {
+    "s": "Butler",
+    "p": "argues_for",
+    "o": "natural hierarchy of principles"
+  },
+  {
+    "s": "clock",
+    "p": "contrasts_with",
+    "o": "human nature"
+  },
+  {
+    "s": "human nature",
+    "p": "requires",
+    "o": "ends"
+  },
+  {
+    "s": "Butler",
+    "p": "grounds",
+    "o": "natural hierarchy of principles"
+  },
+  {
+    "s": "empirical evidence",
+    "p": "enables",
+    "o": "natural hierarchy of principles"
+  },
+  {
+    "s": "supremacy of conscience",
+    "p": "demonstrates",
+    "o": "human nature"
+  },
+  {
+    "s": "conscience",
+    "p": "differs from",
+    "o": "animals"
+  },
+  {
+    "s": "humans",
+    "p": "act according to principles",
+    "o": "their natures"
+  },
+  {
+    "s": "conscience",
+    "p": "grounds human actions",
+    "o": "human nature"
+  },
+  {
+    "s": "Interpreters",
+    "p": "disagree",
+    "o": "about"
+  },
+  {
+    "s": "teleological and hierarchical account of human nature",
+    "p": "relies on",
+    "o": "theological premises"
+  },
+  {
+    "s": "interpreters",
+    "p": "hold",
+    "o": "that Butler\u2019s teleological and hierarchical account of human nature relies on theological premises"
+  },
+  {
+    "s": "Darwall",
+    "p": "argues_for",
+    "o": "Theological premises in Butler's argument"
+  },
+  {
+    "s": "Penelhum",
+    "p": "defines",
+    "o": "Teleology in Butler\u2019s account of human nature"
+  },
+  {
+    "s": "interpreters",
+    "p": "suggest",
+    "o": "that the teleological facts about human nature imply norms and values without reference to design"
+  },
+  {
+    "s": "Wedgwood",
+    "p": "argues_for",
+    "o": "Norms and values in human nature implied by teleological facts"
+  },
+  {
+    "s": "Irwin",
+    "p": "requires",
+    "o": "Support for argument independent of theological arguments"
+  },
+  {
+    "s": "Shaftesbury",
+    "p": "defines",
+    "o": "conscience as reflective principle"
+  },
+  {
+    "s": "Butler",
+    "p": "holds",
+    "o": "conscience is a reflective principle"
+  },
+  {
+    "s": "Butler",
+    "p": "defines",
+    "o": "conscience specifically as reflection on prospective or retrospective actions of oneself and others according to moral principles"
+  },
+  {
+    "s": "Shaftesbury",
+    "p": "asserts",
+    "o": "every reasoning or reflecting Creature is, by his Nature, forc'd to endure the Review of his own Mind, and Actions; and to have Representations of himself, and his inward Affairs, constantly passing before him, obvious to him, and revolving in his Mind"
+  },
+  {
+    "s": "Butler",
+    "p": "presumes",
+    "o": "all ordinary human beings have a sense of right and wrong"
+  },
+  {
+    "s": "Butler",
+    "p": "defines",
+    "o": "the moral principles are accessible for reflection"
+  },
+  {
+    "s": "Butler",
+    "p": "defines",
+    "o": "the many ways of describing this sense of right and wrong all point to one and the same capacity: \u201cConscience, moral Reason, moral sense, or divine Reason\u2026 as a Sentiment of the Understanding, or as a Perception of the Heart\u201d"
+  },
+  {
+    "s": "Butler",
+    "p": "grounds",
+    "o": "nature of its authority"
+  },
+  {
+    "s": "Butler",
+    "p": "defines",
+    "o": "conscience"
+  },
+  {
+    "s": "Butler",
+    "p": "contrasts_with",
+    "o": "vice-versa authority"
+  },
+  {
+    "s": "Butler",
+    "p": "argues_for",
+    "o": "conscience unique authority among human nature principles"
+  },
+  {
+    "s": "Butler",
+    "p": "requires",
+    "o": "obey conscience"
+  },
+  {
+    "s": "ordinary reasonable person",
+    "p": "recognizes",
+    "o": "conscience"
+  },
+  {
+    "s": "Butler",
+    "p": "grounds",
+    "o": "conscience unique authority among human nature principles"
+  },
+  {
+    "s": "Butler",
+    "p": "extends",
+    "o": "authority to ordinary reasonable person"
+  },
+  {
+    "s": "conscience",
+    "p": "closely connected",
+    "o": "autonomy"
+  },
+  {
+    "s": "Butler",
+    "p": "argues_for",
+    "o": "inner sense of moral rightness and wrongness"
+  },
+  {
+    "s": "law of conscience",
+    "p": "extends",
+    "o": "requires"
+  },
+  {
+    "s": "conscience",
+    "p": "defines",
+    "o": "is readily accessible"
+  },
+  {
+    "s": "prudence or interested actions",
+    "p": "contrasts_with",
+    "o": "the most near and intimate, the most certain and known"
+  },
+  {
+    "s": "authority principle",
+    "p": "argues_for",
+    "o": "dictates that we ought to intend a good action"
+  },
+  {
+    "s": "Butler",
+    "p": "argues_for",
+    "o": "conscience"
+  },
+  {
+    "s": "Butler",
+    "p": "defines",
+    "o": "conscience"
+  },
+  {
+    "s": "Butler",
+    "p": "contrasts_with",
+    "o": "self-love"
+  },
+  {
+    "s": "Butler",
+    "p": "requires",
+    "o": "virtuous actions"
+  },
+  {
+    "s": "Virtue",
+    "p": "enables",
+    "o": "private happiness"
+  },
+  {
+    "s": "Self-love",
+    "p": "undermines",
+    "o": "supremacy of conscience"
+  },
+  {
+    "s": "Benevolence",
+    "p": "extends",
+    "o": "all virtues"
+  },
+  {
+    "s": "Conscience",
+    "p": "grounds",
+    "o": "hierarchy among passions"
+  },
+  {
+    "s": "conscience",
+    "p": "defines",
+    "o": "rules that conscience lays down"
+  },
+  {
+    "s": "Sidgwick",
+    "p": "argues_for",
+    "o": "reasonable to obey conscience"
+  },
+  {
+    "s": "dictates of an arbitrary authority",
+    "p": "contrasts_with",
+    "o": "the dictates of conscience"
+  },
+  {
+    "s": "arbitrary authority",
+    "p": "requires",
+    "o": "justify"
+  },
+  {
+    "s": "independent moral authority for conscience",
+    "p": "enables",
+    "o": "Sidgwick's conclusion"
+  },
+  {
+    "s": "Stoic arguments for life according to nature",
+    "p": "undermines",
+    "o": "justificatory circle"
+  },
+  {
+    "s": "self-love",
+    "p": "extends",
+    "o": "conscience just dictates whatever self-love dictates"
+  },
+  {
+    "s": "Butler",
+    "p": "defines",
+    "o": "contrasts_with"
+  },
+  {
+    "s": "Butler",
+    "p": "requires",
+    "o": "grounds"
+  },
+  {
+    "s": "self-love",
+    "p": "defines",
+    "o": "argues_for"
+  },
+  {
+    "s": "psychological egoism",
+    "p": "dismisses",
+    "o": "kills"
+  },
+  {
+    "s": "Butler",
+    "p": "extends",
+    "o": "grounds"
+  },
+  {
+    "s": "self-love",
+    "p": "contrasts_with",
+    "o": "psychoanalysis"
+  },
+  {
+    "s": "Hobbes",
+    "p": "represents",
+    "o": "exemplifies"
+  },
+  {
+    "s": "egoism",
+    "p": "rests",
+    "o": "on"
+  },
+  {
+    "s": "self-love",
+    "p": "defines",
+    "o": "happiness of the self"
+  },
+  {
+    "s": "self-love",
+    "p": "contrasts_with",
+    "o": "particular passions and desires"
+  },
+  {
+    "s": "self-love",
+    "p": "requires",
+    "o": "recognition that pleasure from hunger and esteem are not self-love"
+  },
+  {
+    "s": "self-love",
+    "p": "enables",
+    "o": "distinction between being guided by selfish principles and having particular passions or desires"
+  },
+  {
+    "s": "particular passions and desires",
+    "p": "undermines",
+    "o": "the belief that self-love is our general interest in securing happiness"
+  }
+]

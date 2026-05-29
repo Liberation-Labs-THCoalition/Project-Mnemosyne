@@ -1,0 +1,437 @@
+[
+  {
+    "s": "moral anti-realism",
+    "p": "defines",
+    "o": "moral realism"
+  },
+  {
+    "s": "moral anti-realism",
+    "p": "contrasts_with",
+    "o": "moral realism"
+  },
+  {
+    "s": "Anti-Realism",
+    "p": "defines",
+    "o": "in opposition to realism"
+  },
+  {
+    "s": "Non-Realism",
+    "p": "defines",
+    "o": "in opposition to realism"
+  },
+  {
+    "s": "Irrealism",
+    "p": "defines",
+    "o": "in opposition to realism"
+  },
+  {
+    "s": "Realist position",
+    "p": "holds",
+    "o": "that X exists objectively"
+  },
+  {
+    "s": "Moral anti-realism",
+    "p": "denies",
+    "o": "the thesis that moral properties exist objectively"
+  },
+  {
+    "s": "Moral noncognitivism",
+    "p": "is one way of endorsing",
+    "o": "moral non-objectivist"
+  },
+  {
+    "s": "Moral error theory",
+    "p": "is another way of endorsing",
+    "o": "moral non-objectivist"
+  },
+  {
+    "s": "Idealist",
+    "p": "may refer to",
+    "o": "moral non-objectivists or moral non-realists"
+  },
+  {
+    "s": "Constructivist",
+    "p": "may be associated with",
+    "o": "non-objective existence of moral properties"
+  },
+  {
+    "s": "labels",
+    "p": "employed",
+    "o": "situate"
+  },
+  {
+    "s": "views",
+    "p": "characterized",
+    "o": "preliminary imprecision"
+  },
+  {
+    "s": "Moral noncognitivism",
+    "p": "holds",
+    "o": "that our moral judgments are not in the business of aiming at truth."
+  },
+  {
+    "s": "A.J. Ayer",
+    "p": "declared",
+    "o": "that when we say \u201cStealing money is wrong\u201d we do not express a proposition that can be true or false"
+  },
+  {
+    "s": "Moral noncognitivism",
+    "p": "defines",
+    "o": "as holding the view that our moral judgments are not in the business of aiming at truth."
+  },
+  {
+    "s": "A.J. Ayer",
+    "p": "contrasts_with",
+    "o": "cognitivist views"
+  },
+  {
+    "s": "Moral noncognitivism",
+    "p": "requires",
+    "o": "us to deny the existence of moral properties and their objectivity."
+  },
+  {
+    "s": "Cognitivists",
+    "p": "enables",
+    "o": "us to argue about whether certain actions are right or wrong, which is a matter of truth-aptitude"
+  },
+  {
+    "s": "Moral noncognitivism",
+    "p": "undermines",
+    "o": "the cognitive value and the objectivity of moral judgments."
+  },
+  {
+    "s": "Moral noncognitivism",
+    "p": "extends",
+    "o": "to other areas, such as aesthetic or ethical theories"
+  },
+  {
+    "s": "Moral noncognitivism",
+    "p": "grounds",
+    "o": "its position in terms of the nature and function of moral language."
+  },
+  {
+    "s": "moral error theorist",
+    "p": "defines",
+    "o": "moral judgments"
+  },
+  {
+    "s": "moral error theorist",
+    "p": "argues_for",
+    "o": "cognitivist analogy"
+  },
+  {
+    "s": "atheist",
+    "p": "contrasts_with",
+    "o": "religious discourse"
+  },
+  {
+    "s": "atheist",
+    "p": "requires",
+    "o": "world to contain right kind of stuff"
+  },
+  {
+    "s": "Non-objectivism",
+    "p": "defines",
+    "o": "allows"
+  },
+  {
+    "s": "Non-objectivism",
+    "p": "contrasts_with",
+    "o": "objectivism"
+  },
+  {
+    "s": "Hamlet's slogan",
+    "p": "argues_for",
+    "o": "non-objective"
+  },
+  {
+    "s": "diamond properties",
+    "p": "requires",
+    "o": "thinking makes it so"
+  },
+  {
+    "s": "non-objectivism",
+    "p": "defines",
+    "o": "subjectivism"
+  },
+  {
+    "s": "non-objectivism",
+    "p": "contrasts_with",
+    "o": "subjectivism"
+  },
+  {
+    "s": "non-objectivist theories",
+    "p": "requires",
+    "o": "making moral judgments"
+  },
+  {
+    "s": "Moral Realism",
+    "p": "extends",
+    "o": "robust moral realism"
+  },
+  {
+    "s": "Robust Moral Realism",
+    "p": "grounds",
+    "o": "moral facts"
+  },
+  {
+    "s": "Objectivity Clause",
+    "p": "undermines",
+    "o": "moral anti-realism"
+  },
+  {
+    "s": "moral anti-realism",
+    "p": "requires",
+    "o": "cognitive penetration"
+  },
+  {
+    "s": "cognitive penetration",
+    "p": "enables",
+    "o": "moral realism"
+  },
+  {
+    "s": "moral realism",
+    "p": "undermines",
+    "o": "moral anti-realism"
+  },
+  {
+    "s": "moral anti-realism",
+    "p": "defines",
+    "o": "contrasts_with"
+  },
+  {
+    "s": "moral non-objectivism",
+    "p": "requires",
+    "o": "enables"
+  },
+  {
+    "s": "moral skepticism",
+    "p": "explains",
+    "o": "extends"
+  },
+  {
+    "s": "moral judgments",
+    "p": "argues_for",
+    "o": "grounds"
+  },
+  {
+    "s": "moral anti-realism",
+    "p": "defined here",
+    "o": "contains no epistemological clause"
+  },
+  {
+    "s": "moral realist",
+    "p": "wants to support",
+    "o": "view of morality that would guarantee justified access to objective moral facts"
+  },
+  {
+    "s": "objective moral facts",
+    "p": "desired by moral realists",
+    "o": "to be independent of our mental activity"
+  },
+  {
+    "s": "moral judgments",
+    "p": "question of whether we are justified in making",
+    "o": "silent on"
+  },
+  {
+    "s": "realism itself",
+    "p": "not implied by",
+    "o": "by moral anti-realism"
+  },
+  {
+    "s": "objective facts",
+    "p": "those that do not depend on our mental activity",
+    "o": "are precisely those facts we can all be mistaken about"
+  },
+  {
+    "s": "moral realist's desire for objective moral facts",
+    "p": "desire for a guarantee of epistemic access to moral facts",
+    "o": "in tension with each other"
+  },
+  {
+    "s": "moral anti-realism",
+    "p": "is not",
+    "o": "a form of moral relativism"
+  },
+  {
+    "s": "moral relativism",
+    "p": "is a form of",
+    "o": "cognitivism"
+  },
+  {
+    "s": "moral claims",
+    "p": "contain an indexical element",
+    "o": "such that the truth of any such claim requires relativization to some individual or group"
+  },
+  {
+    "s": "stealing is morally wrong",
+    "p": "might be true when one person utters it, and false when someone else utters it",
+    "o": "according to a simple form of relativism"
+  },
+  {
+    "s": "different moral values, virtues, and duties apply to different groups of people due to their social caste",
+    "p": "according to a relativistic claim",
+    "o": "these relativistic moral facts obtain"
+  },
+  {
+    "s": "moral realism",
+    "p": "defines",
+    "o": "includes"
+  },
+  {
+    "s": "noncognitivist",
+    "p": "defines",
+    "o": "moral non-naturalist"
+  },
+  {
+    "s": "error theorist",
+    "p": "defines",
+    "o": "moral anti-realist"
+  },
+  {
+    "s": "noncognitivist",
+    "p": "contrasts_with",
+    "o": "moral naturalist"
+  },
+  {
+    "s": "error theorist",
+    "p": "contrasts_with",
+    "o": "moral non-naturalist"
+  },
+  {
+    "s": "noncognitivist",
+    "p": "argues_for",
+    "o": "ontological naturalism"
+  },
+  {
+    "s": "error theorist",
+    "p": "argues_for",
+    "o": "ontological naturalism"
+  },
+  {
+    "s": "moral anti-realists",
+    "p": "includes",
+    "o": "various positions"
+  },
+  {
+    "s": "moral skeptics",
+    "p": "argues_for",
+    "o": "moral knowledge"
+  },
+  {
+    "s": "moral anti-realists",
+    "p": "defines",
+    "o": "moral knowledge"
+  },
+  {
+    "s": "moral anti-realists",
+    "p": "contrasts_with",
+    "o": "moral skeptics"
+  },
+  {
+    "s": "moral anti-realists",
+    "p": "requires",
+    "o": "moral knowledge"
+  },
+  {
+    "s": "moral anti-realists",
+    "p": "enables",
+    "o": "moral skepticism"
+  },
+  {
+    "s": "moral anti-realists",
+    "p": "undermines",
+    "o": "moral absolutism"
+  },
+  {
+    "s": "moral anti-realists",
+    "p": "extends",
+    "o": "moral knowledge"
+  },
+  {
+    "s": "moral anti-realists",
+    "p": "grounds",
+    "o": "moral realism"
+  },
+  {
+    "s": "moral realism",
+    "p": "argues_for",
+    "o": "moral value"
+  },
+  {
+    "s": "moral realism",
+    "p": "defines",
+    "o": "fabric of the world"
+  },
+  {
+    "s": "anti-realist",
+    "p": "works_to_overcome",
+    "o": "presumption in favor of moral realism"
+  },
+  {
+    "s": "Dancy",
+    "p": "writes",
+    "o": "moral value"
+  },
+  {
+    "s": "McNaughton",
+    "p": "claims",
+    "o": "realist\u2019s contention"
+  },
+  {
+    "s": "Brink",
+    "p": "concurs",
+    "o": "cognitivists and realists about ethics"
+  },
+  {
+    "s": "Dancy",
+    "p": "argues_for",
+    "o": "moral properties in actions and agents"
+  },
+  {
+    "s": "McNaughton",
+    "p": "rebuts",
+    "o": "arguments designed to persuade us that moral realism is untenable"
+  },
+  {
+    "s": "moral realism",
+    "p": "argues_for",
+    "o": "intuition"
+  },
+  {
+    "s": "anti-realist",
+    "p": "requires",
+    "o": "extra labor"
+  },
+  {
+    "s": "moral realism",
+    "p": "argues_for",
+    "o": "moral objectivism"
+  },
+  {
+    "s": "moral realism",
+    "p": "contrasts_with",
+    "o": "anti-realism"
+  },
+  {
+    "s": "empirical investigations",
+    "p": "requires",
+    "o": "endorse moral absolutism"
+  },
+  {
+    "s": "concept of moral objectivity",
+    "p": "argues_for",
+    "o": "moral realism"
+  },
+  {
+    "s": "morality being mind-dependent",
+    "p": "enables",
+    "o": "anti-realist tendencies"
+  },
+  {
+    "s": "empirical investigation",
+    "p": "undermines",
+    "o": "locate strong intuitions in favor of moral objectivity"
+  }
+]

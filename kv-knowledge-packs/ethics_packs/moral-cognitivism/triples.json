@@ -1,0 +1,417 @@
+[
+  {
+    "s": "Non-Cognitivism",
+    "p": "defines",
+    "o": "variety of irrealism about ethics"
+  },
+  {
+    "s": "Non-Cognitivists",
+    "p": "agree_with",
+    "o": "error theorists"
+  },
+  {
+    "s": "Error Theorists",
+    "p": "argues_for",
+    "o": "no moral properties or facts"
+  },
+  {
+    "s": "Non-Cognitivists",
+    "p": "contrasts_with",
+    "o": "cognitivists"
+  },
+  {
+    "s": "Non-Cognitivism",
+    "p": "requires",
+    "o": "clarification of moral statements"
+  },
+  {
+    "s": "Moral Statements",
+    "p": "enables",
+    "o": "non-cognitive attitudes expression"
+  },
+  {
+    "s": "Non-Cognitivists",
+    "p": "undermines",
+    "o": "substantial truth conditions claim"
+  },
+  {
+    "s": "Non-Cognitivism",
+    "p": "extends",
+    "o": "to moral statements"
+  },
+  {
+    "s": "Cognitivism",
+    "p": "is_the_denial_of",
+    "o": "non-cognitivism"
+  },
+  {
+    "s": "Cognitivism",
+    "p": "holds",
+    "o": "moral statements express beliefs and are apt for truth and falsity"
+  },
+  {
+    "s": "Cognitivist",
+    "p": "can_be",
+    "o": "an error theorist"
+  },
+  {
+    "s": "Moral realists",
+    "p": "are_cognitivists",
+    "o": "insofar as they think moral statements are apt for robust truth and falsity and that many of them are in fact true"
+  },
+  {
+    "s": "semantic nonfactualism",
+    "p": "denies",
+    "o": "predicative moral sentences express propositions or have substantial truth conditions"
+  },
+  {
+    "s": "semantic nonfactualism",
+    "p": "suggest",
+    "o": "their contents are not apt for robust truth or falsity"
+  },
+  {
+    "s": "psychological non-cognitivism",
+    "p": "denies",
+    "o": "states of mind conventionally expressed by moral utterances fall on the cognitive side of the cognitive/non-cognitive divide"
+  },
+  {
+    "s": "non-cognitivists",
+    "p": "accept",
+    "o": "theses"
+  },
+  {
+    "s": "non-cognitivists",
+    "p": "define",
+    "o": "moral judgments"
+  },
+  {
+    "s": "non-cognitivists",
+    "p": "contrast_with",
+    "o": "cogntivist views"
+  },
+  {
+    "s": "moral sentences",
+    "p": "predicate properties",
+    "o": "argues_for"
+  },
+  {
+    "s": "moral judgments",
+    "p": "express beliefs",
+    "o": "defines"
+  },
+  {
+    "s": "moral judgments",
+    "p": "contrast_with",
+    "o": "cogntivist views"
+  },
+  {
+    "s": "non-cognitivists",
+    "p": "require",
+    "o": "belief in moral properties"
+  },
+  {
+    "s": "non-cognitivists",
+    "p": "enable",
+    "o": "acceptance of moral judgments"
+  },
+  {
+    "s": "moral judgments",
+    "p": "ground truth claims",
+    "o": "extends"
+  },
+  {
+    "s": "non-cognitivism",
+    "p": "defines",
+    "o": "moral judgments"
+  },
+  {
+    "s": "non-cognitivists",
+    "p": "extends",
+    "o": "normative or evaluative judgments generally"
+  },
+  {
+    "s": "Cognitivism",
+    "p": "defines",
+    "o": "denies non-cognitivism"
+  },
+  {
+    "s": "Cognitivists",
+    "p": "argues_for",
+    "o": "truth or falsity in moral sentences"
+  },
+  {
+    "s": "Cognitivists",
+    "p": "defines",
+    "o": "typical state of mind for accepting moral judgments as belief"
+  },
+  {
+    "s": "Cognitivists",
+    "p": "contrasts_with",
+    "o": "non-cognitivism"
+  },
+  {
+    "s": "Cognitivist positions",
+    "p": "requires",
+    "o": "adequate account of moral judgments consistent with non-cognitivist theses"
+  },
+  {
+    "s": "non-cognitivism",
+    "p": "contrasts_with",
+    "o": "cognitivism"
+  },
+  {
+    "s": "cognitivism",
+    "p": "defines",
+    "o": "moral properties as being approved of by some person or group"
+  },
+  {
+    "s": "non-cognitivism",
+    "p": "defines",
+    "o": "moral expressions"
+  },
+  {
+    "s": "non-cognitivism",
+    "p": "contrasts_with",
+    "o": "cognitivist theories"
+  },
+  {
+    "s": "non-cognitivism",
+    "p": "grounds",
+    "o": "semantic function of moral expressions"
+  },
+  {
+    "s": "non-cognitivism",
+    "p": "requires",
+    "o": "mental states typically expressed by speakers"
+  },
+  {
+    "s": "Emotivists",
+    "p": "thinks",
+    "o": "moral terms in grammatically assertive utterances function primarily to express emotion"
+  },
+  {
+    "s": "Emotivists",
+    "p": "defines",
+    "o": "terms as conventional devices for performing a certain sort of speech act"
+  },
+  {
+    "s": "Emotivists",
+    "p": "contrasts_with",
+    "o": "cognitivist theories"
+  },
+  {
+    "s": "Emotivists",
+    "p": "requires",
+    "o": "pointing out that they are conventional devices for performing a certain sort of speech act"
+  },
+  {
+    "s": "Emotivists",
+    "p": "enables",
+    "o": "non-cognitive pro-attitude such as approval or preference"
+  },
+  {
+    "s": "Emotivists",
+    "p": "undermines",
+    "o": "cognitivist theories"
+  },
+  {
+    "s": "Emotivists",
+    "p": "extends",
+    "o": "account to general moral terms and simple predicative utterances employing thick moral terms"
+  },
+  {
+    "s": "Emotivists",
+    "p": "grounds",
+    "o": "natural property (say fearlessness in the case of bravery)"
+  },
+  {
+    "s": "theorist",
+    "p": "argues_for",
+    "o": "emotivists"
+  },
+  {
+    "s": "term",
+    "p": "defines",
+    "o": "descriptive meaning"
+  },
+  {
+    "s": "Hare",
+    "p": "contrasts_with",
+    "o": "Stevenson"
+  },
+  {
+    "s": "judgment",
+    "p": "requires",
+    "o": "expressing approval or disapproval"
+  },
+  {
+    "s": "Jackson",
+    "p": "extends",
+    "o": "contemporary hybrid expressivists"
+  },
+  {
+    "s": "Ridge",
+    "p": "grounds",
+    "o": "hybrid idea"
+  },
+  {
+    "s": "sentence",
+    "p": "expresses",
+    "o": "approval or disapproval of property"
+  },
+  {
+    "s": "moral judgments",
+    "p": "are a species of",
+    "o": "prescriptive judgement"
+  },
+  {
+    "s": "moral sentences",
+    "p": "are semantically akin to",
+    "o": "imperatives"
+  },
+  {
+    "s": "Moral terms",
+    "p": "function as force indicators",
+    "o": "on analogy with mood"
+  },
+  {
+    "s": "Prescriptivists",
+    "p": "argues_for",
+    "o": "account of accepting a moral judgment"
+  },
+  {
+    "s": "Hare",
+    "p": "defines",
+    "o": "attitude of accepting a moral judgment"
+  },
+  {
+    "s": "moral commands",
+    "p": "requires",
+    "o": "accepting a moral judgment"
+  },
+  {
+    "s": "prescriptivists",
+    "p": "enables",
+    "o": "ground moral attributions"
+  },
+  {
+    "s": "non-cognitivism",
+    "p": "defines",
+    "o": "a species of irrealism about ethics"
+  },
+  {
+    "s": "irrealism",
+    "p": "contrasts_with",
+    "o": "realist interpretation of moral claims"
+  },
+  {
+    "s": "Quasi-Realism",
+    "p": "defines",
+    "o": "non-cognitivism"
+  },
+  {
+    "s": "Allan Gibbard",
+    "p": "works_under",
+    "o": "quasi-realist banner"
+  },
+  {
+    "s": "Simon Blackburn",
+    "p": "names",
+    "o": "Quasi-Realism"
+  },
+  {
+    "s": "Quasi-Realism",
+    "p": "contrasts_with",
+    "o": "cognitivism"
+  },
+  {
+    "s": "quasi-realist project",
+    "p": "requires",
+    "o": "explaining entitlement to act as if moral judgments are truth-apt"
+  },
+  {
+    "s": "Expressivists",
+    "p": "defines as",
+    "o": "conventional devices for expressing pro and con attitudes towards their objects"
+  },
+  {
+    "s": "Emotivists",
+    "p": "argues_for being",
+    "o": "expressivists"
+  },
+  {
+    "s": "Moral terms",
+    "p": "contrasts_with non-moral terms",
+    "o": "qualify as expressivist in a broad sense"
+  },
+  {
+    "s": "Expressivists",
+    "p": "argues for constructing",
+    "o": "a systematic semantics for moral sentences by pairing them with the states of mind that the sentences are said to express"
+  },
+  {
+    "s": "Expressivists",
+    "p": "holds that",
+    "o": "the meanings of all sentences containing moral terms are determined by the mental states that they serve to express"
+  },
+  {
+    "s": "moral sentences",
+    "p": "express",
+    "o": "semantic values"
+  },
+  {
+    "s": "indicative sentences",
+    "p": "express",
+    "o": "non-cognitive attitudes"
+  },
+  {
+    "s": "\u2018It is ten o\u2019clock already,\u2019",
+    "p": "expresses",
+    "o": "impatience"
+  },
+  {
+    "s": "\u2018Lying sucks!\u2019",
+    "p": "expresses",
+    "o": "disapproval of lying"
+  },
+  {
+    "s": "\u2018I disapprove of lying,\u2019",
+    "p": "expresses",
+    "o": "disapproval of lying"
+  },
+  {
+    "s": "Simon Blackburn",
+    "p": "contributes ideas",
+    "o": "ideas for states expressed by indicative sentences"
+  },
+  {
+    "s": "Simon Blackburn",
+    "p": "contrasts_with",
+    "o": "quasi-realist project"
+  },
+  {
+    "s": "Hybrid theories",
+    "p": "involve work of this sort",
+    "o": "normative language semantics"
+  },
+  {
+    "s": "Allan Gibbard",
+    "p": "develops program in most systematic way",
+    "o": "influential books"
+  },
+  {
+    "s": "Allan Gibbard (1990)",
+    "p": "proposes account of norm-acceptance",
+    "o": "Gibbard (2003)"
+  },
+  {
+    "s": "Allan Gibbard (2003)",
+    "p": "proposes planning attitude akin to intending",
+    "o": "Gibbard (1990)"
+  },
+  {
+    "s": "Mark Schroeder",
+    "p": "develops strategies for combining noncognitive attitudes with belief",
+    "o": "bifurcated attitude semantics"
+  }
+]

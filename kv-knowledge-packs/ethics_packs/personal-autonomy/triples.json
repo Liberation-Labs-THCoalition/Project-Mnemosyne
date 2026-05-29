@@ -1,0 +1,457 @@
+[
+  {
+    "s": "Autonomous agents",
+    "p": "defines",
+    "o": "self-governing agents"
+  },
+  {
+    "s": "self-governing agent",
+    "p": "requires",
+    "o": "greater range of options in the future"
+  },
+  {
+    "s": "greater range of options",
+    "p": "enables",
+    "o": "opportunities one most wants to have"
+  },
+  {
+    "s": "opportunities",
+    "p": "enables",
+    "o": "appreciate difference between right and wrong"
+  },
+  {
+    "s": "appreciate difference",
+    "p": "requires",
+    "o": "govern oneself without appreciating right from wrong"
+  },
+  {
+    "s": "govern oneself",
+    "p": "contrasts_with",
+    "o": "autonomous agent can do something wrong without being to blame for her action"
+  },
+  {
+    "s": "people",
+    "p": "declare",
+    "o": "right to live autonomously"
+  },
+  {
+    "s": "people",
+    "p": "say",
+    "o": "allowed to govern themselves"
+  },
+  {
+    "s": "people",
+    "p": "reject",
+    "o": "political and legal authority of outsiders"
+  },
+  {
+    "s": "people",
+    "p": "insist",
+    "o": "illegitimate power of outsiders"
+  },
+  {
+    "s": "people",
+    "p": "have authority",
+    "o": "determine and enforce rules and policies"
+  },
+  {
+    "s": "individual",
+    "p": "declares",
+    "o": "claim"
+  },
+  {
+    "s": "individual",
+    "p": "denies",
+    "o": "authority"
+  },
+  {
+    "s": "individual",
+    "p": "authorizes",
+    "o": "activity"
+  },
+  {
+    "s": "individual",
+    "p": "claims",
+    "o": "control"
+  },
+  {
+    "s": "individual",
+    "p": "asserts",
+    "o": "legitimacy"
+  },
+  {
+    "s": "individual",
+    "p": "authorizes",
+    "o": "power"
+  },
+  {
+    "s": "individual",
+    "p": "claims",
+    "o": "control"
+  },
+  {
+    "s": "group autonomy",
+    "p": "contrasts_with",
+    "o": "political control"
+  },
+  {
+    "s": "agent",
+    "p": "requires",
+    "o": "exercise power"
+  },
+  {
+    "s": "power",
+    "p": "grounds",
+    "o": "authority to act"
+  },
+  {
+    "s": "agent",
+    "p": "contrasts_with",
+    "o": "non-agent"
+  },
+  {
+    "s": "agent",
+    "p": "requires",
+    "o": "have authority over oneself"
+  },
+  {
+    "s": "agent",
+    "p": "grounds",
+    "o": "authority in initiating actions"
+  },
+  {
+    "s": "agent",
+    "p": "enables",
+    "o": "form intentions based on self-judgment"
+  },
+  {
+    "s": "agent",
+    "p": "contrasts_with",
+    "o": "political authority"
+  },
+  {
+    "s": "authority",
+    "p": "requires",
+    "o": "self-governance"
+  },
+  {
+    "s": "political leader",
+    "p": "enables",
+    "o": "governing domain"
+  },
+  {
+    "s": "person",
+    "p": "contrasts_with",
+    "o": "political leader"
+  },
+  {
+    "s": "authority over actions",
+    "p": "grounds",
+    "o": "self-government"
+  },
+  {
+    "s": "forces moving us to act",
+    "p": "undermines",
+    "o": "autonomy"
+  },
+  {
+    "s": "autonomy",
+    "p": "requires",
+    "o": "distinguishes"
+  },
+  {
+    "s": "influences",
+    "p": "distinguishes",
+    "o": "autonomy"
+  },
+  {
+    "s": "question",
+    "p": "is",
+    "o": "asks"
+  },
+  {
+    "s": "accounts",
+    "p": "indicate",
+    "o": "are widespread"
+  },
+  {
+    "s": "philosophers",
+    "p": "agree",
+    "o": "cannot reach"
+  },
+  {
+    "s": "nature",
+    "p": "prevent",
+    "o": "from governing ourselves"
+  },
+  {
+    "s": "governing agent",
+    "p": "defines",
+    "o": "autonomous agency"
+  },
+  {
+    "s": "contrasts_with",
+    "p": "requires",
+    "o": "non-autonomous agency"
+  },
+  {
+    "s": "perplexity",
+    "p": "gives voice",
+    "o": "questions"
+  },
+  {
+    "s": "political case",
+    "p": "does not have correlate",
+    "o": "these questions"
+  },
+  {
+    "s": "country\u2019s army",
+    "p": "dictates to president",
+    "o": "legislation must approve"
+  },
+  {
+    "s": "independent decision-makers",
+    "p": "exists in political case",
+    "o": "two identifiable standpoints"
+  },
+  {
+    "s": "single individual agent",
+    "p": "difficulty",
+    "o": "political case"
+  },
+  {
+    "s": "independently identifiable pair of standpoints",
+    "p": "does not exist",
+    "o": "distinguish powers bullied by agent from attributes to agent"
+  },
+  {
+    "s": "action",
+    "p": "requires",
+    "o": "endorsement of motives"
+  },
+  {
+    "s": "agent",
+    "p": "repudiates",
+    "o": "her own actions"
+  },
+  {
+    "s": "self-government",
+    "p": "requires",
+    "o": "endorsing or repudiating motives"
+  },
+  {
+    "s": "self-governing agency",
+    "p": "requires",
+    "o": "synchronic psychic unity"
+  },
+  {
+    "s": "self-governing agency",
+    "p": "contrasts_with",
+    "o": "diachronic unity of one's later self with one\u2019s earlier self"
+  },
+  {
+    "s": "agents constrained by plans",
+    "p": "grounds",
+    "o": "self-governing agency"
+  },
+  {
+    "s": "agents constrained by well-integrated emotions",
+    "p": "extends",
+    "o": "self-governing agency"
+  },
+  {
+    "s": "agents grounded in traits of character",
+    "p": "requires",
+    "o": "synchronic psychic unity"
+  },
+  {
+    "s": "agents with stable commitments and cares",
+    "p": "enables",
+    "o": "diachronic unity of one\u2019s later self with one\u2019s earlier self"
+  },
+  {
+    "s": "autonomous agent",
+    "p": "defines",
+    "o": "On a strict coherentist conception of autonomy"
+  },
+  {
+    "s": "coherentism",
+    "p": "contrasts_with",
+    "o": "non-coherent approaches to autonomy"
+  },
+  {
+    "s": "addict",
+    "p": "argues_for",
+    "o": "autonomous agent if she has no objection to her addiction and its motivational effects"
+  },
+  {
+    "s": "higher-order attitudes",
+    "p": "requires",
+    "o": "be irrelevant to whether she is an autonomous agent"
+  },
+  {
+    "s": "autonomy",
+    "p": "requires",
+    "o": "externalist conditions"
+  },
+  {
+    "s": "Fischer and Ravizza",
+    "p": "defines",
+    "o": "reasons-responsive conception of autonomous agency"
+  },
+  {
+    "s": "Nelkin, Wolf",
+    "p": "contrasts_with",
+    "o": "non-responsiveness to reasons for or against behavior"
+  },
+  {
+    "s": "feature",
+    "p": "distinguishes",
+    "o": "coherentist accounts"
+  },
+  {
+    "s": "ability",
+    "p": "attributes",
+    "o": "appreciate reasons"
+  },
+  {
+    "s": "inability",
+    "p": "connects",
+    "o": "act accordingly"
+  },
+  {
+    "s": "autonomy",
+    "p": "reflects",
+    "o": "intuition that when we do something very poorly, we do not really do it at all"
+  },
+  {
+    "s": "ignorance",
+    "p": "threatens",
+    "o": "self-government"
+  },
+  {
+    "s": "authorization",
+    "p": "involves",
+    "o": "authorize myself to be moved by desire to do Y because I mistakenly believe that doing Y is a way of not doing Z"
+  },
+  {
+    "s": "autonomy",
+    "p": "requires",
+    "o": "capacity"
+  },
+  {
+    "s": "reasoning process",
+    "p": "grounds",
+    "o": "autonomy"
+  },
+  {
+    "s": "self-government",
+    "p": "defines",
+    "o": "essence"
+  },
+  {
+    "s": "motives",
+    "p": "adjusts",
+    "o": "in response to one's evaluations"
+  },
+  {
+    "s": "autonomous agent",
+    "p": "requires",
+    "o": "ability to call her own attitudes into question"
+  },
+  {
+    "s": "autonomous agent",
+    "p": "enables",
+    "o": "govern herself by means of practical reasoning"
+  },
+  {
+    "s": "practical reasoning",
+    "p": "undermines",
+    "o": "power over the motives that this reasoning produced"
+  },
+  {
+    "s": "advocates",
+    "p": "of",
+    "o": "responsiveness-to-reasoning accounts"
+  },
+  {
+    "s": "believes",
+    "p": "that",
+    "o": "key to autonomous agency"
+  },
+  {
+    "s": "ability",
+    "p": "is",
+    "o": "distancing oneself from one's attitudes and beliefs"
+  },
+  {
+    "s": "believe",
+    "p": "that",
+    "o": "motives authorized from this reflective standpoint are internal"
+  },
+  {
+    "s": "differ",
+    "p": "from",
+    "o": "coherentists"
+  },
+  {
+    "s": "claim",
+    "p": "that",
+    "o": "there is more to the capacity for self-reflection than the capacity to hold higher-order attitudes"
+  },
+  {
+    "s": "authority",
+    "p": "is",
+    "o": "grounded in the authority of practical reasoning that supports attitudes"
+  },
+  {
+    "s": "argue",
+    "p": "that",
+    "o": "a self-governing agent endorses her motives"
+  },
+  {
+    "s": "autonomous agent",
+    "p": "requires",
+    "o": "self-transformation"
+  },
+  {
+    "s": "autonomous agent",
+    "p": "enables",
+    "o": "self-government"
+  },
+  {
+    "s": "autonomous agency",
+    "p": "defines",
+    "o": "conception"
+  },
+  {
+    "s": "responsiveness",
+    "p": "contrasts_with",
+    "o": "account"
+  },
+  {
+    "s": "practical reasoning",
+    "p": "requires",
+    "o": "account"
+  },
+  {
+    "s": "standards",
+    "p": "requires",
+    "o": "agent"
+  },
+  {
+    "s": "norm-governed process",
+    "p": "implies",
+    "o": "rational evaluation"
+  },
+  {
+    "s": "coherentist accounts",
+    "p": "contrasts_with",
+    "o": "account"
+  },
+  {
+    "s": "power of motives",
+    "p": "undermines",
+    "o": "account"
+  }
+]

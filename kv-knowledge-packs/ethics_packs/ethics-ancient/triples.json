@@ -1,0 +1,472 @@
+[
+  {
+    "s": "moral theory",
+    "p": "brings systematic thinking",
+    "o": "to bear on morality"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "assumes piecemeal opinions",
+    "o": "morality phenomena"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "captures underlying essence",
+    "o": "morality phenomena"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "evaluates and criticizes some opinions",
+    "o": "primary goal"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "provides reflective account",
+    "o": "human activity"
+  },
+  {
+    "s": "Socrates",
+    "p": "presented in dialogues of Plato",
+    "o": "Plato's Republic"
+  },
+  {
+    "s": "ancient philosophers",
+    "p": "depends_on",
+    "o": "notions"
+  },
+  {
+    "s": "virtue",
+    "p": "includes",
+    "o": "virtues"
+  },
+  {
+    "s": "happiness (eudaimonia)",
+    "p": "defined_as",
+    "o": "by ancient philosophers"
+  },
+  {
+    "s": "soul",
+    "p": "associated_with",
+    "o": "human well-being"
+  },
+  {
+    "s": "Virtue",
+    "p": "defines",
+    "o": "general term"
+  },
+  {
+    "s": "aret\u00ea",
+    "p": "translates",
+    "o": "Greek word"
+  },
+  {
+    "s": "excellence",
+    "p": "translates",
+    "o": "aret\u00ea"
+  },
+  {
+    "s": "horse",
+    "p": "has its particular",
+    "o": "excellence"
+  },
+  {
+    "s": "knife",
+    "p": "has its particular",
+    "o": "excellence"
+  },
+  {
+    "s": "human excellence",
+    "p": "translates",
+    "o": "aret\u00ea"
+  },
+  {
+    "s": "Homeric warrior chieftain",
+    "p": "includes",
+    "o": "figure"
+  },
+  {
+    "s": "Athenian statesman of imperial expansion period",
+    "p": "includes",
+    "o": "figure"
+  },
+  {
+    "s": "Menon dialogue",
+    "p": "grounds",
+    "o": "human excellence"
+  },
+  {
+    "s": "courage",
+    "p": "requires",
+    "o": "moderation"
+  },
+  {
+    "s": "justice",
+    "p": "defines",
+    "o": "virtue"
+  },
+  {
+    "s": "piety",
+    "p": "contrasts_with",
+    "o": "injustice"
+  },
+  {
+    "s": "Human excellence",
+    "p": "can be conceived in ways that do not include",
+    "o": "the moral virtues"
+  },
+  {
+    "s": "Cruel person",
+    "p": "argues_for",
+    "o": "cruelty as human excellence"
+  },
+  {
+    "s": "Arbitrary person",
+    "p": "defines",
+    "o": "arbitrariness as a form of human excellence"
+  },
+  {
+    "s": "Rapacious person",
+    "p": "contrasts_with",
+    "o": "moderation in human excellence"
+  },
+  {
+    "s": "Cruel, arbitrary, rapacious, ravenous person",
+    "p": "requires",
+    "o": "moral virtues for human excellence"
+  },
+  {
+    "s": "Moral virtues",
+    "p": "enables",
+    "o": "human excellence including happiness"
+  },
+  {
+    "s": "Happiness",
+    "p": "undermines",
+    "o": "not being the proper goal or end of human life without moral virtues"
+  },
+  {
+    "s": "Human excellence",
+    "p": "grounds",
+    "o": "the relation between moral virtues and happiness"
+  },
+  {
+    "s": "human excellence",
+    "p": "grounds",
+    "o": "happiness"
+  },
+  {
+    "s": "activities associated with pleasure",
+    "p": "enables",
+    "o": "living well"
+  },
+  {
+    "s": "ancient philosophers",
+    "p": "argues_for",
+    "o": "notion of living well"
+  },
+  {
+    "s": "human life activities",
+    "p": "requires",
+    "o": "human excellence"
+  },
+  {
+    "s": "activities associated with pleasure",
+    "p": "contrasts_with",
+    "o": "shameful or dishonorable actions"
+  },
+  {
+    "s": "living well over a whole lifetime",
+    "p": "extends",
+    "o": "notion of human excellence"
+  },
+  {
+    "s": "human life activities",
+    "p": "requires",
+    "o": "long stretches of living well"
+  },
+  {
+    "s": "happiness",
+    "p": "requires",
+    "o": "eudaimonia"
+  },
+  {
+    "s": "Greek word eudaimonia",
+    "p": "defines",
+    "o": "happiness"
+  },
+  {
+    "s": "English word \u2018happiness\u2019",
+    "p": "refers to",
+    "o": "feeling"
+  },
+  {
+    "s": "feeling happy",
+    "p": "contrasts_with",
+    "o": "feeling content"
+  },
+  {
+    "s": "eudaimonia",
+    "p": "grounds",
+    "o": "ancient moral theory"
+  },
+  {
+    "s": "ancient philosophers",
+    "p": "argues_for",
+    "o": "moral virtue"
+  },
+  {
+    "s": "courageous, just, moderate",
+    "p": "defined as",
+    "o": "human excellence"
+  },
+  {
+    "s": "virtuous person",
+    "p": "requires",
+    "o": "happiness"
+  },
+  {
+    "s": "link between virtue and happiness",
+    "p": "grounds",
+    "o": "argument"
+  },
+  {
+    "s": "human excellence",
+    "p": "contrasts_with",
+    "o": "material or bodily good"
+  },
+  {
+    "s": "happiness",
+    "p": "enables",
+    "o": "moral virtue"
+  },
+  {
+    "s": "internal psychological good",
+    "p": "defines",
+    "o": "happiness"
+  },
+  {
+    "s": "moral virtue",
+    "p": "requires",
+    "o": "happiness"
+  },
+  {
+    "s": "virtue",
+    "p": "argues_for",
+    "o": "philosophers"
+  },
+  {
+    "s": "virtue",
+    "p": "defines",
+    "o": "psychological good"
+  },
+  {
+    "s": "virtue",
+    "p": "contrasts_with",
+    "o": "physical beauty, health, or prosperity"
+  },
+  {
+    "s": "virtue",
+    "p": "requires",
+    "o": "moral character"
+  },
+  {
+    "s": "virtue",
+    "p": "enables",
+    "o": "happiness in mortal human life"
+  },
+  {
+    "s": "virtue",
+    "p": "undermines",
+    "o": "physical beauty, health, or prosperity as good"
+  },
+  {
+    "s": "virtue",
+    "p": "extends",
+    "o": "moral character beyond physical attributes"
+  },
+  {
+    "s": "soul",
+    "p": "grounds",
+    "o": "virtue as psychological good"
+  },
+  {
+    "s": "eudaimonism",
+    "p": "defines",
+    "o": "a thesis"
+  },
+  {
+    "s": "eudaimonism",
+    "p": "contrasts_with",
+    "o": "ancient theories"
+  },
+  {
+    "s": "virtue",
+    "p": "requires",
+    "o": "happiness"
+  },
+  {
+    "s": "happiness",
+    "p": "grounds",
+    "o": "virtue"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "contrasts_with",
+    "o": "modern moral theory"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "is agent-centered",
+    "o": "modern moral theory is action-centered"
+  },
+  {
+    "s": "modern moral theory",
+    "p": "defines",
+    "o": "moral in terms of actions and their circumstances"
+  },
+  {
+    "s": "modern thinkers",
+    "p": "divided_into",
+    "o": "consequentialists vs. deontologists"
+  },
+  {
+    "s": "consequentialist",
+    "p": "includes",
+    "o": "utilitarians who say an action is moral if it provides the greatest good for the greatest number"
+  },
+  {
+    "s": "modern thinkers",
+    "p": "focus on",
+    "o": "actions and their consequences; rules or principles they conform to"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "defines",
+    "o": "morality"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "contrasts_with",
+    "o": "modern perspective"
+  },
+  {
+    "s": "just actions",
+    "p": "argues_for",
+    "o": "logical priority over just persons"
+  },
+  {
+    "s": "just person",
+    "p": "requires",
+    "o": "attitudes to oneself and others"
+  },
+  {
+    "s": "just person",
+    "p": "enables",
+    "o": "set of values"
+  },
+  {
+    "s": "ancient moral theory",
+    "p": "undermines",
+    "o": "reducibility of just person to actions"
+  },
+  {
+    "s": "just person",
+    "p": "grounds",
+    "o": "conception of one's own place in community"
+  },
+  {
+    "s": "Socrates",
+    "p": "plays a role in",
+    "o": "Plato\u2019s dialogues"
+  },
+  {
+    "s": "Socrates",
+    "p": "claims to know nothing about",
+    "o": "virtue"
+  },
+  {
+    "s": "Socrates",
+    "p": "asks other characters questions",
+    "o": "in certain dialogues"
+  },
+  {
+    "s": "Apology",
+    "p": "is a dialogue in which",
+    "o": "a Socrates character plays a major role"
+  },
+  {
+    "s": "Socratic moral teaching",
+    "p": "is distinct from",
+    "o": "Platonic moral teaching"
+  },
+  {
+    "s": "aporetic dialogues",
+    "p": "isolate a strain of moral teaching",
+    "o": "Socratic moral teaching"
+  },
+  {
+    "s": "Socratic teaching",
+    "p": "defines",
+    "o": "moral considerations"
+  },
+  {
+    "s": "Socratic teaching",
+    "p": "contrasts_with",
+    "o": "actions that are unjust"
+  },
+  {
+    "s": "justice",
+    "p": "argues_for",
+    "o": "importance of moral considerations"
+  },
+  {
+    "s": "justice",
+    "p": "requires",
+    "o": "just actions to treat others fairly"
+  },
+  {
+    "s": "Socrates",
+    "p": "describes approach",
+    "o": "citizens of Athens"
+  },
+  {
+    "s": "Socrates",
+    "p": "chides",
+    "o": "Athens citizens"
+  },
+  {
+    "s": "Socrates",
+    "p": "argues_for",
+    "o": "wisdom, truth, soul betterness"
+  },
+  {
+    "s": "virtue",
+    "p": "defines",
+    "o": "moral virtue"
+  },
+  {
+    "s": "material good",
+    "p": "contrasts_with",
+    "o": "psychological good"
+  },
+  {
+    "s": "Socrates",
+    "p": "argues_for",
+    "o": "wisdom"
+  },
+  {
+    "s": "happiness",
+    "p": "requires",
+    "o": "wisdom"
+  },
+  {
+    "s": "knowledge",
+    "p": "is focus",
+    "o": "happiness"
+  },
+  {
+    "s": "assets",
+    "p": "seem passive",
+    "o": "wisdom"
+  }
+]

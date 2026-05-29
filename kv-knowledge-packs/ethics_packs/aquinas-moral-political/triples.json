@@ -1,0 +1,397 @@
+[
+  {
+    "s": "Thomas Aquinas",
+    "p": "defines",
+    "o": "doing moral philosophy"
+  },
+  {
+    "s": "Thomas Aquinas",
+    "p": "argues_for",
+    "o": "thinking generally about what I should choose to do"
+  },
+  {
+    "s": "Thomas Aquinas",
+    "p": "contrasts_with",
+    "o": "Aristotle"
+  },
+  {
+    "s": "Aristotle",
+    "p": "defines",
+    "o": "doing moral philosophy"
+  },
+  {
+    "s": "Thomas Aquinas",
+    "p": "requires",
+    "o": "considering whole life as field of opportunity"
+  },
+  {
+    "s": "Thomas Aquinas",
+    "p": "enables",
+    "o": "achieve intelligible goods in one\u2019s own life and the lives of other human beings"
+  },
+  {
+    "s": "Thomas Aquinas",
+    "p": "undermines",
+    "o": "misuse of opportunity"
+  },
+  {
+    "s": "Thomas Aquinas",
+    "p": "extends",
+    "o": "thinking about what to do"
+  },
+  {
+    "s": "Thomas Aquinas",
+    "p": "grounds",
+    "o": "considering kinds of good things that any human being can do and achieve"
+  },
+  {
+    "s": "Political Philosophy",
+    "p": "defines",
+    "o": "part of moral philosophy"
+  },
+  {
+    "s": "Moral Philosophy",
+    "p": "extends",
+    "o": "Political Philosophy"
+  },
+  {
+    "s": "Community",
+    "p": "political",
+    "o": "political arrangement"
+  },
+  {
+    "s": "Choice",
+    "p": "considered by political philosophy",
+    "o": "forms of political arrangement"
+  },
+  {
+    "s": "Moral and political philosophy",
+    "p": "defines",
+    "o": "concepts and propositions"
+  },
+  {
+    "s": "kinds of conduct",
+    "p": "requires",
+    "o": "truly intelligent and reasonable for human individuals and political communities"
+  },
+  {
+    "s": "human individuals and political communities",
+    "p": "enables",
+    "o": "flourishing"
+  },
+  {
+    "s": "concepts and propositions",
+    "p": "grounds",
+    "o": "kinds of conduct that manifest and build up the excellences of character traditionally called virtues"
+  },
+  {
+    "s": "duties or obligations",
+    "p": "contrasts_with",
+    "o": "moral and political principles"
+  },
+  {
+    "s": "Aquinas' moral and political philosophy",
+    "p": "defines",
+    "o": "a systematic and strictly philosophical work of practical reason"
+  },
+  {
+    "s": "Aquinas",
+    "p": "contrasts_with",
+    "o": "Kant, Bentham, their (in the broadest sense) successors"
+  },
+  {
+    "s": "Radical scepticism about value and obligation",
+    "p": "argues_for",
+    "o": "a broadly sound answer"
+  },
+  {
+    "s": "Aquinas\u2019 ethics as a systematic and strictly philosophical work of practical reason",
+    "p": "grounds",
+    "o": "over 60 of Aquinas\u2019 works"
+  },
+  {
+    "s": "moral doctrine",
+    "p": "defines",
+    "o": "Aristotle's arguments"
+  },
+  {
+    "s": "Aristotle's arguments",
+    "p": "argues_for",
+    "o": "a distinctive or peculiarly human function"
+  },
+  {
+    "s": "distinguishing feature",
+    "p": "contrasts_with",
+    "o": "non-distinctive functions of other crafts"
+  },
+  {
+    "s": "human life as a whole",
+    "p": "requires",
+    "o": "an overall and distinctly characteristic function"
+  },
+  {
+    "s": "ethics and political theory",
+    "p": "grounds",
+    "o": "the determination of this should decisively shape"
+  },
+  {
+    "s": "Aquinas",
+    "p": "defines",
+    "o": "Aristotelian commentator"
+  },
+  {
+    "s": "Aquinas",
+    "p": "contrasts_with",
+    "o": "Austere Self-Disciplined Purposes"
+  },
+  {
+    "s": "Austere Self-Disciplined Purposes",
+    "p": "requires",
+    "o": "Insecure Assumptions"
+  },
+  {
+    "s": "Distinctive Function Argument",
+    "p": "not prominent",
+    "o": "in Aquinas' moral treatments"
+  },
+  {
+    "s": "Aquinas",
+    "p": "referred to",
+    "o": "Distinctive Function Argument"
+  },
+  {
+    "s": "Aquinas' commentary",
+    "p": "argues_for",
+    "o": "felicitas consists in a complete life"
+  },
+  {
+    "s": "Aquinas' commentary",
+    "p": "grounds",
+    "o": "felicitas consists in a complete life"
+  },
+  {
+    "s": "Aquinas' commentary",
+    "p": "requires",
+    "o": "virtue"
+  },
+  {
+    "s": "Summa Theologiae",
+    "p": "defines",
+    "o": "felicitas as perfect good and complete satisfaction of all desires"
+  },
+  {
+    "s": "Distinctive Function Argument",
+    "p": "argues_for",
+    "o": "inherently unsatisfying"
+  },
+  {
+    "s": "Aquinas",
+    "p": "defines",
+    "o": "postulate that 'nature does nothing in vain'"
+  },
+  {
+    "s": "Aquinas",
+    "p": "requires",
+    "o": "divine creative rationality premise"
+  },
+  {
+    "s": "Distinctive Function Argument",
+    "p": "contrasts_with",
+    "o": "assumption of practical fittingness"
+  },
+  {
+    "s": "weakness",
+    "p": "argues_for",
+    "o": "metaphysical proposition"
+  },
+  {
+    "s": "root",
+    "p": "defines",
+    "o": "dynamic reality"
+  },
+  {
+    "s": "Aquinas's philosophy",
+    "p": "contrasts_with",
+    "o": "\u201cpeculiar/distinctive function\u201d argument"
+  },
+  {
+    "s": "methodological axiom",
+    "p": "requires",
+    "o": "understand the nature of a dynamic reality"
+  },
+  {
+    "s": "operatio",
+    "p": "is distinctive",
+    "o": "of human beings"
+  },
+  {
+    "s": "premise",
+    "p": "cannot entail",
+    "o": "conclusion including evaluative or normative term"
+  },
+  {
+    "s": "postulate",
+    "p": "asserted to be self-evident",
+    "o": "evaluative and/or normative rather than factual/descriptive"
+  },
+  {
+    "s": "Aquinas",
+    "p": "has account of the self-evidence of foundational evaluative and normative principles",
+    "o": "foundational evaluative and normative principles"
+  },
+  {
+    "s": "analogy",
+    "p": "comparing_to",
+    "o": "life as a whole"
+  },
+  {
+    "s": "one's life",
+    "p": "defined_by",
+    "o": "open-endedness"
+  },
+  {
+    "s": "duration",
+    "p": "having_no_knowable",
+    "o": "life as a whole"
+  },
+  {
+    "s": "choices",
+    "p": "requiring_judgment",
+    "o": "ends and means"
+  },
+  {
+    "s": "Aquinas",
+    "p": "insists",
+    "o": "irreducibility of distinction between arts, crafts, techniques"
+  },
+  {
+    "s": "Aristotle",
+    "p": "regularly_insists",
+    "o": "irreducibility of distinction between ars or factio and actio"
+  },
+  {
+    "s": "Aquinas",
+    "p": "attempts",
+    "o": "identify"
+  },
+  {
+    "s": "Aquinas",
+    "p": "contrasts_with",
+    "o": "Aristotle"
+  },
+  {
+    "s": "Aristotle",
+    "p": "failed",
+    "o": "settle"
+  },
+  {
+    "s": "Aquinas",
+    "p": "argues_for",
+    "o": "contemplation"
+  },
+  {
+    "s": "Aristotle",
+    "p": "defines",
+    "o": "political praxis"
+  },
+  {
+    "s": "Aquinas",
+    "p": "contrasts_with",
+    "o": "political praxis"
+  },
+  {
+    "s": "Aquinas",
+    "p": "requires",
+    "o": "identify"
+  },
+  {
+    "s": "contemplation",
+    "p": "enables",
+    "o": "human fulfillment"
+  },
+  {
+    "s": "ultimate end",
+    "p": "defines",
+    "o": "felicitas or beatitudo"
+  },
+  {
+    "s": "law",
+    "p": "includes",
+    "o": "natural (moral) law"
+  },
+  {
+    "s": "law",
+    "p": "must be with",
+    "o": "directing towards beatitudo"
+  },
+  {
+    "s": "felicitas or beatitudo",
+    "p": "defines",
+    "o": "beatitudo"
+  },
+  {
+    "s": "main concern of law",
+    "p": "requires",
+    "o": "common felicitas"
+  },
+  {
+    "s": "law",
+    "p": "is with",
+    "o": "common good"
+  },
+  {
+    "s": "individual human beings",
+    "p": "grounds",
+    "o": "complete community"
+  },
+  {
+    "s": "every part stands to the whole as incomplete stands to complete",
+    "p": "contrasts_with",
+    "o": "complete"
+  },
+  {
+    "s": "political community",
+    "p": "refers_to",
+    "o": "complete community"
+  },
+  {
+    "s": "rational creature",
+    "p": "referred_to",
+    "o": "common good"
+  },
+  {
+    "s": "Aquinas' philosophy",
+    "p": "grounds",
+    "o": "theology"
+  },
+  {
+    "s": "truths accessible to natural reason",
+    "p": "extends",
+    "o": "theology"
+  },
+  {
+    "s": "divine revelation truths",
+    "p": "contrasts_with",
+    "o": "natural reason"
+  },
+  {
+    "s": "truths divinely revealed",
+    "p": "requires",
+    "o": "theologians"
+  },
+  {
+    "s": "philosophical reflection",
+    "p": "enables",
+    "o": "understanding truths"
+  },
+  {
+    "s": "Aquinas",
+    "p": "defines",
+    "o": "(iii) categories of positions"
+  },
+  {
+    "s": "Aquinas",
+    "p": "contrasts_with",
+    "o": "(i) and (ii) categories"
+  }
+]
