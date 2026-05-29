@@ -1,0 +1,317 @@
+[
+  {
+    "s": "you",
+    "p": "invited_to",
+    "o": "ex-partner's wedding"
+  },
+  {
+    "s": "you",
+    "p": "should_accept",
+    "o": "invitation"
+  },
+  {
+    "s": "you",
+    "p": "should_decline",
+    "o": "invitation"
+  },
+  {
+    "s": "you",
+    "p": "will_get_inebriated",
+    "o": "ruin wedding"
+  },
+  {
+    "s": "you",
+    "p": "will_be_pleasant",
+    "o": "best outcome at wedding"
+  },
+  {
+    "s": "second_best_option",
+    "p": "is",
+    "o": "declining invitation"
+  },
+  {
+    "s": "actualism",
+    "p": "contrasts_with",
+    "o": "possibilism"
+  },
+  {
+    "s": "actualism",
+    "p": "requires",
+    "o": "considering free actions in context"
+  },
+  {
+    "s": "possibilism",
+    "p": "enables",
+    "o": "clarifying moral obligations"
+  },
+  {
+    "s": "Lars Bergstr\u00f6m",
+    "p": "argues_for",
+    "o": "Utilitarianism"
+  },
+  {
+    "s": "Hector-Neri Casta\u00f1eda",
+    "p": "defines",
+    "o": "ought distributes through conjunction"
+  },
+  {
+    "s": "A Problem for Utilitarianism",
+    "p": "contrasts_with",
+    "o": "utilitarianism"
+  },
+  {
+    "s": "Lars Bergstr\u00f6m and Hector-Neri Casta\u00f1eda",
+    "p": "argues_for",
+    "o": "Utilitarianism"
+  },
+  {
+    "s": "Hector-Neri Casta\u00f1eda",
+    "p": "defines",
+    "o": "deontic logic"
+  },
+  {
+    "s": "A Problem for Utilitarianism",
+    "p": "contrasts_with",
+    "o": "moral obligation"
+  },
+  {
+    "s": "agent",
+    "p": "is obligated to",
+    "o": "perform"
+  },
+  {
+    "s": "set of acts",
+    "p": "in that agent",
+    "o": "consists"
+  },
+  {
+    "s": "each act in the set",
+    "p": "to be performed by the agent",
+    "o": "required"
+  },
+  {
+    "s": "Casta\u00f1eda",
+    "p": "argues_for",
+    "o": "(U)"
+  },
+  {
+    "s": "(U)",
+    "p": "defines",
+    "o": "utilitarianism"
+  },
+  {
+    "s": "Casta\u00f1eda",
+    "p": "contrasts_with",
+    "o": "non-utilitarian ethical theories"
+  },
+  {
+    "s": "Casta\u00f1eda",
+    "p": "defines",
+    "o": "(U)"
+  },
+  {
+    "s": "Zellner",
+    "p": "argues_for",
+    "o": "(U)"
+  },
+  {
+    "s": "Tom",
+    "p": "is obligated to",
+    "o": "open the window"
+  },
+  {
+    "s": "Tom",
+    "p": "is obligated to",
+    "o": "shut the door"
+  },
+  {
+    "s": "Casta\u00f1eda",
+    "p": "argues_for",
+    "o": "removal of 'only if' clause in"
+  },
+  {
+    "s": "Casta\u00f1eda",
+    "p": "concludes",
+    "o": "open question whether utilitarianism could identify necessary conditions for obligatory actions"
+  },
+  {
+    "s": "Dag Prawitz",
+    "p": "argues_for",
+    "o": "possibilism"
+  },
+  {
+    "s": "Fred Westphal",
+    "p": "argues_for",
+    "o": "possibilism"
+  },
+  {
+    "s": "act-set",
+    "p": "requires",
+    "o": "maximally good outcome"
+  },
+  {
+    "s": "Possibilism",
+    "p": "remains a viable view",
+    "o": "in literature"
+  },
+  {
+    "s": "Harold Zellner",
+    "p": "demonstrated",
+    "o": "Zack Wright and David Spurrett's response to Prawitz and Westphal"
+  },
+  {
+    "s": "Prawitz",
+    "p": "solves the specific problem",
+    "o": "Casta\u00f1eda identified for utilitarianism"
+  },
+  {
+    "s": "Westphal",
+    "p": "responds to Casta\u00f1eda's critique of utilitarianism",
+    "o": "Zack Wright and David Spurrett's response"
+  },
+  {
+    "s": "Tom",
+    "p": "commutes_to_campus",
+    "o": "campus"
+  },
+  {
+    "s": "Tom",
+    "p": "teaches",
+    "o": "himself"
+  },
+  {
+    "s": "Tom",
+    "p": "plays_Cupid",
+    "o": "couples"
+  },
+  {
+    "s": "Tom",
+    "p": "skips_class",
+    "o": "class"
+  },
+  {
+    "s": "Zellner",
+    "p": "argues_for",
+    "o": "rejects (U)"
+  },
+  {
+    "s": "(U)",
+    "p": "requires",
+    "o": "consistency with"
+  },
+  {
+    "s": "(ODC)",
+    "p": "undermines",
+    "o": "contradictions"
+  },
+  {
+    "s": "Zellner",
+    "p": "argues_for",
+    "o": "rejects (U)"
+  },
+  {
+    "s": "(NI)",
+    "p": "contrasts_with",
+    "o": "(U)"
+  },
+  {
+    "s": "agent",
+    "p": "requires",
+    "o": "consistency with"
+  },
+  {
+    "s": "Normative Inheritance",
+    "p": "enables",
+    "o": "inference"
+  },
+  {
+    "s": "Permissibility is Closed Under Implication",
+    "p": "grounds",
+    "o": "(NI)"
+  },
+  {
+    "s": "utilitarianism",
+    "p": "defines",
+    "o": "coherence"
+  },
+  {
+    "s": "literature",
+    "p": "gives rise to",
+    "o": "actualism/possibilism literature"
+  },
+  {
+    "s": "agent's act-alternatives",
+    "p": "determines the relevant",
+    "o": "importance of determining relevant act-alternatives available to the agent"
+  },
+  {
+    "s": "cases",
+    "p": "raises questions about",
+    "o": "relationship between an agent\u2019s free actions and her moral obligations"
+  },
+  {
+    "s": "actualists",
+    "p": "are divided over",
+    "o": "cases with exact structure"
+  },
+  {
+    "s": "actualist",
+    "p": "holds",
+    "o": "that deontic status of an act depends on facts about how agent would act under certain conditions"
+  },
+  {
+    "s": "possibilist",
+    "p": "holds",
+    "o": "that deontic status of an act depends on facts about how agent could act were she to perform the action"
+  },
+  {
+    "s": "act-sets",
+    "p": "ranked",
+    "o": "Procrastinate"
+  },
+  {
+    "s": "Procrastinate",
+    "p": "values",
+    "o": "act-sets"
+  },
+  {
+    "s": "Procrastinate",
+    "p": "requires",
+    "o": "argues_for"
+  },
+  {
+    "s": "Procrastinate",
+    "p": "enables",
+    "o": "defines"
+  },
+  {
+    "s": "Procrastinate",
+    "p": "contrasts_with",
+    "o": "requires"
+  },
+  {
+    "s": "Procrastinate",
+    "p": "grounds",
+    "o": "requires"
+  },
+  {
+    "s": "Possibilism",
+    "p": "defines",
+    "o": "an agent"
+  },
+  {
+    "s": "Possibilism",
+    "p": "contrasts_with",
+    "o": "finitism"
+  },
+  {
+    "s": "Finitism",
+    "p": "requires",
+    "o": "certainty"
+  },
+  {
+    "s": "Possibilism",
+    "p": "grounds",
+    "o": "obligation"
+  }
+]

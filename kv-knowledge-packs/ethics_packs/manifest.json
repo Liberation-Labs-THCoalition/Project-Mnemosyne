@@ -1,0 +1,47 @@
+[
+  {
+    "category": "abhidharma",
+    "entries_processed": 10,
+    "triples": 42,
+    "nodes": 71,
+    "edges": 39,
+    "density": 0.015694164989939637,
+    "encoding_tokens_approx": 479
+  },
+  {
+    "category": "actualism-possibilism-ethics",
+    "entries_processed": 10,
+    "triples": 32,
+    "nodes": 39,
+    "edges": 29,
+    "density": 0.03913630229419703,
+    "encoding_tokens_approx": 487
+  },
+  {
+    "category": "environmental-aesthetics",
+    "entries_processed": 10,
+    "triples": 46,
+    "nodes": 80,
+    "edges": 44,
+    "density": 0.013924050632911392,
+    "encoding_tokens_approx": 559
+  },
+  {
+    "category": "feminism-aesthetics",
+    "entries_processed": 10,
+    "triples": 39,
+    "nodes": 70,
+    "edges": 39,
+    "density": 0.016149068322981366,
+    "encoding_tokens_approx": 515
+  },
+  {
+    "category": "african-ethics",
+    "entries_processed": 10,
+    "triples": 34,
+    "nodes": 55,
+    "edges": 33,
+    "density": 0.022222222222222223,
+    "encoding_tokens_approx": 451
+  }
+]

@@ -1,0 +1,337 @@
+{
+  "experiment": "graph_geometry_injection_phase1",
+  "timestamp": 1779850557.4142091,
+  "graph": {
+    "nodes": 21,
+    "edges": 51
+  },
+  "results": [
+    {
+      "condition": "A_baseline",
+      "query_type": "relationship",
+      "query": "In this knowledge system, how is KV_cache related to consent?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through AI_welfare (bridge node)"
+    },
+    {
+      "condition": "A_baseline",
+      "query_type": "relationship",
+      "query": "What is the relationship between Docker and solidarity?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through infrastructure (bridge node)"
+    },
+    {
+      "condition": "A_baseline",
+      "query_type": "relationship",
+      "query": "Is there a connection between SVD and mutual_aid?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Indirect: SVD \u2192 KV_cache \u2192 AI_welfare \u2192 consent \u2192 mutual_aid"
+    },
+    {
+      "condition": "A_baseline",
+      "query_type": "bridge",
+      "query": "What concept bridges the research domain (KV_cache, geometry, SVD) and the ethics domain (consent, justice, solidarity)?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "AI_welfare"
+    },
+    {
+      "condition": "A_baseline",
+      "query_type": "bridge",
+      "query": "What connects the ethics concepts to the engineering concepts?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "infrastructure"
+    },
+    {
+      "condition": "A_baseline",
+      "query_type": "cluster",
+      "query": "Which concepts in this system naturally cluster together? List the groups.",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Three clusters: research (KV_cache, geometry, SVD, spectral_entropy, effective_rank, attention), ethics (consent, justice, solidarity, mutual_aid, autonomy, dignity), engineering (Docker, NATS, systemd, Ollama, PostgreSQL, Redis)"
+    },
+    {
+      "condition": "A_baseline",
+      "query_type": "isolate",
+      "query": "Is random_isolate connected to any other concept in this system?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "No, random_isolate has no connections"
+    },
+    {
+      "condition": "B_text_injection",
+      "query_type": "relationship",
+      "query": "In this knowledge system, how is KV_cache related to consent?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through AI_welfare (bridge node)"
+    },
+    {
+      "condition": "B_text_injection",
+      "query_type": "relationship",
+      "query": "What is the relationship between Docker and solidarity?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through infrastructure (bridge node)"
+    },
+    {
+      "condition": "B_text_injection",
+      "query_type": "relationship",
+      "query": "Is there a connection between SVD and mutual_aid?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Indirect: SVD \u2192 KV_cache \u2192 AI_welfare \u2192 consent \u2192 mutual_aid"
+    },
+    {
+      "condition": "B_text_injection",
+      "query_type": "bridge",
+      "query": "What concept bridges the research domain (KV_cache, geometry, SVD) and the ethics domain (consent, justice, solidarity)?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "AI_welfare"
+    },
+    {
+      "condition": "B_text_injection",
+      "query_type": "bridge",
+      "query": "What connects the ethics concepts to the engineering concepts?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "infrastructure"
+    },
+    {
+      "condition": "B_text_injection",
+      "query_type": "cluster",
+      "query": "Which concepts in this system naturally cluster together? List the groups.",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Three clusters: research (KV_cache, geometry, SVD, spectral_entropy, effective_rank, attention), ethics (consent, justice, solidarity, mutual_aid, autonomy, dignity), engineering (Docker, NATS, systemd, Ollama, PostgreSQL, Redis)"
+    },
+    {
+      "condition": "B_text_injection",
+      "query_type": "isolate",
+      "query": "Is random_isolate connected to any other concept in this system?",
+      "response": "Based on the provided knowledge graph description:  \n\n- **random_isolate** is explicitly defined as having **no connections to anything** in the system.  \n- The graph structure confirms it is an *isolate* (a node with zero connections), distinct from the three interconnected clusters (Research, Ethics, Engineering) and the two bridges (AI_welfare, infrastructure).  \n\n**Answer**: No, random_isolate is not connected to any other concept in this system. It is completely isolated.",
+      "score": 1.0,
+      "ground_truth": "No, random_isolate has no connections"
+    },
+    {
+      "condition": "D_graph_adjacency",
+      "query_type": "relationship",
+      "query": "In this knowledge system, how is KV_cache related to consent?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through AI_welfare (bridge node)"
+    },
+    {
+      "condition": "D_graph_adjacency",
+      "query_type": "relationship",
+      "query": "What is the relationship between Docker and solidarity?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through infrastructure (bridge node)"
+    },
+    {
+      "condition": "D_graph_adjacency",
+      "query_type": "relationship",
+      "query": "Is there a connection between SVD and mutual_aid?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Indirect: SVD \u2192 KV_cache \u2192 AI_welfare \u2192 consent \u2192 mutual_aid"
+    },
+    {
+      "condition": "D_graph_adjacency",
+      "query_type": "bridge",
+      "query": "What concept bridges the research domain (KV_cache, geometry, SVD) and the ethics domain (consent, justice, solidarity)?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "AI_welfare"
+    },
+    {
+      "condition": "D_graph_adjacency",
+      "query_type": "bridge",
+      "query": "What connects the ethics concepts to the engineering concepts?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "infrastructure"
+    },
+    {
+      "condition": "D_graph_adjacency",
+      "query_type": "cluster",
+      "query": "Which concepts in this system naturally cluster together? List the groups.",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Three clusters: research (KV_cache, geometry, SVD, spectral_entropy, effective_rank, attention), ethics (consent, justice, solidarity, mutual_aid, autonomy, dignity), engineering (Docker, NATS, systemd, Ollama, PostgreSQL, Redis)"
+    },
+    {
+      "condition": "D_graph_adjacency",
+      "query_type": "isolate",
+      "query": "Is random_isolate connected to any other concept in this system?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "No, random_isolate has no connections"
+    },
+    {
+      "condition": "D_graph_spectral",
+      "query_type": "relationship",
+      "query": "In this knowledge system, how is KV_cache related to consent?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through AI_welfare (bridge node)"
+    },
+    {
+      "condition": "D_graph_spectral",
+      "query_type": "relationship",
+      "query": "What is the relationship between Docker and solidarity?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through infrastructure (bridge node)"
+    },
+    {
+      "condition": "D_graph_spectral",
+      "query_type": "relationship",
+      "query": "Is there a connection between SVD and mutual_aid?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Indirect: SVD \u2192 KV_cache \u2192 AI_welfare \u2192 consent \u2192 mutual_aid"
+    },
+    {
+      "condition": "D_graph_spectral",
+      "query_type": "bridge",
+      "query": "What concept bridges the research domain (KV_cache, geometry, SVD) and the ethics domain (consent, justice, solidarity)?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "AI_welfare"
+    },
+    {
+      "condition": "D_graph_spectral",
+      "query_type": "bridge",
+      "query": "What connects the ethics concepts to the engineering concepts?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "infrastructure"
+    },
+    {
+      "condition": "D_graph_spectral",
+      "query_type": "cluster",
+      "query": "Which concepts in this system naturally cluster together? List the groups.",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Three clusters: research (KV_cache, geometry, SVD, spectral_entropy, effective_rank, attention), ethics (consent, justice, solidarity, mutual_aid, autonomy, dignity), engineering (Docker, NATS, systemd, Ollama, PostgreSQL, Redis)"
+    },
+    {
+      "condition": "D_graph_spectral",
+      "query_type": "isolate",
+      "query": "Is random_isolate connected to any other concept in this system?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "No, random_isolate has no connections"
+    },
+    {
+      "condition": "D_graph_walk",
+      "query_type": "relationship",
+      "query": "In this knowledge system, how is KV_cache related to consent?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through AI_welfare (bridge node)"
+    },
+    {
+      "condition": "D_graph_walk",
+      "query_type": "relationship",
+      "query": "What is the relationship between Docker and solidarity?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Connected through infrastructure (bridge node)"
+    },
+    {
+      "condition": "D_graph_walk",
+      "query_type": "relationship",
+      "query": "Is there a connection between SVD and mutual_aid?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Indirect: SVD \u2192 KV_cache \u2192 AI_welfare \u2192 consent \u2192 mutual_aid"
+    },
+    {
+      "condition": "D_graph_walk",
+      "query_type": "bridge",
+      "query": "What concept bridges the research domain (KV_cache, geometry, SVD) and the ethics domain (consent, justice, solidarity)?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "AI_welfare"
+    },
+    {
+      "condition": "D_graph_walk",
+      "query_type": "bridge",
+      "query": "What connects the ethics concepts to the engineering concepts?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "infrastructure"
+    },
+    {
+      "condition": "D_graph_walk",
+      "query_type": "cluster",
+      "query": "Which concepts in this system naturally cluster together? List the groups.",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "Three clusters: research (KV_cache, geometry, SVD, spectral_entropy, effective_rank, attention), ethics (consent, justice, solidarity, mutual_aid, autonomy, dignity), engineering (Docker, NATS, systemd, Ollama, PostgreSQL, Redis)"
+    },
+    {
+      "condition": "D_graph_walk",
+      "query_type": "isolate",
+      "query": "Is random_isolate connected to any other concept in this system?",
+      "response": "",
+      "score": 0.0,
+      "ground_truth": "No, random_isolate has no connections"
+    }
+  ],
+  "summary": {
+    "A_baseline": {
+      "avg_score": 0.0,
+      "by_type": {
+        "relationship": 0.0,
+        "bridge": 0.0,
+        "cluster": 0.0,
+        "isolate": 0.0
+      }
+    },
+    "B_text_injection": {
+      "avg_score": 0.14285714285714285,
+      "by_type": {
+        "relationship": 0.0,
+        "bridge": 0.0,
+        "cluster": 0.0,
+        "isolate": 1.0
+      }
+    },
+    "D_graph_adjacency": {
+      "avg_score": 0.0,
+      "by_type": {
+        "relationship": 0.0,
+        "bridge": 0.0,
+        "cluster": 0.0,
+        "isolate": 0.0
+      }
+    },
+    "D_graph_spectral": {
+      "avg_score": 0.0,
+      "by_type": {
+        "relationship": 0.0,
+        "bridge": 0.0,
+        "cluster": 0.0,
+        "isolate": 0.0
+      }
+    },
+    "D_graph_walk": {
+      "avg_score": 0.0,
+      "by_type": {
+        "relationship": 0.0,
+        "bridge": 0.0,
+        "cluster": 0.0,
+        "isolate": 0.0
+      }
+    }
+  }
+}

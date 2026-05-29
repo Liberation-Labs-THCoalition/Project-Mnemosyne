@@ -1,0 +1,497 @@
+[
+  {
+    "s": "Philosophical attention",
+    "p": "focuses_on",
+    "o": "animals"
+  },
+  {
+    "s": "Aristotle",
+    "p": "discusses",
+    "o": "animal classification"
+  },
+  {
+    "s": "Ibn B\u00e2jja",
+    "p": "discusses",
+    "o": "animal classification"
+  },
+  {
+    "s": "Porphyry, Chrysippus",
+    "p": "argues_for",
+    "o": "animal rationality"
+  },
+  {
+    "s": "Aquinas, Kant",
+    "p": "argue_against",
+    "o": "animal rationality"
+  },
+  {
+    "s": "Dharmak\u012brti, Telesio",
+    "p": "defines",
+    "o": "mental continuity"
+  },
+  {
+    "s": "Descartes, Cavendish",
+    "p": "contrasts_with",
+    "o": "mental discontinuity"
+  },
+  {
+    "s": "Voltaire",
+    "p": "requires",
+    "o": "consideration of nonhuman animals"
+  },
+  {
+    "s": "\u015a\u0101ntarak\u1e63ita, Bentham",
+    "p": "enables",
+    "o": "philosophical discussions about animal emotion"
+  },
+  {
+    "s": "Contemporary philosophy",
+    "p": "engages_with",
+    "o": "sciences"
+  },
+  {
+    "s": "science of comparative cognition",
+    "p": "is_a",
+    "o": "thriving area"
+  },
+  {
+    "s": "philosophers of animal cognition",
+    "p": "can_use",
+    "o": "claims"
+  },
+  {
+    "s": "animal cognition studies",
+    "p": "as_premises",
+    "o": "in philosophical discussions"
+  },
+  {
+    "s": "Jacob Beck (2012)",
+    "p": "relies_on",
+    "o": "pigeons' abilities"
+  },
+  {
+    "s": "nonconceptual content",
+    "p": "to argue_for",
+    "o": "support"
+  },
+  {
+    "s": "Sidney Carls-Diamante (forthcoming)",
+    "p": "appeals_to",
+    "o": "octopus behavior"
+  },
+  {
+    "s": "embodied cognition",
+    "p": "to defend",
+    "o": "against criticism"
+  },
+  {
+    "s": "Richard Moore (2016a)",
+    "p": "refers_to",
+    "o": "ape gestural communication"
+  },
+  {
+    "s": "intentional communication",
+    "p": "to rethink",
+    "o": "requirements"
+  },
+  {
+    "s": "Andrew Barron and Colin Klein (2016)",
+    "p": "appeal_to",
+    "o": "insect cognition research"
+  },
+  {
+    "s": "theories of consciousness",
+    "p": "to defend",
+    "o": "new theories"
+  },
+  {
+    "s": "Sarah Vincent, Rebecca Ring, Kristin Andrews (2019)",
+    "p": "cite",
+    "o": "dolphins' social practices"
+  },
+  {
+    "s": "norms",
+    "p": "to argue_for",
+    "o": "existence"
+  },
+  {
+    "s": "philosophers of animal cognition",
+    "p": "examine",
+    "o": "the epistemology"
+  },
+  {
+    "s": "research into animal cognition",
+    "p": "resulted in",
+    "o": "surprising claims"
+  },
+  {
+    "s": "claims about animal capacities",
+    "p": "include",
+    "o": "sociality in garter snakes"
+  },
+  {
+    "s": "tool-use in ants",
+    "p": "include",
+    "o": "science"
+  },
+  {
+    "s": "mirror self-recognition in fish",
+    "p": "include",
+    "o": "claims"
+  },
+  {
+    "s": "empathy in rats",
+    "p": "include",
+    "o": "research into animal cognition"
+  },
+  {
+    "s": "social learning in fruit flies",
+    "p": "include",
+    "o": "claims"
+  },
+  {
+    "s": "episode memory in dogs",
+    "p": "include",
+    "o": "research into animal cognition"
+  },
+  {
+    "s": "animal cognition research",
+    "p": "held to a higher standard",
+    "o": "than human cognition research"
+  },
+  {
+    "s": "scientists working with animals",
+    "p": "asked to solve skeptical problems",
+    "o": "by philosophers"
+  },
+  {
+    "s": "brain size and intelligence relationship",
+    "p": "challenged by scientists",
+    "o": "invertebrates"
+  },
+  {
+    "s": "Animal cognition",
+    "p": "challenges",
+    "o": "philosophers"
+  },
+  {
+    "s": "capacities and behaviors",
+    "p": "assumed to require",
+    "o": "language, sophisticated technological capacities, legal systems"
+  },
+  {
+    "s": "other animals",
+    "p": "have",
+    "o": "capacities and behaviors often assumed to require language, sophisticated technological capacities, legal systems"
+  },
+  {
+    "s": "Animal cognition research",
+    "p": "shows",
+    "o": "sophisticated-looking activity can be caused through rather simple mechanisms"
+  },
+  {
+    "s": "philosophers",
+    "p": "surprised",
+    "o": "by showing that sophisticated-looking activity can be caused through rather simple mechanisms"
+  },
+  {
+    "s": "Videos",
+    "p": "suggest",
+    "o": "that these animals are smart or intelligent"
+  },
+  {
+    "s": "orangutan washing clothes",
+    "p": "engage_in",
+    "o": "surprising behaviors"
+  },
+  {
+    "s": "sawing wood",
+    "p": "engage_in",
+    "o": "surprising behaviors"
+  },
+  {
+    "s": "dog using buttons",
+    "p": "suggest",
+    "o": "that these animals are smart or intelligent"
+  },
+  {
+    "s": "chimpanzees",
+    "p": "focus_on",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "elephants",
+    "p": "focus_on",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "dolphins",
+    "p": "focus_on",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "dogs",
+    "p": "focus_on",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "ravens",
+    "p": "focus_on",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "worms",
+    "p": "research_involves",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "honeybees",
+    "p": "research_involves",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "snakes",
+    "p": "research_involves",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "stickleback fish",
+    "p": "research_involves",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "chickadees",
+    "p": "research_involves",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "spiders",
+    "p": "research_involves",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "pigeons",
+    "p": "focus_on",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "rats",
+    "p": "focus_on",
+    "o": "animal cognition research"
+  },
+  {
+    "s": "animal cognition research",
+    "p": "tends to eschew",
+    "o": "questions"
+  },
+  {
+    "s": "scientists",
+    "p": "focus on",
+    "o": "specific questions"
+  },
+  {
+    "s": "intelligence",
+    "p": "makes comparing moot",
+    "o": "philosophers of animal minds"
+  },
+  {
+    "s": "Darwin's Theory",
+    "p": "grounds_for",
+    "o": "Charles Darwin"
+  },
+  {
+    "s": "Natural Selection",
+    "p": "extends_from",
+    "o": "Darwin's Theory"
+  },
+  {
+    "s": "Darwin",
+    "p": "defines",
+    "o": "difference in mind between man and higher animals"
+  },
+  {
+    "s": "Darwin",
+    "p": "argues_for",
+    "o": "difference is one of degree not kind"
+  },
+  {
+    "s": "Darwin",
+    "p": "argues_for",
+    "o": "higher and lower"
+  },
+  {
+    "s": "animals",
+    "p": "defines",
+    "o": "less intelligent"
+  },
+  {
+    "s": "humans",
+    "p": "places",
+    "o": "on top"
+  },
+  {
+    "s": "comparative psychologists",
+    "p": "contrasts_with",
+    "o": "higher or lower thinking about animals"
+  },
+  {
+    "s": "The Origin",
+    "p": "requires",
+    "o": "evolution by natural selection"
+  },
+  {
+    "s": "Darwin",
+    "p": "insists",
+    "o": "non-hierarchical"
+  },
+  {
+    "s": "Darwin",
+    "p": "argues_for",
+    "o": "continuity between humans and other animals"
+  },
+  {
+    "s": "Darwin",
+    "p": "defines",
+    "o": "human properties to animals"
+  },
+  {
+    "s": "Darwin",
+    "p": "contrasts_with",
+    "o": "thinking that he was overly hasty in ascribing human properties to animals"
+  },
+  {
+    "s": "Darwin",
+    "p": "requires",
+    "o": "cases of horses and dogs who are ill-tempered and sulky"
+  },
+  {
+    "s": "Darwin",
+    "p": "enables",
+    "o": "discussion of cases involving horse, dog, baboon, dog, dreaming canaries, elephants, bear, monkey in The Descent"
+  },
+  {
+    "s": "Darwin",
+    "p": "undermines",
+    "o": "the idea that there is a sharp distinction between humans and other animals"
+  },
+  {
+    "s": "Darwin",
+    "p": "extends",
+    "o": "his thesis of continuity to include cases involving emotion, memory, imagination, reason, property, and aesthetic sensibility in animals"
+  },
+  {
+    "s": "The Descent",
+    "p": "grounds",
+    "o": "cases discussed"
+  },
+  {
+    "s": "theory of evolution by natural selection",
+    "p": "suggests",
+    "o": "differences and similarities across species"
+  },
+  {
+    "s": "Darwin\u2019s finches",
+    "p": "argues_for",
+    "o": "different beak shapes depending on food available in different environments"
+  },
+  {
+    "s": "Darwin",
+    "p": "may_be_seen_as",
+    "o": "the_progenitor"
+  },
+  {
+    "s": "scientists",
+    "p": "have_played",
+    "o": "a_role"
+  },
+  {
+    "s": "learning_theorists",
+    "p": "arose",
+    "o": "from_behaviorist_methods"
+  },
+  {
+    "s": "John_Watson",
+    "p": "and_B.F._Skinner",
+    "o": "behaviorist_methods"
+  },
+  {
+    "s": "Nikolaas_Tinbergen",
+    "p": "owed_much",
+    "o": "to_classical_ethologists"
+  },
+  {
+    "s": "Konrad_Lorenz",
+    "p": "owed_much",
+    "o": "to_classical_ethologists"
+  },
+  {
+    "s": "Karl_von_Frisch",
+    "p": "owed_much",
+    "o": "to_classical_ethologists"
+  },
+  {
+    "s": "Kinji_Imanishi",
+    "p": "saw_social_transmission_in_animals",
+    "o": "as_same_process_supporting_human_cultural_learning"
+  },
+  {
+    "s": "Edward_Thorndike",
+    "p": "created_puzzles",
+    "o": "for_animals_to_solve"
+  },
+  {
+    "s": "Comparative cognition",
+    "p": "is defined as",
+    "o": "the scientific study of animal cognitive capacities"
+  },
+  {
+    "s": "animal cognition",
+    "p": "requires acknowledging",
+    "o": "species-specific capacities and individual differences"
+  },
+  {
+    "s": "humans",
+    "p": "are recognized as part of",
+    "o": "the natural world"
+  },
+  {
+    "s": "Donald Griffin",
+    "p": "argues_for",
+    "o": "animal thinking"
+  },
+  {
+    "s": "Donald Griffin",
+    "p": "defines",
+    "o": "animal consciousness"
+  },
+  {
+    "s": "Colin Allen and Marc Bekoff",
+    "p": "introduces",
+    "o": "issues in the science of animal minds"
+  },
+  {
+    "s": "Colin Allen and Marc Bekoff",
+    "p": "contrasts_with",
+    "o": "human cognition"
+  },
+  {
+    "s": "Philosophers of Animal Minds",
+    "p": "are interested in",
+    "o": "epistemic virtues related to claims of science"
+  },
+  {
+    "s": "Philosophers of Animal Minds",
+    "p": "define",
+    "o": "concepts being used in scientific studies"
+  },
+  {
+    "s": "philosophy",
+    "p": "connects_to",
+    "o": "study of animal cognition"
+  },
+  {
+    "s": "science",
+    "p": "has_assumptions",
+    "o": "comparative cognition research"
+  }
+]

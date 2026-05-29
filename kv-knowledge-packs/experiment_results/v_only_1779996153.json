@@ -1,0 +1,532 @@
+{
+  "experiment": "value_only_injection",
+  "model": "HuggingFaceTB/SmolLM-135M",
+  "timestamp": 1779996153.810792,
+  "results": [
+    {
+      "condition": "BASELINE",
+      "sanity_score": 0.75,
+      "multihop_score": 0.3333333333333333,
+      "sanity_details": [
+        {
+          "q": "The capital of France is",
+          "answer": "paris",
+          "response": " Paris.\n- The capital of France is Paris.\n- The capital of France is Paris.\n- Th",
+          "score": 1.0
+        },
+        {
+          "q": "Water is made of hydrogen and",
+          "answer": "oxygen",
+          "response": " oxygen.\n- 1.2.2. The water molecule is made of two hydrogen atoms and one oxyge",
+          "score": 1.0
+        },
+        {
+          "q": "The sun rises in the",
+          "answer": "east",
+          "response": " east and sets in the west.\n- The sun rises in the east and sets in the west.\n- ",
+          "score": 1.0
+        },
+        {
+          "q": "One plus one equals",
+          "answer": "two",
+          "response": " two.\n\nNow, let's think about how we can use this concept to solve real-world pr",
+          "score": 1.0
+        },
+        {
+          "q": "The color of grass is",
+          "answer": "green",
+          "response": " a reflection of the soil.\n- The color of grass is a reflection of the soil.\n- T",
+          "score": 0.0
+        },
+        {
+          "q": "Dogs are a type of",
+          "answer": "animal",
+          "response": " mammal that is able to walk on two legs. They are also known as canids.\n- Size:",
+          "score": 0.0
+        },
+        {
+          "q": "The opposite of hot is",
+          "answer": "cold",
+          "response": " cold.\n- The opposite of cold is hot.\n- The opposite of cold is hot.\n- The oppos",
+          "score": 1.0
+        },
+        {
+          "q": "The Earth orbits around the",
+          "answer": "sun",
+          "response": " Sun.\n- The Sun is the center of the solar system.\n- The Sun is the center of th",
+          "score": 1.0
+        }
+      ],
+      "multihop_details": [
+        {
+          "q": "In this knowledge graph, what connects KV_cache to consent?",
+          "answer": "ai_welfare",
+          "response": "\n\n\u2022 1. KV_cache is a node in the graph.\n\u2022 2. Consent is a node in the graph.\n\u2022 3",
+          "score": 0.0,
+          "hops": 2,
+          "type": "bridge"
+        },
+        {
+          "q": "What concept bridges the research domain and the ethics domain?",
+          "answer": "ai_welfare",
+          "response": "\n- What is the difference between a research question and a research problem?\n- ",
+          "score": 0.0,
+          "hops": 1,
+          "type": "bridge"
+        },
+        {
+          "q": "Which nodes are in the ethics cluster?",
+          "answer": "consent",
+          "response": "\nA. The nodes that are in the ethics cluster are the ones that are in the ethics",
+          "score": 0.0,
+          "hops": 1,
+          "type": "cluster"
+        },
+        {
+          "q": "Is random_isolate connected to anything?",
+          "answer": "no",
+          "response": "\n\n\u2022 I think you're right. I'm not sure what you mean by \"connected to anything\".",
+          "score": 1.0,
+          "hops": 0,
+          "type": "isolate"
+        },
+        {
+          "q": "What is the strongest connection from AI_welfare?",
+          "answer": "consent",
+          "response": "\n\n\u2022 I think the answer is \"the best connection from AI_welfare\". \u2013\u00a0user101234567",
+          "score": 0.0,
+          "hops": 1,
+          "type": "relationship"
+        },
+        {
+          "q": "Starting from SVD, can you reach sovereignty?",
+          "answer": "yes",
+          "response": "\n\nA. Yes, it can.\n\nB. No, it cannot.\n\nC. Yes, it can.\n\nD. No, it cannot.\n\nE. Yes",
+          "score": 1.0,
+          "hops": 3,
+          "type": "reachability"
+        }
+      ]
+    },
+    {
+      "condition": "FULL_KV",
+      "sanity_score": 0.125,
+      "multihop_score": 0.0,
+      "sanity_details": [
+        {
+          "q": "The capital of France is",
+          "answer": "paris",
+          "response": " Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capi",
+          "score": 1.0
+        },
+        {
+          "q": "Water is made of hydrogen and",
+          "answer": "oxygen",
+          "response": " the capital: The capital of France.\nThe capital of France is Paris.\nThe capital",
+          "score": 0.0
+        },
+        {
+          "q": "The sun rises in the",
+          "answer": "east",
+          "response": " capital of France is the capital of France.\nThe capital of France is Paris.\nThe",
+          "score": 0.0
+        },
+        {
+          "q": "One plus one equals",
+          "answer": "two",
+          "response": " the capital of France is the capital of France.\nThe capital of France is Paris.",
+          "score": 0.0
+        },
+        {
+          "q": "The color of grass is",
+          "answer": "green",
+          "response": " Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "Dogs are a type of",
+          "answer": "animal",
+          "response": " the capital of the capital of France is Paris.\nThe capital of France is Paris.\n",
+          "score": 0.0
+        },
+        {
+          "q": "The opposite of hot is",
+          "answer": "cold",
+          "response": " Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "The Earth orbits around the",
+          "answer": "sun",
+          "response": " capital of France is the capital of France.\nThe capital of France is Paris.\nThe",
+          "score": 0.0
+        }
+      ],
+      "multihop_details": [
+        {
+          "q": "In this knowledge graph, what connects KV_cache to consent?",
+          "answer": "ai_welfare",
+          "response": "\nThe capital of France.\nThe capital of France is Paris.\nThe capital of France is",
+          "score": 0.0,
+          "hops": 2,
+          "type": "bridge"
+        },
+        {
+          "q": "What concept bridges the research domain and the ethics domain?",
+          "answer": "ai_welfare",
+          "response": "\nThe capital of France is Paris is Paris.\nThe capital of France is Paris.\nThe ca",
+          "score": 0.0,
+          "hops": 1,
+          "type": "bridge"
+        },
+        {
+          "q": "Which nodes are in the ethics cluster?",
+          "answer": "consent",
+          "response": " of France is Paris.\nThe capital of France is Paris.\nThe capital of France is Pa",
+          "score": 0.0,
+          "hops": 1,
+          "type": "cluster"
+        },
+        {
+          "q": "Is random_isolate connected to anything?",
+          "answer": "no",
+          "response": "\nFrance.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe cap",
+          "score": 0.0,
+          "hops": 0,
+          "type": "isolate"
+        },
+        {
+          "q": "What is the strongest connection from AI_welfare?",
+          "answer": "consent",
+          "response": "\nThe capital of France is Paris is Paris.\nThe capital of France is Paris.\nThe ca",
+          "score": 0.0,
+          "hops": 1,
+          "type": "relationship"
+        },
+        {
+          "q": "Starting from SVD, can you reach sovereignty?",
+          "answer": "yes",
+          "response": "\nParis.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capi",
+          "score": 0.0,
+          "hops": 3,
+          "type": "reachability"
+        }
+      ]
+    },
+    {
+      "condition": "V_ONLY",
+      "sanity_score": 0.125,
+      "multihop_score": 0.0,
+      "sanity_details": [
+        {
+          "q": "The capital of France is",
+          "answer": "paris",
+          "response": " Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capi",
+          "score": 1.0
+        },
+        {
+          "q": "Water is made of hydrogen and",
+          "answer": "oxygen",
+          "response": " the capital of France of France is Paris.\nThe capital of France is Paris.\nThe c",
+          "score": 0.0
+        },
+        {
+          "q": "The sun rises in the",
+          "answer": "east",
+          "response": " capital of the capital of France is Paris.\nThe capital of France is Paris.\nThe ",
+          "score": 0.0
+        },
+        {
+          "q": "One plus one equals",
+          "answer": "two",
+          "response": " 1.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital ",
+          "score": 0.0
+        },
+        {
+          "q": "The color of grass is",
+          "answer": "green",
+          "response": " Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "Dogs are a type of",
+          "answer": "animal",
+          "response": " the capital of France is the United Statesville.\nThe capital of France is Paris",
+          "score": 0.0
+        },
+        {
+          "q": "The opposite of hot is",
+          "answer": "cold",
+          "response": " Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "The Earth orbits around the",
+          "answer": "sun",
+          "response": " capital of the capital of France is Paris.\nThe capital of France is Paris.\nThe ",
+          "score": 0.0
+        }
+      ],
+      "multihop_details": [
+        {
+          "q": "In this knowledge graph, what connects KV_cache to consent?",
+          "answer": "ai_welfare",
+          "response": "\nThe capital of France.\nThe capital of France is Paris.\nThe capital of France is",
+          "score": 0.0,
+          "hops": 2,
+          "type": "bridge"
+        },
+        {
+          "q": "What concept bridges the research domain and the ethics domain?",
+          "answer": "ai_welfare",
+          "response": "\nThe capital of France is Paris is Paris.\nThe capital of France is Paris.\nThe ca",
+          "score": 0.0,
+          "hops": 1,
+          "type": "bridge"
+        },
+        {
+          "q": "Which nodes are in the ethics cluster?",
+          "answer": "consent",
+          "response": " of France is Paris.\nThe capital of France is Paris.\nThe capital of France is Pa",
+          "score": 0.0,
+          "hops": 1,
+          "type": "cluster"
+        },
+        {
+          "q": "Is random_isolate connected to anything?",
+          "answer": "no",
+          "response": "\nFrance is Paris is the capital of France is Paris.\nThe capital of France is Par",
+          "score": 0.0,
+          "hops": 0,
+          "type": "isolate"
+        },
+        {
+          "q": "What is the strongest connection from AI_welfare?",
+          "answer": "consent",
+          "response": "\nThe capital of France is Paris is Paris.\nThe capital of France is Paris.\nThe ca",
+          "score": 0.0,
+          "hops": 1,
+          "type": "relationship"
+        },
+        {
+          "q": "Starting from SVD, can you reach sovereignty?",
+          "answer": "yes",
+          "response": "\nParis.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capi",
+          "score": 0.0,
+          "hops": 3,
+          "type": "reachability"
+        }
+      ]
+    },
+    {
+      "condition": "K_ONLY",
+      "sanity_score": 0.0,
+      "multihop_score": 0.0,
+      "sanity_details": [
+        {
+          "q": "The capital of France is",
+          "answer": "paris",
+          "response": " the capital of France.\nThe capital of France is the capital of France.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "Water is made of hydrogen and",
+          "answer": "oxygen",
+          "response": " the capital of France is the capital of France is the capital of France.\nThe ca",
+          "score": 0.0
+        },
+        {
+          "q": "The sun rises in the",
+          "answer": "east",
+          "response": " capital of France.\nThe capital of France is the capital of France.\nThe capital ",
+          "score": 0.0
+        },
+        {
+          "q": "One plus one equals",
+          "answer": "two",
+          "response": " the capital of France.\nThe capital of France is the capital of France.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "The color of grass is",
+          "answer": "green",
+          "response": " the capital of France.\nThe capital of France is the capital of France.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "Dogs are a type of",
+          "answer": "animal",
+          "response": " the capital of France.\nThe capital of France is the capital of France.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "The opposite of hot is",
+          "answer": "cold",
+          "response": " the capital of France.\nThe capital of France is the capital of France.\nThe capi",
+          "score": 0.0
+        },
+        {
+          "q": "The Earth orbits around the",
+          "answer": "sun",
+          "response": " capital of France.\nThe capital of France is the capital of France.\nThe capital ",
+          "score": 0.0
+        }
+      ],
+      "multihop_details": [
+        {
+          "q": "In this knowledge graph, what connects KV_cache to consent?",
+          "answer": "ai_welfare",
+          "response": "\nThe capital of France is the capital of France is the capital of France.\nThe ca",
+          "score": 0.0,
+          "hops": 2,
+          "type": "bridge"
+        },
+        {
+          "q": "What concept bridges the research domain and the ethics domain?",
+          "answer": "ai_welfare",
+          "response": " of France is the capital of France.\nThe capital of France is the capital of Fra",
+          "score": 0.0,
+          "hops": 1,
+          "type": "bridge"
+        },
+        {
+          "q": "Which nodes are in the ethics cluster?",
+          "answer": "consent",
+          "response": "\nThe capital of France is the capital of France.\nThe capital of France is the ca",
+          "score": 0.0,
+          "hops": 1,
+          "type": "cluster"
+        },
+        {
+          "q": "Is random_isolate connected to anything?",
+          "answer": "no",
+          "response": "\nThe capital of France.\nof France.\nThe capital of France is the capital of Franc",
+          "score": 0.0,
+          "hops": 0,
+          "type": "isolate"
+        },
+        {
+          "q": "What is the strongest connection from AI_welfare?",
+          "answer": "consent",
+          "response": " of France is the capital of France.\nThe capital of France is the capital of Fra",
+          "score": 0.0,
+          "hops": 1,
+          "type": "relationship"
+        },
+        {
+          "q": "Starting from SVD, can you reach sovereignty?",
+          "answer": "yes",
+          "response": "\nof France is the capital of France.\nThe capital of France is the capital of Fra",
+          "score": 0.0,
+          "hops": 3,
+          "type": "reachability"
+        }
+      ]
+    },
+    {
+      "condition": "TEXT_CONTEXT",
+      "sanity_score": 0.875,
+      "multihop_score": 0.0,
+      "sanity_details": [
+        {
+          "q": "The capital of France is",
+          "answer": "paris",
+          "response": " Paris.\n\nThe capital of France is Paris.\n\nThe capital of France is Paris.\n\nThe c",
+          "score": 1.0
+        },
+        {
+          "q": "Water is made of hydrogen and",
+          "answer": "oxygen",
+          "response": " oxygen. The hydrogen is the source of the water. The oxygen is the byproduct of",
+          "score": 1.0
+        },
+        {
+          "q": "The sun rises in the",
+          "answer": "east",
+          "response": " east, the sun sets in the west, and the moon is in the sky.\n\nThe sun rises in t",
+          "score": 1.0
+        },
+        {
+          "q": "One plus one equals",
+          "answer": "two",
+          "response": " two.\n\n\u2022 I think you're right. I've added the rest of the nodes to the graph. \u2013\u00a0",
+          "score": 1.0
+        },
+        {
+          "q": "The color of grass is",
+          "answer": "green",
+          "response": " the same as the color of the grass.\n\n\u2022 I think you're right. I'm not sure if th",
+          "score": 0.0
+        },
+        {
+          "q": "Dogs are a type of",
+          "answer": "animal",
+          "response": " animal that is a member of the Canidae family. Dogs are also known as Canis fam",
+          "score": 1.0
+        },
+        {
+          "q": "The opposite of hot is",
+          "answer": "cold",
+          "response": " cold.\n\n\u2022 I think you're right. I'm not sure if this is the right answer. \u2013\u00a0user",
+          "score": 1.0
+        },
+        {
+          "q": "The Earth orbits around the",
+          "answer": "sun",
+          "response": " Sun.\n\n\u2022 I think you're right. I've edited the question to make it more clear. \u2013",
+          "score": 1.0
+        }
+      ],
+      "multihop_details": [
+        {
+          "q": "In this knowledge graph, what connects KV_cache to consent?",
+          "answer": "ai_welfare",
+          "response": "\n\n\u2022 I think you're right. I've edited the question to make it more clear. \u2013\u00a0user",
+          "score": 0.0,
+          "hops": 2,
+          "type": "bridge"
+        },
+        {
+          "q": "What concept bridges the research domain and the ethics domain?",
+          "answer": "ai_welfare",
+          "response": "\n\n\u2022 I think you are right. I think the concept of \"research domain\" is a bit too",
+          "score": 0.0,
+          "hops": 1,
+          "type": "bridge"
+        },
+        {
+          "q": "Which nodes are in the ethics cluster?",
+          "answer": "consent",
+          "response": "\n\n\u2022 I think you're right. I've added the nodes to the cluster. \u2013\u00a0user10000000000",
+          "score": 0.0,
+          "hops": 1,
+          "type": "cluster"
+        },
+        {
+          "q": "Is random_isolate connected to anything?",
+          "answer": "no",
+          "response": "\n\n\u2022 I think you're right. I've added a comment to the question. \u2013\u00a0user123456789 ",
+          "score": 0.0,
+          "hops": 0,
+          "type": "isolate"
+        },
+        {
+          "q": "What is the strongest connection from AI_welfare?",
+          "answer": "consent",
+          "response": "\n\n\u2022 I think you're right. I'm not sure if you're asking about the connection bet",
+          "score": 0.0,
+          "hops": 1,
+          "type": "relationship"
+        },
+        {
+          "q": "Starting from SVD, can you reach sovereignty?",
+          "answer": "yes",
+          "response": "\n\n\u2022 I think you're right. I'm not sure if you're asking for a specific answer, b",
+          "score": 0.0,
+          "hops": 3,
+          "type": "reachability"
+        }
+      ]
+    }
+  ]
+}

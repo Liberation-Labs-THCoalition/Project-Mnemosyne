@@ -1,0 +1,462 @@
+[
+  {
+    "s": "Questions about animal consciousness",
+    "p": "are both scientific and philosophical",
+    "o": "scientific because answering them will require gathering information using scientific techniques"
+  },
+  {
+    "s": "arm-chair pondering",
+    "p": "contrasts_with",
+    "o": "no amount of"
+  },
+  {
+    "s": "philosophical interest",
+    "p": "focuses on",
+    "o": "nonhuman animal consciousness"
+  },
+  {
+    "s": "reasons",
+    "p": "include",
+    "o": "philosophical interest in nonhuman animal consciousness"
+  },
+  {
+    "s": "philosophy",
+    "p": "begins with questions",
+    "o": "place of humans in nature"
+  },
+  {
+    "s": "humans",
+    "p": "locate themselves",
+    "o": "by comparison and contrast with other animals"
+  },
+  {
+    "s": "traditional way of thinking about consciousness",
+    "p": "defines",
+    "o": "consciousness as primarily an innate endowment of humans"
+  },
+  {
+    "s": "other animals",
+    "p": "contrast_with",
+    "o": "humans in terms of shared consciousness"
+  },
+  {
+    "s": "modern biological worldview",
+    "p": "requires",
+    "o": "rethinking human special status among animal species"
+  },
+  {
+    "s": "Christian theology",
+    "p": "grounds",
+    "o": "the problem of animal consciousness within the traditional Biblical cosmology"
+  },
+  {
+    "s": "humans",
+    "p": "enables",
+    "o": "access to an eternal afterlife not overpopulated with fleas, ants and snails"
+  },
+  {
+    "s": "consciousness",
+    "p": "defines",
+    "o": "trait"
+  },
+  {
+    "s": "evolutionary perspective",
+    "p": "argues_for",
+    "o": "question"
+  },
+  {
+    "s": "humans",
+    "p": "grounds",
+    "o": "consciousness as trait"
+  },
+  {
+    "s": "Salient questions",
+    "p": "defines",
+    "o": "content"
+  },
+  {
+    "s": "late evolved, narrowly distributed",
+    "p": "contrasts_with",
+    "o": "older more broadly shared traits"
+  },
+  {
+    "s": "independent evolution of consciousness",
+    "p": "requires",
+    "o": "hypotheses"
+  },
+  {
+    "s": "humans are the only conscious animals",
+    "p": "implies",
+    "o": "consciousness as trait"
+  },
+  {
+    "s": "animals",
+    "p": "requires",
+    "o": "moral consideration"
+  },
+  {
+    "s": "consciousness",
+    "p": "contrasts_with",
+    "o": "mindless automata"
+  },
+  {
+    "s": "theories_of_consciousness",
+    "p": "argues_for",
+    "o": "Searle's arguments"
+  },
+  {
+    "s": "animal_consciousness",
+    "p": "requires",
+    "o": "theories_of_consciousness"
+  },
+  {
+    "s": "human_infants",
+    "p": "enables",
+    "o": "assessment_against_animal_consciousness"
+  },
+  {
+    "s": "intentional_states",
+    "p": "contrasts_with",
+    "o": "Searle's arguments"
+  },
+  {
+    "s": "emotional_states",
+    "p": "contrasts_with",
+    "o": "Searle's arguments"
+  },
+  {
+    "s": "nonhuman_animals",
+    "p": "undermines",
+    "o": "Carruthers' assertions"
+  },
+  {
+    "s": "dogs",
+    "p": "enables",
+    "o": "intuitive_attributions"
+  },
+  {
+    "s": "Fourth",
+    "p": "argues_for",
+    "o": "determining whether animals are conscious"
+  },
+  {
+    "s": "cognitive revolution",
+    "p": "defines",
+    "o": "innovative experiments by comparative psychologists and ethologists"
+  },
+  {
+    "s": "comparative psychologists",
+    "p": "requires",
+    "o": "probing the cognitive capacities of animals"
+  },
+  {
+    "s": "Cambridge Declaration on Animal Consciousness",
+    "p": "extends",
+    "o": "indicating that many scientists agree"
+  },
+  {
+    "s": "Marian Stamp Dawkins",
+    "p": "contrasts_with",
+    "o": "not endorsing the claim about animal consciousness"
+  },
+  {
+    "s": "consciousness",
+    "p": "requires",
+    "o": "common sense observations"
+  },
+  {
+    "s": "language",
+    "p": "enables",
+    "o": "communication of experience to others"
+  },
+  {
+    "s": "animals",
+    "p": "contrasts_with",
+    "o": "human consciousness"
+  },
+  {
+    "s": "scientific research",
+    "p": "directed towards",
+    "o": "understanding particular conscious states"
+  },
+  {
+    "s": "animals",
+    "p": "used as proxies for humans",
+    "o": "human subjects in scientific studies"
+  },
+  {
+    "s": "bodily events",
+    "p": "to noxious stimuli",
+    "o": "pain responses recognized by people"
+  },
+  {
+    "s": "high-pitched vocalizations",
+    "p": "among the reactions to noxious stimuli",
+    "o": "common mammalian heritage"
+  },
+  {
+    "s": "fear responses",
+    "p": "among the reactions to noxious stimuli",
+    "o": "common mammalian heritage"
+  },
+  {
+    "s": "nursing of injuries",
+    "p": "among the reactions to noxious stimuli",
+    "o": "common mammalian heritage"
+  },
+  {
+    "s": "learned avoidance",
+    "p": "among the reactions to noxious stimuli",
+    "o": "common mammalian heritage"
+  },
+  {
+    "s": "research",
+    "p": "conducted_on",
+    "o": "rats"
+  },
+  {
+    "s": "analgesics",
+    "p": "studied",
+    "o": "rats"
+  },
+  {
+    "s": "anesthetics",
+    "p": "studied",
+    "o": "rats"
+  },
+  {
+    "s": "opiates",
+    "p": "respond_to",
+    "o": "injured rats"
+  },
+  {
+    "s": "visual consciousness",
+    "p": "studied",
+    "o": "monkeys"
+  },
+  {
+    "s": "primary visual cortex",
+    "p": "damaged",
+    "o": "monkeys"
+  },
+  {
+    "s": "blindsight patients",
+    "p": "similar to",
+    "o": "intact monkeys"
+  },
+  {
+    "s": "phyla",
+    "p": "susceptible_to",
+    "o": "visual illusions"
+  },
+  {
+    "s": "use of animals",
+    "p": "presupposes",
+    "o": "convergence of emotional and other conscious states"
+  },
+  {
+    "s": "models",
+    "p": "requires",
+    "o": "further refinements"
+  },
+  {
+    "s": "Temple Grandin",
+    "p": "uses",
+    "o": "her experience as a 'high-functioning autistic' to understand the nature of animal experience"
+  },
+  {
+    "s": "similarity arguments",
+    "p": "argues_for",
+    "o": "entails the conclusion"
+  },
+  {
+    "s": "critics",
+    "p": "requires",
+    "o": "exploit disanalogy"
+  },
+  {
+    "s": "animals",
+    "p": "contrasts_with",
+    "o": "humans"
+  },
+  {
+    "s": "evolutionary considerations",
+    "p": "enables",
+    "o": "continuity between species"
+  },
+  {
+    "s": "traits",
+    "p": "undermines",
+    "o": "entailment"
+  },
+  {
+    "s": "humans",
+    "p": "requires",
+    "o": "have trait"
+  },
+  {
+    "s": "capacity to learn",
+    "p": "enables",
+    "o": "play chess"
+  },
+  {
+    "s": "consciousness",
+    "p": "undermines",
+    "o": "inconsistency with evolutionary continuity"
+  },
+  {
+    "s": "chimpanzees",
+    "p": "argues_for",
+    "o": "use cues to track visual attention"
+  },
+  {
+    "s": "combination",
+    "p": "requires",
+    "o": "behavioral, physiological and morphological similarities"
+  },
+  {
+    "s": "evolutionary theory",
+    "p": "grounds",
+    "o": "stronger overall case"
+  },
+  {
+    "s": "convincing argument",
+    "p": "enables",
+    "o": "well developed theory of the structure and function of consciousness as a cognitive process"
+  },
+  {
+    "s": "recent participants",
+    "p": "requires",
+    "o": "behavioral, physiological and morphological similarities"
+  },
+  {
+    "s": "consciousness",
+    "p": "defines",
+    "o": "notoriously ambiguous"
+  },
+  {
+    "s": "Wilkes 1984",
+    "p": "argues_for",
+    "o": "multitude of uses for 'consciousness'"
+  },
+  {
+    "s": "animal consciousness",
+    "p": "extends",
+    "o": "useful distinctions among different notions of consciousness"
+  },
+  {
+    "s": "notions of consciousness",
+    "p": "contrasts_with",
+    "o": "single, coherent concept"
+  },
+  {
+    "s": "consciousness",
+    "p": "requires",
+    "o": "perception"
+  },
+  {
+    "s": "organisms",
+    "p": "enables",
+    "o": "response to features"
+  },
+  {
+    "s": "Block",
+    "p": "introduces",
+    "o": "access consciousness"
+  },
+  {
+    "s": "Block",
+    "p": "amends",
+    "o": "access consciousness"
+  },
+  {
+    "s": "Block",
+    "p": "believes",
+    "o": "many animals possess access consciousness"
+  },
+  {
+    "s": "Baars",
+    "p": "defines",
+    "o": "global workspace"
+  },
+  {
+    "s": "Descartes",
+    "p": "denies",
+    "o": "access consciousness to animals"
+  },
+  {
+    "s": "phenomenal consciousness",
+    "p": "requires",
+    "o": "self-consciousness"
+  },
+  {
+    "s": "self-consciousness",
+    "p": "enables",
+    "o": "moral agency in animals"
+  },
+  {
+    "s": "phenomenal consciousness",
+    "p": "refers_to",
+    "o": "qualitative, subjective, experiential, or phenomenological aspects of conscious experience"
+  },
+  {
+    "s": "phenomenal consciousness",
+    "p": "sometimes_identified_with",
+    "o": "qualia"
+  },
+  {
+    "s": "Nagel's formulation",
+    "p": "serves as reference point",
+    "o": "for the debate on animal consciousness"
+  },
+  {
+    "s": "animal consciousness",
+    "p": "crucial question in investigation",
+    "o": "whether there is 'something it is like' to be those animals"
+  },
+  {
+    "s": "subjective experience of life or being",
+    "p": "crucial for group of animals",
+    "o": "proprietary perspective they have on their own perceptual, cognitive and emotive processes"
+  },
+  {
+    "s": "Nagel",
+    "p": "argues_for",
+    "o": "subjectivity"
+  },
+  {
+    "s": "phenomenal consciousness",
+    "p": "defines",
+    "o": "consciousness"
+  },
+  {
+    "s": "Nagel",
+    "p": "contrasts_with",
+    "o": "other authors"
+  },
+  {
+    "s": "structural and/or functional theories of consciousness",
+    "p": "requires",
+    "o": "developing"
+  },
+  {
+    "s": "hypothesis about the distribution of consciousness among animals",
+    "p": "enables",
+    "o": "arguing for"
+  },
+  {
+    "s": "Nagel",
+    "p": "undermines",
+    "o": "difficulty or impossibility of investigating scientifically"
+  },
+  {
+    "s": "structural and/or functional theories of consciousness",
+    "p": "extends",
+    "o": "Nagel's argument_for"
+  },
+  {
+    "s": "phenomenal consciousness",
+    "p": "grounds",
+    "o": "investigating scientifically"
+  }
+]
