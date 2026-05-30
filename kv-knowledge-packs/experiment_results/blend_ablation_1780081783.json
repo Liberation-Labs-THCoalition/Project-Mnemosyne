@@ -1,0 +1,48 @@
+{
+  "experiment": "blend_ratio_ablation",
+  "model": "Qwen/Qwen2.5-1.5B",
+  "results": [
+    {
+      "blend_ratio": 0.0,
+      "sanity": 1.0,
+      "graph_awareness": 0.0,
+      "combined": 0.5
+    },
+    {
+      "blend_ratio": 0.1,
+      "sanity": 1.0,
+      "graph_awareness": 0.0,
+      "combined": 0.5
+    },
+    {
+      "blend_ratio": 0.2,
+      "sanity": 1.0,
+      "graph_awareness": 0.0,
+      "combined": 0.5
+    },
+    {
+      "blend_ratio": 0.3,
+      "sanity": 1.0,
+      "graph_awareness": 0.0,
+      "combined": 0.5
+    },
+    {
+      "blend_ratio": 0.5,
+      "sanity": 1.0,
+      "graph_awareness": 0.0,
+      "combined": 0.5
+    },
+    {
+      "blend_ratio": 0.7,
+      "sanity": 1.0,
+      "graph_awareness": 0.0,
+      "combined": 0.5
+    },
+    {
+      "blend_ratio": 0.9,
+      "sanity": 1.0,
+      "graph_awareness": 0.0,
+      "combined": 0.5
+    }
+  ]
+}

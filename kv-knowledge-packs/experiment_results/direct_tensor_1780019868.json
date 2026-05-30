@@ -1,0 +1,21 @@
+{
+  "experiment": "direct_tensor_injection",
+  "model": "Qwen/Qwen2.5-1.5B",
+  "results": [
+    {
+      "condition": "BASELINE",
+      "sanity": 1.0,
+      "multihop": 0.0
+    },
+    {
+      "condition": "DIRECT_ADJ",
+      "sanity": 1.0,
+      "multihop": 0.0
+    },
+    {
+      "condition": "DIRECT_WALK",
+      "sanity": 1.0,
+      "multihop": 0.0
+    }
+  ]
+}

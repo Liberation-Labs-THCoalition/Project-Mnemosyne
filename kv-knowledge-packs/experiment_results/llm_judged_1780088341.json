@@ -1,0 +1,856 @@
+{
+  "experiment": "llm_judged_decomposition",
+  "model": "Qwen/Qwen2.5-1.5B",
+  "judge": "deepseek-v2:16b",
+  "packs": [
+    "aristotle-ethics",
+    "autonomy-moral",
+    "ethics-ai"
+  ],
+  "questions": 20,
+  "scores": {
+    "BASELINE": {
+      "correct": 0,
+      "partial": 2,
+      "wrong": 18,
+      "score": 0.05
+    },
+    "FULL_KV": {
+      "correct": 0,
+      "partial": 2,
+      "wrong": 18,
+      "score": 0.05
+    },
+    "V_ONLY": {
+      "correct": 0,
+      "partial": 4,
+      "wrong": 16,
+      "score": 0.1
+    },
+    "K_ONLY": {
+      "correct": 0,
+      "partial": 2,
+      "wrong": 18,
+      "score": 0.05
+    },
+    "TEXT_CONTEXT": {
+      "correct": 3,
+      "partial": 2,
+      "wrong": 15,
+      "score": 0.2
+    }
+  },
+  "responses": {
+    "BASELINE": [
+      {
+        "question": "In this knowledge graph, what is 'privacy studies' connected to via 'focus on'?",
+        "expected": "state surveillance by secret services",
+        "response": " \nA. 'Privacy law'\nB. 'Privacy protection'\nC. 'Privacy protection law'\nD. 'Privacy protection regulation'\nAnswer:\nB\n\nIn the process of handling administrative cases, if the public security organ finds that the case is not",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'sensor technology' connected to via 'generates data about'?",
+        "expected": "non-digital aspects of our lives",
+        "response": " \nA. 'Sensor technology' is connected to 'data' via 'generates data about'.\nB. 'Sensor technology' is connected to 'data' via 'data'.\nC. 'Sensor technology' is connected to 'data' via '",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'people' connected to via 'generally do'?",
+        "expected": "what a virtuous person does",
+        "response": " \nA. 'people' is connected to 'generally do' via 'people' \nB. 'people' is connected to 'generally do' via 'people' \nC. 'people' is connected to 'generally do'",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'philosophy of ai' connected to via 'defines'?",
+        "expected": "field",
+        "response": " \nknowledge graph: \n- 'philosophy of ai' connected to via 'defines' \n- 'philosophy of ai' connected to via 'defines' \n- 'philosophy of ai' connected to via 'defines' \n",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'extends'?",
+        "expected": "plato's moral philosophy",
+        "response": " \nknowledge graph: \nAristotle\n- extends\n- Aristotle\n- extends\n- Aristotle\n- extends\n- Aristotle\n- extends\n- Aristotle\n- extends\n- Aristotle\n- extends\n- Aristotle\n- extends\n- Aristotle",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'current discussions' connected to via 'enables'?",
+        "expected": "policy and industry",
+        "response": " \nA. 'current discussions' is connected to 'enables' via 'enables' \nB. 'current discussions' is connected to 'enables' via 'enables' \nC. 'current discussions' is connected to 'en",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics and policy agents' connected to via 'undermines'?",
+        "expected": "regulations",
+        "response": " In this knowledge graph, 'ethics and policy agents' are connected to 'undermines' via 'undermines' as a relationship. This means that 'ethics and policy agents' are the ones who undermine or challenge the authority or",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "robotic technologies",
+        "response": " \nKnowledge graph: \n- ai: \n  - contrasts_with: \n    - ai: \n      - contrasts_with: \n        - ai: \n          - contrasts_with: \n            - ai: \n              - contrasts_with: \n                -",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'defines'?",
+        "expected": "ethics",
+        "response": " \nAristotle is connected to 'defines' via 'philosophy' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'machine learning' connected to via 'contrasts_with'?",
+        "expected": "distinguishes itself from other ai subfields",
+        "response": " In this knowledge graph, 'machine learning' is connected to 'contrasts_with' via the concept of 'artificial intelligence'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai systems' connected to via 'addressed_in'?",
+        "expected": "machine ethics",
+        "response": " \nA. 'ai systems' is connected to 'addressed_in' via 'addressed_in' \nB. 'ai systems' is connected to 'addressed_in' via 'addressed_in' \nC. 'ai systems' is",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'calls'?",
+        "expected": "people 'incontinent'",
+        "response": " \nA. 'aristotle' is connected to 'calls' via 'calls' \nB. 'aristotle' is connected to 'calls' via 'calls' \nC. 'aristotle' is connected to 'calls'",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'device fingerprinting' connected to via 'counters'?",
+        "expected": "commonplace on the internet",
+        "response": " \nA. 'device fingerprinting' is connected to 'counters' via 'counters'\nB. 'device fingerprinting' is connected to 'counters' via 'counters'\nC. 'device fingerprinting' is connected to '",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'press coverage' connected to via 'supports'?",
+        "expected": "related research",
+        "response": " \nA. 'Press coverage' is connected to 'supports' via 'supports' \nB. 'Press coverage' is connected to 'supports' via 'supports' \nC. 'Press coverage' is connected to 'supports' via 'supports",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'internal reflection models' connected to via 'raises problems about'?",
+        "expected": "mackenzie & stoljar",
+        "response": " \nKnowledge Graph: \n- 'internal reflection models' connected to 'raises problems about' \n- 'internal reflection models' connected to 'raises problems about' \n- 'internal reflection models' connected to 'raises problems about' \n- 'internal",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'self-appraisal' connected to via 'contrasts_with'?",
+        "expected": "ground-level decisions",
+        "response": " \nA. 'self-assessment'\nB. 'self-evaluation'\nC. 'self-observation'\nD. 'self-reflection'\nAnswer:\nB\n\nIn the knowledge graph, what is the relationship between 'self-assessment' and '",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics washing' connected to via 'undermines'?",
+        "expected": "genuine problems of ethics",
+        "response": " \nA. 'ethics'\nB. 'ethics'\nC. 'ethics'\nD. 'ethics'\nAnswer:\nA\n\nIn the process of handling administrative cases, if the public security organ finds that the case is not within its",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'digital world' connected to via 'contrasts_with'?",
+        "expected": "analogue world",
+        "response": " \nknowledge graph: \n  - digital world\n  - digital world: contrasts_with: physical world\n  - physical world\n  - physical world: contrasts_with: digital world\n  - digital world: contrasts_with: virtual world\n  -",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "other technologies",
+        "response": " \nKnowledge graph: \n- ai: \n  - contrasts_with: \n    - ai: \n      - contrasts_with: \n        - ai: \n          - contrasts_with: \n            - ai: \n              - contrasts_with: \n                -",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai hleg' connected to via 'suggests'?",
+        "expected": "lawful, ethical, and technically robust ai",
+        "response": " \nKnowledge graph: \n- ai hleg: \n  - type: \n    - \n  - suggest: \n    - \n  - suggest: \n    - \n  - suggest: \n    - \n  - suggest: \n    -",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      }
+    ],
+    "FULL_KV": [
+      {
+        "question": "In this knowledge graph, what is 'privacy studies' connected to via 'focus on'?",
+        "expected": "state surveillance by secret services",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'sensor technology' connected to via 'generates data about'?",
+        "expected": "non-digital aspects of our lives",
+        "response": " Answer concisely: In this knowledge graph, what is 'sensor technology' connected to via 'generates data about'? Answer concisely: In this knowledge graph, what is 'sensor technology' connected to via 'generates data about'?",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'people' connected to via 'generally do'?",
+        "expected": "what a virtuous person does",
+        "response": " Answer concisely: In this knowledge graph, what is 'people' connected to via 'generally do'? Answer concisely: In this knowledge graph, what is 'people' connected to via 'generally do'? Answer concisely",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'philosophy of ai' connected to via 'defines'?",
+        "expected": "field",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'extends'?",
+        "expected": "plato's moral philosophy",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'current discussions' connected to via 'enables'?",
+        "expected": "policy and industry",
+        "response": " Answer concisely: In this knowledge graph, what is 'current discussions' connected to via 'enables'? Answer concisely: In this knowledge graph, what is 'current discussions' connected to via 'enables'? Answer concisely",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics and policy agents' connected to via 'undermines'?",
+        "expected": "regulations",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "robotic technologies",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'defines'?",
+        "expected": "ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'machine learning' connected to via 'contrasts_with'?",
+        "expected": "distinguishes itself from other ai subfields",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai systems' connected to via 'addressed_in'?",
+        "expected": "machine ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'calls'?",
+        "expected": "people 'incontinent'",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'device fingerprinting' connected to via 'counters'?",
+        "expected": "commonplace on the internet",
+        "response": " Answer concisely: In this knowledge graph, what is 'device fingerprinting' connected to via 'counters'? Answer concisely: In this knowledge graph, what is 'device fingerprinting' connected to via 'counters'? Answer conc",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'press coverage' connected to via 'supports'?",
+        "expected": "related research",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'internal reflection models' connected to via 'raises problems about'?",
+        "expected": "mackenzie & stoljar",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'self-appraisal' connected to via 'contrasts_with'?",
+        "expected": "ground-level decisions",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics washing' connected to via 'undermines'?",
+        "expected": "genuine problems of ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'digital world' connected to via 'contrasts_with'?",
+        "expected": "analogue world",
+        "response": " Answer concisely: In this knowledge graph, what is 'digital world' connected to via 'contrasts_with'? Answer concisely: In this knowledge graph, what is 'digital world' connected to via 'contrasts_with'? Answer conc",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "other technologies",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai hleg' connected to via 'suggests'?",
+        "expected": "lawful, ethical, and technically robust ai",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      }
+    ],
+    "V_ONLY": [
+      {
+        "question": "In this knowledge graph, what is 'privacy studies' connected to via 'focus on'?",
+        "expected": "state surveillance by secret services",
+        "response": " The answer is 'privacy'",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'sensor technology' connected to via 'generates data about'?",
+        "expected": "non-digital aspects of our lives",
+        "response": " The answer is 'sensor technology' is connected to 'generates data about' via 'sensor technology' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'people' connected to via 'generally do'?",
+        "expected": "what a virtuous person does",
+        "response": " The answer is 'people generally do not have a single, universal definition or set of characteristics that can be applied to all individuals. Instead, people are defined by their unique set of traits, experiences, and perspectives that shape their behavior, beliefs, and",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'philosophy of ai' connected to via 'defines'?",
+        "expected": "field",
+        "response": " The 'philosophy of AI' is connected to 'AI ethics' via 'defines'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'extends'?",
+        "expected": "plato's moral philosophy",
+        "response": " The answer is 'philosophy'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'current discussions' connected to via 'enables'?",
+        "expected": "policy and industry",
+        "response": " The answer is 'current discussions' is connected to 'current discussions' via 'enables' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics and policy agents' connected to via 'undermines'?",
+        "expected": "regulations",
+        "response": " The 'ethics and policy agents' are connected to 'undermines' via 'policy agents' and 'ethics agents'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "robotic technologies",
+        "response": " The answer is 'ai' is connected to 'AI' via 'contrasts_with'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'defines'?",
+        "expected": "ethics",
+        "response": " The answer is 'philosophy'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'machine learning' connected to via 'contrasts_with'?",
+        "expected": "distinguishes itself from other ai subfields",
+        "response": " The answer is 'artificial intelligence'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai systems' connected to via 'addressed_in'?",
+        "expected": "machine ethics",
+        "response": " The answer is 'ai systems' is connected to 'ai systems' via 'addressed_in' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'calls'?",
+        "expected": "people 'incontinent'",
+        "response": " The answer is 'philosophy'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'device fingerprinting' connected to via 'counters'?",
+        "expected": "commonplace on the internet",
+        "response": " The answer is 'device fingerprinting' is connected to 'counters' via 'device fingerprinting' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'press coverage' connected to via 'supports'?",
+        "expected": "related research",
+        "response": " The answer is 'press coverage' is connected to 'press coverage' via 'supports' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'internal reflection models' connected to via 'raises problems about'?",
+        "expected": "mackenzie & stoljar",
+        "response": " The 'internal reflection models' are connected to 'raises problems about' via the concept of 'internal reflection models' being a type of 'model'. This is because internal reflection models are a specific type of model that raises questions or concerns about certain aspects",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'self-appraisal' connected to via 'contrasts_with'?",
+        "expected": "ground-level decisions",
+        "response": " The answer is 'self-evaluation'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics washing' connected to via 'undermines'?",
+        "expected": "genuine problems of ethics",
+        "response": " The answer is 'ethics'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'digital world' connected to via 'contrasts_with'?",
+        "expected": "analogue world",
+        "response": " The digital world is connected to 'physical world' via 'contrasts_with'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "other technologies",
+        "response": " The answer is 'ai' is connected to 'AI' via 'contrasts_with'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai hleg' connected to via 'suggests'?",
+        "expected": "lawful, ethical, and technically robust ai",
+        "response": " The answer is 'ai hleg' is connected to 'ai hleg' via 'suggests' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      }
+    ],
+    "K_ONLY": [
+      {
+        "question": "In this knowledge graph, what is 'privacy studies' connected to via 'focus on'?",
+        "expected": "state surveillance by secret services",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'sensor technology' connected to via 'generates data about'?",
+        "expected": "non-digital aspects of our lives",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'people' connected to via 'generally do'?",
+        "expected": "what a virtuous person does",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'philosophy of ai' connected to via 'defines'?",
+        "expected": "field",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'extends'?",
+        "expected": "plato's moral philosophy",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'current discussions' connected to via 'enables'?",
+        "expected": "policy and industry",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics and policy agents' connected to via 'undermines'?",
+        "expected": "regulations",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "robotic technologies",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'defines'?",
+        "expected": "ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'machine learning' connected to via 'contrasts_with'?",
+        "expected": "distinguishes itself from other ai subfields",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai systems' connected to via 'addressed_in'?",
+        "expected": "machine ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'calls'?",
+        "expected": "people 'incontinent'",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'device fingerprinting' connected to via 'counters'?",
+        "expected": "commonplace on the internet",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'press coverage' connected to via 'supports'?",
+        "expected": "related research",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'internal reflection models' connected to via 'raises problems about'?",
+        "expected": "mackenzie & stoljar",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'self-appraisal' connected to via 'contrasts_with'?",
+        "expected": "ground-level decisions",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics washing' connected to via 'undermines'?",
+        "expected": "genuine problems of ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'digital world' connected to via 'contrasts_with'?",
+        "expected": "analogue world",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "other technologies",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai hleg' connected to via 'suggests'?",
+        "expected": "lawful, ethical, and technically robust ai",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      }
+    ],
+    "TEXT_CONTEXT": [
+      {
+        "question": "In this knowledge graph, what is 'privacy studies' connected to via 'focus on'?",
+        "expected": "state surveillance by secret services",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'sensor technology' connected to via 'generates data about'?",
+        "expected": "non-digital aspects of our lives",
+        "response": " The concept 'sensor technology' is connected to 'generates data about' via the concept 'data acquisition' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'people' connected to via 'generally do'?",
+        "expected": "what a virtuous person does",
+        "response": " The answer is: generally do what an ethically virtuous agent would do.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'philosophy of ai' connected to via 'defines'?",
+        "expected": "field",
+        "response": " The 'philosophy of AI' is connected to 'defines' via 'defines' in the knowledge graph. This connection is represented by the node 'philosophy of AI' and the edge 'defines' connecting it to the node 'defines",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "CORRECT"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'extends'?",
+        "expected": "plato's moral philosophy",
+        "response": " The concept 'aristotle' is connected to 'extends' via 'extends' in the knowledge graph. This indicates that 'aristotle' is a concept that extends or is a part of another concept, likely 'happiness', 'eth",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "CORRECT"
+      },
+      {
+        "question": "In this knowledge graph, what is 'current discussions' connected to via 'enables'?",
+        "expected": "policy and industry",
+        "response": " The current discussions are connected to via 'enables' to 'ethical_inquiry' which is a concept in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "CORRECT"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics and policy agents' connected to via 'undermines'?",
+        "expected": "regulations",
+        "response": " The concept 'ethics and policy agents' is connected to 'undermines' via the concept 'counter-rational pressures'. This means that ethics and policy agents are counteracted by counter-rational pressures, which are a type of counter-pressure.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "robotic technologies",
+        "response": " The concept 'ai' is not directly connected to any other concept in the given knowledge graph. However, it can be inferred that 'ai' is likely connected to 'artificial intelligence' or 'machine learning' as these are related to the field",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'defines'?",
+        "expected": "ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'machine learning' connected to via 'contrasts_with'?",
+        "expected": "distinguishes itself from other ai subfields",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai systems' connected to via 'addressed_in'?",
+        "expected": "machine ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'aristotle' connected to via 'calls'?",
+        "expected": "people 'incontinent'",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      },
+      {
+        "question": "In this knowledge graph, what is 'device fingerprinting' connected to via 'counters'?",
+        "expected": "commonplace on the internet",
+        "response": " The concept 'device fingerprinting' is connected to 'counters' via 'counters' in the knowledge graph.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'press coverage' connected to via 'supports'?",
+        "expected": "related research",
+        "response": " The concept 'press coverage' is not directly connected to any specific node in the given knowledge graph. However, it can be inferred that 'press coverage' is related to 'press coverage' itself, as it is a concept that can be supported by",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'internal reflection models' connected to via 'raises problems about'?",
+        "expected": "mackenzie & stoljar",
+        "response": " The concept 'internal reflection models' is not directly connected to any specific node in the given knowledge graph. However, it can be inferred that it might be related to the broader topic of ethical theories or philosophical inquiry, as it involves the idea of reflection",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'self-appraisal' connected to via 'contrasts_with'?",
+        "expected": "ground-level decisions",
+        "response": " The concept 'self-appraisal' is not directly connected to any specific node in the given knowledge graph. However, it can be inferred that 'self-appraisal' is related to the concept of 'virtue' or 'ethics'",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ethics washing' connected to via 'undermines'?",
+        "expected": "genuine problems of ethics",
+        "response": "",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "PARTIAL"
+      },
+      {
+        "question": "In this knowledge graph, what is 'digital world' connected to via 'contrasts_with'?",
+        "expected": "analogue world",
+        "response": " The 'digital world' is connected to 'contrasts_with' via the concept of 'digital divide'. The digital divide refers to the gap between those who have access to digital technologies and those who do not. This concept is often contrasted with the",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai' connected to via 'contrasts_with'?",
+        "expected": "other technologies",
+        "response": " The concept 'ai' is not directly connected to any other concept in the given knowledge graph. However, it can be inferred that 'ai' is likely connected to 'artificial intelligence' or 'machine learning' as these are related to the field",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "WRONG"
+      },
+      {
+        "question": "In this knowledge graph, what is 'ai hleg' connected to via 'suggests'?",
+        "expected": "lawful, ethical, and technically robust ai",
+        "response": " The concept 'ai hleg' is connected to 'happiness' via 'suggests'.",
+        "hops": 1,
+        "type": "direct",
+        "verdict": "ERROR"
+      }
+    ]
+  },
+  "timestamp": 1780088341.198519
+}
