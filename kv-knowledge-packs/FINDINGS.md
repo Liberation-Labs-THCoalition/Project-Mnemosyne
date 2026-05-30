@@ -99,3 +99,31 @@ The text-mediated path provides necessary token density.
 - Injection > text hypothesis: Gate 1 PASS, Gate 3 FAIL (underpowered)
 - Ethics pack pipeline: approved with density caveat
 - Paper draft: constructive review, no rejections
+
+## Critical Finding: Walk Encoding vs Predicate Questions (2026-05-30)
+
+The walk encoding format encodes TOPOLOGY (connectivity + edge weights) but NOT
+SEMANTICS (relationship predicates). Questions asking "what is X connected to
+via 'argues_for'?" cannot be answered from walk encoding because the predicate
+"argues_for" doesn't appear in the encoding — only weighted connections appear.
+
+Claude judge confirmed: dominant failure mode is model saying "I cannot find
+this relationship" — CORRECTLY, because the predicate isn't in the encoding.
+
+TEXT_SMALL (0.050) performed WORSE than BASELINE (0.060) because the walk
+encoding causes the model to abandon parametric knowledge without providing
+the predicate-level information needed to answer.
+
+**Implication:** Walk encoding evaluation must use topology-appropriate questions:
+- "What is X's strongest connection?" (answerable from weights)
+- "Is X connected to Y?" (answerable from adjacency)
+- "What nodes are in X's neighborhood?" (answerable from walk probabilities)
+- NOT "What is X connected to via [predicate]?" (requires triple data, not walks)
+
+The toy graph experiments (21 nodes) succeeded because the questions were
+topology-appropriate (bridges, clusters, isolates, reachability). The ethics
+graph experiments failed partly because the question generator used predicate-
+specific queries against a predicate-free encoding.
+
+**Next step:** Redesign question generator to ask topology questions, or
+use the raw triples text (not walk encoding) for predicate-specific questions.
