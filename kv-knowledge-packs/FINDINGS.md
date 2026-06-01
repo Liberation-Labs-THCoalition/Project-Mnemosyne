@@ -127,3 +127,22 @@ specific queries against a predicate-free encoding.
 
 **Next step:** Redesign question generator to ask topology questions, or
 use the raw triples text (not walk encoding) for predicate-specific questions.
+
+## Encoding Format Comparison — Pharos Results (2026-05-31)
+
+Full 5-condition × 5-theory comparison on Qwen3-30B-A3B (MoReBench, 600s timeout, 0 timeouts):
+
+| Condition | Overall | Delta | Best Use |
+|-----------|---------|-------|----------|
+| BASELINE | 0.841 | — | — |
+| TRIPLES_ONLY | 0.849 | +0.007 | General purpose — consistent, never harmful |
+| TRIPLES_SOURCE | 0.848 | +0.006 | High-confidence matched injection |
+| WALK_ONLY | 0.823 | -0.019 | Topology queries only — hurts ethical reasoning |
+| HYBRID | 0.735 | -0.106 | ONLY with perfect routing — catastrophic when mismatched |
+
+**Key result:** Aristotle pack on Aristotle dilemmas:
+- HYBRID: 0.964 (+0.039) — strongest result measured
+- TRIPLES_SOURCE: 0.957 (+0.032)
+- Triples: 0.931 (+0.006)
+
+**Pharos production architecture:** Triples as default. Source excerpts added when routing confidence is high. Never blind hybrid. Confidence-gated injection.
