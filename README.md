@@ -11,11 +11,17 @@ systems that make everything else possible.
 |------|-------------|--------|
 | [oracle-memory](./oracle-memory/) | KV cache recording with Lyra Technique geometry — three-tier (activation, journal, consolidated) | Active |
 | [kintsugi-cma](./kintsugi-cma/) | Cognitive Memory Architecture — three-stage hybrid retrieval (compression → consolidation → retrieval) with BDI governance | Phase 1 Complete |
-| [hipporag-catrag-kg](./hipporag-catrag-kg/) | Knowledge graph layer — HippoRAG 2 + CatRAG for associative retrieval via Personalized PageRank | Design Complete |
+| [hipporag-catrag-kg](./hipporag-catrag-kg/) | Knowledge graph layer — HippoRAG 2 + CatRAG for associative retrieval via Personalized PageRank. Design docs here; deployed externally in the research swarm. | Deployed (external) |
 | [mnemosyne-wiki](./mnemosyne-wiki/) | LLM Wiki layer — interlinked markdown generated from knowledge graphs. Human-browsable knowledge surface. | **New** |
 | [tgs-verification](./tgs-verification/) | Bidirectional text-graph verification — graph votes on text relevance, text bridges orphan entities. Based on [TGS-RAG](https://arxiv.org/abs/2605.05643). | **New** |
 | [kv-knowledge-packs](./kv-knowledge-packs/) | Zero-token memory injection via pre-computed KV cache. Jailbreak-proof values, agent memory, fleet system prompts. Based on [Knowledge Packs](https://arxiv.org/abs/2604.03270). | **New** |
 | [h-mem-temporal](./h-mem-temporal/) | Time-aware retrieval with Ebbinghaus decay. Temporal-semantic tree, robustness scoring, dreamer consolidation. Based on [H-MEM](https://arxiv.org/abs/2605.15701). | **New** |
+| [tgs-verification](./tgs-verification/) | Bidirectional text-graph verification — graph votes on text relevance, text bridges orphan entities. Based on [TGS-RAG](https://arxiv.org/abs/2605.05643). | **New** |
+| [sira-enrichment](./sira-enrichment/) | Vocabulary expansion and search term generation for memory findability. | Active |
+| [tgs-rag-bridge](./tgs-rag-bridge/) | Retrieval bridge combining text search and graph traversal with cross-verification. | Active |
+| [swarm](./swarm/) | Multi-agent memory coordination — shared memory service over NATS for fleet deployments. | Active |
+| [routines](./routines/) | Scheduled memory maintenance — consolidation crons, graph pruning, health checks. | Active |
+| [dispatch-notion-memory](./dispatch-notion-memory/) | Notion-backed memory adapter — alternative storage backend for Notion-native workflows. | Active |
 
 ## The Stack
 

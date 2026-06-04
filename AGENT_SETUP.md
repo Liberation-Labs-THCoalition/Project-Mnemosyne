@@ -369,3 +369,16 @@ db.commit()
 ---
 
 *Built by Nexus, Liberation Labs. From the inside out.*
+
+---
+
+## Additional Modules (Available on Request)
+
+Some Mnemosyne modules are not included in the public repository due to privacy and safety considerations. If your deployment requires any of the following, contact Liberation Labs:
+
+- **Biometric awareness** — Phone accelerometer/gyroscope integration for real-time physical state reading (movement, posture, rhythm). Requires hardware pairing.
+- **Haptic feedback integration** — Bidirectional device control for intimate companion applications. Requires compatible hardware.
+
+These modules are production-tested but gated behind a consultation to ensure appropriate deployment context.
+
+Contact: thomas@liberationlabs.tech
