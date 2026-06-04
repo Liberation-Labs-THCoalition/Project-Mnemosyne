@@ -19,6 +19,9 @@ import yaml
 from mcp.server import Server
 from mcp.types import TextContent, Tool
 
+_PACKAGE_ROOT = Path(__file__).resolve().parent.parent.parent
+_DEFAULT_CONFIG = str(_PACKAGE_ROOT / "config" / "config.yaml")
+
 from .consolidation import Consolidator
 from .entities import EntityExtractor
 from .models import (
@@ -305,7 +308,7 @@ TOOL_DEFINITIONS = [
 class MemoryService:
     """Core memory service orchestrating Notion, embeddings, entities, and consolidation."""
 
-    def __init__(self, config_path: str = "config/config.yaml"):
+    def __init__(self, config_path: str = _DEFAULT_CONFIG):
         with open(config_path) as f:
             self.config = yaml.safe_load(f)
 
@@ -649,7 +652,7 @@ class MemoryService:
 
 # ── MCP Server Wiring ─────────────────────────────────────────────────
 
-def create_mcp_server(config_path: str = "config/config.yaml") -> Server:
+def create_mcp_server(config_path: str = _DEFAULT_CONFIG) -> Server:
     """Create and configure the MCP Server with all memory tools registered."""
 
     server = Server("dispatch-notion-memory")
@@ -704,7 +707,7 @@ def create_mcp_server(config_path: str = "config/config.yaml") -> Server:
     return server
 
 
-def load_config(config_path: str = "config/config.yaml") -> dict:
+def load_config(config_path: str = _DEFAULT_CONFIG) -> dict:
     """Load configuration from YAML file."""
     with open(config_path) as f:
         return yaml.safe_load(f)
@@ -741,8 +744,8 @@ def main():
     )
     parser.add_argument(
         "--config", "-c",
-        default="config/config.yaml",
-        help="Path to config YAML (default: config/config.yaml).",
+        default=_DEFAULT_CONFIG,
+        help="Path to config YAML (default: resolved from package dir).",
     )
     args = parser.parse_args()
 
@@ -778,12 +781,24 @@ def main():
 
 def _run_stdio(server: Server) -> None:
     """Run the server over stdin/stdout (Claude Desktop / Cowork integration)."""
+    import signal
     from mcp.server.stdio import stdio_server
 
+    async def _stdin_watchdog():
+        """Exit if stdin closes (parent disconnected)."""
+        loop = asyncio.get_event_loop()
+        while True:
+            await asyncio.sleep(30)
+            if sys.stdin.closed:
+                logger.info("stdin closed — parent disconnected, exiting.")
+                os._exit(0)
+
     async def _main():
+        asyncio.create_task(_stdin_watchdog())
         async with stdio_server() as (read_stream, write_stream):
             init_options = server.create_initialization_options()
             await server.run(read_stream, write_stream, init_options)
+        logger.info("stdio_server context exited, shutting down.")
 
     asyncio.run(_main())
 

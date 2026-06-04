@@ -307,5 +307,26 @@ class TemporalTree:
         ).fetchone()[0]
         return {"total_nodes": total, "per_level": levels, "contradicted": contradicted}
 
+    def get_forgotten(self, threshold: float = 0.1) -> list[TreeNode]:
+        """Return nodes whose robustness has decayed below the forget threshold."""
+        now = time.time()
+        rows = self.conn.execute(
+            "SELECT id FROM tree_nodes WHERE level = 0"
+        ).fetchall()
+        forgotten = []
+        for (node_id,) in rows:
+            node = self.get_node(node_id)
+            if node and node.robustness < threshold:
+                forgotten.append(node)
+        return forgotten
+
+    def update_node(self, node: TreeNode):
+        """Persist metadata changes for a node."""
+        self.conn.execute(
+            "UPDATE tree_nodes SET metadata = ? WHERE id = ?",
+            (json.dumps(node.metadata), node.id),
+        )
+        self.conn.commit()
+
     def close(self):
         self.conn.close()

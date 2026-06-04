@@ -12,6 +12,7 @@ in some environments).
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from datetime import datetime
 from typing import Any, Optional
@@ -69,8 +70,12 @@ class NotionStore:
         )
 
     async def _request(self, method: str, path: str, **kwargs) -> dict:
-        """Make an API request to Notion."""
-        resp = await self._client.request(method, path, **kwargs)
+        """Make an API request to Notion with per-request timeout."""
+        timeout = kwargs.pop("timeout", 10.0)
+        resp = await asyncio.wait_for(
+            self._client.request(method, path, **kwargs),
+            timeout=timeout,
+        )
         resp.raise_for_status()
         return resp.json()
 

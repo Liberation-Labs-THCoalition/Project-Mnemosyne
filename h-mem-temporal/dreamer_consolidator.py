@@ -184,12 +184,13 @@ class DreamerConsolidator:
 
         return results
 
-    def full_cycle(self) -> dict:
+    def full_cycle(self, hipporag_url: str = None) -> dict:
         """Run a complete dreamer consolidation cycle.
 
         1. Consolidate leaves → day summaries
         2. Consolidate days → week summaries (if enough accumulated)
         3. Check for reinforcements/contradictions
+        4. Prune orphaned graph triples from forgotten memories
         """
         results = {}
 
@@ -201,8 +202,50 @@ class DreamerConsolidator:
         reinforcements = self.check_reinforcements()
         results["reinforcements"] = reinforcements
 
+        if hipporag_url:
+            prune_results = self.prune_forgotten(hipporag_url)
+            results["pruned"] = prune_results
+
         logger.info(f"Consolidation cycle complete: {results}")
         return results
+
+    def prune_forgotten(self, hipporag_url: str) -> dict:
+        """Prune graph triples orphaned by forgotten memories.
+
+        Finds memories below forget threshold, checks their graph triples
+        for support from surviving memories, and deletes unsupported ones.
+        """
+        forgotten = self.tree.get_forgotten()
+        if not forgotten:
+            return {"forgotten": 0, "pruned": 0, "kept": 0}
+
+        pruned = 0
+        kept = 0
+        errors = 0
+
+        for node in forgotten:
+            if node.metadata.get("graph_pruned"):
+                continue
+
+            try:
+                resp = requests.post(
+                    f"{hipporag_url}/delete",
+                    json={"doc_id": node.metadata.get("doc_id", str(node.id))},
+                    timeout=10,
+                )
+                if resp.status_code == 200:
+                    pruned += 1
+                    node.metadata["graph_pruned"] = True
+                    self.tree.update_node(node)
+                    logger.info(f"Pruned graph triples for forgotten memory {node.id}")
+                else:
+                    errors += 1
+                    logger.warning(f"Failed to prune {node.id}: HTTP {resp.status_code}")
+            except Exception as e:
+                errors += 1
+                logger.warning(f"Prune error for {node.id}: {e}")
+
+        return {"forgotten": len(forgotten), "pruned": pruned, "kept": kept, "errors": errors}
 
     def _partition_by_window(self, nodes: list[TreeNode],
                               window_size: float) -> dict[int, list[TreeNode]]:
