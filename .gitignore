@@ -12,3 +12,4 @@ build/
 htmlcov/
 *.db
 *.sqlite3
+biometric-reader/
