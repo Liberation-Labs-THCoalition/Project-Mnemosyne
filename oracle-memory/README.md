@@ -119,6 +119,24 @@ print(f"Drift: {report.geometry_drift_score:.2f} ({report.drift_direction})")
 | `top_sv_ratio` | Dominance of first axis | σ₁ / Σσᵢ |
 | `angular_spread` | Cross-layer geometric spread | Angular distance |
 
+### PersistentStore
+SQLite-backed durable storage for geometry readings and consolidation snapshots. Records geometry over time and computes trends (average rank, entropy, norm) over configurable windows.
+
+### CacheStore
+Compressed storage for raw KV cache snapshots. Applies FP16 quantization, delta encoding between sequential snapshots, and gzip/zstd compression. Content-addressable dedup via SHA256. Achieves ~24x compression on sequential cache data.
+
+### SpectralDenoiser
+Marcenko-Pastur denoising for KV cache spectral features. Replaces the heuristic "90% cumulative variance" effective rank with a principled signal/noise boundary from random matrix theory. Supports Gavish-Donoho hard thresholding, soft shrinkage, and fixed-rank projection (rank-3 is Lyra's empirical optimum for cognitive signal).
+
+### AnchoredStore
+Extends PersistentStore with semantic anchoring -- links geometry readings to the prompts that produced them. Enables concept trajectories (how geometry evolves for a topic over time), FTS5 search over prompt content, and per-expert geometric profiles for MoE architectures.
+
+### NapEngine
+Triggered micro-consolidation for memory backpressure. When unenriched memories outpace consolidation, the nap scores recent memories by significance, enriches the top percentile, and creates retroactive links for critical memories. Can fire automatically on backpressure, manually, or on schedule.
+
+### GeometryBridge
+Connects Muse's element/consent system to KV-cache geometry. Reads spectral features at architecture-specific layer depths (from Lyra's user model probe) to detect user emotional state, companion state, consent transitions, and inappropriate response patterns. Computes coupling, risk scores, and appropriateness assessments per turn.
+
 ## Credits
 
 CheckpointManager design: Operator (Coalition)

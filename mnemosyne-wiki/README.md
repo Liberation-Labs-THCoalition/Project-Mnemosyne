@@ -82,9 +82,9 @@ Each nightly cycle produces a richer, more connected wiki.
 
 ## Implementation
 
-See `/home/asdf/ember/WIKI_DAEMON_SPEC.md` in the Ember repo for
-the daemon spec. The daemon reads PostgreSQL, generates markdown,
-runs as a cron job or Ember task.
+The wiki daemon spec is maintained separately.
+The daemon reads PostgreSQL, generates markdown,
+runs as a cron job or standalone task.
 
 Core generator: ~200 lines Python. No dependencies beyond psycopg2.
 

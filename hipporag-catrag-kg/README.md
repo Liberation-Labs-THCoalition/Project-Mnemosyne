@@ -74,4 +74,4 @@ See [DESIGN.md](./DESIGN.md) for the full design document including:
 
 ## Status
 
-**Implemented and deployed.** KG engine running in production on CC-Memory MCP server. Backfill of 100 memories yielded 788 entities and 25,290 co-occurrence triples. Entity embedding backfill for full CatRAG adaptive weighting is pending.
+**Design docs.** Deployed externally in the research swarm infrastructure. Backfill of 100 memories yielded 788 entities and 25,290 co-occurrence triples. Entity embedding backfill for full CatRAG adaptive weighting is pending.

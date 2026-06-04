@@ -80,7 +80,7 @@ The production implementation runs on Madame Trash Heap (Liberation Labs) as a s
 - Bridges HippoRAG (port 11235) and MCP Memory Service (SQLite)
 - API: `POST /retrieve` for fused queries, `POST /retrieve/text` and `POST /retrieve/graph` for individual backends
 
-Source: [tgs_bridge.py](../../lab/projects/tgs-rag-bridge/tgs_bridge.py)
+Source: [tgs_bridge.py](./tgs_bridge.py)
 
 ## Research Basis
 
