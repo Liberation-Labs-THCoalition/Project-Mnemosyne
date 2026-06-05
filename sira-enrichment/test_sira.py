@@ -107,11 +107,11 @@ class TestDomainMapper:
             did = idx.add_document("Thomas built the sewing machine interface", "d1")
 
             mapper = DomainMapper(idx, {
-                "thomas": ["humboldtjoker", "thomas edrington"],
+                "example_user": ["example_handle", "example user"],
                 "sewing machine": ["singer futura", "embroidery"],
             })
             terms = mapper.enrich_document(did, "Thomas built the sewing machine interface")
-            assert "humboldtjoker" in terms
+            assert "example_handle" in terms
             assert "singer futura" in terms
             idx.close()
 
@@ -143,7 +143,7 @@ class TestDomainMapper:
             idx.add_document("unrelated stuff", "d3")
 
             mapper = DomainMapper(idx, {
-                "thomas": ["humboldtjoker"],
+                "example_user": ["example_handle"],
                 "vera": ["oracle designer"],
             })
             result = mapper.enrich_all()
@@ -198,7 +198,7 @@ class TestMemoryEnricher:
 
             enricher = MemoryEnricher(
                 f.name, "domain",
-                {"thomas": ["humboldtjoker", "thomas edrington"]}
+                {"example_user": ["example_handle", "example user"]}
             )
             result = enricher.enrich()
             assert result["enriched"] == 1
@@ -208,7 +208,7 @@ class TestMemoryEnricher:
             row = conn.execute(
                 "SELECT search_terms FROM memories WHERE id = 1"
             ).fetchone()
-            assert "humboldtjoker" in row[0]
+            assert "example_handle" in row[0]
             conn.close()
 
 

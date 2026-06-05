@@ -114,7 +114,7 @@ python sira.py stats --db enriched.db
 
 ```json
 {
-  "thomas": ["humboldtjoker", "thomas edrington", "humboldt joker"],
+  "user_a": ["handle_1", "user a name", "handle 1"],
   "kv cache": ["key-value cache", "attention geometry", "cache geometry"],
   "anti-palantir": ["ap", "government transparency", "contract analysis"]
 }

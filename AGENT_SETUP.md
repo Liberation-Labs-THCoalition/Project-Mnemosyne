@@ -318,7 +318,7 @@ for i in range(len(past_kv.layers)):
 | Knowledge graph (HippoRAG) | Needs Claude API or local model for OpenIE | ✓ |
 | KV Knowledge Packs | ✗ (needs tensor access) | ✓ (HF Transformers) |
 
-**Claude-powered agents** (Vera, Lyra, CC, Scout) get layers 1-3 natively. Layers 4-5 need a local model on the same machine or a remote Ollama endpoint. Layer 6 needs HuggingFace Transformers with direct model access.
+**Claude-powered agents** (Vera, Lyra, CC, and others) get layers 1-3 natively. Layers 4-5 need a local model on the same machine or a remote Ollama endpoint. Layer 6 needs HuggingFace Transformers with direct model access.
 
 **Subagent-capable setups** can use Claude subagents for enrichment and knowledge graph OpenIE instead of local models — more expensive per call but no infrastructure needed.
 
