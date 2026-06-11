@@ -125,9 +125,7 @@ class EntityExtractor:
         if custom_entities:
             text_lower = text.lower()
             for name, etype in custom_entities:
-                if name.lower() in text_lower and not any(
-                    e.name_lower == name.lower() for e in entities
-                ):
+                if name.lower() in text_lower:
                     try:
                         entity_type = EntityType(etype)
                     except ValueError:
@@ -136,12 +134,19 @@ class EntityExtractor:
                     idx = text_lower.index(name.lower())
                     start = max(0, idx - 50)
                     end = min(len(text), idx + len(name) + 50)
+                    mention_context = text[start:end].strip()
 
-                    entities.append(Entity(
-                        name=name,
-                        name_lower=name.lower(),
-                        entity_type=entity_type,
-                        mention_context=text[start:end].strip(),
-                    ))
+                    existing = next(
+                        (e for e in entities if e.name_lower == name.lower()), None
+                    )
+                    if existing:
+                        existing.entity_type = entity_type
+                    else:
+                        entities.append(Entity(
+                            name=name,
+                            name_lower=name.lower(),
+                            entity_type=entity_type,
+                            mention_context=mention_context,
+                        ))
 
         return entities

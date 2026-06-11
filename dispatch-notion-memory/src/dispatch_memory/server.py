@@ -330,6 +330,7 @@ class MemoryService:
         self.extractor = EntityExtractor(
             model_name=entity_cfg.get("spacy_model", "en_core_web_sm")
         )
+        self.custom_entities = entity_cfg.get("custom_entities", [])
 
         sig_cfg = self.config.get("significance", {})
         self.consolidator = Consolidator(
@@ -357,8 +358,10 @@ class MemoryService:
         if significance is None:
             significance = self.significance_defaults.get(memory_type, 0.5)
 
-        # Extract entities
-        entities = self.extractor.extract(content)
+        # Extract entities (spaCy + Coalition custom patterns)
+        entities = self.extractor.extract_with_custom_entities(
+            content, custom_entities=self.custom_entities
+        )
 
         # Build memory
         memory = Memory(

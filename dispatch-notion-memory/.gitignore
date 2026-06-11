@@ -22,3 +22,6 @@ config/config.yaml
 # OS
 .DS_Store
 Thumbs.db
+.ssh/
+*.pyc
+__pycache__/
