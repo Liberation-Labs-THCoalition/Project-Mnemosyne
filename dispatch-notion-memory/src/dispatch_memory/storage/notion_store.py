@@ -36,6 +36,12 @@ CATEGORY_TO_TYPE = {
     "Archive": MemoryType.FACT,
     "Inbox": MemoryType.FACT,
     "Agentic": MemoryType.AGENTIC,
+    "Decision": MemoryType.DECISION,
+    "Preference": MemoryType.PREFERENCE,
+    "Person": MemoryType.PERSON,
+    "Interaction": MemoryType.INTERACTION,
+    "Standing Instruction": MemoryType.STANDING_INSTRUCTION,
+    "Workflow": MemoryType.WORKFLOW,
 }
 
 # Mapping from MemoryType to target PARA database
@@ -272,6 +278,16 @@ class NotionStore:
                 ],
             }
 
+        # Write memory_type as Category (enables round-trip)
+        reverse = {v: k for k, v in CATEGORY_TO_TYPE.items()}
+        cat_name = reverse.get(memory.memory_type, memory.memory_type.value.title())
+        properties["Category"] = {"select": {"name": cat_name}}
+
+        # Write ttl_class
+        if hasattr(memory, 'ttl_class') and memory.ttl_class:
+            ttl_val = memory.ttl_class.value if hasattr(memory.ttl_class, 'value') else str(memory.ttl_class)
+            properties["TTL"] = {"select": {"name": ttl_val}}
+
         properties["Source"] = {"select": {"name": "Dispatch MCP"}}
 
         properties["Captured At"] = {
@@ -322,6 +338,15 @@ class NotionStore:
         if cat_prop.get("select"):
             cat_name = cat_prop["select"].get("name", "")
             memory_type = CATEGORY_TO_TYPE.get(cat_name, MemoryType.FACT)
+
+        ttl_class = TTLClass.MEDIUM
+        ttl_prop = props.get("TTL", {})
+        if ttl_prop.get("select"):
+            ttl_name = ttl_prop["select"].get("name", "medium")
+            try:
+                ttl_class = TTLClass(ttl_name)
+            except ValueError:
+                ttl_class = TTLClass.MEDIUM
 
         created_at = datetime.utcnow()
         cap_prop = props.get("Captured At", {})
