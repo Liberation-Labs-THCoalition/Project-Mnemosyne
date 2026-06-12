@@ -384,6 +384,7 @@ class MemoryService:
             content_hash=memory.content_hash,
             memory_type=memory_type,
             significance=significance,
+            ttl_class=ttl_class,
             tags=tags or [],
             entities=[e.name for e in entities],
         )
@@ -476,18 +477,18 @@ class MemoryService:
 
         memory = await self.notion.update(memory)
 
-        # Re-index locally
-        if content:
-            self.cache.index_memory(
-                memory_id=memory.id,
-                content=memory.content,
-                notion_page_id=memory.notion_page_id,
-                content_hash=memory.content_hash,
-                memory_type=memory.memory_type.value,
-                significance=memory.significance,
-                tags=memory.tags,
-                entities=[e.name for e in memory.entities],
-            )
+        # Re-index locally (always, not just on content changes)
+        self.cache.index_memory(
+            memory_id=memory.id,
+            content=memory.content,
+            notion_page_id=memory.notion_page_id,
+            content_hash=memory.content_hash,
+            memory_type=memory.memory_type.value,
+            significance=memory.significance,
+            ttl_class=memory.ttl_class.value if hasattr(memory.ttl_class, 'value') else str(memory.ttl_class),
+            tags=memory.tags,
+            entities=[e.name for e in memory.entities],
+        )
 
         return {"updated": True, "notion_page_id": notion_page_id}
 
@@ -496,7 +497,7 @@ class MemoryService:
         memory = await self.notion.retrieve(notion_page_id)
         if memory:
             await self.notion.delete(memory)
-            self.cache.remove(memory.id)
+            self.cache.remove(memory.id, notion_page_id=notion_page_id)
             return {"deleted": True}
         return {"error": "Memory not found"}
 
@@ -512,10 +513,10 @@ class MemoryService:
         decay_result = self.consolidator.run_decay_pass(memories)
         for memory in decay_result["archive"]:
             await self.notion.archive(memory)
-            self.cache.update_status(memory.id, "archived")
+            self.cache.update_status(memory.id, "archived", notion_page_id=memory.notion_page_id)
 
         for memory in decay_result["forget"]:
-            self.cache.update_status(memory.id, "forgotten")
+            self.cache.update_status(memory.id, "forgotten", notion_page_id=memory.notion_page_id)
 
         return summary
 

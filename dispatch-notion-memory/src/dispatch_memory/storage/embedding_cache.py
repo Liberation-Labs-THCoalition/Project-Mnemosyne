@@ -50,6 +50,7 @@ class EmbeddingCache:
                 memory_type TEXT,
                 significance REAL DEFAULT 0.5,
                 status TEXT DEFAULT 'active',
+                ttl_class TEXT DEFAULT 'medium',
                 tags TEXT DEFAULT '[]',
                 entities TEXT DEFAULT '[]',
                 last_accessed TEXT,
@@ -75,6 +76,10 @@ class EmbeddingCache:
             CREATE INDEX IF NOT EXISTS idx_notion_page_id
             ON memory_embeddings(notion_page_id)
         """)
+        # Migrate: add ttl_class if missing (existing DBs)
+        cols = [r[1] for r in self.conn.execute("PRAGMA table_info(memory_embeddings)").fetchall()]
+        if "ttl_class" not in cols:
+            self.conn.execute("ALTER TABLE memory_embeddings ADD COLUMN ttl_class TEXT DEFAULT 'medium'")
         self.conn.commit()
 
     def embed(self, text: str) -> list[float]:
@@ -90,6 +95,7 @@ class EmbeddingCache:
         memory_type: str = "fact",
         significance: float = 0.5,
         status: str = "active",
+        ttl_class: str = "medium",
         tags: Optional[list[str]] = None,
         entities: Optional[list[str]] = None,
     ) -> list[float]:
@@ -100,9 +106,9 @@ class EmbeddingCache:
         self.conn.execute("""
             INSERT OR REPLACE INTO memory_embeddings
             (memory_id, notion_page_id, content_hash, memory_type,
-             significance, status, tags, entities, embedding,
+             significance, status, ttl_class, tags, entities, embedding,
              created_at, updated_at, access_count)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'), 0)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'), 0)
         """, (
             memory_id,
             notion_page_id,
@@ -110,6 +116,7 @@ class EmbeddingCache:
             memory_type,
             significance,
             status,
+            ttl_class,
             json.dumps(tags or []),
             json.dumps(entities or []),
             embedding_blob,
@@ -184,20 +191,30 @@ class EmbeddingCache:
 
         return results[:limit]
 
-    def remove(self, memory_id: str) -> None:
-        """Remove a memory from the local index."""
-        self.conn.execute(
+    def remove(self, memory_id: str, notion_page_id: str = None) -> None:
+        """Remove a memory from the local index. Falls back to notion_page_id lookup."""
+        cursor = self.conn.execute(
             "DELETE FROM memory_embeddings WHERE memory_id = ?",
             (memory_id,),
         )
+        if cursor.rowcount == 0 and notion_page_id:
+            self.conn.execute(
+                "DELETE FROM memory_embeddings WHERE notion_page_id = ?",
+                (notion_page_id,),
+            )
         self.conn.commit()
 
-    def update_status(self, memory_id: str, status: str) -> None:
-        """Update the status of a cached memory."""
-        self.conn.execute(
+    def update_status(self, memory_id: str, status: str, notion_page_id: str = None) -> None:
+        """Update the status of a cached memory. Falls back to notion_page_id lookup."""
+        cursor = self.conn.execute(
             "UPDATE memory_embeddings SET status = ?, updated_at = datetime('now') WHERE memory_id = ?",
             (status, memory_id),
         )
+        if cursor.rowcount == 0 and notion_page_id:
+            self.conn.execute(
+                "UPDATE memory_embeddings SET status = ?, updated_at = datetime('now') WHERE notion_page_id = ?",
+                (status, notion_page_id),
+            )
         self.conn.commit()
 
     def get_stats(self) -> dict:

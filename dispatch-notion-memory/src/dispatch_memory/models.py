@@ -90,6 +90,7 @@ class Memory(BaseModel):
     # Notion linkage
     notion_page_id: Optional[str] = None
     notion_database: Optional[str] = None  # Which PARA database it lives in
+    notion_category: Optional[str] = None  # Preserved for lossless round-trip
 
     # Embedding (local cache only, not stored in Notion)
     embedding: Optional[list[float]] = None

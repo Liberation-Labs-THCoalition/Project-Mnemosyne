@@ -274,19 +274,27 @@ class NotionStore:
         if memory.entities:
             properties["Entities"] = {
                 "multi_select": [
-                    {"name": e.name[:100]} for e in memory.entities[:10]
+                    {"name": f"{e.name}::{e.entity_type.value}"[:100]}
+                    for e in memory.entities[:10]
                 ],
             }
 
-        # Write memory_type as Category (enables round-trip)
-        reverse = {v: k for k, v in CATEGORY_TO_TYPE.items()}
-        cat_name = reverse.get(memory.memory_type, memory.memory_type.value.title())
+        # Write Category — use stored original if available (lossless round-trip)
+        if hasattr(memory, 'notion_category') and memory.notion_category:
+            cat_name = memory.notion_category
+        else:
+            cat_name = self._type_to_category(memory.memory_type)
         properties["Category"] = {"select": {"name": cat_name}}
 
         # Write ttl_class
         if hasattr(memory, 'ttl_class') and memory.ttl_class:
             ttl_val = memory.ttl_class.value if hasattr(memory.ttl_class, 'value') else str(memory.ttl_class)
             properties["TTL"] = {"select": {"name": ttl_val}}
+
+        # Store memory_id for lossless round-trip (prevents ID divergence)
+        properties["Memory ID"] = {
+            "rich_text": [{"text": {"content": memory.id}}],
+        }
 
         properties["Source"] = {"select": {"name": "Dispatch MCP"}}
 
@@ -318,10 +326,18 @@ class NotionStore:
         entities = []
         entities_prop = props.get("Entities", {})
         if entities_prop.get("multi_select"):
-            entities = [
-                Entity(name=e["name"], entity_type=EntityType.UNKNOWN)
-                for e in entities_prop["multi_select"]
-            ]
+            for e in entities_prop["multi_select"]:
+                raw = e["name"]
+                if "::" in raw:
+                    name, etype_str = raw.rsplit("::", 1)
+                    try:
+                        etype = EntityType(etype_str)
+                    except ValueError:
+                        etype = EntityType.UNKNOWN
+                else:
+                    name = raw
+                    etype = EntityType.UNKNOWN
+                entities.append(Entity(name=name, entity_type=etype))
 
         significance = 0.5
         sig_prop = props.get("Significance", {})
@@ -334,9 +350,11 @@ class NotionStore:
             quality_score = conf_prop["number"]
 
         memory_type = MemoryType.FACT
+        notion_category = None
         cat_prop = props.get("Category", {})
         if cat_prop.get("select"):
             cat_name = cat_prop["select"].get("name", "")
+            notion_category = cat_name
             memory_type = CATEGORY_TO_TYPE.get(cat_name, MemoryType.FACT)
 
         ttl_class = TTLClass.MEDIUM
@@ -358,7 +376,13 @@ class NotionStore:
             except (ValueError, TypeError):
                 pass
 
-        return Memory(
+        # Read memory_id if stored (otherwise generate new — legacy pages)
+        memory_id = None
+        mid_prop = props.get("Memory ID", {})
+        if mid_prop.get("rich_text"):
+            memory_id = mid_prop["rich_text"][0].get("text", {}).get("content", "")
+
+        memory_kwargs = dict(
             content=content,
             memory_type=memory_type,
             tags=tags,
@@ -367,4 +391,9 @@ class NotionStore:
             quality_score=quality_score,
             created_at=created_at,
             notion_page_id=page["id"],
+            notion_category=notion_category,
         )
+        if memory_id:
+            memory_kwargs["id"] = memory_id
+
+        return Memory(**memory_kwargs)
