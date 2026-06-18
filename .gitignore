@@ -13,3 +13,4 @@ htmlcov/
 *.db
 *.sqlite3
 biometric-reader/
+dispatch-notion-memory/
