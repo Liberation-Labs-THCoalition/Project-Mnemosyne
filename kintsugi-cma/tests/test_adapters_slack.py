@@ -1265,15 +1265,13 @@ class TestOAuthError:
 class TestInstallationStore:
     """Tests for InstallationStore abstract class."""
 
-    def test_is_abstract(self):
+    @pytest.mark.asyncio
+    async def test_is_abstract(self):
         """InstallationStore methods raise NotImplementedError."""
         store = InstallationStore()
 
         with pytest.raises(NotImplementedError):
-            import asyncio
-            asyncio.get_event_loop().run_until_complete(
-                store.save(MagicMock())
-            )
+            await store.save(MagicMock())
 
 
 # ==============================================================================

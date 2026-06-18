@@ -1296,19 +1296,15 @@ class TestInMemoryAllowlistStore:
         assert retrieved.notes == "Updated note"
         assert await allowlist_store.count("org_update") == 1
 
-    def test_len_returns_total_entries(self, allowlist_store):
+    @pytest.mark.asyncio
+    async def test_len_returns_total_entries(self, allowlist_store):
         """InMemoryAllowlistStore.__len__() returns total entries across all orgs."""
-        import asyncio
-
-        async def add_entries():
-            for i in range(3):
-                entry = make_allowlist_entry(org_id="org_a", platform_user_id=f"user_a_{i}")
-                await allowlist_store.add(entry)
-            for i in range(2):
-                entry = make_allowlist_entry(org_id="org_b", platform_user_id=f"user_b_{i}")
-                await allowlist_store.add(entry)
-
-        asyncio.get_event_loop().run_until_complete(add_entries())
+        for i in range(3):
+            entry = make_allowlist_entry(org_id="org_a", platform_user_id=f"user_a_{i}")
+            await allowlist_store.add(entry)
+        for i in range(2):
+            entry = make_allowlist_entry(org_id="org_b", platform_user_id=f"user_b_{i}")
+            await allowlist_store.add(entry)
 
         assert len(allowlist_store) == 5
 
