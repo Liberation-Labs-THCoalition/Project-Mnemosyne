@@ -30,7 +30,7 @@ from swarm_memory import SwarmMemory
 
 NATS_URL = os.environ.get("NATS_URL", "nats://127.0.0.1:4222")
 NATS_USER = os.environ.get("NATS_USER", "nexus")
-NATS_PASS = os.environ.get("NATS_PASS", "op-nats-changeme")
+NATS_PASS = os.environ.get("NATS_PASS", "")
 DISCORD_TOKEN_FILE = "/home/admin/.discord_bot_token"
 DISCORD_CHANNEL = "1488699407762329652"
 

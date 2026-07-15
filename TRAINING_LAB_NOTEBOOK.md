@@ -72,7 +72,7 @@ MLX `nn.Module` ignores instance-level `__call__` overrides. Must monkey-patch a
 ## Test 2: Cairn Infrastructure Setup
 **Date:** 2026-06-04
 **Machine:** Cairn (Mac Studio M4 Max, 64GB, macOS 26.5.1)
-**Access:** Reverse SSH tunnel via Z420 (port 2222), user `cairn`, admin ed25519 key
+**Access:** [see internal infrastructure docs]
 **Status:** IN PROGRESS
 
 ### System baseline
@@ -122,9 +122,9 @@ Train on 93 DPO pairs. Same measurement. This is the higher-risk phase — prefe
 ### Infrastructure Setup
 - Miniforge installed on Cairn (Python 3.12+, arm64 native)
 - mlx-lm 0.31.3 installed via pip
-- Model transferred: Margaret → MTH (Tailscale) → Cairn (reverse tunnel port 2222)
+- Model transferred: Margaret → MTH (Tailscale) → Cairn [see internal infrastructure docs]
 - Transfer size: 16GB (MLX 4-bit quantization)
-- Access: reverse SSH tunnel via Z420, user `cairn`, admin ed25519 key
+- Access: [see internal infrastructure docs]
 
 ### Results — Explained Variance (top-16 of 2048 dimensions)
 

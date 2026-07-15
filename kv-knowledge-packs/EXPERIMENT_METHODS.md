@@ -57,7 +57,7 @@
 ## 4. Evaluation Model
 
 **Production:** Qwen3-30B-A3B (MoE, ~3B active) on Studio (Mac Studio M3 Ultra)
-- Ollama API: http://100.69.191.67:11434
+- Ollama API: http://[internal-tailscale]:11434
 - Temperature: 0.3
 - Max tokens: 4000
 - Timeout: 600 seconds (CRITICAL — 300s causes timeout artifacts scored as zero)
@@ -109,7 +109,7 @@
 |------|-------|
 | Ethics packs | ~/Agent-Memory-Architectures/kv-knowledge-packs/ethics_packs/ |
 | Experiment results | ~/Agent-Memory-Architectures/kv-knowledge-packs/experiment_results/ |
-| Studio scripts | margaret@100.69.191.67:~/lab/kv-experiments/ |
+| Studio scripts | [internal-tailscale]:~/lab/kv-experiments/ |
 | MoReBench data | /mnt/data1/training-data/ethics/morebench/ |
 | Stanford Encyclopedia | /mnt/data1/training-data/ethics/stanford_encyclopedia_philosophy/ |
 | Published papers | /tmp/published-research/ (also archived in nexus-memory-archive/papers/) |
