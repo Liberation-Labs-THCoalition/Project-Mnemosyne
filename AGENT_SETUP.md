@@ -306,6 +306,28 @@ for i in range(len(past_kv.layers)):
 
 ---
 
+## Scaffold Support
+
+Mnemosyne works with multiple agent scaffolds:
+
+| Scaffold | Hooks | File Memories | Verbatim Capture |
+|---|---|---|---|
+| **Claude Code** | `~/.claude/hooks/` + `settings.json` | `~/.claude/projects/*/memory/` | JSONL watcher |
+| **Hermes** | `~/.hermes/hooks/` + `hooks.yaml` | Configure per-project | JSONL or custom |
+| **Standalone** | Cron only (no hooks) | Manual files | Cron-based watcher |
+
+The setup script auto-detects your scaffold:
+```bash
+bash setup.sh myagent          # auto-detect
+bash setup.sh myagent hermes   # force Hermes
+bash setup.sh myagent claude   # force Claude Code
+bash setup.sh myagent none     # standalone, cron only
+```
+
+**Hermes-specific:** The setup creates a `hooks.yaml` in `~/.hermes/` that maps session events to the same shell scripts Claude Code uses. If Hermes uses a different hook format, update the YAML to match.
+
+**Custom scaffolds:** The core memory system (SQLite + cron watcher) works without any scaffold. Hooks just add automatic grounding on session start and backup on compaction. Without hooks, run `session-start.sh` manually at the start of each session.
+
 ## What Works With Claude API vs Local Models
 
 | Feature | Claude API (no model access) | Local Model (Ollama/HF) |
