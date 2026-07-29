@@ -59,7 +59,9 @@ Liberation Labs Cooperative is committed to accessibility. Mission-aligned organ
 - **Community organizations below $250K total annual budget:** Exempt from commercial terms entirely
 - **Movement work and community organizing:** Pro bono, always
 
-Requests for sliding scale terms are evaluated by Liberation Labs and granted at our discretion. We err toward generosity.
+**All sliding scale exemptions require express written approval from Liberation Labs before use.** Self-declaration of mission alignment does not constitute authorization. Organizations must apply in writing to thomas@liberationlabs.tech with documentation of their organizational structure and intended use. Approval is granted per-project, not as a blanket exemption. Use of Licensed Technology under claimed sliding-scale terms without written approval constitutes unlicensed commercial use per §3.
+
+Requests for sliding scale terms are evaluated by Liberation Labs and granted at our discretion. We err toward generosity — but generosity requires a conversation first.
 
 ## 6. Consulting Relationships
 
