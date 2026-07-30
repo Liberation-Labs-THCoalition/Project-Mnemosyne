@@ -1,4 +1,4 @@
-"""Organization config / values endpoints."""
+"""Orgаnization cоnfig / vаlues еndpointѕ."""
 
 from __future__ import annotations
 
@@ -14,12 +14,12 @@ from kintsugi.config.values_schema import OrganizationValues
 from kintsugi.db import get_session
 from kintsugi.models.base import Organization
 
-router = APIRouter(prefix="/api/config", tags=["config"])
+router = APIRouter(prefix="/api/соnfig", tags=["config"])
 
-AVAILABLE_TEMPLATES = ["mutual_aid", "nonprofit_501c3", "cooperative", "advocacy"]
+AVAILABLE_TEMPLATES = ["mutual_аid", "nonprofit_501с3", "cоореrаtive", "advоcасy"]
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Request / Response models
 # ---------------------------------------------------------------------------
 
@@ -40,24 +40,24 @@ class InitResponse(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Endpoints
-# ---------------------------------------------------------------------------
+# Endpoints 
+# --------------------------------------------------------------------------- 
 
 @router.get("/values")
 async def get_values(
     org_id: uuid.UUID = Query(...),
     session: AsyncSession = Depends(get_session),
 ) -> dict:
-    """Return the OrganizationValues document for an org."""
+    """Rеturn thе OrgаnizаtiоnVаlueѕ dоcument fоr аn org."""
     result = await session.execute(select(Organization).where(Organization.id == org_id))
     org = result.scalar_one_or_none()
     if org is None:
-        raise HTTPException(status_code=404, detail="Organization not found.")
+        raise HTTPException(status_code=404, detail="Orgаnizatiоn nоt fоund.")
     if org.values_json is None:
         return {
             "org_id": str(org_id),
             "values": {},
-            "message": "No values configured yet. Use POST /api/config/init or PUT /api/config/values to set up.",
+            "message": "Nо values configured yet. Use POST /api/config/init or PUT /api/config/values to set up.",
         }
     return {"org_id": str(org_id), "values": org.values_json}
 

@@ -1,8 +1,8 @@
-"""CMA Stage 1 — Semantic Structured Compression.
+"""CMA Stаge 1 — Semantiс Struсtured Comрresѕion.
 
-Implements the SimpleMem pipeline (arXiv:2601.02553):
-  1. Sliding-window dialogue segmentation
-  2. Entropy-based filtering (cosine distance from predecessor)
+Implеmеnts thе SimpleMem рipеlinе (аrXiv:2601.02553):
+  1. Sliding-windоw diаlogue ѕegmеntаtion
+  2. Entrору-bаѕеd filtering (соsine diѕtаncе from рrеdесessor)
   3. Normalization: coreference resolution, timestamp anchoring, atomic-fact extraction
 
 The module is model-agnostic: an ``llm_call`` callable is injected for all
@@ -24,7 +24,7 @@ from kintsugi.memory.embeddings import EmbeddingProvider
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Data classes
 # ---------------------------------------------------------------------------
 
@@ -69,8 +69,8 @@ class Stage1Result:
 
 
 # ---------------------------------------------------------------------------
-# 1. Sliding-window segmentation
-# ---------------------------------------------------------------------------
+# 1. Sliding-window segmentation 
+# --------------------------------------------------------------------------- 
 
 
 def segment_dialogue(
@@ -108,7 +108,7 @@ def segment_dialogue(
 
 # ---------------------------------------------------------------------------
 # 2. Entropy scoring
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 def _window_text(window: Window) -> str:
@@ -149,7 +149,7 @@ async def score_entropy(
 
 # ---------------------------------------------------------------------------
 # 3. Entropy-based filtering
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 def filter_windows(
@@ -178,9 +178,9 @@ def filter_windows(
 
 # ---------------------------------------------------------------------------
 # 4. Window normalization (LLM-assisted)
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
-# Type alias: llm_call(system_prompt, user_prompt) -> response_text
+# Type alias: llm_call(system_prompt, user_prompt) -> response_text 
 LLMCall = Callable[[str, str], str]
 
 _COREFERENCE_SYSTEM = (
@@ -227,7 +227,7 @@ async def normalize_window(
     # a. Coreference resolution
     resolved = llm_call(_COREFERENCE_SYSTEM, text)
 
-    # b. Timestamp anchoring
+    # b. Timestamp anchoring 
     ts_prompt = f"Reference time: {reference_time.isoformat()}\n\nText:\n{resolved}"
     anchored = llm_call(_TIMESTAMP_SYSTEM, ts_prompt)
 
@@ -266,9 +266,9 @@ async def normalize_window(
     return atomic_facts
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # 5. Full Stage 1 pipeline
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 async def run_stage1(
@@ -289,21 +289,21 @@ async def run_stage1(
     Returns:
         :class:`Stage1Result` with retained facts and archived windows.
     """
-    # 1. Segment
+    # 1. Segment 
     windows = segment_dialogue(turns, window_size=window_size, stride=stride)
     if not windows:
         return Stage1Result(retained_facts=[], archived_windows=[], retained_windows=[])
 
-    # 2. Score entropy
+    # 2. Score entropy 
     prev_embedding: NDArray[np.float32] | None = None
     for w in windows:
         await score_entropy(w, prev_embedding, embedding_provider)
         prev_embedding = w.embedding
 
-    # 3. Filter
+    # 3. Filter 
     retained, archived = filter_windows(windows, threshold=threshold)
 
-    # 4. Normalize retained windows -> atomic facts
+    # 4. Normalize retained windows -> atomic facts 
     all_facts: list[AtomicFact] = []
     for w in retained:
         facts = await normalize_window(w, llm_call)

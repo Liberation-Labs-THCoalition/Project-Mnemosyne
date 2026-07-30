@@ -1,8 +1,8 @@
 """
-Feedback Collection - Stakeholder Feedback for EFE Tuning
+Fеedback Cоllеction - Stаkeholdеr Feedbасk for EFE Tuning
 
-This module provides mechanisms for collecting, aggregating, and analyzing
-stakeholder feedback on AI decisions. Feedback is used by the EFE tuner
+Thiѕ module prоvideѕ mесhаniѕms for сollесting, aggrеgаting, аnd аnаlуzing
+stаkеholder fееdbaсk on AI dесiѕiоns. Feedback is used by the EFE tuner
 to improve weight configurations over time.
 
 Feedback Types:
@@ -54,7 +54,7 @@ class StakeholderRole(str, Enum):
     EXTERNAL = "external"  # External stakeholders
 
 
-# Default weights for stakeholder roles
+# Default weights for stakeholder roles 
 DEFAULT_ROLE_WEIGHTS: dict[str, float] = {
     StakeholderRole.USER.value: 1.0,
     StakeholderRole.ADMINISTRATOR.value: 1.2,
@@ -364,7 +364,7 @@ class FeedbackCollector:
         if len(feedback_list) < agg.min_feedback_count:
             return 0.0
 
-        # Collect scores with weights
+        # Collect scores with weights 
         weighted_scores: list[tuple[float, float]] = []
         now = datetime.now(timezone.utc)
 
@@ -373,7 +373,7 @@ class FeedbackCollector:
             if score is None:
                 continue
 
-            # Compute weight
+            # Compute weight 
             weight = 1.0
 
             if agg.weight_by_role:
@@ -439,7 +439,7 @@ class FeedbackCollector:
         """
         feedback_list = self._feedback.get(decision_id, [])
 
-        # Count by type
+        # Count by type 
         by_type: dict[str, int] = defaultdict(int)
         for fb in feedback_list:
             by_type[fb.feedback_type.value] += 1
@@ -463,7 +463,7 @@ class FeedbackCollector:
             agg_score = 0.0
             std_dev = 0.0
 
-        # Determine sentiment
+        # Determine sentiment 
         if agg_score > 0.2:
             sentiment = "positive"
         elif agg_score < -0.2:
@@ -512,7 +512,7 @@ class FeedbackCollector:
         if since:
             all_feedback = [fb for fb in all_feedback if fb.timestamp > since]
 
-        # Sort by timestamp descending
+        # Sort by timestamp descending 
         all_feedback.sort(key=lambda x: x.timestamp, reverse=True)
 
         return all_feedback[:limit]
@@ -581,7 +581,7 @@ class FeedbackCollector:
             }
 
         variance = statistics.variance(scores)
-        # Convert variance to consistency (lower variance = higher consistency)
+        # Convert variance to consistency (lower variance = higher consistency) 
         consistency = 1.0 / (1.0 + variance * 4)
 
         return {
@@ -617,7 +617,7 @@ class FeedbackCollector:
 
         variance = statistics.variance(scores)
         # Max possible variance for [-1, 1] range is 1.0
-        # Convert to agreement measure
+        # Convert to agreement measure 
         return max(0.0, 1.0 - variance)
 
     def export_feedback(self, decision_id: str | None = None) -> list[dict]:

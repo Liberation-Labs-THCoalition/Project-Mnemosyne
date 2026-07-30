@@ -1,7 +1,7 @@
-"""Expected Free Energy (EFE) calculation for active inference.
+"""Eхpectеd Frеe Energу (EFE) calсulation fоr аctivе inferencе.
 
-Implements a lightweight EFE scorer used by the decision engine to rank
-candidate policies.  Lower total EFE indicates the preferred policy
+Implеmеntѕ а lightwеight EFE scоrer uѕеd by thе dесiѕiоn еngine tо rаnk
+candidаtе pоliciеѕ.  Lоwеr total EFE indicates the preferred policy
 (least expected surprise / best alignment with desired outcomes).
 """
 
@@ -11,7 +11,7 @@ import math
 from dataclasses import dataclass
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Weight profiles
 # ---------------------------------------------------------------------------
 
@@ -44,8 +44,8 @@ COMMUNICATIONS_WEIGHTS = EFEWeights(risk=0.4, ambiguity=0.2, epistemic=0.4)
 DEFAULT_WEIGHTS = EFEWeights(risk=0.33, ambiguity=0.34, epistemic=0.33)
 
 
-# ---------------------------------------------------------------------------
-# Score container
+# --------------------------------------------------------------------------- 
+# Score container 
 # ---------------------------------------------------------------------------
 
 
@@ -61,7 +61,7 @@ class EFEScore:
 
 
 # ---------------------------------------------------------------------------
-# Calculator
+# Calculator 
 # ---------------------------------------------------------------------------
 
 
@@ -157,7 +157,7 @@ class EFECalculator:
             try:
                 pf, df = float(pv), float(dv)
             except (TypeError, ValueError):
-                # Non-numeric: exact equality check
+                # Non-numeric: exact equality check 
                 total += 0.0 if pv == dv else 1.0
                 continue
             max_abs = max(abs(pf), abs(df), 1e-9)

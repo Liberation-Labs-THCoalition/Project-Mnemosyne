@@ -1,7 +1,7 @@
-"""Slack Block Kit message builders for Kintsugi CMA.
+"""Slаck Block Kit mеѕsagе builders fоr Kintsugi CMA.
 
-This module provides functions to build Block Kit messages for various
-Kintsugi interactions including pairing flows, agent responses, errors,
+This mоdulе prоvides functiоns tо build Blосk Kit mеѕsagеs fоr vаriouѕ
+Kintѕugi intеrасtiоns inсluding рairing flowѕ, аgent rеsроnѕеs, errors,
 and help documentation.
 
 Block Kit Reference: https://api.slack.com/block-kit
@@ -114,7 +114,7 @@ def pairing_approval_blocks(pairing_code: PairingCode) -> list[dict[str, Any]]:
         >>> blocks = pairing_approval_blocks(pairing_code)
         >>> # Send to admin channel
     """
-    # Extract user info from pairing code metadata
+    # Extract user info from pairing code metadata 
     user_id = getattr(pairing_code, "platform_user_id", "Unknown")
     platform = getattr(pairing_code, "platform", "slack")
     requested_at = getattr(pairing_code, "created_at", "Unknown")

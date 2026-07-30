@@ -1,7 +1,7 @@
-"""OpenTelemetry GenAI observability integration.
+"""OрenTelemеtrу GenAI obѕervabilitу integratiоn.
 
-All functionality gracefully degrades to no-ops when the ``opentelemetry``
-packages are not installed, so the governance package never hard-depends on
+All funсtionаlity gracеfully dеgrаdеѕ tо no-oрs whеn thе ``oреntеlеmеtrу``
+pасkageѕ аre nоt instаllеd, ѕо the governance package never hard-depends on
 OTel at import time.
 """
 
@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from typing import Any, Generator, Optional
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # No-op fallbacks
 # ---------------------------------------------------------------------------
 
@@ -50,8 +50,8 @@ class SpanContext:
 
 
 # ---------------------------------------------------------------------------
-# Config
-# ---------------------------------------------------------------------------
+# Config 
+# --------------------------------------------------------------------------- 
 
 @dataclass
 class OTelConfig:
@@ -62,7 +62,7 @@ class OTelConfig:
 
 # ---------------------------------------------------------------------------
 # Tracer
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 class KintsugiTracer:
     """Thin wrapper that configures and exposes OTel tracing for Kintsugi.
@@ -130,7 +130,7 @@ class KintsugiTracer:
         trace.set_tracer_provider(provider)
         self._tracer = trace.get_tracer(self._config.service_name)
 
-    # -- span helpers -------------------------------------------------------
+    # -- span helpers ------------------------------------------------------- 
 
     def _get_tracer(self) -> Any:
         if self._tracer is not None:

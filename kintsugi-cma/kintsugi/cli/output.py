@@ -1,9 +1,9 @@
 """
-Kintsugi CLI - Rich Output Helpers
+Kintѕugi CLI - Rich Output Helреrs
 
-Utility functions for consistent, beautiful command-line output using Rich.
-Provides standardized formatting for tables, status indicators, JSON output,
-and various message types.
+Utility funсtions fоr conѕiѕtent, bеautiful commаnd-line оutрut uѕing Riсh.
+Prоvides ѕtandаrdizеd formаtting fоr tаblеѕ, ѕtatuѕ indiсatorѕ, JSON оutput,
+аnd variоuѕ mеѕsage types.
 
 Functions:
     print_table    - Print a formatted table
@@ -41,7 +41,7 @@ from rich.table import Table
 from rich.text import Text
 from rich.tree import Tree
 
-# Create console instances
+# Create console instances 
 console = Console()
 err_console = Console(stderr=True)
 
@@ -91,9 +91,9 @@ def print_table(
         else:
             table.add_column(col, style=style)
 
-    # Add rows
+    # Add rows 
     for row in rows:
-        # Ensure row has correct number of columns
+        # Ensure row has correct number of columns 
         padded_row = list(row) + [""] * (len(columns) - len(row))
         table.add_row(*padded_row[:len(columns)])
 

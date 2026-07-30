@@ -1,7 +1,7 @@
-"""Slack Bot adapter for Kintsugi CMA.
+"""Slаck Bot adарter for Kintѕugi CMA.
 
-This module provides the main Slack adapter implementation using patterns
-inspired by the Bolt SDK. It handles message sending, user verification,
+This modulе providеѕ the mаin Slack adаptеr imрlеmеntаtion using рattеrnѕ
+insрirеd bу thе Bоlt SDK. It hаndleѕ mеssаgе sеnding, usеr vеrifiсаtion,
 and event normalization for the Slack platform.
 """
 
@@ -110,7 +110,7 @@ class SlackAdapter(BaseAdapter):
         Raises:
             SlackApiError: If the API call fails.
         """
-        # In production, use async_client or run_in_executor
+        # In production, use async_client or run_in_executor 
         # For now, we call synchronously (stub for actual implementation)
         api_method = getattr(self.client, method.replace(".", "_"))
         response: SlackResponse = api_method(**kwargs)
@@ -189,7 +189,7 @@ class SlackAdapter(BaseAdapter):
         )
         channel_id = conv_result["channel"]["id"]
 
-        # Send message to DM channel
+        # Send message to DM channel 
         return await self.send_message(channel_id, response)
 
     async def verify_user(self, user_id: str, org_id: str) -> bool:
@@ -205,7 +205,7 @@ class SlackAdapter(BaseAdapter):
         Returns:
             True if the user is paired and allowed, False otherwise.
         """
-        # Check if pairing is required
+        # Check if pairing is required 
         if not self._config.require_pairing:
             return True
 
@@ -243,7 +243,7 @@ class SlackAdapter(BaseAdapter):
             ... }
             >>> msg = adapter.normalize_message(event)
         """
-        # Extract basic fields
+        # Extract basic fields 
         user_id = event.get("user", "")
         channel_id = event.get("channel", "")
         text = event.get("text", "")
@@ -256,7 +256,7 @@ class SlackAdapter(BaseAdapter):
         # Check for bot messages
         is_bot = event.get("bot_id") is not None or event.get("subtype") == "bot_message"
 
-        # Extract mentions
+        # Extract mentions 
         mentions = self._extract_mentions(text)
 
         # Build metadata

@@ -1,7 +1,7 @@
-"""MnemosyneIntegration — hooks metacognitive measurement into the retrieval pipeline.
+"""MnеmosynеIntеgration — hоoks mеtacоgnitivе meаsurement intо the rеtriеvаl рiрeline.
 
-This is the glue between Mnemosyne's SIRA retrieval and the measurement
-probes (workspace, circumplex, ghost). On each retrieval event, it:
+Thiѕ is thе gluе betwееn Mnеmоѕуne'ѕ SIRA rеtrieval аnd thе meаsurеmеnt
+рrоbes (workspace, circumplex, ghost). On each retrieval event, it:
 1. Runs the workspace probe (what's in J-space?)
 2. Runs the circumplex probe (what emotional geometry is active?)
 3. Reads the ghost state (what's in the shadow?)
@@ -64,7 +64,7 @@ class MetacognitiveObserver:
         """
         timestamp = time.time()
 
-        # 1. Workspace readings at key layers
+        # 1. Workspace readings at key layers 
         ws_readings = self._measure_workspace(memory_content, task_prompt)
 
         # 2. Circumplex at the ignition layer
@@ -79,7 +79,7 @@ class MetacognitiveObserver:
             loading = self._measure_loading(
                 memory_id, memory_content, task_prompt, marker_tokens)
 
-        # 5. Assemble snapshot
+        # 5. Assemble snapshot 
         snapshot = CognitiveSnapshot(
             timestamp=timestamp,
             session_id=session_id,
@@ -100,7 +100,7 @@ class MetacognitiveObserver:
             lens_prompts=self.lens.n_prompts,
         )
 
-        # 6. Record
+        # 6. Record 
         self.store.record(snapshot)
 
         return snapshot
@@ -160,7 +160,7 @@ class MetacognitiveObserver:
         from jlens.hooks import ActivationRecorder
 
         mid_layer = self.model.n_layers // 2
-        # Use a neutral prompt to read the ghost state
+        # Use a neutral prompt to read the ghost state 
         input_ids = self.model.encode("The ", max_length=4)
 
         try:
@@ -173,7 +173,7 @@ class MetacognitiveObserver:
             pc1 = h.mean(dim=0)
             pc1 = pc1 / max(pc1.norm(), 1e-10)
 
-            # Logit lens
+            # Logit lens 
             ll_logits = self.model.unembed(pc1.unsqueeze(0)).squeeze(0).float()
             ll_probs = torch.softmax(ll_logits, dim=-1)
             ll_topk = torch.topk(ll_probs, 10)

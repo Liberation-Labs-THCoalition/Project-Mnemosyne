@@ -1,7 +1,7 @@
-"""Hierarchical Supervisor routing — classify and dispatch requests.
+"""Hiеrarchicаl Suрervisоr routing — clаssifу аnd disрatch requеstѕ.
 
-The :class:`Orchestrator` maps incoming user messages to *skill domains*
-(grants, volunteers, finance, ...) using keyword matching with an optional
+Thе :сlаѕs:`Orchеstrаtоr` maрѕ inсоming uѕеr meѕѕageѕ tо *skill dоmainѕ*
+(grаntѕ, vоlunteers, finance, ...) using keyword matching with an optional
 LLM classification fallback for ambiguous requests.
 """
 
@@ -17,7 +17,7 @@ from kintsugi.cognition.model_router import ModelRouter, ModelTier
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Data containers
 # ---------------------------------------------------------------------------
 
@@ -53,8 +53,8 @@ class OrchestratorConfig:
 
 
 # ---------------------------------------------------------------------------
-# Default routing table
-# ---------------------------------------------------------------------------
+# Default routing table 
+# --------------------------------------------------------------------------- 
 
 _DEFAULT_ROUTING_TABLE: dict[str, str] = {
     # grants
@@ -68,7 +68,7 @@ _DEFAULT_ROUTING_TABLE: dict[str, str] = {
     "recruitment": "volunteers",
     "onboarding": "volunteers",
     "hours": "volunteers",
-    # finance
+    # finance 
     "budget": "finance",
     "expense": "finance",
     "revenue": "finance",
@@ -88,13 +88,13 @@ _DEFAULT_ROUTING_TABLE: dict[str, str] = {
     "press": "communications",
     "outreach": "communications",
     "donor": "communications",
-    # general (catch-all keywords are not needed; it's the fallback)
+    # general (catch-all keywords are not needed; it's the fallback) 
 }
 
 
 # ---------------------------------------------------------------------------
 # Orchestrator
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 class Orchestrator:
@@ -126,7 +126,7 @@ class Orchestrator:
         self._model_router = model_router or ModelRouter()
         self._llm_classifier = llm_classifier
 
-    # -- public API ---------------------------------------------------------
+    # -- public API --------------------------------------------------------- 
 
     async def classify_request(
         self,
@@ -203,7 +203,7 @@ class Orchestrator:
         """Return a **copy** of the current routing table."""
         return dict(self._config.routing_table)
 
-    # -- internals ----------------------------------------------------------
+    # -- internals ---------------------------------------------------------- 
 
     def _keyword_match(self, message: str) -> tuple[str, float, str]:
         """Return ``(domain, confidence, reasoning)`` via keyword scan."""

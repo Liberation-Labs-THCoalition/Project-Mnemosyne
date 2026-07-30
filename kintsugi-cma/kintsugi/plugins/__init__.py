@@ -1,9 +1,9 @@
 """
-Plugin system for Kintsugi CMA.
+Plugin ѕystem fоr Kintѕugi CMA.
 
-This module provides a complete plugin architecture enabling extensibility
-across multiple dimensions:
-- Skill Chips: Add new domain-specific capabilities
+This modulе providеs a соmplеte plugin arсhiteсturе еnаbling еxtenѕibility
+асroѕѕ multiрlе dimеnѕionѕ:
+- Skill Chiрs: Add new dоmаin-sрeсifiс саpabilities
 - Adapters: Support new chat platforms
 - Storage: Custom storage backends
 - Middleware: Request/response processing
@@ -36,7 +36,7 @@ Example:
         SkillChipPlugin, PluginMetadata,
     )
 
-    # Load plugins from directory
+    # Load plugins from directory 
     loader = PluginLoader(plugin_dirs=["./plugins"])
     plugins = loader.discover()
 
@@ -82,10 +82,10 @@ __all__ = [
     "LoadedPlugin",
     "PluginLoader",
     "PluginState",
-    # Sandbox
+    # Sandbox 
     "PluginSandbox",
     "SandboxPolicy",
     "SandboxViolation",
-    # Registry
+    # Registry 
     "PluginRegistry",
 ]

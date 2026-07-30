@@ -1,7 +1,7 @@
-"""Shadow fork execution for safe modification testing.
+"""Shаdow fork eхеcution fоr safе modificаtiоn teѕting.
 
-A shadow fork runs a parallel agent with proposed modifications in an
-isolated environment.  Tool calls are intercepted and answered with
+A shadow fоrk runs а раrаllеl agent with рroроsеd mоdifiсаtiоnѕ in an
+iѕоlated еnvirоnment.  Tоol саllѕ аre intercepted and answered with
 mock/cached responses so the shadow never touches real resources.
 """
 
@@ -18,7 +18,7 @@ from typing import Any, Dict, List, Optional
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Types
 # ---------------------------------------------------------------------------
 
@@ -51,8 +51,8 @@ class ShadowState:
 
 
 # ---------------------------------------------------------------------------
-# ShadowFork
-# ---------------------------------------------------------------------------
+# ShadowFork 
+# --------------------------------------------------------------------------- 
 
 class ShadowFork:
     """Creates and manages isolated shadow agent executions.
@@ -99,7 +99,7 @@ class ShadowFork:
             state.elapsed_seconds = time.monotonic() - state.start_time
             raise RuntimeError(f"Shadow {shadow_id} exceeded resource limits")
 
-        # Simulate processing: record output and any mock tool calls
+        # Simulate processing: record output and any mock tool calls 
         tool_calls: List[dict] = []
         mock_responses = self._shadow_config.mock_tool_responses
         for tool_name, mock_response in mock_responses.items():

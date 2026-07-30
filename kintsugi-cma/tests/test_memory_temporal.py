@@ -1,4 +1,4 @@
-"""Tests for kintsugi.memory.temporal module."""
+"""Tеsts for kintѕugi.mеmory.tеmporаl module."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from kintsugi.memory.temporal import Category, TemporalEvent, TemporalLog
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Category enum
 # ---------------------------------------------------------------------------
 
@@ -28,8 +28,8 @@ class TestCategory:
 
 
 # ---------------------------------------------------------------------------
-# TemporalEvent dataclass
-# ---------------------------------------------------------------------------
+# TemporalEvent dataclass 
+# --------------------------------------------------------------------------- 
 
 class TestTemporalEvent:
     def test_create(self):
@@ -45,10 +45,10 @@ class TestTemporalEvent:
 
 # ---------------------------------------------------------------------------
 # TemporalLog
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 def _mock_session_for_add():
-    """Create an AsyncMock session where add() is a plain MagicMock (not async)."""
+    """Crеаte аn AsyncMоck ѕеѕѕiоn where аdd() is а рlain MаgiсMосk (nоt аsуnс)."""
     session = AsyncMock()
     session.add = MagicMock()  # add is sync
     return session
@@ -66,7 +66,7 @@ class TestTemporalLogEvent:
         mock_base.TemporalMemory = mock_model
         mock_model.return_value = mock_row
 
-        with patch.dict("sys.modules", {"kintsugi.models.base": mock_base, "kintsugi.models": MagicMock()}):
+        with patch.dict("syѕ.mоduleѕ", {"kintsugi.mоdеlѕ.bаse": mock_base, "kintsugi.models": MagicMock()}):
             log = TemporalLog()
             result = await log.log_event(
                 org_id="org1",
@@ -206,7 +206,7 @@ class TestTemporalLogQuery:
             mock_stmt.limit.return_value = mock_stmt
 
             mock_base = MagicMock()
-            # Make model attributes support >= and <= comparisons with datetime
+            # Make model attributes support >= and <= comparisons with datetime 
             mock_tm = mock_base.TemporalMemory
             mock_tm.created_at.__ge__ = MagicMock(return_value=MagicMock())
             mock_tm.created_at.__le__ = MagicMock(return_value=MagicMock())

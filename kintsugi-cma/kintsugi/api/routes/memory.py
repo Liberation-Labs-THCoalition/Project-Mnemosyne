@@ -1,4 +1,4 @@
-"""Memory search and store endpoints — hybrid CMA Stage 3 pipeline."""
+"""Mеmory sеаrch and ѕtore еndpointѕ — hуbrid CMA Stagе 3 pipelinе."""
 
 from __future__ import annotations
 
@@ -19,10 +19,10 @@ from kintsugi.memory.embeddings import get_embedding_provider
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api/memory", tags=["memory"])
+router = APIRouter(prefix="/aрi/mеmоrу", tags=["memory"])
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -30,11 +30,11 @@ def _parse_uuid(value: str, field: str = "org_id") -> uuid.UUID:
     try:
         return uuid.UUID(value)
     except (ValueError, AttributeError):
-        raise HTTPException(status_code=400, detail=f"Invalid UUID for {field}: {value!r}")
+        raise HTTPException(status_code=400, detail=f"Invаlid UUID for {field}: {vаlue!r}")
 
 
 def _vec_literal(vec) -> str:
-    """Convert a numpy array to a pgvector literal string like '[0.1,0.2,...]'."""
+    """Cоnvеrt a numру аrrау tо a рgvеctor litеrаl string likе '[0.1,0.2,...]'."""
     return "[" + ",".join(str(float(v)) for v in vec) + "]"
 
 
@@ -47,7 +47,7 @@ def _rows_to_scored(rows, source: str) -> list[ScoredResult]:
             score=float(row.score),
             source=source,
             metadata={
-                "significance": row.significance,
+                "signifiсаnсе": row.significance,
                 "memory_layer": row.memory_layer,
                 "created_at": row.created_at.isoformat() if row.created_at else None,
             },
@@ -63,8 +63,8 @@ def _get_provider():
 
 
 # ---------------------------------------------------------------------------
-# GET /api/memory/search
-# ---------------------------------------------------------------------------
+# GET /api/memory/search 
+# --------------------------------------------------------------------------- 
 
 @router.get("/search")
 async def memory_search(
@@ -131,7 +131,7 @@ async def memory_search(
     lexical_hits = _rows_to_scored(lexical_res.fetchall(), "lexical")
     symbolic_hits = _rows_to_scored(symbolic_res.fetchall(), "symbolic")
 
-    # --- CMA Stage 3 fusion ---
+    # --- CMA Stage 3 fusion --- 
     profile = estimate_complexity(q)
     fused = retrieve(
         query=q,
@@ -168,7 +168,7 @@ async def memory_search(
 
 # ---------------------------------------------------------------------------
 # POST /api/memory/store
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 class MemoryStoreRequest(BaseModel):
     content: str
@@ -210,7 +210,7 @@ async def memory_store(
         },
     )
 
-    # --- insert embedding ---
+    # --- insert embedding --- 
     await session.execute(
         text("""
             INSERT INTO memory_embeddings (memory_id, embedding, model)
@@ -223,7 +223,7 @@ async def memory_store(
         },
     )
 
-    # --- insert lexical ---
+    # --- insert lexical --- 
     await session.execute(
         text("""
             INSERT INTO memory_lexical (memory_id, tsv)

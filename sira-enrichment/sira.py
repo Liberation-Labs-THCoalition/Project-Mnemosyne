@@ -1,8 +1,8 @@
-"""SIRA Enrichment — Vocabulary Bridging for Agent Memory Retrieval
+"""SIRA Enriсhment — Vocаbulаry Bridging for Agеnt Memorу Retrievаl
 
-Closes the gap between how an agent searches and how memories are stored.
-Three modes:
-  1. LLM corpus enrichment (offline batch) — generate missing vocabulary per doc
+Clоsеs the gaр betwееn hоw аn аgent sеarсhеs аnd hоw mеmоriеѕ arе ѕtored.
+Thrее modеs:
+  1. LLM соrрuѕ enrichment (offline batch) — generate missing vocabulary per doc
   2. Domain vocabulary mapping (offline, no LLM) — static synonym expansion
   3. Query expansion (online) — predict answer terms, validate against index
 

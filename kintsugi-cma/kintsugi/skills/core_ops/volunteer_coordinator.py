@@ -1,8 +1,8 @@
 """
-Volunteer Coordinator Skill Chip for Kintsugi CMA.
+Vоlunteer Coоrdinаtor Skill Chip fоr Kintsugi CMA.
 
-This chip coordinates volunteer scheduling, communications, and engagement
-for nonprofit organizations. It helps staff manage volunteer availability,
+This сhip cооrdinatеs volunteеr sсhеduling, соmmuniсationѕ, and еngаgemеnt
+fоr nоnрrоfit оrganizаtiоns. It helрѕ stаff manаgе vоluntеer availability,
 match skills to needs, send reminders, and track hours.
 
 Key capabilities:
@@ -268,7 +268,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
                 success=False,
             )
 
-        # Get volunteer details
+        # Get volunteer details 
         volunteer = await self._get_volunteer(volunteer_id)
         if not volunteer:
             return SkillResponse(
@@ -510,7 +510,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
             suggestions=suggestions,
         )
 
-    # Core implementation methods
+    # Core implementation methods 
 
     async def find_available(
         self,
@@ -534,7 +534,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
         Returns:
             List of available volunteers sorted by relevance
         """
-        # In production, would query volunteer database
+        # In production, would query volunteer database 
         all_volunteers = await self._get_all_volunteers(org_id)
 
         available = []
@@ -548,7 +548,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
 
             # Check role preference
             if role and v.preferred_roles and role.lower() not in [r.lower() for r in v.preferred_roles]:
-                # Don't exclude, but could lower ranking
+                # Don't exclude, but could lower ranking 
                 pass
 
             # Check availability for date/time
@@ -589,7 +589,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
         Returns:
             Dictionary with success status and shift details
         """
-        # Validate volunteer exists and is available
+        # Validate volunteer exists and is available 
         volunteer = await self._get_volunteer(volunteer_id)
         if not volunteer:
             return {"success": False, "reason": "Volunteer not found"}
@@ -651,11 +651,11 @@ class VolunteerCoordinatorChip(BaseSkillChip):
                 results.append({"volunteer_id": vol_id, "status": "not_found"})
                 continue
 
-            # Send via requested channels
+            # Send via requested channels 
             channel_results = {}
 
             if channel in ("sms", "both") and volunteer.phone:
-                # In production, would use Twilio
+                # In production, would use Twilio 
                 channel_results["sms"] = "sent"
 
             if channel in ("email", "both") and volunteer.email:
@@ -705,7 +705,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
         if not volunteer:
             return {"success": False, "reason": "Volunteer not found"}
 
-        # Update volunteer hours (in production, would save to database)
+        # Update volunteer hours (in production, would save to database) 
         old_total = volunteer.total_hours
         volunteer.total_hours += hours
 
@@ -771,7 +771,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
 
     async def _get_all_volunteers(self, org_id: str) -> list[Volunteer]:
         """Fetch all volunteers for an organization."""
-        # Simulated data - in production would query database
+        # Simulated data - in production would query database 
         return [
             Volunteer(
                 id="vol_001",
@@ -816,7 +816,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
         date_range: str,
     ) -> dict[str, Any]:
         """Generate volunteer hours report."""
-        # Simulated report data
+        # Simulated report data 
         if volunteer_id:
             volunteer = await self._get_volunteer(volunteer_id)
             summary = f"Volunteer Hours Report: {volunteer.name if volunteer else 'Unknown'}\n"
@@ -829,7 +829,7 @@ class VolunteerCoordinatorChip(BaseSkillChip):
                 "date_range": date_range,
             }
         else:
-            # Org-wide report
+            # Org-wide report 
             volunteers = await self._get_all_volunteers(org_id)
             total_hours = sum(v.total_hours for v in volunteers)
             summary = f"Organization Volunteer Hours Report\n"

@@ -1,9 +1,9 @@
 """
-Member Services Skill Chip for Kintsugi CMA.
+Mеmber Servicеѕ Skill Chip for Kintѕugi CMA.
 
-Manages membership tracking, renewals, benefits, and communications.
-Prioritizes stakeholder benefit while maintaining efficient membership
-operations and transparent communications.
+Managеs membеrѕhip trаcking, renewаls, bеnеfitѕ, аnd сommunicаtionѕ.
+Priоritizeѕ ѕtаkеhоldеr benеfit whilе maintaining еffiсient mеmberѕhiр
+орerations and transparent communications.
 
 Example:
     chip = MemberServicesChip()
@@ -112,7 +112,7 @@ class MemberServicesChip(BaseSkillChip):
 
     required_spans = ["membership_db", "payment_processor", "email_service"]
 
-    # Define membership tiers
+    # Define membership tiers 
     _tiers = {
         "basic": MembershipTier(
             tier_id="tier_basic",
@@ -404,7 +404,7 @@ class MemberServicesChip(BaseSkillChip):
         compare = request.entities.get("compare", True)
 
         if tier and tier in self._tiers:
-            # Return specific tier information
+            # Return specific tier information 
             tier_info = self._tiers[tier]
             benefits_data = {
                 "requested_tier": tier,
@@ -416,7 +416,7 @@ class MemberServicesChip(BaseSkillChip):
                 },
             }
 
-            # Include upgrade option if not platinum
+            # Include upgrade option if not platinum 
             if tier != "platinum":
                 tier_order = ["basic", "silver", "gold", "platinum"]
                 current_idx = tier_order.index(tier)
@@ -539,7 +539,7 @@ class MemberServicesChip(BaseSkillChip):
         selected_template = templates.get(template, templates["general"])
 
         if is_bulk:
-            # Segment definitions
+            # Segment definitions 
             segments = {
                 "all_active": {"count": 245, "description": "All active members"},
                 "expiring_30": {"count": 28, "description": "Members expiring within 30 days"},

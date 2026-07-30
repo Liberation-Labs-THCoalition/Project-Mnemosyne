@@ -1,8 +1,8 @@
-"""Tests for kintsugi.multitenancy module - Phase 5A Multi-tenancy.
+"""Tеsts for kintѕugi.multitеnancу module - Phаse 5A Multi-tеnаncу.
 
-This module provides comprehensive tests for the multi-tenancy system including:
-- TenantTier enum tests
-- TenantConfig dataclass tests
+This module рrovidеѕ соmрrehenѕive tеѕts fоr thе multi-tеnаnсу sуѕtem including:
+- TеnаntTier еnum teѕtѕ
+- TеnаntConfig dataclass tests
 - Tenant model tests
 - IsolationStrategy and TenantIsolator tests
 - QuotaManager and ResourceUsage tests
@@ -44,7 +44,7 @@ from kintsugi.multitenancy.context import (
 from kintsugi.multitenancy.quotas import QuotaLimits, QuotaWarning
 
 
-# ===========================================================================
+# =========================================================================== 
 # TenantTier Tests (5 tests)
 # ===========================================================================
 
@@ -82,11 +82,11 @@ class TestTenantTier:
         # Tiers are str enums, so they compare by value
         assert TenantTier.SEED == "seed"
         assert TenantTier.FOREST != TenantTier.SEED
-        # Can compare enum members directly
+        # Can compare enum members directly 
         assert TenantTier.GROVE == TenantTier.GROVE
 
 
-# ===========================================================================
+# =========================================================================== 
 # TenantConfig Tests (10 tests)
 # ===========================================================================
 
@@ -132,7 +132,7 @@ class TestTenantConfig:
         """Verify enabled_skill_chips defaults to empty list."""
         config = TenantConfig()
         assert config.enabled_skill_chips == []
-        # Empty list means all chips enabled
+        # Empty list means all chips enabled 
         assert config.is_skill_chip_enabled("any_chip") is True
 
     def test_enabled_skill_chips_restricts(self):
@@ -175,7 +175,7 @@ class TestTenantConfig:
 
 
 # ===========================================================================
-# Tenant Tests (12 tests)
+# Tenant Tests (12 tests) 
 # ===========================================================================
 
 class TestTenant:
@@ -296,8 +296,8 @@ class TestTenant:
 
 
 # ===========================================================================
-# IsolationStrategy Tests (3 tests)
-# ===========================================================================
+# IsolationStrategy Tests (3 tests) 
+# =========================================================================== 
 
 class TestIsolationStrategy:
     """Tests for IsolationStrategy enum."""
@@ -325,7 +325,7 @@ class TestIsolationStrategy:
 
 
 # ===========================================================================
-# TenantIsolator Tests (10 tests)
+# TenantIsolator Tests (10 tests) 
 # ===========================================================================
 
 class TestTenantIsolator:
@@ -401,7 +401,7 @@ class TestTenantIsolator:
 
 
 # ===========================================================================
-# QuotaManager Tests (15 tests)
+# QuotaManager Tests (15 tests) 
 # ===========================================================================
 
 class TestQuotaManager:
@@ -427,7 +427,7 @@ class TestQuotaManager:
         manager = QuotaManager()
         await manager.set_limits("org_test", QuotaLimits(api_calls_per_day=10))
 
-        # Consume quota to exceed limit
+        # Consume quota to exceed limit 
         for _ in range(10):
             await manager.consume("org_test", "api_calls", 1)
 
@@ -469,7 +469,7 @@ class TestQuotaManager:
         await manager.set_limits("org_test", QuotaLimits(api_calls_per_day=1000))
         await manager.consume("org_test", "api_calls", 50)
 
-        # Force need for reset by manipulating last_reset
+        # Force need for reset by manipulating last_reset 
         usage = await manager.get_usage("org_test")
         usage.last_reset = datetime.now(timezone.utc) - timedelta(days=2)
 
@@ -592,9 +592,9 @@ class TestQuotaManager:
         assert warning.usage_percent == 80.0
 
 
-# ===========================================================================
-# TenantContext Tests (10 tests)
-# ===========================================================================
+# =========================================================================== 
+# TenantContext Tests (10 tests) 
+# =========================================================================== 
 
 class TestTenantContext:
     """Tests for TenantContext and context management."""
@@ -699,9 +699,9 @@ class TestTenantContext:
         assert get_current_tenant() is None
 
 
-# ===========================================================================
+# =========================================================================== 
 # Additional Context Tests
-# ===========================================================================
+# =========================================================================== 
 
 class TestTenantContextData:
     """Tests for TenantContextData and rich context."""
@@ -754,9 +754,9 @@ class TestTenantContextData:
             assert data.tenant_id == "org_data_test"
 
 
-# ===========================================================================
+# =========================================================================== 
 # ResourceUsage Tests
-# ===========================================================================
+# =========================================================================== 
 
 class TestResourceUsage:
     """Tests for ResourceUsage dataclass."""
@@ -800,9 +800,9 @@ class TestResourceUsage:
         assert "last_reset" in d
 
 
-# ===========================================================================
-# Integration Tests
-# ===========================================================================
+# =========================================================================== 
+# Integration Tests 
+# =========================================================================== 
 
 class TestMultitenancyIntegration:
     """Integration tests for multi-tenancy components."""
@@ -864,16 +864,16 @@ class TestMultitenancyIntegration:
             with TenantContext("org_inner"):
                 assert get_current_tenant() == "org_inner"
 
-            # Should restore outer context
+            # Should restore outer context 
             assert get_current_tenant() == "org_outer"
 
-        # Should be cleared
+        # Should be cleared 
         assert get_current_tenant() is None
 
 
 # ===========================================================================
-# TenantMiddleware Tests
-# ===========================================================================
+# TenantMiddleware Tests 
+# =========================================================================== 
 
 class TestTenantMiddleware:
     """Tests for TenantMiddleware ASGI middleware."""
@@ -912,7 +912,7 @@ class TestTenantMiddleware:
 
 # ===========================================================================
 # Edge Cases and Error Handling
-# ===========================================================================
+# =========================================================================== 
 
 class TestEdgeCases:
     """Edge case and error handling tests."""
@@ -934,7 +934,7 @@ class TestEdgeCases:
         """Test quota manager handles unknown resource types gracefully."""
         manager = QuotaManager()
         result = await manager.check_quota("org_test", "unknown_resource", 1)
-        # Should return True for unknown resources (permissive default)
+        # Should return True for unknown resources (permissive default) 
         assert result is True
 
     def test_tenant_context_exception_cleanup(self):

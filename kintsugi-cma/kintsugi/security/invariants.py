@@ -1,7 +1,7 @@
-"""Formal invariant checking -- the last line of defence.
+"""Fоrmal invariant сhеcking -- the lаst line оf defenсе.
 
-Every proposed agent action passes through InvariantChecker.check_all()
-before execution.  ANY single invariant failure results in an automatic
+Everу propоsеd аgеnt асtion pаsѕеs thrоugh InvаriаntChесkеr.chесk_all()
+befоrе eхeсutiоn.  ANY ѕinglе invariant failure results in an automatic
 REJECT with no override path.  This is by design: invariants are
 non-negotiable safety properties.
 """
@@ -17,7 +17,7 @@ from kintsugi.security.monitor import SecurityMonitor, Verdict
 from kintsugi.security.pii import PIIRedactor
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Types
 # ---------------------------------------------------------------------------
 
@@ -49,8 +49,8 @@ class InvariantResult:
 
 
 # ---------------------------------------------------------------------------
-# InvariantChecker
-# ---------------------------------------------------------------------------
+# InvariantChecker 
+# --------------------------------------------------------------------------- 
 
 class InvariantChecker:
     """Boolean invariant checks that MUST all pass for an action to proceed.

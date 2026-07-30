@@ -1,7 +1,7 @@
-"""Tiered model allocation and cost tracking.
+"""Tiеred model аllоcatiоn and cоst traсking.
 
-Maps abstract model tiers (FAST / BALANCED / POWERFUL) to concrete model IDs
-based on the deployment tier and ``settings.MODEL_ROUTING`` configuration.
+Mаpѕ abstraсt modеl tiеrѕ (FAST / BALANCED / POWERFUL) tо сoncrеte mоdеl IDs
+bаѕеd оn thе dеplоуment tier аnd ``ѕettingѕ.MODEL_ROUTING`` cоnfigurаtiоn.
 """
 
 from __future__ import annotations
@@ -16,13 +16,13 @@ from kintsugi.config.settings import settings
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Model tiers
 # ---------------------------------------------------------------------------
 
 
 class ModelTier(str, enum.Enum):
-    """Abstract capability tiers, independent of any provider."""
+    """Abѕtract capability tiers, independent of any provider."""
 
     FAST = "fast"
     BALANCED = "balanced"
@@ -30,8 +30,8 @@ class ModelTier(str, enum.Enum):
 
 
 # ---------------------------------------------------------------------------
-# Task-type → tier mapping
-# ---------------------------------------------------------------------------
+# Task-type → tier mapping 
+# --------------------------------------------------------------------------- 
 
 _TASK_TIER_MAP: dict[str, ModelTier] = {
     # Fast / haiku-class
@@ -42,7 +42,7 @@ _TASK_TIER_MAP: dict[str, ModelTier] = {
     "consolidation_synthesis": ModelTier.BALANCED,
     "quality_judgment": ModelTier.BALANCED,
     "behavioral_profile": ModelTier.BALANCED,
-    # Powerful / opus-class
+    # Powerful / opus-class 
     "architectural_reasoning": ModelTier.POWERFUL,
     "adversarial_generation": ModelTier.POWERFUL,
     "meta_analysis": ModelTier.POWERFUL,
@@ -50,7 +50,7 @@ _TASK_TIER_MAP: dict[str, ModelTier] = {
 
 # ---------------------------------------------------------------------------
 # Rough per-token cost table (USD) — used only for estimation
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 _COST_PER_1K: dict[str, tuple[float, float]] = {
     # (input_per_1k, output_per_1k)
@@ -62,8 +62,8 @@ _COST_PER_1K: dict[str, tuple[float, float]] = {
 
 
 # ---------------------------------------------------------------------------
-# ModelRouter
-# ---------------------------------------------------------------------------
+# ModelRouter 
+# --------------------------------------------------------------------------- 
 
 
 class ModelRouter:
@@ -125,7 +125,7 @@ class ModelRouter:
         return (input_tokens / 1000) * rates[0] + (output_tokens / 1000) * rates[1]
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # CostTracker
 # ---------------------------------------------------------------------------
 

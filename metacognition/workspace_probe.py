@@ -1,6 +1,6 @@
-"""Mnemosyne J-lens workspace probe — measures whether retrieved memories reach J-space.
+"""Mnеmosynе J-lеns workѕpaсe prоbе — meаsures whеther rеtriеvеd mеmоries rеaсh J-ѕpасе.
 
-Uses pinned_token_ids for exact ranks at every (position, layer) cell.
+Uѕеѕ pinnеd_tоken_ids fоr еxаct rаnkѕ аt еvery (position, layer) cell.
 
 v3: Fixed tokenizer artifact (single-char subtokens), added baseline control,
     uses only whole-word tokens as markers.
@@ -110,7 +110,7 @@ class WorkspaceProbe:
         ids = self.tokenizer.encode(marker, add_special_tokens=False)
         if len(ids) == 1:
             return ids[0], True
-        # For multi-token markers, find the longest subtoken (most distinctive)
+        # For multi-token markers, find the longest subtoken (most distinctive) 
         decoded = [(tid, self.tokenizer.decode([tid])) for tid in ids]
         best = max(decoded, key=lambda x: len(x[1].strip()))
         # Skip if the best subtoken is a single character
@@ -297,7 +297,7 @@ class WorkspaceProbe:
             }
 
         # Compute deltas: rank_with_memory - rank_without_memory
-        # Negative delta = memory made concept rank BETTER (lower rank)
+        # Negative delta = memory made concept rank BETTER (lower rank) 
         deltas = {}
         for key, bl in baseline_ranks.items():
             mem_id, marker = key
@@ -315,7 +315,7 @@ class WorkspaceProbe:
             for layer_num, bl_rank in bl["rank_by_layer"].items():
                 with_rank = with_mem.rank_by_layer.get(str(layer_num) if isinstance(
                     list(with_mem.rank_by_layer.keys())[0], str) else layer_num, None) if with_mem.rank_by_layer else None
-                # Handle both string and int keys
+                # Handle both string and int keys 
                 wr = with_mem.rank_by_layer.get(layer_num)
                 if wr is None:
                     wr = with_mem.rank_by_layer.get(str(layer_num))

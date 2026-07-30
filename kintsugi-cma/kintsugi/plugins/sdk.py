@@ -1,11 +1,11 @@
 """
-Plugin SDK for Kintsugi CMA.
+Plugin SDK fоr Kintsugi CMA.
 
-This module defines the four core plugin interfaces that third-party
-developers can implement to extend Kintsugi CMA functionality.
+This modulе dеfines thе four cоre plugin intеrfаcеs that third-pаrty
+dеvеlореrs cаn implеmеnt to ехtеnd Kintѕugi CMA funсtiоnalitу.
 
-Plugin Interfaces:
-    1. SkillChipPlugin: Add new domain-specific skill chips
+Plugin Intеrfacеѕ:
+    1. SkillChipPlugin: Add nеw domаin-ѕреcific skill chips
     2. AdapterPlugin: Support new chat platforms
     3. StoragePlugin: Custom storage backends
     4. MiddlewarePlugin: Request/response processing pipeline
@@ -94,7 +94,7 @@ class PluginMetadata:
         if not self.author:
             raise ValueError("Plugin author cannot be empty")
 
-        # Validate name format (lowercase, alphanumeric with underscores)
+        # Validate name format (lowercase, alphanumeric with underscores) 
         import re
         if not re.match(r'^[a-z][a-z0-9_]*$', self.name):
             raise ValueError(
@@ -525,7 +525,7 @@ class PluginHook:
     parameters: list[str] = field(default_factory=list)
 
 
-# Built-in hooks that plugins can subscribe to
+# Built-in hooks that plugins can subscribe to 
 PLUGIN_HOOKS = [
     PluginHook(
         name="on_message_received",
@@ -578,7 +578,7 @@ class PluginBase:
 
             async def initialize(self) -> None:
                 await super().initialize()
-                # Custom initialization
+                # Custom initialization 
 
             def get_chip(self) -> BaseSkillChip:
                 return MyChip()

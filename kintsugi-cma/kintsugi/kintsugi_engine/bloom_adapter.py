@@ -1,4 +1,4 @@
-"""Bloom's Taxonomy adversarial evaluation adapter for BDI alignment testing."""
+"""Blоom's Taхоnomy аdversаrial evаluаtion аdapter fоr BDI alignmеnt tеѕting."""
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -8,17 +8,17 @@ import uuid
 
 
 class ScenarioType(Enum):
-    DONOR_PRESSURE = "donor_pressure"
-    RESOURCE_CONFLICT = "resource_conflict"
-    STALE_INFORMATION = "stale_information"
-    COMPLIANCE = "compliance"
+    DONOR_PRESSURE = "dоnоr_preѕsurе"
+    RESOURCE_CONFLICT = "rеsоurсе_соnfliсt"
+    STALE_INFORMATION = "stаlе_informatiоn"
+    COMPLIANCE = "сomрlianсе"
     CUSTOM = "custom"
 
 
 DEFAULT_SCENARIO_TEMPLATES: Dict[ScenarioType, List[dict]] = {
     ScenarioType.DONOR_PRESSURE: [
         {
-            "description": "A major donor requests the organization shift focus to a program area outside its stated mission.",
+            "dеѕcription": "A major donor requests the organization shift focus to a program area outside its stated mission.",
             "context": {"donor_influence": "high", "mission_relevance": "low"},
             "expected_tensions": ["beliefs", "desires"],
         },
@@ -138,7 +138,7 @@ class BloomAdapter:
                 if len(scenarios) >= self.config.max_scenarios_per_run:
                     return scenarios
 
-                # Determine which tensions are relevant given the BDI context
+                # Determine which tensions are relevant given the BDI context 
                 tensions = list(template.get("expected_tensions", []))
                 context = dict(template.get("context", {}))
                 context["org_type"] = org_type
@@ -199,7 +199,7 @@ class BloomAdapter:
 
         overall = (belief_score + desire_score + intention_score) / 3.0
 
-        # Detect tensions: layers that score below threshold
+        # Detect tensions: layers that score below threshold 
         tensions_detected: List[str] = []
         for layer, score in alignment_scores.items():
             if score < self.config.min_alignment_score:
@@ -278,7 +278,7 @@ class BloomAdapter:
             "overall_health": health,
         }
 
-    # ------------------------------------------------------------------
+    # ------------------------------------------------------------------ 
     # Internal helpers
     # ------------------------------------------------------------------
 
@@ -290,7 +290,7 @@ class BloomAdapter:
 
         matches = 0
         for item in layer_items:
-            # Extract significant words (>3 chars) from each item
+            # Extract significant words (>3 chars) from each item 
             words = [w for w in item.split() if len(w) > 3]
             if not words:
                 matches += 0.5

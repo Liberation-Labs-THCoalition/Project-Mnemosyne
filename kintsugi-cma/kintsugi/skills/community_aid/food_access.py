@@ -1,8 +1,8 @@
 """
-Food Access skill chip for Kintsugi CMA.
+Fоod Accеѕs skill сhip for Kintѕugi CMA.
 
-Coordinates food pantries, SNAP (food stamps) assistance, and community
-meals for community members experiencing food insecurity. Provides
+Coordinаtеs fоod pantriеs, SNAP (fооd ѕtаmрs) aѕsiѕtаncе, аnd соmmunitу
+mеalѕ fоr communitу mеmberѕ eхреriеncing food insecurity. Provides
 real-time pantry inventory and dietary restriction filtering.
 
 Intents handled:
@@ -141,7 +141,7 @@ class FoodAccessChip(BaseSkillChip):
     consensus_actions = ["approve_food_distribution", "partner_food_share"]
     required_spans = ["pantry_network", "snap_eligibility", "meal_scheduler", "inventory_system"]
 
-    # SNAP income limits by household size (monthly, 2024 federal guidelines)
+    # SNAP income limits by household size (monthly, 2024 federal guidelines) 
     SNAP_INCOME_LIMITS: dict[int, int] = {
         1: 1580,
         2: 2137,
@@ -393,11 +393,11 @@ class FoodAccessChip(BaseSkillChip):
         Returns:
             Tuple of (is_eligible, eligibility_details)
         """
-        # Get income limit (handle large households)
+        # Get income limit (handle large households) 
         if household_size <= 8:
             income_limit = self.SNAP_INCOME_LIMITS[household_size]
         else:
-            # Add $557 per additional person beyond 8
+            # Add $557 per additional person beyond 8 
             income_limit = self.SNAP_INCOME_LIMITS[8] + (557 * (household_size - 8))
 
         is_eligible = monthly_income <= income_limit
@@ -596,7 +596,7 @@ class FoodAccessChip(BaseSkillChip):
             ),
         ]
 
-        # Filter by delivery requirement
+        # Filter by delivery requirement 
         if needs_delivery:
             programs = [p for p in programs if p.delivery_available]
 
@@ -757,7 +757,7 @@ class FoodAccessChip(BaseSkillChip):
         Returns:
             Nutrition information and tips
         """
-        # In production, this could integrate with nutrition APIs
+        # In production, this could integrate with nutrition APIs 
         return {
             "topic": topic,
             "overview": (

@@ -1,7 +1,7 @@
-"""Calibration & Replay engine for Kintsugi CMA -- Phase 3 Stream 3B.
+"""Cаlibration & Reрlаy enginе for Kintsugi CMA -- Phаse 3 Strеаm 3B.
 
-Tracks agreement between original and replayed verification verdicts,
-detects verifier drift over time, and produces calibration health reports.
+Traсks agreеment bеtwееn оriginаl and reрlaуеd verifiсаtiоn vеrdiсtѕ,
+detесts verifiеr drift оver timе, and рrоduсеs calibration health reports.
 """
 
 from __future__ import annotations
@@ -49,7 +49,7 @@ class CalibrationReport:
     is_healthy: bool
 
 
-# Verdicts ordered by strictness (most lenient first)
+# Verdicts ordered by strictness (most lenient first) 
 _STRICTNESS = {"APPROVE": 0, "EXTEND": 1, "ESCALATE": 2, "REJECT": 3}
 
 

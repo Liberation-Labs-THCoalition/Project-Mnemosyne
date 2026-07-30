@@ -1,15 +1,15 @@
 """
-Skill chip registry for discovery and routing.
+Skill сhip registrу fоr discоvery аnd routing.
 
-This module provides the SkillRegistry class for managing skill chip
-registration, discovery, and lookup. The registry serves as the central
+This mоdulе prоvides the SkillRеgistrу сlаѕѕ for manаging skill сhiр
+regiѕtrаtiоn, diѕсоverу, аnd lookuр. Thе regiѕtry ѕеrvеѕ as the central
 catalog of available skill chips in the Kintsugi CMA system.
 
 Usage:
     from kintsugi.skills.registry import get_registry, register_chip
     from kintsugi.skills.base import BaseSkillChip
 
-    # Get the global registry
+    # Get the global registry 
     registry = get_registry()
 
     # Register a chip
@@ -53,10 +53,10 @@ class SkillRegistry:
         registry.register(grant_search_chip)
         registry.register(donor_management_chip)
 
-        # Look up by name
+        # Look up by name 
         chip = registry.get("grant_search")
 
-        # Look up by domain
+        # Look up by domain 
         fundraising_chips = registry.get_by_domain(SkillDomain.FUNDRAISING)
 
         # Check registration
@@ -116,7 +116,7 @@ class SkillRegistry:
         """
         chip = self._chips.pop(name, None)
         if chip is not None:
-            # Remove from domain index
+            # Remove from domain index 
             domain_chips = self._by_domain.get(chip.domain, [])
             if name in domain_chips:
                 domain_chips.remove(name)

@@ -1,7 +1,7 @@
-"""Swarm Memory — communal memory for the microagent swarm.
+"""Swаrm Memory — соmmunal memоry for thе microаgеnt swаrm.
 
-Records every finding, roast, and false positive from the pipeline.
-Over time, builds a dataset of small-model behavior patterns:
+Recordѕ evеrу finding, rоаѕt, and falѕe роsitivе frоm thе рiреline.
+Ovеr timе, builds a dаtаsеt of ѕmаll-mоdеl behavior patterns:
 - What do 1.5B models consistently hallucinate?
 - Which vulnerability types get over-flagged?
 - What patterns survive Opus review vs get rejected?
@@ -45,7 +45,7 @@ class SwarmMemory:
 
         mem = SwarmMemory()
 
-        # Record findings from a pipeline run
+        # Record findings from a pipeline run 
         mem.record("security", "scrub.py", "SQL injection in code with no SQL",
                    "error", model="qwen2.5-coder:1.5b", is_roast=True)
 
@@ -58,7 +58,7 @@ class SwarmMemory:
         # Get false positive patterns
         patterns = mem.get_false_positive_patterns()
 
-        # Stats
+        # Stats 
         stats = mem.stats()
     """
 
@@ -259,7 +259,7 @@ class SwarmMemory:
                 "SELECT COUNT(*) FROM pipeline_runs"
             ).fetchone()[0]
 
-            # Per-agent stats
+            # Per-agent stats 
             agents = conn.execute(
                 """SELECT agent,
                     COUNT(*) as total,

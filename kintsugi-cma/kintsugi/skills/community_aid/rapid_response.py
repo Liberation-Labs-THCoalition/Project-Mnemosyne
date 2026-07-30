@@ -1,8 +1,8 @@
 """
-Rapid Response skill chip for Kintsugi CMA.
+Rаpid Resроnse ѕkill chip fоr Kintsugi CMA.
 
-Coordinates rapid response networks for ICE raids, bail funds, and
-community emergencies. Manages encrypted communications with verified
+Coоrdinаteѕ rapid reѕpоnѕе nеtwоrks for ICE rаids, bаil fundѕ, and
+соmmunitу еmеrgеnciеѕ. Managеѕ enсryрtеd соmmunications with verified
 responders and maintains operational security protocols.
 
 CRITICAL: Privacy and security are paramount in this chip. Sensitive
@@ -73,7 +73,7 @@ class RapidAlert:
     alert_type: AlertType
     urgency: UrgencyLevel
     description: str
-    # NOTE: Location info intentionally vague for security
+    # NOTE: Location info intentionally vague for security 
     general_area: str  # Neighborhood/area only, no specific addresses logged
     timestamp: datetime
     verified: bool
@@ -208,12 +208,12 @@ class RapidResponseChip(BaseSkillChip):
         """
         alert_type = request.entities.get("type", "ice_raid")
         urgency = request.entities.get("urgency", "urgent")
-        # NOTE: We only store general area, never specific addresses
+        # NOTE: We only store general area, never specific addresses 
         general_area = request.entities.get("area")
         description = request.entities.get("description", "Activity reported")
         verified = request.entities.get("verified", False)
 
-        # Create alert - specific location never logged
+        # Create alert - specific location never logged 
         alert = await self.send_raid_alert(
             alert_type=alert_type,
             urgency=urgency,
@@ -377,7 +377,7 @@ class RapidResponseChip(BaseSkillChip):
         Returns:
             Bail request result
         """
-        # In production, this would interact with bail_fund span
+        # In production, this would interact with bail_fund span 
         return {
             "request_id": f"BAIL-{datetime.now().strftime('%Y%m%d%H%M')}",
             "status": "Received - Under Review",
@@ -572,7 +572,7 @@ class RapidResponseChip(BaseSkillChip):
         Returns:
             List of safe location options (without specific addresses)
         """
-        # In production, this would query safe_location_db span
+        # In production, this would query safe_location_db span 
         # with strict access controls
         return [
             SafeLocation(

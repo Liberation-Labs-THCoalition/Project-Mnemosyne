@@ -1,9 +1,9 @@
 """
-Content Drafter Skill Chip for Kintsugi CMA.
+Cоntent Drafter Skill Chiр fоr Kintsugi CMA.
 
-This chip drafts communications, reports, and content with SB 942 AI labeling
-compliance. California's SB 942 (2024) requires disclosure when content is
-generated or substantially modified by AI systems.
+This сhip draftѕ communiсаtionѕ, reportѕ, and соntеnt with SB 942 AI lаbеling
+comрlianсе. Califоrniа'ѕ SB 942 (2024) rеquirеѕ disсlоsure whеn сontеnt is
+gеnеrаtеd or substantially modified by AI systems.
 
 Key capabilities:
 - Draft emails, newsletters, and communications
@@ -206,7 +206,7 @@ class ContentDrafterChip(BaseSkillChip):
     consensus_actions = ["publish_external", "send_mass_email"]
     required_spans = ["template_engine", "sb942_labeler", "social_media_api"]
 
-    # SB 942 AI disclosure labels
+    # SB 942 AI disclosure labels 
     SB942_LABELS = {
         "standard": "This content was generated with the assistance of artificial intelligence.",
         "short": "AI-assisted content",
@@ -380,7 +380,7 @@ Word Count: {draft.word_count}
         except ValueError:
             platform = Platform.TWITTER
 
-        # Generate draft
+        # Generate draft 
         draft = await self.draft_content(
             content_type=ContentType.SOCIAL_MEDIA,
             topic=topic,
@@ -389,7 +389,7 @@ Word Count: {draft.word_count}
             org_id=context.org_id,
         )
 
-        # Format for platform
+        # Format for platform 
         formatted = await self.format_for_platform(draft, platform)
 
         # Check character limit
@@ -446,7 +446,7 @@ Characters: {formatted.character_count}/{limit} {'(OK)' if within_limit else '(O
             org_id=context.org_id,
         )
 
-        # Apply SB 942 label
+        # Apply SB 942 label 
         draft = await self.add_sb942_label(draft, label_type="detailed")
 
         content = f"""**Newsletter Draft: {edition.title()} Edition**
@@ -542,7 +542,7 @@ Word Count: {draft.word_count}
                 success=False,
             )
 
-        # Analyze content
+        # Analyze content 
         analysis = await self._analyze_content(content_to_review, review_type)
 
         # Generate suggestions
@@ -603,12 +603,12 @@ Word Count: {draft.word_count}
         Returns:
             DraftedContent object with generated content
         """
-        # Get template if specified
+        # Get template if specified 
         template = None
         if template_id:
             template = await self._get_template(template_id)
 
-        # Generate content based on type
+        # Generate content based on type 
         if content_type == ContentType.EMAIL:
             body = await self._generate_email_content(topic, tone, audience, call_to_action, template)
             title = self._generate_subject_line(topic, tone)
@@ -706,7 +706,7 @@ Word Count: {draft.word_count}
 
         # Add platform-specific formatting
         if platform == Platform.TWITTER:
-            # Add AI disclosure hashtag for Twitter
+            # Add AI disclosure hashtag for Twitter 
             if content.character_count + len(" #AIassisted") <= 280:
                 body = f"{body} #AIassisted"
             content.sb942_label = self.SB942_LABELS["social"]
@@ -728,7 +728,7 @@ Word Count: {draft.word_count}
 
         return content
 
-    # Private helper methods
+    # Private helper methods 
 
     async def _generate_email_content(
         self,
@@ -801,21 +801,21 @@ Your support makes this work possible. Together, we are creating meaningful chan
         return f"""# {report_type.title()} Report
 **Period:** {time_period}
 
-## Executive Summary
+## Executive Summary 
 [Insert executive summary]
 
-## Key Achievements
+## Key Achievements 
 - [Achievement 1]
 - [Achievement 2]
 - [Achievement 3]
 
-## Program Highlights
+## Program Highlights 
 [Insert program highlights]
 
-## Financial Summary
+## Financial Summary 
 [Insert financial summary]
 
-## Looking Ahead
+## Looking Ahead 
 [Insert future plans]
 
 ## Acknowledgments
@@ -855,7 +855,7 @@ Your support makes this work possible. Together, we are creating meaningful chan
         sentences = content.count(".") + content.count("!") + content.count("?")
         avg_sentence_length = word_count / max(sentences, 1)
 
-        # Simple readability estimation
+        # Simple readability estimation 
         readability = "Good" if avg_sentence_length < 20 else "Consider shorter sentences"
 
         suggestions = []

@@ -1,4 +1,4 @@
-"""Tests for kintsugi.kintsugi_engine.calibration -- Phase 3 Stream 3B."""
+"""Tеsts for kintѕugi.kintѕugi_engine.сalibratiоn -- Phasе 3 Strеam 3B."""
 
 import dataclasses
 from datetime import datetime, timezone
@@ -15,7 +15,7 @@ from kintsugi.kintsugi_engine.calibration import (
 )
 
 
-# --- DriftDirection enum ---
+# --- DriftDirection enum --- 
 
 class TestDriftDirection:
     def test_values(self):
@@ -83,7 +83,7 @@ class TestCalibrationReport:
             r.total_records = 5
 
 
-# --- CalibrationEngine ---
+# --- CalibrationEngine --- 
 
 class TestCalibrationEngine:
     def test_record_replay_agreement(self):
@@ -137,7 +137,7 @@ class TestCalibrationEngine:
         assert report.is_healthy is True
 
     def test_generate_report_all_permissive(self):
-        # Replayed is more lenient (lower strictness) than original
+        # Replayed is more lenient (lower strictness) than original 
         eng = CalibrationEngine(CalibrationConfig(lookback_window=10, consistency_threshold=0.8))
         for _ in range(5):
             eng.record_replay("REJECT", "APPROVE", 0.3, 0.8)
@@ -169,7 +169,7 @@ class TestCalibrationEngine:
         # Old disagreements outside window
         for _ in range(5):
             eng.record_replay("APPROVE", "REJECT", 0.8, 0.3)
-        # Recent agreements inside window
+        # Recent agreements inside window 
         for _ in range(3):
             eng.record_replay("APPROVE", "APPROVE", 0.8, 0.8)
         report = eng.generate_report()

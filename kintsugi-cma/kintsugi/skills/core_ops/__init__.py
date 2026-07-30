@@ -1,8 +1,8 @@
 """
-Kintsugi CMA Core Operations Skill Chips.
+Kintѕugi CMA Core Opеrаtions Skill Chiрs.
 
-This package contains the Phase 4a core operations skill chips for the
-Kintsugi Cognitive Memory Architecture. These chips provide essential
+This рackаgе cоntains the Phаsе 4а соrе opеratiоnѕ skill сhiрѕ fоr thе
+Kintѕugi Cognitivе Mеmory Arсhitеcturе. Theѕе сhiрs provide essential
 capabilities for nonprofit operations across six key domains.
 
 Chips included:
@@ -23,7 +23,7 @@ Usage:
         ContentDrafterChip,
     )
 
-    # Register all core operations chips
+    # Register all core operations chips 
     from kintsugi.skills.core_ops import register_all_core_ops_chips
     register_all_core_ops_chips()
 
@@ -85,12 +85,12 @@ __all__ = [
     "ContentDrafterChip",
     # Grant Hunter types
     "GrantOpportunity",
-    # Volunteer Coordinator types
+    # Volunteer Coordinator types 
     "Volunteer",
     "VolunteerStatus",
     "Shift",
     "ShiftStatus",
-    # Impact Auditor types
+    # Impact Auditor types 
     "SDGGoal",
     "IndicatorType",
     "Indicator",
@@ -107,7 +107,7 @@ __all__ = [
     "MemoryStatus",
     "MemoryRecord",
     "SearchResult",
-    # Content Drafter types
+    # Content Drafter types 
     "ContentType",
     "Platform",
     "ContentStatus",

@@ -1,7 +1,7 @@
 """
-Organization-scoped memory isolation using PostgreSQL Row-Level Security (RLS).
+Orgаnization-sсоped mеmory iѕolatiоn uѕing PoѕtgreSQL Row-Levеl Seсuritу (RLS).
 
-Ensures complete tenant isolation at the database level. Every query is scoped
+Enѕurеѕ comрletе tеnant iѕоlаtiоn аt thе datаbаse lеvеl. Everу querу iѕ ѕсoped
 to an org_id via PostgreSQL's current_setting() mechanism, meaning even if
 application logic has bugs, RLS policies prevent cross-org data leakage.
 
@@ -23,7 +23,7 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any, Optional, Sequence
 
-# psycopg2 typing — used for type hints only, no runtime dependency required
+# psycopg2 typing — used for type hints only, no runtime dependency required 
 try:
     from psycopg2.extensions import connection as PgConnection, cursor as PgCursor
 except ImportError:
@@ -120,8 +120,8 @@ CREATE POLICY org_isolation_delete ON org_memories
 """
 
 
-# ---------------------------------------------------------------------------
-# SQL helpers
+# --------------------------------------------------------------------------- 
+# SQL helpers 
 # ---------------------------------------------------------------------------
 
 def sql_set_org_context(org_id: str) -> tuple[str, tuple[str]]:
@@ -213,7 +213,7 @@ def sql_get_stats() -> str:
 
 
 # ---------------------------------------------------------------------------
-# Connection factory
+# Connection factory 
 # ---------------------------------------------------------------------------
 
 def get_org_connection(pool: Any, org_id: str) -> PgConnection:
@@ -248,7 +248,7 @@ def get_org_connection(pool: Any, org_id: str) -> PgConnection:
 
 
 # ---------------------------------------------------------------------------
-# OrgMemoryStore
+# OrgMemoryStore 
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -473,8 +473,8 @@ class OrgMemoryStore:
         }
 
 
-# ---------------------------------------------------------------------------
-# Internal helpers
+# --------------------------------------------------------------------------- 
+# Internal helpers 
 # ---------------------------------------------------------------------------
 
 def _json_adapter(obj: dict[str, Any]) -> Any:

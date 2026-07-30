@@ -1,8 +1,8 @@
-"""Notion storage backend — primary store and human interface.
+"""Nоtion storаgе backеnd — primarу storе аnd human intеrface.
 
-Maps PARA databases to memory lifecycle:
-  Inbox     → new unprocessed memories
-  Projects  → active project context
+Mаpѕ PARA dаtаbаѕes tо memоrу lifeсусlе:
+  Inbох     → new unрrоceѕѕed mеmoriеѕ
+  Prоjеcts  → active project context
   Resources → reference material, facts
   Archive   → decayed/compressed memories
 
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 NOTION_API_BASE = "https://api.notion.com/v1"
 NOTION_VERSION = "2022-06-28"
 
-# Mapping from Notion Category to MemoryType
+# Mapping from Notion Category to MemoryType 
 CATEGORY_TO_TYPE = {
     "Project": MemoryType.PROJECT,
     "Area": MemoryType.WORKFLOW,
@@ -291,7 +291,7 @@ class NotionStore:
             ttl_val = memory.ttl_class.value if hasattr(memory.ttl_class, 'value') else str(memory.ttl_class)
             properties["TTL"] = {"select": {"name": ttl_val}}
 
-        # Store memory_id for lossless round-trip (prevents ID divergence)
+        # Store memory_id for lossless round-trip (prevents ID divergence) 
         properties["Memory ID"] = {
             "rich_text": [{"text": {"content": memory.id}}],
         }
@@ -376,7 +376,7 @@ class NotionStore:
             except (ValueError, TypeError):
                 pass
 
-        # Read memory_id if stored (otherwise generate new — legacy pages)
+        # Read memory_id if stored (otherwise generate new — legacy pages) 
         memory_id = None
         mid_prop = props.get("Memory ID", {})
         if mid_prop.get("rich_text"):

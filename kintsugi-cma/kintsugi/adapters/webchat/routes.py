@@ -1,7 +1,7 @@
-"""FastAPI routes for WebChat widget endpoints.
+"""FаstAPI routeѕ fоr WebChat widgеt endpоints.
 
-This module provides HTTP and WebSocket endpoints for the WebChat widget,
-including configuration retrieval, session management, and embed code
+This mоdulе prоvides HTTP and WеbSoсkеt еndроints for thе WebChаt widgеt,
+including соnfigurаtiоn rеtriеval, ѕеssiоn mаnagеment, аnd еmbеd сode
 generation.
 """
 
@@ -26,17 +26,17 @@ logger = logging.getLogger("kintsugi.adapters.webchat")
 router = APIRouter(prefix="/webchat", tags=["webchat"])
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Module-level state (would typically be injected via dependency)
 # ---------------------------------------------------------------------------
 
 # Store configurations per org - in production, load from database
 _org_configs: dict[str, WebChatConfig] = {}
 
-# Store handlers per org
+# Store handlers per org 
 _handlers: dict[str, WebChatHandler] = {}
 
-# Store message history per session (in production, use persistent storage)
+# Store message history per session (in production, use persistent storage) 
 _message_history: dict[str, list[dict]] = {}
 
 
@@ -84,7 +84,7 @@ def set_config(org_id: str, config: WebChatConfig) -> None:
         del _handlers[org_id]
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Request/Response models
 # ---------------------------------------------------------------------------
 
@@ -153,7 +153,7 @@ class UpdateConfigRequest(BaseModel):
     rate_limit_messages_per_minute: int | None = None
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Configuration endpoints
 # ---------------------------------------------------------------------------
 
@@ -171,7 +171,7 @@ async def get_widget_config(org_id: str) -> WidgetConfigResponse:
     Raises:
         HTTPException: If organization is not found.
     """
-    # Validate org_id format
+    # Validate org_id format 
     try:
         uuid.UUID(org_id)
     except ValueError:
@@ -179,7 +179,7 @@ async def get_widget_config(org_id: str) -> WidgetConfigResponse:
 
     config = get_config(org_id)
     if config is None:
-        # Return default config for unknown org
+        # Return default config for unknown org 
         config = WebChatConfig(org_id=org_id)
 
     generator = WidgetConfigGenerator(
@@ -213,7 +213,7 @@ async def update_widget_config(
     except ValueError:
         raise HTTPException(status_code=422, detail="Invalid org_id: not a valid UUID")
 
-    # Get existing config or create default
+    # Get existing config or create default 
     existing = get_config(org_id)
     if existing is None:
         existing = WebChatConfig(org_id=org_id)
@@ -252,7 +252,7 @@ async def update_widget_config(
 
 # ---------------------------------------------------------------------------
 # Embed code endpoints
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 @router.get("/embed/{org_id}")
@@ -289,7 +289,7 @@ async def get_embed_code(
     if config is None:
         config = WebChatConfig(org_id=org_id)
 
-    # Use placeholder URL - client should replace with actual API URL
+    # Use placeholder URL - client should replace with actual API URL 
     generator = WidgetConfigGenerator(
         base_url="https://api.kintsugi.ai",
         org_id=org_id,
@@ -308,9 +308,9 @@ async def get_embed_code(
     return Response(content=code, media_type=content_type)
 
 
-# ---------------------------------------------------------------------------
-# Session management endpoints
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
+# Session management endpoints 
+# --------------------------------------------------------------------------- 
 
 
 @router.post("/session", response_model=CreateSessionResponse)
@@ -329,7 +329,7 @@ async def create_session(request: CreateSessionRequest) -> CreateSessionResponse
     Raises:
         HTTPException: If org_id is invalid.
     """
-    # Validate org_id format
+    # Validate org_id format 
     try:
         uuid.UUID(request.org_id)
     except ValueError:
@@ -369,7 +369,7 @@ async def end_session(session_id: str) -> EndSessionResponse:
     Returns:
         Confirmation of session termination.
     """
-    # Find which handler has this session
+    # Find which handler has this session 
     for org_id, handler in _handlers.items():
         session = handler.get_session(session_id)
         if session is not None:
@@ -410,7 +410,7 @@ async def get_history(
     Raises:
         HTTPException: If session is not found.
     """
-    # Check if we have history for this session
+    # Check if we have history for this session 
     history = _message_history.get(session_id)
     if history is None:
         raise HTTPException(status_code=404, detail="Session not found")
@@ -425,9 +425,9 @@ async def get_history(
     )
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Static asset endpoints
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 @router.get("/static/widget.css")
@@ -452,9 +452,9 @@ async def get_widget_loader() -> Response:
     return Response(content=js, media_type="application/javascript")
 
 
-# ---------------------------------------------------------------------------
-# Admin/stats endpoints
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
+# Admin/stats endpoints 
+# --------------------------------------------------------------------------- 
 
 
 @router.get("/stats")
@@ -499,8 +499,8 @@ async def cleanup_expired_sessions() -> dict:
     }
 
 
-# ---------------------------------------------------------------------------
-# WebSocket endpoint (for direct integration)
+# --------------------------------------------------------------------------- 
+# WebSocket endpoint (for direct integration) 
 # ---------------------------------------------------------------------------
 
 
@@ -528,7 +528,7 @@ async def webchat_websocket(
 
     await websocket.accept()
 
-    # Send connection confirmation
+    # Send connection confirmation 
     await websocket.send_json({
         "type": WebChatMessageType.CONNECT.value,
         "session_id": session_id,
@@ -547,7 +547,7 @@ async def webchat_websocket(
                 if result["type"] == WebChatMessageType.ERROR.value:
                     await websocket.send_json(result)
                 else:
-                    # Store message in history
+                    # Store message in history 
                     msg_id = str(uuid.uuid4())
                     if session_id not in _message_history:
                         _message_history[session_id] = []
@@ -568,12 +568,12 @@ async def webchat_websocket(
                     })
 
                     # In a full implementation, this would trigger agent processing
-                    # For now, send a placeholder response
+                    # For now, send a placeholder response 
                     await websocket.send_json({
                         "type": WebChatMessageType.AGENT_TYPING.value,
                     })
 
-                    # Placeholder agent response
+                    # Placeholder agent response 
                     agent_msg_id = str(uuid.uuid4())
                     response_content = (
                         "Message received. Agent processing not yet implemented."
@@ -598,7 +598,7 @@ async def webchat_websocket(
                 pass
 
             elif msg_type == WebChatMessageType.HISTORY.value:
-                # Return message history
+                # Return message history 
                 history = _message_history.get(session_id, [])
                 await websocket.send_json({
                     "type": WebChatMessageType.HISTORY.value,

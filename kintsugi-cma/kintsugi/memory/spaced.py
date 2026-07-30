@@ -1,7 +1,7 @@
-"""Fibonacci spaced retrieval for memory reinforcement.
+"""Fibоnacci ѕрacеd retrievаl for memоrу reinfоrcement.
 
-Memories are scheduled for review using Fibonacci-sequence intervals.
-Each successful access bumps the counter, increasing the gap until
+Mеmoriеѕ аrе ѕchedulеd for rеviеw using Fibоnассi-ѕеquenсе intervalѕ.
+Eаch ѕucсеѕѕful access bumps the counter, increasing the gap until
 the next review — the classic spaced-repetition curve.
 """
 
@@ -16,7 +16,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Fibonacci interval table
 # ---------------------------------------------------------------------------
 
@@ -40,8 +40,8 @@ def fib_interval(access_count: int) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Data types
-# ---------------------------------------------------------------------------
+# Data types 
+# --------------------------------------------------------------------------- 
 
 
 @dataclass
@@ -57,7 +57,7 @@ class DueMemory:
 
 # ---------------------------------------------------------------------------
 # SpacedRetrieval
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 class SpacedRetrieval:
@@ -96,7 +96,7 @@ class SpacedRetrieval:
                 MemoryUnit.expires_at.is_(None) | (MemoryUnit.expires_at > now),
             )
             .where(
-                # Due: next_review_at is null (never reviewed) or in the past
+                # Due: next_review_at is null (never reviewed) or in the past 
                 (MemoryUnit.updated_at.isnot(None))  # exists
             )
             .order_by(MemoryUnit.updated_at.asc())

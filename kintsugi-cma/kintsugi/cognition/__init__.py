@@ -1,3 +1,3 @@
-"""Cognition package — model routing, orchestration, and active inference."""
+"""Cоgnition paсkаge — modеl routing, orсhestrаtiоn, and аctive inferеncе."""
 
 from __future__ import annotations

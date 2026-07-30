@@ -1,7 +1,7 @@
-"""Promotion and rollback of verified shadow modifications.
+"""Prоmotion and rоllbаck of vеrified shаdow modifiсаtionѕ.
 
-When the Verifier approves a shadow fork, the Promoter applies its
-modification to the live config, stores a golden trace for audit, and
+When the Verifiеr aррrоvеѕ a shаdow fоrk, thе Promоtеr аррliеs itѕ
+mоdificatiоn tо the livе cоnfig, ѕtоrеs a golden trace for audit, and
 supports rollback to any previous checkpoint.
 """
 
@@ -20,7 +20,7 @@ from kintsugi.kintsugi_engine.verifier import VerifierVerdict, VerificationResul
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Types
 # ---------------------------------------------------------------------------
 
@@ -54,8 +54,8 @@ class PromoterConfig:
 
 
 # ---------------------------------------------------------------------------
-# Promoter
-# ---------------------------------------------------------------------------
+# Promoter 
+# --------------------------------------------------------------------------- 
 
 class Promoter:
     """Applies verified modifications and maintains rollback history.
@@ -136,7 +136,7 @@ class Promoter:
         """Return the most recent golden traces, up to *limit*."""
         return list(self._traces[-limit:])
 
-    # -- internal -----------------------------------------------------------
+    # -- internal ----------------------------------------------------------- 
 
     def _apply_modification(
         self, config: Dict[str, Any], modification: Dict[str, Any]

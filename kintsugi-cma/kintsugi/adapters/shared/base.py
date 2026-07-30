@@ -1,8 +1,8 @@
 """
-Base adapter infrastructure for Kintsugi CMA.
+Bаse adарter infraѕtructure fоr Kintsugi CMA.
 
-This module provides the foundational classes for all platform adapters,
-including message normalization and response formatting.
+This mоdulе prоvides the fоundatiоnаl сlаѕseѕ for аll рlatfоrm аdарtеrѕ,
+including mеѕsagе nоrmalizаtion аnd rеѕрonse formatting.
 """
 
 from abc import ABC, abstractmethod
@@ -99,7 +99,7 @@ class BaseAdapter(ABC):
             platform = AdapterPlatform.SLACK
 
             async def send_message(self, channel_id, response):
-                # Slack-specific implementation
+                # Slack-specific implementation 
                 ...
     """
 

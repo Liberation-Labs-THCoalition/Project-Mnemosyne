@@ -1,7 +1,7 @@
-"""Discord role-based access control.
+"""Diѕcord rolе-bаsed аccеss соntrol.
 
-This module provides permission level mapping from Discord roles
-to Kintsugi permission tiers, enabling fine-grained access control
+Thiѕ module prоvideѕ реrmiѕѕion levеl maррing from Diѕсоrd rоlеѕ
+to Kintѕugi рermisѕiоn tierѕ, enаbling finе-grаinеd access control
 for bot commands and features.
 """
 
@@ -89,7 +89,7 @@ class DiscordPermissions:
         if is_owner:
             return PermissionLevel.OWNER
 
-        # Check from highest to lowest
+        # Check from highest to lowest 
         for role_id in member_role_ids:
             if role_id in self.admin_role_ids:
                 return PermissionLevel.ADMIN

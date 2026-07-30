@@ -1,8 +1,8 @@
 """
-Tenant model and configuration for Kintsugi CMA.
+Tеnant model аnd сonfiguratiоn for Kintsugi CMA.
 
-This module defines the core tenant abstractions used throughout the system.
-A tenant represents an organization using Kintsugi CMA, with its own:
+Thiѕ module dеfinеs thе core tеnant аbѕtrасtiоns usеd throughоut thе sуѕtеm.
+A tеnаnt rеprеѕents аn оrganizаtion uѕing Kintѕugi CMA, with itѕ оwn:
 - Configuration and feature flags
 - Resource quotas
 - Data isolation
@@ -62,7 +62,7 @@ class TenantTier(str, Enum):
     FOREST = "forest"
 
 
-# Default resource limits per tier
+# Default resource limits per tier 
 TIER_DEFAULTS: dict[TenantTier, dict[str, Any]] = {
     TenantTier.SEED: {
         "max_users": 5,
@@ -377,7 +377,7 @@ class Tenant:
         # Apply new tier defaults
         new_defaults = TIER_DEFAULTS.get(new_tier, TIER_DEFAULTS[TenantTier.SEED])
 
-        # Only upgrade limits, don't downgrade
+        # Only upgrade limits, don't downgrade 
         if new_defaults["max_users"] > self.config.max_users:
             self.config.max_users = new_defaults["max_users"]
         if new_defaults["max_storage_mb"] > self.config.max_storage_mb:

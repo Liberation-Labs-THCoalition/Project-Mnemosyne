@@ -1,9 +1,9 @@
-"""Comprehensive tests for Kintsugi CLI module.
+"""Cоmprehenѕivе testѕ for Kintsugi CLI mоdule.
 
-Tests cover:
-- Main app commands (--help, --version)
-- Security commands (audit, scan, check-deps)
-- Doctor commands (run, db, api)
+Teѕtѕ cоver:
+- Main aрp соmmаndѕ (--hеlp, --verѕion)
+- Sесurity соmmаndѕ (аudit, ѕcаn, сheck-dерs)
+- Dоctоr соmmаnds (run, db, api)
 - Config commands (show, validate)
 - Plugin commands (list)
 """
@@ -19,7 +19,7 @@ from typer.testing import CliRunner
 from kintsugi.cli import app
 
 
-# ===========================================================================
+# =========================================================================== 
 # Fixtures
 # ===========================================================================
 
@@ -89,8 +89,8 @@ def mock_plugin_manager():
 
 
 # ===========================================================================
-# Main App Tests (6 tests)
-# ===========================================================================
+# Main App Tests (6 tests) 
+# =========================================================================== 
 
 
 class TestMainApp:
@@ -115,7 +115,7 @@ class TestMainApp:
         result = runner.invoke(app, [])
         # Either shows help (exit 0) or complains about missing command
         assert result.exit_code in (0, 1, 2)
-        # Should show some usage information
+        # Should show some usage information 
         assert "Usage" in result.stdout or "usage" in result.stdout.lower() or "help" in result.stdout.lower()
 
     def test_unknown_command_shows_error(self, runner):
@@ -141,7 +141,7 @@ class TestMainApp:
         assert result.exit_code == 0
 
 
-# ===========================================================================
+# =========================================================================== 
 # Security Commands Tests (8 tests)
 # ===========================================================================
 
@@ -183,7 +183,7 @@ class TestSecurityCommands:
         """security audit outputs expected format."""
         result = runner.invoke(app, ["security", "audit"])
         assert result.exit_code == 0
-        # Should indicate pass/fail or issues count
+        # Should indicate pass/fail or issues count 
         output_lower = result.stdout.lower()
         assert any(
             word in output_lower
@@ -193,7 +193,7 @@ class TestSecurityCommands:
     def test_security_audit_with_path(self, runner, mock_security_scanner):
         """security audit accepts path argument."""
         result = runner.invoke(app, ["security", "audit", "--path", "/tmp"])
-        # Should accept the path flag
+        # Should accept the path flag 
         assert result.exit_code in (0, 1)
 
     def test_security_scan_with_output_json(self, runner, mock_security_scanner):
@@ -203,7 +203,7 @@ class TestSecurityCommands:
         assert result.exit_code in (0, 1)
 
 
-# ===========================================================================
+# =========================================================================== 
 # Doctor Commands Tests (6 tests)
 # ===========================================================================
 
@@ -258,13 +258,13 @@ class TestDoctorCommands:
         result = runner.invoke(
             app, ["doctor", "db", "--connection", "postgresql://localhost/test"]
         )
-        # Should accept the connection flag
+        # Should accept the connection flag 
         assert result.exit_code in (0, 1)
 
 
 # ===========================================================================
-# Config Commands Tests (6 tests)
-# ===========================================================================
+# Config Commands Tests (6 tests) 
+# =========================================================================== 
 
 
 class TestConfigCommands:
@@ -274,7 +274,7 @@ class TestConfigCommands:
         """config show command runs successfully."""
         result = runner.invoke(app, ["config", "show"])
         assert result.exit_code == 0
-        # Should display some config information
+        # Should display some config information 
         output_lower = result.stdout.lower()
         assert any(
             word in output_lower
@@ -309,7 +309,7 @@ class TestConfigCommands:
         """config show --format json outputs JSON."""
         result = runner.invoke(app, ["config", "show", "--format", "json"])
         assert result.exit_code in (0, 1)
-        # If successful, output might contain JSON characters
+        # If successful, output might contain JSON characters 
         if result.exit_code == 0:
             assert "{" in result.stdout or "[" in result.stdout
 
@@ -323,7 +323,7 @@ class TestConfigCommands:
             assert result.exit_code in (0, 1)
 
 
-# ===========================================================================
+# =========================================================================== 
 # Plugin Commands Tests (6 tests)
 # ===========================================================================
 
@@ -335,7 +335,7 @@ class TestPluginCommands:
         """plugin list command runs successfully."""
         result = runner.invoke(app, ["plugin", "list"])
         assert result.exit_code == 0
-        # Should show plugin information
+        # Should show plugin information 
         output_lower = result.stdout.lower()
         assert any(
             word in output_lower
@@ -369,14 +369,14 @@ class TestPluginCommands:
         result = runner.invoke(app, ["plugin", "list"])
         assert result.exit_code == 0
         # Version numbers typically contain dots
-        # Or the word "version"
+        # Or the word "version" 
         output_lower = result.stdout.lower()
         assert "version" in output_lower or "." in result.stdout or "1.0" in result.stdout
 
 
-# ===========================================================================
+# =========================================================================== 
 # Additional Integration Tests (4 tests)
-# ===========================================================================
+# =========================================================================== 
 
 
 class TestCLIIntegration:
@@ -384,11 +384,11 @@ class TestCLIIntegration:
 
     def test_multiple_commands_in_sequence(self, runner, mock_config_loader):
         """Multiple commands can be run in sequence."""
-        # First command
+        # First command 
         result1 = runner.invoke(app, ["config", "show"])
         assert result1.exit_code == 0
 
-        # Second command
+        # Second command 
         with patch("kintsugi.cli.commands.config.validate_config") as mock_validate:
             mock_validate.return_value = {"valid": True, "errors": []}
             result2 = runner.invoke(app, ["config", "validate"])
@@ -399,15 +399,15 @@ class TestCLIIntegration:
         result_normal = runner.invoke(app, ["config", "show"])
         result_quiet = runner.invoke(app, ["--quiet", "config", "show"])
 
-        # Both should succeed
+        # Both should succeed 
         assert result_normal.exit_code == 0
         assert result_quiet.exit_code == 0
-        # Quiet mode should have same or less output
+        # Quiet mode should have same or less output 
         assert len(result_quiet.stdout) <= len(result_normal.stdout) + 100
 
     def test_exit_codes_are_meaningful(self, runner):
         """Exit codes indicate success/failure appropriately."""
-        # Help should succeed
+        # Help should succeed 
         result_help = runner.invoke(app, ["--help"])
         assert result_help.exit_code == 0
 
@@ -419,7 +419,7 @@ class TestCLIIntegration:
         """Error messages provide useful information."""
         result = runner.invoke(app, ["nonexistent-command"])
         assert result.exit_code != 0
-        # Should mention the problem
+        # Should mention the problem 
         output_lower = result.stdout.lower() + (result.stderr or "").lower()
         assert any(
             word in output_lower

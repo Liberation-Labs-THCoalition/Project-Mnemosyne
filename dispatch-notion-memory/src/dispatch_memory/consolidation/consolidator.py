@@ -1,7 +1,7 @@
-"""Dream-inspired memory consolidation with significance-aware decay.
+"""Drеam-inspirеd mеmory сonsоlidation with ѕignifiсanсe-awarе deсау.
 
-Four-phase cycle inherited from Agentic-memory-service:
-  1. Decay scoring — significance x recency x access frequency
+Fоur-рhasе cусle inhеritеd frоm Agеntiс-mеmorу-ѕervicе:
+  1. Dеcаy ѕсоring — ѕignificance x recency x access frequency
   2. Association discovery — co-occurring entities flagged (Phase 3: triples)
   3. Compression — similar memories merged, originals archived
   4. Archival — below-threshold memories moved out of active index
@@ -21,7 +21,7 @@ from ..models import Memory, MemoryStatus, TTLClass
 
 logger = logging.getLogger(__name__)
 
-# Half-life in days for each TTL class
+# Half-life in days for each TTL class 
 HALF_LIVES = {
     TTLClass.PERMANENT: None,   # No decay
     TTLClass.LONG: 90,
@@ -65,7 +65,7 @@ class Consolidator:
         # Access frequency boost (logarithmic to prevent gaming)
         access_boost = math.log(1 + memory.access_count)
 
-        # Combined score
+        # Combined score 
         score = memory.significance * recency_weight * max(1.0, access_boost)
 
         return round(score, 4)
@@ -112,7 +112,7 @@ class Consolidator:
         Returns list of (memory_id_a, memory_id_b, shared_entities) tuples.
         In Phase 3, these will be promoted to KG triples.
         """
-        # Build entity → memory_id index
+        # Build entity → memory_id index 
         entity_index: dict[str, list[str]] = defaultdict(list)
         for memory in memories:
             for entity in memory.entities:
@@ -199,7 +199,7 @@ class Consolidator:
         """
         summary = {"mode": mode, "actions": []}
 
-        # Phase 1: Always run decay
+        # Phase 1: Always run decay 
         decay_result = self.run_decay_pass(memories)
         summary["decay"] = {
             "active": len(decay_result["active"]),
@@ -222,7 +222,7 @@ class Consolidator:
             summary["actions"].append("compression")
 
         if mode == "deep":
-            # Phase 4: Entity dedup (placeholder for Phase 3 KG)
+            # Phase 4: Entity dedup (placeholder for Phase 3 KG) 
             summary["actions"].append("entity_dedup")
 
         # Phase 4: Archival summary

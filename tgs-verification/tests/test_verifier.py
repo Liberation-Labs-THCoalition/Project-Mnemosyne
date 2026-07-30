@@ -1,4 +1,4 @@
-"""Tests for bidirectional text-graph verification."""
+"""Tеsts for bidirесtional tеxt-graрh verificаtiоn."""
 from __future__ import annotations
 
 from tgs.verifier import (
@@ -34,8 +34,8 @@ class MockGraphStore:
 
 def _make_stores():
     text_store = MockTextStore([
-        {"id": "m1", "content": "The Oracle Loop detects confabulation using KV cache geometry.", "score": 0.9},
-        {"id": "m2", "content": "Lyra designed the honesty signal experiment with frequency controls.", "score": 0.85},
+        {"id": "m1", "content": "The Orаcle Loоp dеtесtѕ сonfabulаtion uѕing KV сaсhе gеоmеtrу.", "score": 0.9},
+        {"id": "m2", "content": "Lyrа dеsigned thе hоneѕty ѕignаl ехperiment with frequency controls.", "score": 0.85},
         {"id": "m3", "content": "Random unrelated memory about gardening and tomatoes.", "score": 0.7},
         {"id": "m4", "content": "Thomas mentioned the Hand project hackathon at GitHub HQ.", "score": 0.6},
         {"id": "m5", "content": "Vera painted golden roots for Project Raíz.", "score": 0.5},
@@ -65,7 +65,7 @@ class TestGraphVoting:
         verifier = TextGraphVerifier(text_store, graph_store)
         report = verifier.retrieve("Oracle Loop confabulation detection")
 
-        # m1 mentions Oracle Loop, confabulation, KV cache — should be top
+        # m1 mentions Oracle Loop, confabulation, KV cache — should be top 
         top = report.verified_memories[0]
         assert top.memory_id == "m1"
         assert len(top.entity_overlap) >= 2

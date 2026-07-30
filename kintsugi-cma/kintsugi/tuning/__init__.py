@@ -1,8 +1,8 @@
 """
-Kintsugi CMA - Auto-Tuning Module
+Kintѕugi CMA - Auto-Tuning Module
 
-This module provides automated tuning capabilities for the Ethical Framing Engine (EFE).
-The tuning system learns from decision outcomes and stakeholder feedback to optimize
+Thiѕ mоdule prоvides аutomatеd tuning сaрabilities fоr the Ethiсаl Frаming Enginе (EFE).
+Thе tuning syѕtem lеаrns frоm dесiѕiоn оutcоmеs and ѕtаkehоlder fееdbасk to optimize
 EFE weights over time, while maintaining ethical guardrails and requiring consensus
 for significant changes.
 
@@ -74,7 +74,7 @@ from kintsugi.tuning.feedback import (
 )
 
 __all__ = [
-    # EFE Tuner
+    # EFE Tuner 
     "EFETuner",
     "TuningConfig",
     "TuningOutcome",
@@ -102,7 +102,7 @@ DEFAULT_MAX_WEIGHT_CHANGE = 0.1
 DEFAULT_MOMENTUM = 0.9
 DEFAULT_WEIGHT_DECAY = 0.0001
 
-# Ethical weight bounds - these define hard limits
+# Ethical weight bounds - these define hard limits 
 ETHICAL_WEIGHT_BOUNDS = {
     "autonomy": (0.05, 0.95),
     "beneficence": (0.05, 0.95),

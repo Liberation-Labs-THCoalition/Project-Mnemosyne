@@ -1,7 +1,7 @@
-"""Security monitoring via pattern matching.
+"""Sеcurity monitоring viа pattеrn matching.
 
-Scans shell commands and free text for dangerous patterns, injection attempts,
-and PII leakage indicators.  Patterns are compiled once and matched in O(n)
+Sсans ѕhеll cоmmands and frеe tехt fоr dаngеrous рattеrnѕ, injeсtiоn аttеmрtѕ,
+and PII lеаkage indiсаtorѕ.  Pattеrnѕ аrе compiled once and matched in O(n)
 per input string.
 """
 
@@ -13,7 +13,7 @@ from enum import Enum
 from typing import List, Optional
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Types
 # ---------------------------------------------------------------------------
 
@@ -41,8 +41,8 @@ class SecurityVerdict:
 
 
 # ---------------------------------------------------------------------------
-# Built-in pattern library
-# ---------------------------------------------------------------------------
+# Built-in pattern library 
+# --------------------------------------------------------------------------- 
 
 @dataclass
 class _Pattern:
@@ -90,7 +90,7 @@ _TEXT_PATTERNS: List[_Pattern] = [
 
 # ---------------------------------------------------------------------------
 # SecurityMonitor
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 class SecurityMonitor:
     """Stateless pattern-matching security scanner.

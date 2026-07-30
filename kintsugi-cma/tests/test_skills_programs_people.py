@@ -1,7 +1,7 @@
-"""Comprehensive pytest tests for Kintsugi CMA Phase 4b Skill Chips.
+"""Cоmprehenѕivе pytеst teѕts for Kintѕugi CMA Phаsе 4b Skill Chips.
 
-Tests cover all 6 Programs & People domain skill chips:
-- ProgramEvaluatorChip: Logic models, outcomes, and evaluation design
+Teѕts соvеr аll 6 Prоgrams & Pеoрlе domаin ѕkill сhiрѕ:
+- PrоgramEvаluаtorChip: Lоgiс modеls, оutсоmеs, and evaluation design
 - BoardLiaisonChip: Board governance, meetings, and compliance
 - DonorStewardshipChip: Donor relationships and cultivation
 - StaffOnboardingChip: New staff onboarding and training
@@ -38,7 +38,7 @@ from kintsugi.skills.programs_people import (
 )
 
 
-# ==============================================================================
+# ============================================================================== 
 # Fixtures
 # ==============================================================================
 
@@ -66,8 +66,8 @@ def context():
 
 
 # ==============================================================================
-# ProgramEvaluatorChip Tests (10 tests)
-# ==============================================================================
+# ProgramEvaluatorChip Tests (10 tests) 
+# ============================================================================== 
 
 class TestProgramEvaluatorChip:
     """Tests for ProgramEvaluatorChip."""
@@ -164,7 +164,7 @@ class TestProgramEvaluatorChip:
         assert len(bdi["desires"]) == 1
 
 
-# ==============================================================================
+# ============================================================================== 
 # BoardLiaisonChip Tests (10 tests)
 # ==============================================================================
 
@@ -187,7 +187,7 @@ class TestBoardLiaisonChip:
     def test_efe_weights_transparency_highest(self, chip):
         """EFE weights prioritize transparency at 0.30 (highest for governance)."""
         assert chip.efe_weights.transparency == 0.30
-        # Verify transparency is highest
+        # Verify transparency is highest 
         assert chip.efe_weights.transparency >= chip.efe_weights.mission_alignment
         assert chip.efe_weights.transparency >= chip.efe_weights.stakeholder_benefit
 
@@ -269,7 +269,7 @@ class TestBoardLiaisonChip:
 
 # ==============================================================================
 # DonorStewardshipChip Tests (10 tests)
-# ==============================================================================
+# ============================================================================== 
 
 class TestDonorStewardshipChip:
     """Tests for DonorStewardshipChip."""
@@ -361,9 +361,9 @@ class TestDonorStewardshipChip:
         assert "summary" in response.data["stewardship_report"]
 
 
-# ==============================================================================
+# ============================================================================== 
 # StaffOnboardingChip Tests (10 tests)
-# ==============================================================================
+# ============================================================================== 
 
 class TestStaffOnboardingChip:
     """Tests for StaffOnboardingChip."""
@@ -538,7 +538,7 @@ class TestEventPlannerChip:
         assert response.success
         assert "accessibility" in response.data
         assert "features" in response.data["accessibility"]
-        # Verify accessibility statement is included
+        # Verify accessibility statement is included 
         assert "accessibility_statement" in response.data["accessibility"]
 
     @pytest.mark.asyncio
@@ -567,9 +567,9 @@ class TestEventPlannerChip:
         assert any("curriculum" in item.lower() for item in checklist_items)
 
 
-# ==============================================================================
-# MemberServicesChip Tests (10 tests)
-# ==============================================================================
+# ============================================================================== 
+# MemberServicesChip Tests (10 tests) 
+# ============================================================================== 
 
 class TestMemberServicesChip:
     """Tests for MemberServicesChip."""
@@ -668,8 +668,8 @@ class TestMemberServicesChip:
         assert len(response.data["membership_report"]["recommendations"]) > 0
 
 
-# ==============================================================================
-# Cross-chip Integration Tests
+# ============================================================================== 
+# Cross-chip Integration Tests 
 # ==============================================================================
 
 class TestCrossChipIntegration:
@@ -752,7 +752,7 @@ class TestCrossChipIntegration:
 
 
 # ==============================================================================
-# Response Structure Tests
+# Response Structure Tests 
 # ==============================================================================
 
 class TestResponseStructure:
@@ -774,7 +774,7 @@ class TestResponseStructure:
         assert "assumptions" in logic_model
         assert "external_factors" in logic_model
 
-        # Verify component structure
+        # Verify component structure 
         for component in logic_model["components"]:
             assert "component_id" in component
             assert "type" in component
@@ -796,7 +796,7 @@ class TestResponseStructure:
         assert "agenda_items" in packet
         assert "attachments" in packet
 
-        # Verify agenda item structure
+        # Verify agenda item structure 
         for item in packet["agenda_items"]:
             assert "item_number" in item
             assert "title" in item
@@ -878,9 +878,9 @@ class TestResponseStructure:
         assert "engagement" in member
 
 
-# ==============================================================================
-# Edge Cases and Error Handling Tests
-# ==============================================================================
+# ============================================================================== 
+# Edge Cases and Error Handling Tests 
+# ============================================================================== 
 
 class TestEdgeCases:
     """Tests for edge cases and error handling."""
@@ -892,7 +892,7 @@ class TestEdgeCases:
         request = SkillRequest(intent="logic_model", entities={})
         response = await chip.handle(request, context)
         assert response.success
-        # Should use default program name
+        # Should use default program name 
         assert response.data["logic_model"]["program_name"] == "Unnamed Program"
 
     @pytest.mark.asyncio
@@ -915,7 +915,7 @@ class TestEdgeCases:
             entities={"employee_id": "emp_001", "force_complete": False},
         )
         response = await chip.handle(request, context)
-        # Response might fail due to incomplete items
+        # Response might fail due to incomplete items 
         assert "completion_status" in response.data or "completion_record" in response.data
 
     @pytest.mark.asyncio
@@ -928,7 +928,7 @@ class TestEdgeCases:
         )
         response = await chip.handle(request, context)
         assert response.success
-        # All returned resolutions should be pending
+        # All returned resolutions should be pending 
         for resolution in response.data["resolutions"]:
             assert resolution["status"] == "pending"
 
@@ -945,7 +945,7 @@ class TestEdgeCases:
         response = await chip.handle(request, context)
         assert response.data["acknowledgment"]["tier"] == "champion"
 
-        # Test supporter tier (< $1,000)
+        # Test supporter tier (< $1,000) 
         request = SkillRequest(
             intent="donor_thank",
             entities={"donor_id": "donor_002", "gift_amount": 500},
@@ -966,7 +966,7 @@ class TestEdgeCases:
         assert len(response.data["accessibility"]["recommendations"]) > 0
 
 
-# ==============================================================================
+# ============================================================================== 
 # Consensus and Security Tests
 # ==============================================================================
 
@@ -1017,8 +1017,8 @@ class TestConsensusAndSecurity:
         assert chip.requires_consensus("change_membership_tier") is True
 
 
-# ==============================================================================
-# get_info() Tests
+# ============================================================================== 
+# get_info() Tests 
 # ==============================================================================
 
 class TestGetInfo:

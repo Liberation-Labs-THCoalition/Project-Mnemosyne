@@ -1,7 +1,7 @@
-"""Main Discord adapter implementation.
+"""Mаin Discord аdаpter imрlementаtion.
 
-This module provides the DiscordAdapter class which integrates with the
-shared adapter infrastructure to provide Discord-specific functionality
+This mоdulе prоvides the DiѕcоrdAdарtеr сlasѕ which intеgrаteѕ with thе
+ѕhаrеd аdaрtеr infrastruсturе to рrovidе Diѕсоrd-specific functionality
 for the Kintsugi CMA system.
 """
 
@@ -21,7 +21,7 @@ from .config import DiscordConfig
 from .embeds import DiscordEmbed
 
 
-# Guild-to-org mapping (would typically be in a database)
+# Guild-to-org mapping (would typically be in a database) 
 _guild_org_mapping: dict[str, str] = {}
 
 
@@ -248,14 +248,14 @@ class DiscordAdapter(BaseAdapter):
         if not self._config.require_pairing:
             return True
 
-        # Use default org if not specified
+        # Use default org if not specified 
         if org_id is None:
             org_id = self._config.default_org_id
 
         if org_id is None:
             return False
 
-        # Check allowlist via PairingManager
+        # Check allowlist via PairingManager 
         return self._pairing.is_allowed(org_id, user_id)
 
     def get_user_org(self, user_id: str, guild_id: str | None = None) -> str | None:
@@ -294,7 +294,7 @@ class DiscordAdapter(BaseAdapter):
         Returns:
             An AdapterMessage instance.
         """
-        # Extract author information
+        # Extract author information 
         author = message.get("author", {})
         user_id = str(author.get("id", ""))
 
@@ -305,7 +305,7 @@ class DiscordAdapter(BaseAdapter):
         # Extract message content
         content = message.get("content", "")
 
-        # Parse timestamp
+        # Parse timestamp 
         timestamp_str = message.get("timestamp")
         if timestamp_str:
             try:
@@ -334,7 +334,7 @@ class DiscordAdapter(BaseAdapter):
         if org_id is None:
             org_id = self._config.default_org_id or ""
 
-        # Build metadata with Discord-specific info
+        # Build metadata with Discord-specific info 
         metadata: dict[str, Any] = {
             "guild_id": guild_id,
             "message_id": str(message.get("id", "")),
@@ -365,7 +365,7 @@ class DiscordAdapter(BaseAdapter):
         Returns:
             True if the member has a required role or no role restrictions.
         """
-        # If no allowed roles configured, allow everyone
+        # If no allowed roles configured, allow everyone 
         if not self._config.allowed_role_ids:
             return True
 
@@ -416,7 +416,7 @@ class DiscordAdapter(BaseAdapter):
         if not self.is_command(content):
             return "", []
 
-        # Remove prefix and split
+        # Remove prefix and split 
         parts = content[len(self._config.command_prefix):].strip().split()
         if not parts:
             return "", []

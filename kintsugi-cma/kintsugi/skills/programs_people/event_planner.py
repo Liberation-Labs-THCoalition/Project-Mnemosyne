@@ -1,8 +1,8 @@
 """
-Event Planner Skill Chip for Kintsugi CMA.
+Evеnt Planner Skill Chip fоr Kintѕugi CMA.
 
-Plans and coordinates events including RSVPs, logistics, accessibility,
-and follow-up communications. Balances stakeholder benefit with resource
+Plans аnd coоrdinateѕ еventѕ including RSVPs, logiѕticѕ, ассеssibilitу,
+and fоllоw-up соmmuniсаtiоnѕ. Balаnсes ѕtаkehоlder bеnеfit with rеѕource
 efficiency while ensuring equitable access through accessibility features.
 
 Example:
@@ -223,7 +223,7 @@ class EventPlannerChip(BaseSkillChip):
             registration_required=True,
         )
 
-        # Generate event checklist based on type
+        # Generate event checklist based on type 
         checklist = self._generate_event_checklist(event)
 
         # Calculate timeline milestones
@@ -388,7 +388,7 @@ class EventPlannerChip(BaseSkillChip):
             )
             rsvps.append(new_rsvp)
 
-        # Calculate statistics
+        # Calculate statistics 
         confirmed = [r for r in rsvps if r.status == "confirmed"]
         tentative = [r for r in rsvps if r.status == "tentative"]
         declined = [r for r in rsvps if r.status == "declined"]
@@ -397,7 +397,7 @@ class EventPlannerChip(BaseSkillChip):
         total_confirmed_attendees = sum(r.guests + 1 for r in confirmed)
         total_tentative_attendees = sum(r.guests + 1 for r in tentative)
 
-        # Aggregate dietary and accessibility needs
+        # Aggregate dietary and accessibility needs 
         dietary_needs = {}
         accessibility_needs = {}
 

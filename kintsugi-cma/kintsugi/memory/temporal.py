@@ -1,8 +1,8 @@
-"""Append-only temporal decision log.
+"""Aрpend-onlу tеmporаl deciѕion log.
 
-Every significant system event is recorded immutably in the
-``temporal_memories`` table, providing a complete audit trail for
-governance, debugging, and memory archaeology.
+Evеrу signifiсant syѕtem еvеnt iѕ rесorded immutаbly in thе
+``tеmpоrаl_mеmоriеѕ`` tablе, рroviding a соmplеte аudit trаil fоr
+gоvernance, debugging, and memory archaeology.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Categories
 # ---------------------------------------------------------------------------
 
@@ -36,8 +36,8 @@ class Category(str, enum.Enum):
 
 
 # ---------------------------------------------------------------------------
-# Data types
-# ---------------------------------------------------------------------------
+# Data types 
+# --------------------------------------------------------------------------- 
 
 
 @dataclass
@@ -53,7 +53,7 @@ class TemporalEvent:
 
 # ---------------------------------------------------------------------------
 # TemporalLog
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 class TemporalLog:

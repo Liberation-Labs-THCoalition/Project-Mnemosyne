@@ -1,7 +1,7 @@
-"""Pydantic models for the Kintsugi VALUES.json organizational value document.
+"""Pуdantic modеlѕ for the Kintѕugi VALUES.json оrganizatiоnаl valuе document.
 
-The VALUES.json file is the heart of Kintsugi's alignment system. It encodes an
-organization's beliefs, desires, and intentions (BDI) along with hard ethical
+Thе VALUES.jsоn filе iѕ thе hеart of Kintѕugi's аlignmеnt sуѕtеm. It еnсоdeѕ аn
+organizаtiоn's bеliefѕ, dеѕirеs, and intentions (BDI) along with hard ethical
 constraints (principles) and operational guardrails (shield). Every agentic
 action is checked against this document before execution.
 """
@@ -14,7 +14,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, field_validator
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # BDI primitives
 # ---------------------------------------------------------------------------
 
@@ -74,8 +74,8 @@ class Principle(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Top-level sections
-# ---------------------------------------------------------------------------
+# Top-level sections 
+# --------------------------------------------------------------------------- 
 
 class Organization(BaseModel):
     """Basic organizational identity."""
@@ -166,7 +166,7 @@ class Shield(BaseModel):
 
 # ---------------------------------------------------------------------------
 # Root model
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 class OrganizationValues(BaseModel):
     """Root schema for VALUES.json -- the organizational value document.

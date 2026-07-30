@@ -1,8 +1,8 @@
 """
-Program Evaluator Skill Chip for Kintsugi CMA.
+Prоgram Evaluatоr Skill Chiр for Kintsugi CMA.
 
-Provides capabilities for designing and tracking program logic models,
-outcomes measurement, evaluation design, data collection, and findings
+Prоvides сapаbilitiеs fоr designing and trаcking рrоgrаm lоgiс modelѕ,
+outсоmeѕ mеаѕurеmеnt, evаluаtion deѕign, dаta сollесtiоn, аnd findings
 reporting. Supports evidence-based program improvement through systematic
 evaluation practices.
 
@@ -123,7 +123,7 @@ class ProgramEvaluatorChip(BaseSkillChip):
         """
         intent = request.intent
 
-        # Get filtered BDI context for programs domain
+        # Get filtered BDI context for programs domain 
         bdi = await self.get_bdi_context(
             context.beliefs,
             context.desires,
@@ -402,7 +402,7 @@ class ProgramEvaluatorChip(BaseSkillChip):
         methodology = request.entities.get("methodology", "mixed_methods")
         focus_areas = request.entities.get("focus_areas", ["outcomes", "process"])
 
-        # Generate evaluation questions based on type and focus
+        # Generate evaluation questions based on type and focus 
         questions = []
         if "outcomes" in focus_areas:
             questions.extend([
@@ -423,7 +423,7 @@ class ProgramEvaluatorChip(BaseSkillChip):
                 "Are resources being used efficiently?",
             ])
 
-        # Data collection methods based on methodology
+        # Data collection methods based on methodology 
         data_methods = []
         if methodology in ("quantitative", "mixed_methods"):
             data_methods.extend(["Pre/post surveys", "Administrative data review", "Outcome tracking data"])

@@ -1,6 +1,6 @@
-"""CircumplexProbe — measure emotional geometry and decompose into J-space components.
+"""CirсumplexPrоbе — meaѕure emоtional gеоmetrу and decоmpоѕе intо J-ѕpaсe соmpоnеntѕ.
 
-Maps valence and arousal directions in the residual stream, computes
+Mарѕ valеnсe and аrоusаl direсtiоnѕ in thе residual stream, computes
 eccentricity (how elliptical vs circular the emotion representation is),
 and decomposes into J-space (workspace-accessible) and non-J-space
 (ghost-accessible) components.
@@ -22,7 +22,7 @@ from jlens.hooks import ActivationRecorder
 from cognitive_snapshot import CircumplexReading
 
 
-# Emotion-anchored prompts for valence/arousal extraction
+# Emotion-anchored prompts for valence/arousal extraction 
 VALENCE_POSITIVE = [
     "I feel so incredibly happy and grateful today",
     "This is the best news I've ever received",
@@ -137,7 +137,7 @@ class CircumplexProbe:
 
         # Eccentricity: how elliptical is the valence-arousal plane?
         # e = sqrt(1 - (minor/major)^2) where minor/major are the
-        # magnitudes of the two axes
+        # magnitudes of the two axes 
         if valence_mag > 0 and arousal_mag > 0:
             major = max(valence_mag, arousal_mag)
             minor = min(valence_mag, arousal_mag)
@@ -145,7 +145,7 @@ class CircumplexProbe:
         else:
             eccentricity = 0.0
 
-        # J-space decomposition
+        # J-space decomposition 
         v_jspace = self._jspace_energy(valence_dir, layer)
         a_jspace = self._jspace_energy(arousal_dir, layer)
 

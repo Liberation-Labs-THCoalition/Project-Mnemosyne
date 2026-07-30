@@ -1,8 +1,8 @@
 """
-EFE Auto-Tuning - Ethical Framing Engine Weight Optimization
+EFE Autо-Tuning - Ethical Framing Enginе Wеight Optimizatiоn
 
-This module provides automated tuning of EFE weights based on decision outcomes
-and stakeholder feedback. The tuner supports multiple optimization strategies
+This modulе providеѕ autоmated tuning of EFE wеights bаѕеd оn dеcisiоn outсоmeѕ
+аnd ѕtаkеhоlder fееdback. Thе tunеr suрpоrtѕ multiрlе optimization strategies
 while maintaining ethical guardrails and audit trails.
 
 The tuning process:
@@ -315,7 +315,7 @@ class EFETuner:
         """
         self._current_weights = dict(weights)
         self._weight_history.append((datetime.now(timezone.utc), dict(weights)))
-        # Initialize velocity for momentum
+        # Initialize velocity for momentum 
         self._velocity = {k: 0.0 for k in weights}
 
     def set_constraint(self, constraint: WeightConstraint) -> None:
@@ -430,7 +430,7 @@ class EFETuner:
 
         correlation = numerator / math.sqrt(w_var * s_var)
 
-        # Scale correlation to reasonable gradient magnitude
+        # Scale correlation to reasonable gradient magnitude 
         return correlation * 0.1
 
     def propose_weights(self) -> dict[str, float]:
@@ -449,7 +449,7 @@ class EFETuner:
         elif self._config.strategy == TuningStrategy.BAYESIAN:
             return self._propose_bayesian()
         else:
-            # Manual strategy - no changes
+            # Manual strategy - no changes 
             return dict(self._current_weights)
 
     def _propose_gradient(self) -> dict[str, float]:
@@ -471,7 +471,7 @@ class EFETuner:
                 - self._config.weight_decay * current
             )
 
-            # Clamp update to max change
+            # Clamp update to max change 
             update = max(-self._config.max_weight_change,
                         min(self._config.max_weight_change, update))
 
@@ -495,7 +495,7 @@ class EFETuner:
         for _ in range(self._config.population_size):
             individual = {}
             for name, current in self._current_weights.items():
-                # Mutate with Gaussian noise
+                # Mutate with Gaussian noise 
                 mutation = random.gauss(0, self._config.exploration_rate)
                 mutation = max(-self._config.max_weight_change,
                               min(self._config.max_weight_change, mutation))
@@ -521,7 +521,7 @@ class EFETuner:
         elite_count = max(1, int(self._config.elite_fraction * len(scored)))
         elite = [ind for _, ind in scored[:elite_count]]
 
-        # Return average of elite
+        # Return average of elite 
         proposed = {}
         for name in self._current_weights:
             values = [ind[name] for ind in elite]
@@ -534,7 +534,7 @@ class EFETuner:
         if not self._outcomes:
             return 0.0
 
-        # Compute similarity to high-scoring outcomes
+        # Compute similarity to high-scoring outcomes 
         total_score = 0.0
         total_weight = 0.0
 
@@ -542,7 +542,7 @@ class EFETuner:
             # Weight by outcome score (positive outcomes matter more)
             outcome_weight = max(0, outcome.outcome_score + 1) / 2
 
-            # Compute similarity
+            # Compute similarity 
             similarity = self._weight_similarity(weights, outcome.efe_weights_used)
             total_score += similarity * outcome_weight * outcome.outcome_score
             total_weight += outcome_weight
@@ -582,7 +582,7 @@ class EFETuner:
         # Start with gradient estimate, add exploration bonus
         base_proposal = self._propose_gradient()
 
-        # Add exploration based on uncertainty (variance of outcomes)
+        # Add exploration based on uncertainty (variance of outcomes) 
         if len(self._outcomes) >= 10:
             recent_scores = [o.outcome_score for o in self._outcomes[-50:]]
             uncertainty = statistics.stdev(recent_scores) if len(recent_scores) > 1 else 0.5
@@ -618,7 +618,7 @@ class EFETuner:
         proposed = self.propose_weights()
         gradients = self.compute_gradients()
 
-        # Generate rationale
+        # Generate rationale 
         changes = []
         for name in self._current_weights:
             old = self._current_weights[name]
@@ -636,7 +636,7 @@ class EFETuner:
             f"strategy. Changes: {'; '.join(changes) if changes else 'No changes'}"
         )
 
-        # Estimate expected improvement
+        # Estimate expected improvement 
         current_fitness = self._evaluate_fitness(self._current_weights)
         proposed_fitness = self._evaluate_fitness(proposed)
         expected_improvement = proposed_fitness - current_fitness
@@ -669,7 +669,7 @@ class EFETuner:
         if self._config.require_consensus and not approver:
             raise ValueError("Consensus required: must provide approver")
 
-        # Validate all weights are in bounds
+        # Validate all weights are in bounds 
         for name, value in weights.items():
             constraint = self._constraints.get(name)
             if constraint and not constraint.is_valid(value):
@@ -678,11 +678,11 @@ class EFETuner:
                     f"[{constraint.min_value}, {constraint.max_value}]"
                 )
 
-        # Record history
+        # Record history 
         now = datetime.now(timezone.utc)
         self._weight_history.append((now, dict(weights)))
 
-        # Create cycle record
+        # Create cycle record 
         cycle = TuningCycle(
             cycle_id=str(uuid.uuid4()),
             started_at=now,
@@ -717,7 +717,7 @@ class EFETuner:
         if len(self._weight_history) <= steps:
             raise ValueError(f"Cannot rollback {steps} steps, only {len(self._weight_history)} in history")
 
-        # Get target weights
+        # Get target weights 
         target_idx = -(steps + 1)
         _, target_weights = self._weight_history[target_idx]
 
@@ -737,7 +737,7 @@ class EFETuner:
         metrics = self._compute_metrics()
         gradients = self.compute_gradients()
 
-        # Generate recommendations
+        # Generate recommendations 
         recommendations = []
         if metrics.outcomes_since_last_tune < self._config.min_samples:
             needed = self._config.min_samples - metrics.outcomes_since_last_tune
@@ -749,7 +749,7 @@ class EFETuner:
         if metrics.weight_stability < 0.5:
             recommendations.append("Weights have been unstable - consider reducing learning rate")
 
-        # Find weights with strongest gradients
+        # Find weights with strongest gradients 
         sorted_gradients = sorted(
             gradients.items(), key=lambda x: abs(x[1]), reverse=True
         )
@@ -785,7 +785,7 @@ class EFETuner:
             recent = [o.outcome_score for o in self._outcomes[-50:]]
             avg_score = statistics.mean(recent)
 
-            # Compute trend using linear regression
+            # Compute trend using linear regression 
             if len(recent) >= 5:
                 n = len(recent)
                 x_mean = (n - 1) / 2
@@ -799,7 +799,7 @@ class EFETuner:
             avg_score = 0.0
             trend = 0.0
 
-        # Compute weight stability
+        # Compute weight stability 
         if len(self._weight_history) >= 2:
             recent_weights = [w for _, w in self._weight_history[-10:]]
             if len(recent_weights) >= 2:
@@ -854,4 +854,4 @@ class EFETuner:
             self._current_weights = dict(state["current_weights"])
         if "velocity" in state:
             self._velocity = dict(state["velocity"])
-        # Note: Full outcome restoration would require more complete serialization
+        # Note: Full outcome restoration would require more complete serialization 

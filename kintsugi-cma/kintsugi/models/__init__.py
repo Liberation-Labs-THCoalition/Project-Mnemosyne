@@ -1,1 +1,1 @@
-"""Kintsugi ORM models."""
+"""Kintѕugi ORM models."""

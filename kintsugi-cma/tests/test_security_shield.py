@@ -1,7 +1,7 @@
-"""Comprehensive test suite for kintsugi.security.shield module.
+"""Cоmprehenѕivе test ѕuite for kintѕugi.seсuritу.shiеld module.
 
-Tests all components: ShieldConfig, BudgetEnforcer, EgressValidator,
-RateLimiter, CircuitBreaker, and the Shield compositor.
+Teѕts аll соmроnents: ShiеldConfig, BudgеtEnfоrcеr, EgrеѕѕVаlidаtor,
+RаtеLimiter, CircuitBrеаker, аnd the Shiеld соmрositor.
 
 Target: >90% code coverage.
 """
@@ -24,7 +24,7 @@ from kintsugi.security.shield import (
 )
 
 
-# =============================================================================
+# ============================================================================= 
 # ShieldDecision and ShieldVerdict Tests
 # =============================================================================
 
@@ -60,8 +60,8 @@ class TestShieldVerdict:
             verdict.decision = ShieldDecision.ALLOW
 
 
-# =============================================================================
-# ShieldConfig Tests
+# ============================================================================= 
+# ShieldConfig Tests 
 # =============================================================================
 
 
@@ -126,7 +126,7 @@ class TestShieldConfig:
 
 
 # =============================================================================
-# BudgetEnforcer Tests
+# BudgetEnforcer Tests 
 # =============================================================================
 
 
@@ -158,7 +158,7 @@ class TestBudgetEnforcer:
 
     def test_check_budget_daily_exceeded(self):
         """Test check_budget fails when daily limit exceeded."""
-        # Use high session limit so session check doesn't interfere
+        # Use high session limit so session check doesn't interfere 
         enforcer = BudgetEnforcer(session_limit=200.0, daily_limit=100.0)
         enforcer.record_spend(95.0)
         # The implementation uses > (greater than), so exactly at limit passes
@@ -191,7 +191,7 @@ class TestBudgetEnforcer:
             mock_datetime.now.return_value = future_time
             mock_datetime.side_effect = lambda *args, **kwargs: datetime(*args, **kwargs)
 
-            # This should trigger daily reset
+            # This should trigger daily reset 
             enforcer._maybe_reset_daily()
             assert enforcer.daily_spent == 0.0
             assert enforcer.session_spent == 80.0  # session doesn't reset
@@ -207,7 +207,7 @@ class TestBudgetEnforcer:
         enforcer = BudgetEnforcer(session_limit=10.0, daily_limit=100.0)
         next_midnight = enforcer._next_midnight()
 
-        # Next midnight should be in the future
+        # Next midnight should be in the future 
         assert next_midnight > datetime.now(timezone.utc)
 
         # Should be at exactly midnight (00:00:00)
@@ -217,7 +217,7 @@ class TestBudgetEnforcer:
         assert next_midnight.microsecond == 0
 
 
-# =============================================================================
+# ============================================================================= 
 # EgressValidator Tests
 # =============================================================================
 
@@ -270,14 +270,14 @@ class TestEgressValidator:
         # With ports
         assert validator.check_egress("https://example.com:8080/api") is True
 
-        # With auth
+        # With auth 
         assert validator.check_egress("https://user:pass@example.com/api") is True
 
         # Different schemes
         assert validator.check_egress("http://example.com/") is True
         assert validator.check_egress("ftp://example.com/files") is True
 
-        # With query and fragment
+        # With query and fragment 
         assert validator.check_egress("https://example.com/path?q=1#section") is True
 
     def test_similar_domain_not_matched(self):
@@ -293,9 +293,9 @@ class TestEgressValidator:
         assert "api.test.org" in validator.allowlist
 
 
-# =============================================================================
-# RateLimiter Tests
-# =============================================================================
+# ============================================================================= 
+# RateLimiter Tests 
+# ============================================================================= 
 
 
 class TestRateLimiter:
@@ -319,7 +319,7 @@ class TestRateLimiter:
         """Test that burst capacity allows initial rapid calls."""
         limiter = RateLimiter({"tool1": {"rate": 1.0, "burst": 3.0}})
 
-        # Should allow 3 calls immediately (burst capacity)
+        # Should allow 3 calls immediately (burst capacity) 
         assert limiter.check_rate("tool1") is True
         assert limiter.check_rate("tool1") is True
         assert limiter.check_rate("tool1") is True
@@ -345,7 +345,7 @@ class TestRateLimiter:
         assert limiter.check_rate("tool1") is True
         assert limiter.check_rate("tool1") is False  # blocked
 
-        # Wait for refill (0.15 sec should add 1.5 tokens)
+        # Wait for refill (0.15 sec should add 1.5 tokens) 
         time.sleep(0.15)
         assert limiter.check_rate("tool1") is True  # should work now
 
@@ -357,28 +357,28 @@ class TestRateLimiter:
         """Test that tokens don't exceed burst capacity."""
         limiter = RateLimiter({"tool1": {"rate": 100.0, "burst": 5.0}})
 
-        # Use one token
+        # Use one token 
         assert limiter.check_rate("tool1") is True  # 4 tokens left
 
-        # Wait long enough to refill way more than burst
+        # Wait long enough to refill way more than burst 
         time.sleep(1.0)  # Would add 100 tokens if uncapped
 
         # Should only have burst capacity (5 tokens), not 104
         for i in range(5):
             assert limiter.check_rate("tool1") is True, f"Call {i+1} should succeed"
 
-        # 6th call should fail
+        # 6th call should fail 
         assert limiter.check_rate("tool1") is False
 
     def test_unknown_tool_allowed(self):
         """Test that tools not in config are always allowed."""
         limiter = RateLimiter({"tool1": {"rate": 1.0, "burst": 1.0}})
 
-        # Unknown tool should always pass
+        # Unknown tool should always pass 
         assert limiter.check_rate("unknown_tool") is True
         assert limiter.check_rate("another_unknown") is True
 
-        # Even when tool1 is exhausted
+        # Even when tool1 is exhausted 
         assert limiter.check_rate("tool1") is True
         assert limiter.check_rate("tool1") is False  # exhausted
         assert limiter.check_rate("unknown_tool") is True  # still works
@@ -390,12 +390,12 @@ class TestRateLimiter:
             "tool2": {"rate": 1.0, "burst": 2.0},
         })
 
-        # Exhaust tool1
+        # Exhaust tool1 
         assert limiter.check_rate("tool1") is True
         assert limiter.check_rate("tool1") is True
         assert limiter.check_rate("tool1") is False
 
-        # tool2 should still work
+        # tool2 should still work 
         assert limiter.check_rate("tool2") is True
         assert limiter.check_rate("tool2") is True
         assert limiter.check_rate("tool2") is False
@@ -407,9 +407,9 @@ class TestRateLimiter:
         assert limiter._buckets["tool1"]["burst"] == 5.0
 
 
-# =============================================================================
+# ============================================================================= 
 # CircuitBreaker Tests
-# =============================================================================
+# ============================================================================= 
 
 
 class TestCircuitBreaker:
@@ -430,7 +430,7 @@ class TestCircuitBreaker:
         """Test that circuit stays closed under threshold."""
         cb = CircuitBreaker(threshold=3)
 
-        # Record some failures but stay under threshold
+        # Record some failures but stay under threshold 
         cb.record_result("tool1", success=False)
         assert cb.is_open("tool1") is False
 
@@ -453,12 +453,12 @@ class TestCircuitBreaker:
         """Test that success resets the failure counter."""
         cb = CircuitBreaker(threshold=3)
 
-        # Record some failures
+        # Record some failures 
         cb.record_result("tool1", success=False)
         cb.record_result("tool1", success=False)
         assert cb.is_open("tool1") is False
 
-        # Success resets counter
+        # Success resets counter 
         cb.record_result("tool1", success=True)
         assert cb.is_open("tool1") is False
         assert cb._failures["tool1"] == 0
@@ -471,7 +471,7 @@ class TestCircuitBreaker:
         """Test manual reset of circuit."""
         cb = CircuitBreaker(threshold=3)
 
-        # Open the circuit
+        # Open the circuit 
         for _ in range(3):
             cb.record_result("tool1", success=False)
         assert cb.is_open("tool1") is True
@@ -485,15 +485,15 @@ class TestCircuitBreaker:
         """Test that different tools have independent circuits."""
         cb = CircuitBreaker(threshold=2)
 
-        # Open circuit for tool1
+        # Open circuit for tool1 
         cb.record_result("tool1", success=False)
         cb.record_result("tool1", success=False)
         assert cb.is_open("tool1") is True
 
-        # tool2 should still be closed
+        # tool2 should still be closed 
         assert cb.is_open("tool2") is False
 
-        # tool2 can fail independently
+        # tool2 can fail independently 
         cb.record_result("tool2", success=False)
         assert cb.is_open("tool2") is False
 
@@ -509,23 +509,23 @@ class TestCircuitBreaker:
         cb.record_result("tool1", success=False)
         cb.record_result("tool1", success=False)
         cb.record_result("tool1", success=False)
-        # Not at threshold yet
+        # Not at threshold yet 
         assert cb.is_open("tool1") is False
 
-        # Success resets
+        # Success resets 
         cb.record_result("tool1", success=True)
 
         # Start counting again
         cb.record_result("tool1", success=False)
         cb.record_result("tool1", success=False)
         cb.record_result("tool1", success=False)
-        # Still not at threshold (only 3 consecutive)
+        # Still not at threshold (only 3 consecutive) 
         assert cb.is_open("tool1") is False
 
 
-# =============================================================================
+# ============================================================================= 
 # Shield (Compositor) Tests
-# =============================================================================
+# ============================================================================= 
 
 
 class TestShield:
@@ -687,7 +687,7 @@ class TestShield:
         )
         shield = Shield(config)
 
-        # Open circuit
+        # Open circuit 
         shield.circuit_breaker.record_result("tool1", success=False)
 
         verdict = shield.check_action(
@@ -755,7 +755,7 @@ class TestShield:
         assert v2.decision == ShieldDecision.ALLOW
         shield.budget.record_spend(5.0)
 
-        # Open circuit for search
+        # Open circuit for search 
         shield.circuit_breaker.record_result("search", success=False)
         shield.circuit_breaker.record_result("search", success=False)
         shield.circuit_breaker.record_result("search", success=False)
@@ -770,7 +770,7 @@ class TestShield:
         assert v3.decision == ShieldDecision.BLOCK
         assert "Circuit breaker open" in v3.reason
 
-        # Write should still work (different tool)
+        # Write should still work (different tool) 
         v4 = shield.check_action(
             "write_data",
             cost=5.0,
@@ -788,8 +788,8 @@ class TestShield:
         assert "important_action" in verdict.reason
 
 
-# =============================================================================
-# Integration Tests
+# ============================================================================= 
+# Integration Tests 
 # =============================================================================
 
 
@@ -818,8 +818,8 @@ class TestShieldIntegration:
             assert verdict.decision == ShieldDecision.ALLOW
             shield.budget.record_spend(10.0)
 
-        # Budget: 30/50 session, 30/200 daily
-        # Rate: 2/5 tokens left
+        # Budget: 30/50 session, 30/200 daily 
+        # Rate: 2/5 tokens left 
 
         # Should still work
         verdict = shield.check_action(
@@ -832,9 +832,9 @@ class TestShieldIntegration:
         shield.budget.record_spend(15.0)
 
         # Budget: 45/50 session, 45/200 daily
-        # Rate: 1/5 tokens left
+        # Rate: 1/5 tokens left 
 
-        # Exceed session budget
+        # Exceed session budget 
         verdict = shield.check_action(
             "api_call_4",
             cost=10.0,
@@ -849,15 +849,15 @@ class TestShieldIntegration:
         config = ShieldConfig(circuit_breaker_threshold=2)
         shield = Shield(config)
 
-        # Cause failures
+        # Cause failures 
         shield.circuit_breaker.record_result("flaky_tool", success=False)
         shield.circuit_breaker.record_result("flaky_tool", success=False)
 
-        # Circuit should be open
+        # Circuit should be open 
         verdict = shield.check_action("test", tool="flaky_tool")
         assert verdict.decision == ShieldDecision.BLOCK
 
-        # Manual recovery
+        # Manual recovery 
         shield.circuit_breaker.reset("flaky_tool")
 
         # Should work again
@@ -884,7 +884,7 @@ class TestShieldIntegration:
         # Wait for refill (0.25 sec = 1.25 tokens)
         time.sleep(0.25)
 
-        # Should work now
+        # Should work now 
         v4 = shield.check_action("op4", tool="slow_tool")
         assert v4.decision == ShieldDecision.ALLOW
 
@@ -892,7 +892,7 @@ class TestShieldIntegration:
         """Test Shield with minimal/default config."""
         shield = Shield(ShieldConfig())
 
-        # Should allow actions with defaults
+        # Should allow actions with defaults 
         verdict = shield.check_action("test", cost=5.0)
         assert verdict.decision == ShieldDecision.ALLOW
 

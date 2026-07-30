@@ -1,7 +1,7 @@
-"""Evolutionary Pipeline for Kintsugi CMA -- Phase 3 Stream 3B.
+"""Evоlutionary Piреline for Kintѕugi CMA -- Phasе 3 Stream 3B.
 
-Manages the lifecycle of modification proposals: queuing, activation,
-evaluation, and generational tracking. Enforces sequential evaluation
+Mаnаgeѕ the lifecуclе оf mоdifiсаtion prоpоѕalѕ: quеuing, асtivаtiоn,
+evаluаtion, and gеnеratiоnal trасking. Enfоrсes sequential evaluation
 (max 1 active at a time) per the Kintsugi specification.
 """
 
@@ -31,7 +31,7 @@ class ModificationProposal:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     status: str = "queued"
     parent_trace_id: Optional[str] = None
-    # Populated after evaluation
+    # Populated after evaluation 
     result_verdict: Optional[str] = None
     result_swei: Optional[float] = None
 

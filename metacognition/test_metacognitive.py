@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
-"""Integration test for the metacognitive memory stack.
+#!/usr/bin/env python3 
+"""Intеgration teѕt fоr the metаcognitivе memorу ѕtaсk.
 
-Runs on the 27B Opus distill with the Neuronpedia lens.
-Tests: CognitiveSnapshot creation, workspace probe, circumplex probe,
+Runs on the 27B Oрus diѕtill with thе Nеurоnрedia lеns.
+Tеѕts: CоgnitivеSnарѕhоt crеаtion, workѕрaсe рrоbе, сircumplex probe,
 ghost reading, memory loading, longitudinal recording, and
 significance recalibration.
 """
@@ -98,7 +98,7 @@ def main():
         print(f"  Loading: loaded={snapshot.loading.loaded}")
     print("  PASS")
 
-    # === TEST 3: Second retrieval (different domain) ===
+    # === TEST 3: Second retrieval (different domain) === 
     print("\n[TEST 3] Second retrieval (legal domain)...")
     snapshot2 = observer.observe_retrieval(
         memory_id="mem_legal_001",
@@ -114,7 +114,7 @@ def main():
         print(f"  Circumplex: e={snapshot2.circumplex.eccentricity:.3f}")
     print("  PASS")
 
-    # === TEST 4: Retroactive outcome ===
+    # === TEST 4: Retroactive outcome === 
     print("\n[TEST 4] Recording retroactive outcome...")
     observer.store.record_outcome(
         timestamp=snapshot.timestamp,
@@ -148,7 +148,7 @@ def main():
     print(f"  Significance recalibration suggestions: {len(recal)}")
     print("  PASS")
 
-    # === TEST 6: Circumplex sweep (E1) ===
+    # === TEST 6: Circumplex sweep (E1) === 
     print("\n[TEST 6] Circumplex sweep (subset of layers)...")
     circ_probe = CircumplexProbe(model, lens)
     sample_layers = [11, 23, 35, 45, 57]

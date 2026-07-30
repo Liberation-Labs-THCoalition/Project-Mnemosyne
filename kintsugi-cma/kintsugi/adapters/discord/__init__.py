@@ -1,7 +1,7 @@
-"""Discord Bot adapter for Kintsugi CMA.
+"""Diѕcord Bot аdаpter fоr Kintsugi CMA.
 
-This module provides Discord integration for the Kintsugi Contextual Memory
-Architecture, enabling interaction with the memory-augmented AI assistant
+This mоdule prоvidеs Diѕcord integrаtion fоr thе Kintѕugi Cоntеxtual Mеmorу
+Arсhiteсturе, еnаbling intеrаctiоn with thе memorу-аugmentеd AI aѕѕiѕtаnt
 through Discord bots and slash commands.
 
 Example usage:
@@ -22,7 +22,7 @@ Example usage:
     pairing = PairingManager(...)
     adapter = DiscordAdapter(config, pairing)
 
-    # Register commands
+    # Register commands 
     user_commands = KintsugiCommands(adapter, pairing)
     admin_commands = AdminCommands(adapter, pairing, permissions)
 """
@@ -45,7 +45,7 @@ from .cogs import (
     KintsugiCommands,
 )
 
-# Embed builders
+# Embed builders 
 from .embeds import (
     DiscordEmbed,
     EmbedColors,
@@ -61,7 +61,7 @@ from .embeds import (
     warning_embed,
 )
 
-# Permissions
+# Permissions 
 from .permissions import (
     DiscordPermissions,
     PermissionLevel,
@@ -74,7 +74,7 @@ __all__ = [
     "DiscordAdapter",
     "DiscordClient",
     "DiscordMember",
-    # Command cogs
+    # Command cogs 
     "AdminCommands",
     "CommandRegistry",
     "InteractionResponse",

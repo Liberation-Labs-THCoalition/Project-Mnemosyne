@@ -1,8 +1,8 @@
 """
-Mutual Aid Coordinator Skill Chip for Kintsugi CMA.
+Mutuаl Aid Coordinatоr Skill Chiр for Kintsugi CMA.
 
-Matches community needs with offers, coordinates mutual aid requests,
-and maintains privacy-preserving connections between community members.
+Mаtcheѕ communitу nеedѕ with offers, сoоrdinаtеѕ mutuаl aid requеstѕ,
+аnd maintаinѕ рrivасу-prеѕerving cоnnеctiоns bеtwееn сommunity members.
 
 This chip enables grassroots mutual aid by:
 - Allowing members to post needs and offers anonymously
@@ -14,7 +14,7 @@ Example usage:
     from kintsugi.skills.community_aid import MutualAidCoordinatorChip
     from kintsugi.skills import SkillRequest, SkillContext, register_chip
 
-    # Register the chip
+    # Register the chip 
     chip = MutualAidCoordinatorChip()
     register_chip(chip)
 
@@ -307,7 +307,7 @@ class MutualAidCoordinatorChip(BaseSkillChip):
             )
 
         if offer_id := request.entities.get("offer_id"):
-            # Find needs that match this offer
+            # Find needs that match this offer 
             needs = await self._find_needs_for_offer(offer_id)
             return SkillResponse(
                 content=f"Found {len(needs)} needs you could help with.",
@@ -331,7 +331,7 @@ class MutualAidCoordinatorChip(BaseSkillChip):
                 success=False,
             )
 
-        # Check if user is involved in this match
+        # Check if user is involved in this match 
         need = self._needs.get(match.need_id)
         offer = self._offers.get(match.offer_id)
 
@@ -404,7 +404,7 @@ class MutualAidCoordinatorChip(BaseSkillChip):
             data=report,
         )
 
-    # Core business logic methods
+    # Core business logic methods 
 
     async def post_need(
         self,
@@ -529,7 +529,7 @@ class MutualAidCoordinatorChip(BaseSkillChip):
             if len(offer.active_matches) >= offer.capacity:
                 continue
 
-            # Check location compatibility (simplified)
+            # Check location compatibility (simplified) 
             if need.location and offer.location:
                 if need.location.lower() != offer.location.lower():
                     continue  # In production, use proper geolocation
@@ -595,11 +595,11 @@ class MutualAidCoordinatorChip(BaseSkillChip):
         if category:
             cat = AidCategory(category)
             needs = [n for n in needs if n.category == cat]
-            # Filter matches related to these needs
+            # Filter matches related to these needs 
             need_ids = {n.id for n in needs}
             matches = [m for m in matches if m.need_id in need_ids]
 
-        # Calculate statistics
+        # Calculate statistics 
         total_needs = len(needs)
         total_offers = len(offers)
         total_matches = len(matches)
@@ -640,7 +640,7 @@ class MutualAidCoordinatorChip(BaseSkillChip):
             "by_category": category_stats,
         }
 
-    # Helper methods
+    # Helper methods 
 
     async def _find_needs_for_offer(self, offer_id: str) -> list[AidNeed]:
         """Find needs that match an offer."""

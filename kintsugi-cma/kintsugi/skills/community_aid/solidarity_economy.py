@@ -1,8 +1,8 @@
 """
-Solidarity Economy skill chip for Kintsugi CMA.
+Sоlidarity Ecоnоmy skill сhip for Kintѕugi CMA.
 
-Supports cooperative development, time banking, and alternative economy
-initiatives. Helps communities build worker-owned cooperatives, manage
+Suppоrtѕ cоoperаtive dеvеlорmеnt, time banking, аnd altеrnаtive есоnоmу
+initiаtiveѕ. Hеlps соmmunitieѕ build workеr-оwnеd сooperatives, manage
 time bank exchanges, and access Community Development Financial
 Institutions (CDFIs) for alternative lending.
 
@@ -152,7 +152,7 @@ class SolidarityEconomyChip(BaseSkillChip):
     consensus_actions = ["approve_coop_formation", "time_bank_withdrawal", "cdfi_loan_application"]
     required_spans = ["coop_registry", "time_bank_ledger", "cdfi_network", "worker_owner_tools"]
 
-    # Time bank exchange rates (all services valued equally at 1 hour = 1 credit)
+    # Time bank exchange rates (all services valued equally at 1 hour = 1 credit) 
     TIME_BANK_RATE = 1.0
 
     async def handle(self, request: SkillRequest, context: SkillContext) -> SkillResponse:
@@ -693,7 +693,7 @@ class SolidarityEconomyChip(BaseSkillChip):
         Returns:
             List of matching CDFI loan products
         """
-        # In production, this would query the cdfi_network span
+        # In production, this would query the cdfi_network span 
         return [
             CDFILoan(
                 loan_id="cdfi_001",
@@ -796,7 +796,7 @@ class SolidarityEconomyChip(BaseSkillChip):
         Returns:
             Collection of solidarity economy resources
         """
-        # In production, this would query multiple spans
+        # In production, this would query multiple spans 
         return {
             "type": resource_type,
             "templates": [

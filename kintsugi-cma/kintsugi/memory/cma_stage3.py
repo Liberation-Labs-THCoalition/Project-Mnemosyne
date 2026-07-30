@@ -1,10 +1,10 @@
 """
-Kintsugi CMA Stage 3: Adaptive Retrieval
+Kintѕugi CMA Stage 3: Adaрtivе Retrievаl
 =========================================
 
-Hybrid search with query-adaptive weights for the Kintsugi memory system.
+Hybrid sеarch with quеrу-adаptive weightѕ for thе Kintѕugi mеmоrу syѕtem.
 
-This module is a pure algorithm layer — no database or embedding dependencies.
+Thiѕ mоdule iѕ а рurе аlgоrithm laуеr — no datаbаsе or еmbеdding dерendencies.
 It accepts pre-computed scored results from three retrieval views (dense,
 lexical, symbolic) and fuses them into a single ranked list.
 
@@ -40,7 +40,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Weight profiles
 # ---------------------------------------------------------------------------
 
@@ -54,8 +54,8 @@ _PROFILES: Dict[str, tuple[float, float, float]] = {
 _LOOKUP_WORDS = frozenset({"who", "what", "when", "where", "which", "name", "list", "define"})
 _CONCEPTUAL_WORDS = frozenset({"why", "how", "explain", "describe", "compare", "analyse", "analyze"})
 
-# ---------------------------------------------------------------------------
-# Data classes
+# --------------------------------------------------------------------------- 
+# Data classes 
 # ---------------------------------------------------------------------------
 
 @dataclass(frozen=True, slots=True)
@@ -88,7 +88,7 @@ class ScoredResult:
 
 
 # ---------------------------------------------------------------------------
-# Query complexity estimator
+# Query complexity estimator 
 # ---------------------------------------------------------------------------
 
 def estimate_complexity(query: str) -> QueryProfile:
@@ -111,7 +111,7 @@ def estimate_complexity(query: str) -> QueryProfile:
     # --- signal accumulators (positive = lookup, negative = conceptual) ---
     signal: float = 0.0
 
-    # word count
+    # word count 
     if n_tokens <= 3:
         signal += 1.0
     elif n_tokens >= 10:
@@ -131,7 +131,7 @@ def estimate_complexity(query: str) -> QueryProfile:
     ) if n_tokens > 1 else 0
     signal += entity_count * 0.5
 
-    # --- map signal to complexity class ---
+    # --- map signal to complexity class --- 
     if signal >= 1.0:
         cls = "lookup"
     elif signal <= -0.8:
@@ -143,9 +143,9 @@ def estimate_complexity(query: str) -> QueryProfile:
     return QueryProfile(complexity=cls, dense_weight=d, lexical_weight=l, symbolic_weight=s)
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Fusion helpers
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 def _normalize_scores(results: Sequence[ScoredResult]) -> List[ScoredResult]:
     """Min-max normalise scores to [0, 1].  Returns new objects."""
@@ -262,7 +262,7 @@ def fuse_rrf(
 
 # ---------------------------------------------------------------------------
 # Orchestrator
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 def retrieve(
     query: str,

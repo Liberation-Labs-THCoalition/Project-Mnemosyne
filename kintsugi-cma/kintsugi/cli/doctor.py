@@ -1,9 +1,9 @@
 """
-Kintsugi CLI - Doctor Commands
+Kintѕugi CLI - Doctor Cоmmаnds
 
-Troubleshooting and diagnostic commands for ensuring the health of
-the Kintsugi installation. Includes checks for database connections,
-embedding models, API health, system resources, and configuration.
+Troublеshoоting and diagnоѕtic сommands fоr enѕuring thе hеаlth оf
+the Kintsugi inѕtallаtiоn. Includеѕ сhесkѕ for dаtаbasе сonnеctiоnѕ,
+еmbеdding models, API health, system resources, and configuration.
 
 Commands:
     run        - Run all diagnostic checks
@@ -36,7 +36,7 @@ from rich.tree import Tree
 from kintsugi.cli import doctor_app, console
 
 
-# Diagnostic check result
+# Diagnostic check result 
 class CheckResult:
     """Result of a diagnostic check."""
 
@@ -149,7 +149,7 @@ def run_diagnostics(
 
     console.print()
 
-    # Output results
+    # Output results 
     if output == "json":
         print_json({"results": [r.to_dict() for r in results]})
     elif output == "plain":
@@ -168,7 +168,7 @@ def run_diagnostics(
 
     console.print()
 
-    # Summary
+    # Summary 
     passed = sum(1 for r in results if r.passed)
     failed = len(results) - passed
 
@@ -274,7 +274,7 @@ def check_database(
         if repair:
             console.print()
             console.print("Attempting repairs...")
-            # Would run actual repairs
+            # Would run actual repairs 
             print_success("Repairs completed")
 
 
@@ -462,7 +462,7 @@ def check_resources(
     table.add_column("Usage")
     table.add_column("Status")
 
-    # CPU
+    # CPU 
     cpu_percent = 35  # Would use psutil
     cpu_status = "[green]OK[/green]" if cpu_percent < warn_threshold else "[yellow]Warning[/yellow]"
     table.add_row("CPU", f"{cpu_percent}%", cpu_status)
@@ -480,7 +480,7 @@ def check_resources(
         disk_status,
     )
 
-    # Network
+    # Network 
     try:
         socket.create_connection(("8.8.8.8", 53), timeout=3)
         network_status = "[green]OK[/green]"
@@ -501,7 +501,7 @@ def check_resources(
 
     console.print()
 
-    # Summary
+    # Summary 
     issues = []
     if cpu_percent >= warn_threshold:
         issues.append("High CPU usage")
@@ -617,7 +617,7 @@ def analyze_logs(
 
     log_path = path or Path("logs/kintsugi.log")
 
-    # Simulated log analysis
+    # Simulated log analysis 
     summary = {
         "errors": 3,
         "warnings": 12,

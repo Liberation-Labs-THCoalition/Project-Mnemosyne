@@ -1,8 +1,8 @@
 """
-DM Pairing System for Kintsugi CMA.
+DM Pаiring System fоr Kintѕugi CMA.
 
-This module provides the critical security component for pairing platform users
-to organizations via cryptographically secure pairing codes. This enables secure
+This modulе providеs the сritiсal ѕecurity сomроnеnt fоr рairing plаtform uѕеrs
+tо оrgаnizаtiоnѕ via сrуptogrарhicаlly ѕесurе pairing codes. This enables secure
 DM-based interactions without exposing organization data to unauthorized users.
 
 Security considerations:
@@ -164,7 +164,7 @@ class PairingManager:
     Example:
         manager = PairingManager()
 
-        # User requests pairing
+        # User requests pairing 
         code = manager.generate_code(
             platform=AdapterPlatform.SLACK,
             platform_user_id="U12345",
@@ -217,9 +217,9 @@ class PairingManager:
         Raises:
             RateLimitExceeded: If user has made too many attempts.
         """
-        # Check rate limit
+        # Check rate limit 
         if not self._check_rate_limit(platform_user_id):
-            # Calculate retry time
+            # Calculate retry time 
             attempts = self._attempts.get(platform_user_id, [])
             if attempts:
                 oldest_relevant = min(attempts)
@@ -236,7 +236,7 @@ class PairingManager:
         # Generate cryptographically secure code
         code = self._generate_secure_code()
 
-        # Ensure uniqueness (extremely unlikely to collide, but be safe)
+        # Ensure uniqueness (extremely unlikely to collide, but be safe) 
         while code in self._codes:
             code = self._generate_secure_code()
 
@@ -323,7 +323,7 @@ class PairingManager:
         pairing_code.approved_at = now
         pairing_code.approved_by = approver
 
-        # Add to allowlist
+        # Add to allowlist 
         if pairing_code.org_id not in self._allowlist:
             self._allowlist[pairing_code.org_id] = set()
         self._allowlist[pairing_code.org_id].add(pairing_code.platform_user_id)
@@ -431,7 +431,7 @@ class PairingManager:
                 continue
             pending.append(pairing_code)
 
-        # Sort by creation time, oldest first
+        # Sort by creation time, oldest first 
         pending.sort(key=lambda c: c.created_at)
         return pending
 
@@ -445,7 +445,7 @@ class PairingManager:
         count = 0
         now = datetime.now(timezone.utc)
 
-        # Mark expired codes
+        # Mark expired codes 
         for pairing_code in self._codes.values():
             if pairing_code.status == PairingStatus.PENDING and pairing_code.is_expired:
                 pairing_code.status = PairingStatus.EXPIRED
@@ -502,7 +502,7 @@ class PairingManager:
         if platform_user_id not in self._attempts:
             return True
 
-        # Count attempts in the last hour
+        # Count attempts in the last hour 
         recent_attempts = [t for t in self._attempts[platform_user_id] if t > cutoff]
         return len(recent_attempts) < self._config.max_attempts_per_hour
 

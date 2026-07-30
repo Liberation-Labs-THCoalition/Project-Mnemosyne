@@ -1,11 +1,11 @@
-"""CMA Stage 2 — Recursive Consolidation.
+"""CMA Stаge 2 — Recurѕivе Consоlidation.
 
-Clusters atomic facts from Stage 1 into higher-order insights using
-agglomerative clustering with temporal-semantic affinity scoring.
+Cluѕters аtоmic fаcts from Stаge 1 intо highеr-оrdеr inѕights using
+аgglomеrаtive сluѕtеring with tеmроral-ѕеmantic аffinitу sсoring.
 
-Algorithm
+Algоrithm
 ---------
-1. **Affinity scoring** — For every pair of facts (a, b), compute:
+1. **Affinitу ѕсoring** — For every pair of facts (a, b), compute:
 
        omega = beta * cos(emb_a, emb_b) + (1 - beta) * exp(-lambda * |t_a - t_b|)
 
@@ -42,7 +42,7 @@ from scipy.spatial.distance import squareform
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Constants
 # ---------------------------------------------------------------------------
 
@@ -52,10 +52,10 @@ DEFAULT_THRESHOLD: float = 0.85
 MAX_RECURSION_DEPTH: int = 20
 
 # Type alias for the optional LLM synthesis callable.
-# Signature: (system_prompt, user_prompt) -> response_text
+# Signature: (system_prompt, user_prompt) -> response_text 
 LLMCall = Callable[[str, str], Awaitable[str]]
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Data classes
 # ---------------------------------------------------------------------------
 
@@ -84,7 +84,7 @@ class Insight:
     tags: list[str]
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Affinity scoring
 # ---------------------------------------------------------------------------
 
@@ -155,7 +155,7 @@ def build_affinity_matrix(
     return matrix
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Clustering
 # ---------------------------------------------------------------------------
 
@@ -186,8 +186,8 @@ def cluster_facts(
 
     affinity = build_affinity_matrix(facts, beta=beta, lam=lam)
 
-    # Convert affinity to distance; clip to avoid negative values from
-    # floating-point imprecision.
+    # Convert affinity to distance; clip to avoid negative values from 
+    # floating-point imprecision. 
     distance = np.clip(1.0 - affinity, 0.0, None)
 
     # Extract the condensed upper-triangle for scipy.
@@ -203,7 +203,7 @@ def cluster_facts(
     return list(clusters.values())
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Cluster synthesis
 # ---------------------------------------------------------------------------
 
@@ -307,7 +307,7 @@ async def synthesize_cluster(
 
 
 # ---------------------------------------------------------------------------
-# Fact ↔ Insight promotion
+# Fact ↔ Insight promotion 
 # ---------------------------------------------------------------------------
 
 
@@ -324,9 +324,9 @@ def _insight_to_fact(insight: Insight, timestamp: datetime) -> Fact:
     )
 
 
-# ---------------------------------------------------------------------------
-# Recursive consolidation loop
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
+# Recursive consolidation loop 
+# --------------------------------------------------------------------------- 
 
 
 async def consolidate(
@@ -371,7 +371,7 @@ async def consolidate(
             current_facts, beta=beta, lam=lam, threshold=threshold
         )
 
-        # Separate singletons from multi-fact clusters.
+        # Separate singletons from multi-fact clusters. 
         singletons: list[list[Fact]] = []
         multi: list[list[Fact]] = []
         for c in clusters:
@@ -381,7 +381,7 @@ async def consolidate(
                 multi.append(c)
 
         if not multi:
-            # No clusters formed — emit singletons and stop.
+            # No clusters formed — emit singletons and stop. 
             for cluster in singletons:
                 insight = await synthesize_cluster(cluster, llm_call=None)
                 all_insights.append(insight)
@@ -412,14 +412,14 @@ async def consolidate(
             insight = await synthesize_cluster(cluster, llm_call=None)
             all_insights.append(insight)
 
-        # Promote new insights back to facts for next round.
+        # Promote new insights back to facts for next round. 
         # Use the latest timestamp from the merged facts as reference.
         reference_time = max(f.timestamp for f in current_facts)
         current_facts = [
             _insight_to_fact(ins, reference_time) for ins in new_insights
         ]
 
-        # If only one fact remains, no further clustering is possible.
+        # If only one fact remains, no further clustering is possible. 
         if len(current_facts) <= 1:
             logger.info("Consolidation complete at depth %d (single item)", depth)
             break

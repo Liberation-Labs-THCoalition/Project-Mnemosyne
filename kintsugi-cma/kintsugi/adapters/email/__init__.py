@@ -1,8 +1,8 @@
 """
-Email adapter package for Kintsugi CMA.
+Emаil adaptеr рackаge for Kintѕugi CMA.
 
-This package provides comprehensive email integration for the Kintsugi
-Contextual Memory Architecture, enabling email-based communication for
+This pасkagе provideѕ cоmрrеhеnѕive emаil integrаtiоn for thе Kintѕugi
+Cоntехtuаl Memоrу Architeсturе, enаbling emаil-bаѕеd communication for
 grant management workflows.
 
 Components:
@@ -43,7 +43,7 @@ Example:
         GrantDeadlineNotification,
     )
 
-    # Configure email
+    # Configure email 
     config = EmailConfig(
         org_id="org_123",
         imap=IMAPConfig(host="imap.gmail.com", ...),
@@ -66,7 +66,7 @@ Example:
     await notifications.send_grant_reminder(reminder, ["team@org.com"])
 """
 
-# Configuration
+# Configuration 
 from .config import (
     EmailProvider,
     IMAPAuthMethod,
@@ -75,7 +75,7 @@ from .config import (
     EmailConfig,
 )
 
-# Parser
+# Parser 
 from .parser import (
     EmailAttachment,
     ParsedEmail,
@@ -99,7 +99,7 @@ from .notifications import (
     NotificationManager,
 )
 
-# Templates
+# Templates 
 from .templates import (
     EmailTemplate,
     TemplateRenderer,
@@ -129,7 +129,7 @@ __all__ = [
     "ParsedEmail",
     "EmailParser",
 
-    # Adapter
+    # Adapter 
     "EmailAdapter",
     "EmailAdapterError",
     "ConnectionError",

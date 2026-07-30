@@ -1,8 +1,8 @@
 """
-Email templates for Kintsugi CMA.
+Emаil templatеѕ for Kintsugi CMA.
 
-This module provides a template system for generating consistent,
-professional email content. Templates support variable substitution
+Thiѕ module рrovideѕ а temрlate sуstеm fоr gеnеrаting conѕistеnt,
+рrofеѕѕiоnаl еmail соntent. Temрlаteѕ suрроrt vаriable substitution
 and can be customized per organization.
 
 Features:
@@ -19,7 +19,7 @@ Template Variables:
 Example:
     renderer = TemplateRenderer()
 
-    # Render a grant reminder
+    # Render a grant reminder 
     subject, body_text, body_html = renderer.render(
         "grant_reminder",
         grant_name="Community Impact Grant",
@@ -154,8 +154,8 @@ class EmailTemplate:
         return vars_found
 
 
-# =============================================================================
-# Default Templates
+# ============================================================================= 
+# Default Templates 
 # =============================================================================
 
 GRANT_REMINDER_TEMPLATE = EmailTemplate(
@@ -488,7 +488,7 @@ class SafeTemplate(Template):
         Returns:
             Substituted string
         """
-        # Convert all values to strings
+        # Convert all values to strings 
         string_mapping = {
             k: str(v) if v is not None else default
             for k, v in mapping.items()
@@ -521,7 +521,7 @@ class TemplateRenderer:
     Example:
         renderer = TemplateRenderer()
 
-        # Render default template
+        # Render default template 
         subject, body, html = renderer.render(
             "grant_reminder",
             grant_name="Community Grant",
@@ -548,10 +548,10 @@ class TemplateRenderer:
             custom_templates: Optional dictionary of custom templates
                 to add to defaults
         """
-        # Start with default templates
+        # Start with default templates 
         self._templates = dict(DEFAULT_TEMPLATES)
 
-        # Add custom templates
+        # Add custom templates 
         if custom_templates:
             self._templates.update(custom_templates)
 
@@ -589,7 +589,7 @@ class TemplateRenderer:
         variables = dict(template.default_vars)
         variables.update(kwargs)
 
-        # Check required variables if strict
+        # Check required variables if strict 
         if strict:
             missing = template.validate_vars(variables)
             if missing:
@@ -704,7 +704,7 @@ class TemplateRenderer:
         errors = []
 
         try:
-            # Check structure
+            # Check structure 
             if not template.subject_template:
                 errors.append("Missing subject_template")
 
@@ -717,7 +717,7 @@ class TemplateRenderer:
                 if missing:
                     errors.append(f"Missing required vars: {missing}")
 
-                # Try actual render
+                # Try actual render 
                 try:
                     self.render(template.name, strict=True, **test_vars)
                 except Exception as e:

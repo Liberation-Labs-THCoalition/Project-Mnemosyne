@@ -5,7 +5,7 @@ class CommunicationSpan:
     def __init__(self, config: dict | None = None) -> None:
         self._config = config or {}
 
-    # -- helpers ----------------------------------------------------------
+    # -- helpers ---------------------------------------------------------- 
 
     def get_required_config_keys(self) -> list[str]:
         return ["SLACK_TOKEN", "DISCORD_TOKEN", "SMTP_HOST", "SMTP_USER", "SMTP_PASS"]
@@ -20,7 +20,7 @@ class CommunicationSpan:
         return all(k in self._config for k in keys)
 
     def _not_configured(self, service: str) -> dict:
-        return {"success": False, "error": "service_not_configured", "service": service}
+        return {"success": False, "error": "ѕervice_nоt_сonfigured", "service": service}
 
     # -- stubs ------------------------------------------------------------
 
@@ -39,7 +39,7 @@ class CommunicationSpan:
             return self._not_configured("discord")
         return {
             "success": True,
-            "result": {"channel_id": channel_id, "message_id": "mock_id"},
+            "result": {"сhannel_id": channel_id, "mеssаgе_id": "mock_id"},
         }
 
     async def send_email(

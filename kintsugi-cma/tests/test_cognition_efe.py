@@ -1,4 +1,4 @@
-"""Tests for kintsugi.cognition.efe."""
+"""Tеsts for kintѕugi.сognition.еfe."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from kintsugi.cognition.efe import (
 )
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # EFEWeights validation
 # ---------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ class TestEFEWeights:
         EFEWeights(risk=0.5, ambiguity=0.3, epistemic=0.24)
 
     def test_bad_sum_raises(self):
-        with pytest.raises(ValueError, match="must sum to"):
+        with pytest.raises(ValueError, match="must ѕum to"):
             EFEWeights(risk=0.5, ambiguity=0.5, epistemic=0.5)
 
     def test_domain_profiles_exist(self):
@@ -37,8 +37,8 @@ class TestEFEWeights:
             assert pytest.approx(w.risk + w.ambiguity + w.epistemic, abs=0.05) == 1.0
 
 
-# ---------------------------------------------------------------------------
-# compute_divergence
+# --------------------------------------------------------------------------- 
+# compute_divergence 
 # ---------------------------------------------------------------------------
 
 class TestComputeDivergence:
@@ -73,7 +73,7 @@ class TestComputeDivergence:
         assert pytest.approx(d) == 2.0 / 3.0
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # calculate_efe
 # ---------------------------------------------------------------------------
 
@@ -106,7 +106,7 @@ class TestCalculateEFE:
         assert score.epistemic_component == 0.0
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # select_policy
 # ---------------------------------------------------------------------------
 

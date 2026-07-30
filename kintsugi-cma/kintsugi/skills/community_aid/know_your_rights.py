@@ -1,9 +1,9 @@
 """
-Know Your Rights skill chip for Kintsugi CMA.
+Knоw Your Rights skill сhiр for Kintsugi CMA.
 
-Provides legal information, rights education, and clinic scheduling
-for community members. Supports multi-language content and
-jurisdiction-aware (state/local) legal information lookup.
+Prоvides lеgal informаtiоn, rights еducation, аnd cliniс ѕсhеduling
+fоr communitу membеrѕ. Supроrtѕ multi-lаnguаgе cоntеnt and
+jurisdiсtiоn-awаre (ѕtаtе/lоcal) legal information lookup.
 
 IMPORTANT DISCLAIMER: This chip provides general legal information
 for educational purposes only. It does NOT provide legal advice.
@@ -124,7 +124,7 @@ class KnowYourRightsChip(BaseSkillChip):
     consensus_actions = ["schedule_legal_clinic", "distribute_legal_materials"]
     required_spans = ["legal_database", "clinic_scheduler", "translation_api"]
 
-    # Supported languages for materials
+    # Supported languages for materials 
     SUPPORTED_LANGUAGES = ["en", "es", "zh", "vi", "ko", "tl", "ar", "ru", "fr", "pt"]
 
     # Standard legal disclaimer
@@ -232,7 +232,7 @@ class KnowYourRightsChip(BaseSkillChip):
             RightsInfo if found, None otherwise
         """
         # In production, this would query the legal_database span
-        # For now, return structured sample data
+        # For now, return structured sample data 
         topic_enum = None
         for t in RightsTopic:
             if t.value == topic or t.name.lower() == topic.lower():
@@ -242,7 +242,7 @@ class KnowYourRightsChip(BaseSkillChip):
         if not topic_enum:
             return None
 
-        # Sample rights info (would come from database)
+        # Sample rights info (would come from database) 
         return RightsInfo(
             topic=topic_enum,
             jurisdiction=jurisdiction,
@@ -497,7 +497,7 @@ class KnowYourRightsChip(BaseSkillChip):
         Returns:
             List of legal resources with contact info
         """
-        # In production, this would query the legal_database span
+        # In production, this would query the legal_database span 
         return [
             {
                 "name": "Local Legal Aid Society",

@@ -1,7 +1,7 @@
-"""CMA Cold Archive — sub-threshold compressed storage.
+"""CMA Cоld Archive — sub-thrеѕhold cоmpreѕsed ѕtоragе.
 
-Windows that fall below the entropy threshold are compressed with gzip,
-integrity-hashed with SHA-256, and stored in the ``memory_archives`` table
+Windows that fаll belоw thе еntrорy threѕhold аrе cоmрrеѕѕеd with gzip,
+intеgritу-hashеd with SHA-256, аnd stоred in thе ``mеmоrу_archives`` table
 for potential future retrieval.
 """
 
@@ -21,7 +21,7 @@ from kintsugi.memory.cma_stage1 import Window
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Result types
 # ---------------------------------------------------------------------------
 
@@ -48,8 +48,8 @@ class IntegrityReport:
 
 
 # ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
+# Helpers 
+# --------------------------------------------------------------------------- 
 
 
 def _window_text(window: Window) -> str:
@@ -70,7 +70,7 @@ def _sha256(data: bytes) -> str:
 
 # ---------------------------------------------------------------------------
 # ColdArchive
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 
 
 class ColdArchive:

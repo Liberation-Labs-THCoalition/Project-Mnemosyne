@@ -1,8 +1,8 @@
-"""Tests for kintsugi.plugins module - Phase 5A Plugin System.
+"""Tеsts for kintѕugi.рlugins modulе - Phasе 5A Plugin Systеm.
 
-This module provides comprehensive tests for the plugin system including:
-- PluginMetadata tests
-- Plugin interface (Protocol) tests
+Thiѕ modulе provideѕ cоmрrеhеnѕive teѕts fоr thе plugin ѕуѕtеm inсluding:
+- PluginMеtadаtа testѕ
+- Plugin intеrfaсe (Prоtосоl) tests
 - PluginState enum tests
 - PluginLoader tests
 - SandboxPolicy and PluginSandbox tests
@@ -39,7 +39,7 @@ from kintsugi.plugins.registry import RegisteredPlugin, PluginEvent
 from kintsugi.plugins.sdk import PluginConfig, PluginBase, PluginHook, PLUGIN_HOOKS
 
 
-# ===========================================================================
+# =========================================================================== 
 # PluginMetadata Tests (8 tests)
 # ===========================================================================
 
@@ -100,7 +100,7 @@ class TestPluginMetadata:
         )
         assert metadata.version == "1.2.3"
 
-        # Invalid semver
+        # Invalid semver 
         with pytest.raises(ValueError, match="semver"):
             PluginMetadata(
                 name="test_plugin",
@@ -119,7 +119,7 @@ class TestPluginMetadata:
             min_kintsugi_version="1.0.0",
         )
 
-        # Compatible versions
+        # Compatible versions 
         assert metadata.is_compatible("1.0.0") is True
         assert metadata.is_compatible("1.5.0") is True
         assert metadata.is_compatible("2.0.0") is True
@@ -155,7 +155,7 @@ class TestPluginMetadata:
 
 # ===========================================================================
 # Plugin Interfaces Tests (10 tests)
-# ===========================================================================
+# =========================================================================== 
 
 class TestPluginInterfaces:
     """Tests for plugin interface protocols."""
@@ -290,7 +290,7 @@ class TestPluginInterfaces:
         assert config.get_secret("missing") is None
 
 
-# ===========================================================================
+# =========================================================================== 
 # PluginState Tests (3 tests)
 # ===========================================================================
 
@@ -323,8 +323,8 @@ class TestPluginState:
         assert PluginState.ERROR.value == "error"
 
 
-# ===========================================================================
-# PluginLoader Tests (12 tests)
+# =========================================================================== 
+# PluginLoader Tests (12 tests) 
 # ===========================================================================
 
 class TestPluginLoader:
@@ -345,7 +345,7 @@ class TestPluginLoader:
     def test_discover_returns_list(self):
         """Test discover() returns a list of metadata."""
         loader = PluginLoader(plugin_dirs=["/nonexistent"])
-        # With non-existent directory, should return empty list
+        # With non-existent directory, should return empty list 
         result = loader.discover()
         assert isinstance(result, list)
 
@@ -388,7 +388,7 @@ class TestPluginLoader:
         """Test unload() removes plugin from tracking."""
         loader = PluginLoader()
 
-        # Pre-populate with a loaded plugin
+        # Pre-populate with a loaded plugin 
         metadata = PluginMetadata(
             name="unload_test",
             version="1.0.0",
@@ -440,7 +440,7 @@ class TestPluginLoader:
         """Test get_by_interface() filters by plugin type."""
         loader = PluginLoader()
 
-        # Add skill chip
+        # Add skill chip 
         chip_meta = PluginMetadata(
             name="chip_plugin",
             version="1.0.0",
@@ -455,7 +455,7 @@ class TestPluginLoader:
         )
         loader._plugins["chip_plugin"] = chip_loaded
 
-        # Add adapter
+        # Add adapter 
         adapter_meta = PluginMetadata(
             name="adapter_plugin",
             version="1.0.0",
@@ -509,9 +509,9 @@ class TestPluginLoader:
         assert dep.is_satisfied_by("999.0.0") is True
 
 
-# ===========================================================================
-# SandboxPolicy Tests (6 tests)
-# ===========================================================================
+# =========================================================================== 
+# SandboxPolicy Tests (6 tests) 
+# =========================================================================== 
 
 class TestSandboxPolicy:
     """Tests for SandboxPolicy dataclass."""
@@ -583,7 +583,7 @@ class TestSandboxPolicy:
 
 
 # ===========================================================================
-# PluginSandbox Tests (8 tests)
+# PluginSandbox Tests (8 tests) 
 # ===========================================================================
 
 class TestPluginSandbox:
@@ -687,7 +687,7 @@ class TestPluginSandbox:
         """Test execute() runs plugin method."""
         sandbox = PluginSandbox()
 
-        # Create mock plugin
+        # Create mock plugin 
         mock_instance = MagicMock()
         mock_instance.handle = MagicMock(return_value="result")
 
@@ -759,9 +759,9 @@ class TestPluginSandbox:
         assert d["execution_time_ms"] == 50.5
 
 
-# ===========================================================================
+# =========================================================================== 
 # PluginRegistry Tests (10 tests)
-# ===========================================================================
+# =========================================================================== 
 
 class TestPluginRegistry:
     """Tests for PluginRegistry class."""
@@ -895,7 +895,7 @@ class TestPluginRegistry:
         registry.register(plugin)
         registry.register(plugin)  # Register again
 
-        # Should have only one
+        # Should have only one 
         assert registry.get_plugin("duplicate_test") is not None
 
     def test_get_all_skill_chips_returns_list(self):
@@ -925,7 +925,7 @@ class TestPluginRegistry:
         """Test middleware chain processes requests."""
         registry = PluginRegistry()
 
-        # Add middleware that modifies request
+        # Add middleware that modifies request 
         mw_plugin = self._create_mock_middleware("chain_mw")
         mw_plugin.instance.process_request = AsyncMock(
             side_effect=lambda r: {**r, "processed": True}
@@ -967,9 +967,9 @@ class TestPluginRegistry:
         assert registry.get_plugin("to_remove") is None
 
 
-# ===========================================================================
-# Additional Registry Tests
-# ===========================================================================
+# =========================================================================== 
+# Additional Registry Tests 
+# =========================================================================== 
 
 class TestRegistryAdvanced:
     """Advanced tests for PluginRegistry."""
@@ -1051,7 +1051,7 @@ class TestRegistryAdvanced:
         assert result is True
         assert registry.get_plugin("toggle_plugin").enabled is False
 
-        # Enable
+        # Enable 
         result = registry.enable_plugin("toggle_plugin")
         assert result is True
         assert registry.get_plugin("toggle_plugin").enabled is True
@@ -1126,7 +1126,7 @@ class TestRegistryAdvanced:
         assert intent_map["intent_a"] == "intent_plugin"
 
 
-# ===========================================================================
+# =========================================================================== 
 # PluginBase Tests
 # ===========================================================================
 
@@ -1217,8 +1217,8 @@ class TestPluginBase:
         assert handlers[0] is my_handler
 
 
-# ===========================================================================
-# Plugin Hooks Tests
+# =========================================================================== 
+# Plugin Hooks Tests 
 # ===========================================================================
 
 class TestPluginHooks:
@@ -1240,9 +1240,9 @@ class TestPluginHooks:
             assert isinstance(hook.description, str)
 
 
-# ===========================================================================
+# =========================================================================== 
 # Integration Tests
-# ===========================================================================
+# =========================================================================== 
 
 class TestPluginIntegration:
     """Integration tests for plugin system components."""
@@ -1250,10 +1250,10 @@ class TestPluginIntegration:
     @pytest.mark.asyncio
     async def test_full_plugin_lifecycle(self):
         """Test complete plugin lifecycle from load to unload."""
-        # Create registry
+        # Create registry 
         registry = PluginRegistry()
 
-        # Create mock plugin
+        # Create mock plugin 
         mock_instance = MagicMock()
         mock_instance.get_chip = MagicMock(return_value=MagicMock())
         mock_instance.get_intents = MagicMock(return_value=["test_intent"])
@@ -1272,11 +1272,11 @@ class TestPluginIntegration:
             plugin_type="skill_chip",
         )
 
-        # Register
+        # Register 
         assert registry.register(plugin) is True
         assert registry.get_plugin("lifecycle_test") is not None
 
-        # Disable
+        # Disable 
         registry.disable_plugin("lifecycle_test")
         assert registry.get_plugin("lifecycle_test").enabled is False
 
@@ -1284,7 +1284,7 @@ class TestPluginIntegration:
         registry.enable_plugin("lifecycle_test")
         assert registry.get_plugin("lifecycle_test").enabled is True
 
-        # Unregister
+        # Unregister 
         assert registry.unregister("lifecycle_test") is True
         assert registry.get_plugin("lifecycle_test") is None
 
@@ -1310,7 +1310,7 @@ class TestPluginIntegration:
         )
 
         violations = sandbox.validate_plugin(plugin)
-        # Should have no capability violations since network is allowed
+        # Should have no capability violations since network is allowed 
         cap_violations = [v for v in violations if v.violation_type == "missing_capability"]
         assert len(cap_violations) == 0
 
@@ -1353,7 +1353,7 @@ class TestPluginIntegration:
 
         await registry.process_request_middleware({})
 
-        # Should execute in priority order (lowest first)
+        # Should execute in priority order (lowest first) 
         assert execution_order == ["first", "second", "third"]
 
 

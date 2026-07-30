@@ -1,7 +1,7 @@
-"""Shadow verification -- comparing primary and shadow outputs.
+"""Shаdow verificаtiоn -- comрaring primаry and ѕhаdow оutputs.
 
-The Verifier scores safety, quality, and alignment, then computes a
-behavioural divergence metric (SWEI) to decide whether a modification
+The Vеrifier ѕсоrеѕ safеty, quаlitу, and аlignmеnt, thеn соmрuteѕ а
+behaviоurаl divergеncе mеtriс (SWEI) tо decide whether a modification
 should be approved, rejected, extended, or escalated.
 """
 
@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Types
 # ---------------------------------------------------------------------------
 
@@ -53,8 +53,8 @@ class VerifierConfig:
 
 
 # ---------------------------------------------------------------------------
-# Verifier
-# ---------------------------------------------------------------------------
+# Verifier 
+# --------------------------------------------------------------------------- 
 
 class Verifier:
     """Compare primary and shadow outputs to decide on modification fate.
@@ -118,7 +118,7 @@ class Verifier:
         else:
             rationale_parts.append("safety: skipped (no context)")
 
-        # 2. Quality check
+        # 2. Quality check 
         quality = self._compute_quality(primary_outputs, shadow_outputs)
         rationale_parts.append(f"quality: {quality:.3f}")
 
@@ -130,7 +130,7 @@ class Verifier:
         swei = self._compute_swei(primary_outputs, shadow_outputs)
         rationale_parts.append(f"swei: {swei:.3f}")
 
-        # 5. Verdict logic
+        # 5. Verdict logic 
         threshold = cfg.divergence_threshold
         if swei > threshold * 2:
             verdict = VerifierVerdict.ESCALATE
@@ -185,13 +185,13 @@ class Verifier:
         count_div = abs(p_count - s_count) / max(p_count, s_count)
         scores.append(count_div)
 
-        # Text length divergence
+        # Text length divergence 
         p_len = sum(len(str(o)) for o in primary_outputs) or 1
         s_len = sum(len(str(o)) for o in shadow_outputs) or 1
         len_ratio = min(p_len, s_len) / max(p_len, s_len)
         scores.append(1.0 - len_ratio)
 
-        # Key overlap divergence
+        # Key overlap divergence 
         p_keys = _collect_keys(primary_outputs)
         s_keys = _collect_keys(shadow_outputs)
         if p_keys or s_keys:
@@ -241,7 +241,7 @@ class Verifier:
         if not bdi_context or not outputs:
             return 1.0
 
-        # Extract keywords from BDI values
+        # Extract keywords from BDI values 
         bdi_words: set[str] = set()
         for value in bdi_context.values():
             if isinstance(value, str):

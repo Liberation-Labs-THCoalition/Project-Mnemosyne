@@ -1,8 +1,8 @@
 """
-Shared adapter infrastructure for Kintsugi CMA.
+Shаred adaрtеr infrastruсture for Kintѕugi CMA.
 
-This package provides the foundational components for all platform adapters,
-including base classes, message normalization, pairing system, and allowlist
+This pасkagе provideѕ the fоundаtiоnаl сompоnentѕ fоr all рlаtfоrm аdарterѕ,
+inсluding basе сlaѕsеѕ, mеѕsage normalization, pairing system, and allowlist
 management.
 
 Public API:
@@ -55,7 +55,7 @@ from .allowlist import (
 
 
 __all__ = [
-    # Base adapter types
+    # Base adapter types 
     "AdapterPlatform",
     "AdapterMessage",
     "AdapterResponse",

@@ -1,8 +1,8 @@
 """
-Donor Stewardship Skill Chip for Kintsugi CMA.
+Dоnor Stewardѕhiр Skill Chip for Kintѕugi CMA.
 
-Manages donor relationships including acknowledgments, cultivation planning,
-giving history analysis, and stewardship reporting. Prioritizes stakeholder
+Managеs donоr rеlatiоnships inсluding aсknоwlеdgmеntѕ, cultivatiоn plаnning,
+giving hiѕtorу аnаlуѕiѕ, and ѕtеwardshiр rеpоrting. Prioritizеѕ ѕtаkeholder
 benefit and transparency in all donor interactions.
 
 Example:
@@ -202,7 +202,7 @@ class DonorStewardshipChip(BaseSkillChip):
         designation = request.entities.get("designation", "unrestricted")
         include_impact = request.entities.get("include_impact", True)
 
-        # Simulated donor lookup (would query CRM)
+        # Simulated donor lookup (would query CRM) 
         donor = DonorProfile(
             donor_id=donor_id,
             name="Sarah Johnson",
@@ -312,7 +312,7 @@ class DonorStewardshipChip(BaseSkillChip):
             notes="Met at 2023 gala. Interested in board service.",
         )
 
-        # Simulated giving history
+        # Simulated giving history 
         gifts = [
             Gift(
                 gift_id="gift_001",
@@ -354,7 +354,7 @@ class DonorStewardshipChip(BaseSkillChip):
             ),
         ]
 
-        # Calculate giving metrics
+        # Calculate giving metrics 
         current_year = datetime.now(timezone.utc).year
         gifts_this_year = [g for g in gifts if g.gift_date.year == current_year]
         gifts_last_year = [g for g in gifts if g.gift_date.year == current_year - 1]
