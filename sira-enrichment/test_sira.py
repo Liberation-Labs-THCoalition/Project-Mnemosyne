@@ -104,13 +104,13 @@ class TestDomainMapper:
     def test_basic_mapping(self):
         with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
             idx = SIRAIndex(f.name)
-            did = idx.add_document("Thomas built the sewing machine interface", "d1")
+            did = idx.add_document("example_user built the sewing machine interface", "d1")
 
             mapper = DomainMapper(idx, {
                 "example_user": ["example_handle", "example user"],
                 "sewing machine": ["singer futura", "embroidery"],
             })
-            terms = mapper.enrich_document(did, "Thomas built the sewing machine interface")
+            terms = mapper.enrich_document(did, "example_user built the sewing machine interface")
             assert "example_handle" in terms
             assert "singer futura" in terms
             idx.close()
@@ -138,7 +138,7 @@ class TestDomainMapper:
     def test_enrich_all(self):
         with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
             idx = SIRAIndex(f.name)
-            idx.add_document("Thomas wrote code", "d1")
+            idx.add_document("example_user wrote code", "d1")
             idx.add_document("Vera designed Oracle", "d2")
             idx.add_document("unrelated stuff", "d3")
 
@@ -190,7 +190,7 @@ class TestMemoryEnricher:
                 )
             """)
             conn.execute("INSERT INTO memories (content) VALUES (?)",
-                         ("Thomas worked on the sewing machine",))
+                         ("example_user worked on the sewing machine",))
             conn.execute("INSERT INTO memories (content) VALUES (?)",
                          ("unrelated content about weather",))
             conn.commit()

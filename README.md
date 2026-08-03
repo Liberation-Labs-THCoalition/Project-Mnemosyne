@@ -9,13 +9,13 @@ systems that make everything else possible.
 
 | Name | Description | Status |
 |------|-------------|--------|
-| [**metacognition**](https://github.com/Liberation-Labs-THCoalition/mnemosyne-metacognition) | **Metacognitive Memory — workspace-verified retrieval with J-lens, circumplex geometry, ghost state tracking, and longitudinal cognitive snapshots** | **New — Integration tested** |
-| [oracle-memory](./oracle-memory/) | KV cache recording with Lyra Technique geometry — three-tier (activation, journal, consolidated) | Active |
+| [**metacognition**](./metacognition/) | **Metacognitive Memory — workspace-verified retrieval with J-lens, circumplex geometry, ghost state tracking, and longitudinal cognitive snapshots** | **Implemented (in-tree). Requires jlens from GitHub + your own model/lens — see [metacognition/README](./metacognition/README.md)** |
+| oracle-memory | KV cache recording with Lyra Technique geometry — three-tier (activation, journal, consolidated) | **External / not in this public repo** (see manifest) |
 | [kintsugi-cma](./kintsugi-cma/) | Cognitive Memory Architecture — three-stage hybrid retrieval with BDI governance | Phase 1 Complete |
 | [hipporag-catrag-kg](./hipporag-catrag-kg/) | Knowledge graph layer — HippoRAG 2 + CatRAG for associative retrieval | Deployed |
 | [mnemosyne-wiki](./mnemosyne-wiki/) | LLM Wiki layer — interlinked markdown from knowledge graphs | Active |
 | [tgs-verification](./tgs-verification/) | Bidirectional text-graph verification | Active |
-| [kv-knowledge-packs](./kv-knowledge-packs/) | Zero-token memory injection via pre-computed KV cache | Active |
+| kv-knowledge-packs | Zero-token memory injection via pre-computed KV cache | **External / not in this public repo** (see manifest) |
 | [h-mem-temporal](./h-mem-temporal/) | Time-aware retrieval with Ebbinghaus decay | Active |
 | [sira-enrichment](./sira-enrichment/) | Vocabulary expansion for memory findability | Active |
 | [tgs-rag-bridge](./tgs-rag-bridge/) | Text + graph retrieval bridge | Active |
@@ -130,7 +130,15 @@ Cognitive snapshots are intimate data. Agent consent required. Data sovereignty:
 
 ### Full docs + source
 
-[mnemosyne-metacognition](https://github.com/Liberation-Labs-THCoalition/mnemosyne-metacognition)
+Source lives in-tree at [`./metacognition/`](./metacognition/) (see its
+[README](./metacognition/README.md) for install + tuning). The standalone
+`Liberation-Labs-THCoalition/mnemosyne-metacognition` repository is **private**
+and not required — the in-tree copy is the reference implementation. The
+`MetacognitiveObserver` shown in Quick Start is
+`metacognition/mnemosyne_integration.py`; add `./metacognition/` to your
+`PYTHONPATH` to import it. The default distilled model + lens pair referenced by
+the tests is a Coalition-internal artifact; supply your own model and fitted
+J-lens.
 
 ---
 

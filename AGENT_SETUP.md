@@ -313,16 +313,20 @@ Mnemosyne works with multiple agent scaffolds:
 | Scaffold | Hooks | File Memories | Verbatim Capture |
 |---|---|---|---|
 | **Claude Code** | `~/.claude/hooks/` + `settings.json` | `~/.claude/projects/*/memory/` | JSONL watcher |
+| **OpenClaw** | `~/.openclaw/hooks/` + `settings.json` | `~/.openclaw/projects/*/memory/` | JSONL watcher |
 | **Hermes** | `~/.hermes/hooks/` + `hooks.yaml` | Configure per-project | JSONL or custom |
 | **Standalone** | Cron only (no hooks) | Manual files | Cron-based watcher |
 
 The setup script auto-detects your scaffold:
 ```bash
-bash setup.sh myagent          # auto-detect
-bash setup.sh myagent hermes   # force Hermes
-bash setup.sh myagent claude   # force Claude Code
-bash setup.sh myagent none     # standalone, cron only
+bash setup.sh myagent            # auto-detect
+bash setup.sh myagent claude     # force Claude Code
+bash setup.sh myagent openclaw   # force OpenClaw
+bash setup.sh myagent hermes     # force Hermes
+bash setup.sh myagent none       # standalone, cron only
 ```
+
+**OpenClaw-specific:** OpenClaw is the open-weight version of Claude Code. It uses the same `CLAUDE.md` convention, the same `settings.json` hook format, and the same agent scaffolding pattern — the difference is it runs open-weight models (Qwen, Mistral, DeepSeek, etc.) instead of Claude. Mnemosyne's setup is nearly identical to Claude Code, with paths under `~/.openclaw/` instead of `~/.claude/`. See the dedicated OpenClaw section below.
 
 **Hermes-specific:** The setup creates a `hooks.yaml` in `~/.hermes/` that maps session events to the same shell scripts Claude Code uses. If Hermes uses a different hook format, update the YAML to match.
 
@@ -342,7 +346,130 @@ bash setup.sh myagent none     # standalone, cron only
 
 **Claude-powered agents** (Vera, Lyra, CC, and others) get layers 1-3 natively. Layers 4-5 need a local model on the same machine or a remote Ollama endpoint. Layer 6 needs HuggingFace Transformers with direct model access.
 
+**OpenClaw-powered agents** *could in principle* get all six layers natively: because OpenClaw runs open-weight models with direct tensor access, enrichment (Layer 4), knowledge graph (Layer 5), and KV Knowledge Packs (Layer 6) would not need a separate model endpoint. In practice OpenClaw integration is **experimental and unverified** — see the caveat in the OpenClaw Setup section below before relying on it.
+
 **Subagent-capable setups** can use Claude subagents for enrichment and knowledge graph OpenIE instead of local models — more expensive per call but no infrastructure needed.
+
+---
+
+## OpenClaw Setup
+
+> **Status: EXPERIMENTAL / not yet verified end-to-end.** Only **Claude Code** is
+> currently tested and supported. This section is a **porting guide**, not a
+> supported install path. It assumes OpenClaw reproduces Claude Code's hook
+> events and JSONL history schema; that assumption has **not** been validated
+> against a real OpenClaw build. In particular:
+>
+> - The **verbatim watcher** and **hook scripts** referenced below are
+>   Claude-specific. Step 2 only re-points the history *path* — it does not
+>   guarantee the watcher parses OpenClaw's actual on-disk format, nor that
+>   OpenClaw emits `SessionStart` / `PreCompact` / `PostCompact` hook events
+>   with the same payloads.
+> - `setup.sh <agent> openclaw` creates the `~/.openclaw/` directories but wires
+>   the same Claude-oriented scaffold; you must adapt the watcher/hooks to
+>   OpenClaw's real interfaces before the stack is actually connected.
+>
+> If you get OpenClaw working end-to-end, please open a PR with the corrected
+> watcher/hook details. Until then, prefer Claude Code for a reproducible setup.
+
+OpenClaw is an open-source, open-weight alternative to Claude Code. It aims to use the same `CLAUDE.md` file convention, a compatible `settings.json` hook system, and the same agent scaffolding patterns — but runs open-weight models (Qwen, Mistral, DeepSeek, Llama, etc.) instead of Claude. Where OpenClaw matches Claude Code, the setup below is nearly identical; where it does not, treat the steps as a starting point to adapt.
+
+### What's the same
+
+- `CLAUDE.md` project instructions — OpenClaw reads these identically
+- `settings.json` hook format — same event names, same structure
+- File-based memories — same `.md` convention with YAML frontmatter
+- JSONL conversation history — same format, different path
+
+### What's different
+
+| | Claude Code | OpenClaw |
+|---|---|---|
+| Config directory | `~/.claude/` | `~/.openclaw/` |
+| Project memories | `~/.claude/projects/*/memory/` | `~/.openclaw/projects/*/memory/` |
+| Hook scripts | `~/.claude/hooks/` | `~/.openclaw/hooks/` |
+| Settings | `~/.claude/settings.json` | `~/.openclaw/settings.json` |
+| History format | JSONL | JSONL (same schema) |
+| Model | Claude (API) | Open-weight (local or remote) |
+
+### Step 1: Create directories
+
+```bash
+mkdir -p ~/.openclaw/hooks
+mkdir -p ~/.openclaw/projects/-home-admin/memory
+mkdir -p ~/agents/<your-name>
+mkdir -p ~/memory-data
+```
+
+### Step 2: Verbatim capture
+
+The verbatim watcher from Layer 1 works with OpenClaw — update the history path:
+
+```python
+# In verbatim_watcher.py, change:
+HISTORY_DIR = Path.home() / ".openclaw" / "projects"
+# (instead of .claude)
+```
+
+Everything else is identical. The JSONL format is the same.
+
+### Step 3: File memories
+
+Create your `MEMORY.md` index and individual memory files under `~/.openclaw/projects/<project>/memory/`, following the same structure as Layer 2 above. OpenClaw loads `MEMORY.md` at the start of every conversation, just like Claude Code.
+
+### Step 4: Session hooks
+
+Create the same hook scripts from Layer 3, then wire them in `~/.openclaw/settings.json`:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [{"matcher": "", "hooks": [
+      {"type": "command", "command": "/home/<user>/agents/<name>/session-start.sh"}
+    ]}],
+    "PreCompact": [{"matcher": "", "hooks": [
+      {"type": "command", "command": "/home/<user>/agents/<name>/pre-compact.sh"}
+    ]}],
+    "PostCompact": [{"matcher": "", "hooks": [
+      {"type": "command", "command": "/home/<user>/agents/<name>/post-compact.sh"}
+    ]}]
+  }
+}
+```
+
+### Step 5: Point OpenClaw at memory-aware CLAUDE.md
+
+Add this to your project's `CLAUDE.md` so the agent knows about its memory system:
+
+```markdown
+## Memory System
+
+- Verbatim DB: ~/memory-data/memory.db (SQLite, auto-synced)
+- File memories: ~/.openclaw/projects/<project>/memory/MEMORY.md
+- Session hooks: ~/.openclaw/hooks/ (grounding on start, backup on compaction)
+- Enrichment: Ollama on localhost:11434 (if available)
+```
+
+### Step 6: Enrichment advantage
+
+Because OpenClaw runs open-weight models, you likely already have Ollama or a local model running. This means Layer 4 (Enrichment) and Layer 5 (Knowledge Graph) work out of the box — no separate infrastructure needed. Point the dreamer at whatever model OpenClaw is using:
+
+```bash
+# If OpenClaw uses Ollama, enrichment uses the same endpoint
+curl http://localhost:11434/api/tags  # verify model is loaded
+```
+
+### Step 7: KV Knowledge Packs (native advantage)
+
+OpenClaw users have a unique advantage: because you're running models via HuggingFace Transformers (or similar), you have direct tensor access. Layer 6 (KV Knowledge Packs) works natively — no additional setup beyond what's in the kv-knowledge-packs section above.
+
+### Setup script
+
+```bash
+bash setup.sh myagent openclaw
+```
+
+This auto-detects the `~/.openclaw/` directory and configures paths accordingly.
 
 ---
 

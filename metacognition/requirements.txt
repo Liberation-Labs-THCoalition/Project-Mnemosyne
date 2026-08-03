@@ -1,4 +1,6 @@
 torch>=2.0
 transformers>=4.40
 numpy
-jlens
+# jlens is NOT on PyPI. Install the Jacobian Lens package from GitHub:
+#   pip install "git+https://github.com/anthropics/jacobian-lens.git"
+jlens @ git+https://github.com/anthropics/jacobian-lens.git

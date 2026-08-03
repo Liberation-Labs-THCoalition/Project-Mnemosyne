@@ -1,0 +1,4 @@
+# tgs-rag-bridge runtime dependencies.
+# tgs_bridge.py runs an async HTTP client/server over aiohttp; it is a
+# third-party package and must be installed explicitly.
+aiohttp>=3.9

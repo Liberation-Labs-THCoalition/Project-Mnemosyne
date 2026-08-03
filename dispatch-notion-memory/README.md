@@ -82,8 +82,23 @@ cp config/config.example.yaml config/config.yaml
 # Edit config.yaml with your Notion API key and database IDs
 
 # Run as MCP
-python -m dispatch_memory.server
+PYTHONPATH=src python -m dispatch_memory.server
 ```
+
+> **Note — src layout, no packaging installed.** The importable package lives
+> under `src/dispatch_memory/`, and this component ships no `pyproject.toml`/
+> `setup.py`. Prefix commands with `PYTHONPATH=src` (or `pip install -e .` once a
+> packaging file is added) so Python can find the `dispatch_memory` package.
+
+## Testing
+
+```bash
+cd dispatch-notion-memory
+PYTHONPATH=src python -m pytest -q     # 11 passed
+```
+
+Without `PYTHONPATH=src` the tests fail at import (`ModuleNotFoundError:
+dispatch_memory`).
 
 ## Configuration
 

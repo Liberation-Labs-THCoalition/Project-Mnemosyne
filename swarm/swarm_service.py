@@ -31,14 +31,29 @@ from swarm_memory import SwarmMemory
 NATS_URL = os.environ.get("NATS_URL", "nats://127.0.0.1:4222")
 NATS_USER = os.environ.get("NATS_USER", "nexus")
 NATS_PASS = os.environ.get("NATS_PASS", "")
-DISCORD_TOKEN_FILE = "/home/admin/.discord_bot_token"
-DISCORD_CHANNEL = "1488699407762329652"
+
+# Discord notifications are OPT-IN. With no configuration the service runs fully
+# (pipeline + swarm memory) and simply skips notifying — a complete, non-notifying
+# install/test path. Set SWARM_DISCORD_ENABLED=1 plus the token file and channel
+# to turn notifications on. See .env.example.
+DISCORD_ENABLED = os.environ.get("SWARM_DISCORD_ENABLED", "0") == "1"
+DISCORD_TOKEN_FILE = os.environ.get(
+    "SWARM_DISCORD_TOKEN_FILE",
+    os.path.expanduser("~/.discord_bot_token"),
+)
+DISCORD_CHANNEL = os.environ.get("SWARM_DISCORD_CHANNEL", "")
 
 memory = SwarmMemory()
 
 
 def notify_discord(message: str):
-    """Post swarm results to Discord."""
+    """Post swarm results to Discord (no-op unless explicitly enabled)."""
+    if not DISCORD_ENABLED:
+        logger.info("Discord notifications disabled; skipping notify")
+        return
+    if not DISCORD_CHANNEL:
+        logger.warning("SWARM_DISCORD_ENABLED set but SWARM_DISCORD_CHANNEL is empty; skipping")
+        return
     try:
         token = open(DISCORD_TOKEN_FILE).read().strip()
         requests.post(
