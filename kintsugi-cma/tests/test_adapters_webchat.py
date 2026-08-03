@@ -1,8 +1,8 @@
-"""Cоmprehenѕivе testѕ for Kintsugi WеbChat adарter.
+"""Comprehensive tests for Kintsugi WebChat adapter.
 
-Tеsts cоver:
-- WеbChаtCоnfig vаlidаtion and оrigin/meѕѕagе сhесking
-- WеbChаtSeѕѕion crеаtion аnd stаtе trасking
+Tests cover:
+- WebChatConfig validation and origin/message checking
+- WebChatSession creation and state tracking
 - WebChatHandler session management, message handling, and rate limiting
 - WidgetTheme CSS variable generation
 - WidgetPosition creation and CSS generation
@@ -33,7 +33,7 @@ from kintsugi.adapters.webchat import (
 )
 
 
-# ============================================================================= 
+# =============================================================================
 # WebChatConfig Tests
 # =============================================================================
 
@@ -114,8 +114,8 @@ class TestWebChatConfig:
 
 
 # =============================================================================
-# WebChatSession Tests 
-# ============================================================================= 
+# WebChatSession Tests
+# =============================================================================
 
 class TestWebChatSession:
     """Tests for WebChatSession dataclass."""
@@ -173,7 +173,7 @@ class TestWebChatSession:
 
     def test_is_expired(self):
         """WebChatSession.is_expired() checks timeout."""
-        # Use naive datetime to match source code's datetime.now(timezone.utc) 
+        # Use naive datetime to match source code's datetime.now(timezone.utc)
         old_time = datetime.now(timezone.utc) - timedelta(minutes=120)
         session = WebChatSession(
             session_id="sess-123",
@@ -188,7 +188,7 @@ class TestWebChatSession:
 
 # =============================================================================
 # WebChatHandler Tests
-# ============================================================================= 
+# =============================================================================
 
 class TestWebChatHandler:
     """Tests for WebChatHandler class."""
@@ -264,11 +264,11 @@ class TestWebChatHandler:
         # Verify it exists
         assert handler.get_session(session_id) is not None
 
-        # End the session 
+        # End the session
         result = handler.end_session(session_id)
         assert result is True
 
-        # Verify it's gone 
+        # Verify it's gone
         assert handler.get_session(session_id) is None
 
     def test_end_session_returns_false_for_unknown(self, handler):
@@ -293,7 +293,7 @@ class TestWebChatHandler:
         # Add a small delay to ensure time difference
         await handler.handle_message(session.session_id, "Hello")
 
-        # Check activity was updated (might be same if executed too fast) 
+        # Check activity was updated (might be same if executed too fast)
         assert session.last_activity >= original_activity
 
     @pytest.mark.asyncio
@@ -337,7 +337,7 @@ class TestWebChatHandler:
             result = await handler.handle_message(session.session_id, f"Msg {i}")
             assert result["type"] != WebChatMessageType.ERROR.value
 
-        # 6th message should be rate limited 
+        # 6th message should be rate limited
         result = await handler.handle_message(session.session_id, "One more")
         assert result["type"] == WebChatMessageType.ERROR.value
         assert result["code"] == "RATE_LIMIT_EXCEEDED"
@@ -349,10 +349,10 @@ class TestWebChatHandler:
         session2 = handler.create_session(org_id="org-1")
         session3 = handler.create_session(org_id="org-1")
 
-        # Expire some sessions (use naive datetime to match source code) 
+        # Expire some sessions (use naive datetime to match source code)
         session1.last_activity = datetime.now(timezone.utc) - timedelta(minutes=120)
         session2.last_activity = datetime.now(timezone.utc) - timedelta(minutes=120)
-        # session3 remains active 
+        # session3 remains active
 
         cleaned = handler.cleanup_expired_sessions()
 
@@ -374,11 +374,11 @@ class TestWebChatHandler:
         )
         session.message_count = 5
 
-        # Verify the method exists 
+        # Verify the method exists
         assert hasattr(handler, 'normalize_to_adapter_message')
 
-        # The source code currently has incorrect field names (channel_id vs 
-        # platform_channel_id), so we verify it raises TypeError as expected 
+        # The source code currently has incorrect field names (channel_id vs
+        # platform_channel_id), so we verify it raises TypeError as expected
         # Once the bug is fixed, this test should be updated to verify the
         # correct AdapterMessage is created
         import pytest
@@ -397,9 +397,9 @@ class TestWebChatHandler:
         assert handler.active_session_count == 3
 
 
-# ============================================================================= 
+# =============================================================================
 # WidgetTheme Tests
-# ============================================================================= 
+# =============================================================================
 
 class TestWidgetTheme:
     """Tests for WidgetTheme dataclass."""
@@ -446,9 +446,9 @@ class TestWidgetTheme:
         assert "borderRadius" in result
 
 
-# ============================================================================= 
+# =============================================================================
 # WidgetPosition Tests
-# ============================================================================= 
+# =============================================================================
 
 class TestWidgetPosition:
     """Tests for WidgetPosition dataclass."""
@@ -504,9 +504,9 @@ class TestWidgetPosition:
         assert "right: 25px" in css
 
 
-# ============================================================================= 
-# WidgetConfigGenerator Tests 
-# ============================================================================= 
+# =============================================================================
+# WidgetConfigGenerator Tests
+# =============================================================================
 
 class TestWidgetConfigGenerator:
     """Tests for WidgetConfigGenerator class."""
@@ -593,8 +593,8 @@ class TestWidgetConfigGenerator:
         assert json_config["limits"]["rateLimitPerMinute"] == config.rate_limit_messages_per_minute
 
 
-# ============================================================================= 
-# Static Assets Tests 
+# =============================================================================
+# Static Assets Tests
 # =============================================================================
 
 class TestStaticAssets:
@@ -669,8 +669,8 @@ class TestStaticAssets:
         assert "KintsugiChat" in js
 
 
-# ============================================================================= 
-# Routes Module Tests 
+# =============================================================================
+# Routes Module Tests
 # =============================================================================
 
 class TestRoutes:
@@ -695,8 +695,8 @@ class TestRoutes:
         assert "/webchat/static/loader.js" in route_paths
 
 
-# ============================================================================= 
-# WebChatMessageType Tests 
+# =============================================================================
+# WebChatMessageType Tests
 # =============================================================================
 
 class TestWebChatMessageType:
@@ -714,9 +714,9 @@ class TestWebChatMessageType:
         assert WebChatMessageType.AGENT_TYPING.value == "agent_typing"
 
 
-# ============================================================================= 
+# =============================================================================
 # Integration Tests
-# ============================================================================= 
+# =============================================================================
 
 class TestWebChatIntegration:
     """Integration tests for WebChat components working together."""
@@ -730,7 +730,7 @@ class TestWebChatIntegration:
         )
         handler = WebChatHandler(config)
 
-        # Create session 
+        # Create session
         session = handler.create_session(
             org_id="integration-test-org",
             user_identifier="test@example.com",
@@ -738,12 +738,12 @@ class TestWebChatIntegration:
         assert session.session_id is not None
         assert handler.active_session_count == 1
 
-        # Retrieve session 
+        # Retrieve session
         retrieved = handler.get_session(session.session_id)
         assert retrieved is not None
         assert retrieved.org_id == "integration-test-org"
 
-        # End session 
+        # End session
         ended = handler.end_session(session.session_id)
         assert ended is True
         assert handler.active_session_count == 0
@@ -760,7 +760,7 @@ class TestWebChatIntegration:
 
         session = handler.create_session(org_id="msg-test-org")
 
-        # Valid message 
+        # Valid message
         result = await handler.handle_message(session.session_id, "Hello!")
         assert result["type"] == WebChatMessageType.MESSAGE.value
         assert result["content"] == "Hello!"
@@ -784,12 +784,12 @@ class TestWebChatIntegration:
             org_id="widget-test-org",
         )
 
-        # Generate embed code 
+        # Generate embed code
         embed_code = generator.generate_embed_code(config)
         assert "widget-test-org" in embed_code
         assert "Test Widget" in embed_code
 
-        # Generate config JSON 
+        # Generate config JSON
         json_config = generator.generate_config_json(config)
         assert json_config["orgId"] == "widget-test-org"
         assert json_config["widget"]["title"] == "Test Widget"

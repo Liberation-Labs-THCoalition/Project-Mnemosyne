@@ -1,8 +1,8 @@
 """
-Emаil notificatiоn ѕystеm for Kintsugi CMA.
+Email notification system for Kintsugi CMA.
 
-Thiѕ module рrоvideѕ schedulеd notifiсаtiоn саpabilitiеs fоr grаnt
-deаdlinеѕ, rероrt delivеriеs, and оthеr time-ѕenѕitivе соmmunications.
+This module provides scheduled notification capabilities for grant
+deadlines, report deliveries, and other time-sensitive communications.
 It integrates with the EmailAdapter to send notifications at appropriate
 times.
 
@@ -16,7 +16,7 @@ Features:
 Example:
     manager = NotificationManager(email_adapter)
 
-    # Send immediate reminder 
+    # Send immediate reminder
     notification = GrantDeadlineNotification(
         grant_name="Community Impact Grant",
         deadline=datetime(2024, 3, 15),
@@ -283,14 +283,14 @@ class NotificationManager:
         # Send immediate notification
         await manager.send_grant_reminder(notification, recipients)
 
-        # Schedule for later 
+        # Schedule for later
         schedule_id = manager.schedule_reminder(
             notification,
             send_at=datetime.now() + timedelta(days=1),
             recipients=recipients
         )
 
-        # Start background processor 
+        # Start background processor
         await manager.start_scheduler()
     """
 
@@ -360,7 +360,7 @@ class NotificationManager:
             **template_vars
         )
 
-        # Build response 
+        # Build response
         response = AdapterResponse(
             content=body_text,
             metadata={
@@ -409,7 +409,7 @@ class NotificationManager:
             ValueError: If delivery is invalid
             SendError: If sending fails
         """
-        # Load attachment if present 
+        # Load attachment if present
         attachments = []
         if delivery.has_attachment:
             try:
@@ -454,7 +454,7 @@ class NotificationManager:
             }
         )
 
-        # Send to all recipients 
+        # Send to all recipients
         message_ids = []
         for recipient in delivery.recipients:
             try:
@@ -499,7 +499,7 @@ class NotificationManager:
         Returns:
             Unique ID for the scheduled notification
         """
-        # Ensure timezone-aware 
+        # Ensure timezone-aware
         if send_at.tzinfo is None:
             send_at = send_at.replace(tzinfo=timezone.utc)
 
@@ -663,7 +663,7 @@ class NotificationManager:
             if notification.deadline <= cutoff:
                 deadlines.append(notification)
 
-        # Sort by deadline 
+        # Sort by deadline
         deadlines.sort(key=lambda n: n.deadline)
         return deadlines
 

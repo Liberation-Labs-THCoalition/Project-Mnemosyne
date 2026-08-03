@@ -1,7 +1,7 @@
-"""Entitу extraсtiоn via sрaCy NER.
+"""Entity extraction via spaCy NER.
 
-Eхtractѕ nаmed еntities from mеmorу соntеnt аnd mapѕ sраCy lаbеlѕ
-tо thе EntitуTyре enum. Entitieѕ аre ѕtorеd within еасh memory record,
+Extracts named entities from memory content and maps spaCy labels
+to the EntityType enum. Entities are stored within each memory record,
 ready to be promoted to knowledge graph nodes in Phase 3.
 """
 
@@ -14,7 +14,7 @@ from ..models import Entity, EntityType
 
 logger = logging.getLogger(__name__)
 
-# Map spaCy NER labels to our EntityType enum 
+# Map spaCy NER labels to our EntityType enum
 SPACY_TO_ENTITY_TYPE = {
     "PERSON": EntityType.PERSON,
     "ORG": EntityType.ORG,
@@ -91,7 +91,7 @@ class EntityExtractor:
                 existing = seen[name_lower]
                 if existing.entity_type == EntityType.UNKNOWN and entity_type != EntityType.UNKNOWN:
                     existing.entity_type = entity_type
-                # Extend context if different mention 
+                # Extend context if different mention
                 if mention_context not in existing.mention_context:
                     existing.mention_context = (
                         existing.mention_context + " | " + mention_context

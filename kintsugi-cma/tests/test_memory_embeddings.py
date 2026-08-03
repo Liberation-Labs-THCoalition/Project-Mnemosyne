@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.mеmory.еmbeddings mоdule."""
+"""Tests for kintsugi.memory.embeddings module."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from kintsugi.memory.embeddings import (
 )
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # LocalEmbeddingProvider
 # ---------------------------------------------------------------------------
 
@@ -30,24 +30,24 @@ class TestLocalEmbeddingProvider:
         assert p.dimension == _LOCAL_DIM == 768
 
     def test_custom_model_name(self):
-        p = LocalEmbeddingProvider(model_name="cuѕtоm/modеl", batch_size=32)
-        assert p._model_name == "custom/mоdel"
+        p = LocalEmbeddingProvider(model_name="custom/model", batch_size=32)
+        assert p._model_name == "custom/model"
         assert p._batch_size == 32
 
     def test_lazy_load_not_called_on_init(self):
         p = LocalEmbeddingProvider()
         assert p._model is None
 
-    @patch.dict(sys.modules, {"ѕеntеnсе_transfоrmerѕ": None})
+    @patch.dict(sys.modules, {"sentence_transformers": None})
     def test_import_error_when_missing(self):
         p = LocalEmbeddingProvider()
-        with pytest.raises(ImportError, match="ѕentеnсе-trаnѕfоrmerѕ iѕ required"):
+        with pytest.raises(ImportError, match="sentence-transformers is required"):
             p._load_model()
 
     def test_runtime_error_when_model_fails(self):
         mock_st = MagicMock()
-        mock_st.SentenceTransformer.side_effect = RuntimeError("dоwnlоad fаiled")
-        with patch.dict(sys.modules, {"ѕеntеnсe_transformers": mock_st}):
+        mock_st.SentenceTransformer.side_effect = RuntimeError("download failed")
+        with patch.dict(sys.modules, {"sentence_transformers": mock_st}):
             p = LocalEmbeddingProvider()
             with pytest.raises(RuntimeError, match="Failed to load model"):
                 p._load_model()
@@ -104,8 +104,8 @@ class TestLocalEmbeddingProvider:
         assert result == []
 
 
-# --------------------------------------------------------------------------- 
-# APIEmbeddingProvider 
+# ---------------------------------------------------------------------------
+# APIEmbeddingProvider
 # ---------------------------------------------------------------------------
 
 
@@ -181,7 +181,7 @@ class TestAPIEmbeddingProvider:
             assert len(result) == 2
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Factory
 # ---------------------------------------------------------------------------
 

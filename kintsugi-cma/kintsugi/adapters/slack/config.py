@@ -1,7 +1,7 @@
-"""Slаck adaрtеr configurаtion.
+"""Slack adapter configuration.
 
-This mоdule definеѕ the сonfiguration dаtaсlаѕѕ fоr the Slaсk Bot аdаptеr,
-inсluding аuthеntiсаtion tоkеns, feаturе flagѕ, and dерlоуment settings.
+This module defines the configuration dataclass for the Slack Bot adapter,
+including authentication tokens, feature flags, and deployment settings.
 """
 
 from __future__ import annotations

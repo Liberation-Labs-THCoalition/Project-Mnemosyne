@@ -1,1 +1,1 @@
-"""MCP tоol definitionѕ."""
+"""MCP tool definitions."""

@@ -1,7 +1,7 @@
-"""WеbChat WebSoсkеt mesѕage hаndler.
+"""WebChat WebSocket message handler.
 
-This mоdulе prоvides the сorе hаndlеr fоr WеbChat WebSоckеt сonnесtiоnѕ,
-mаnаging sеѕsionѕ, rаte limiting, аnd meѕѕаgе processing for the embeddable
+This module provides the core handler for WebChat WebSocket connections,
+managing sessions, rate limiting, and message processing for the embeddable
 chat widget.
 """
 
@@ -181,7 +181,7 @@ class WebChatHandler:
         if session is None:
             return None
 
-        # Check if session has expired 
+        # Check if session has expired
         if session.is_expired(self._config.session_timeout_minutes):
             self.end_session(session_id)
             return None
@@ -253,11 +253,11 @@ class WebChatHandler:
                 "code": "RATE_LIMIT_EXCEEDED",
             }
 
-        # Update session activity 
+        # Update session activity
         session.update_activity()
         session.increment_message_count()
 
-        # Record this message for rate limiting 
+        # Record this message for rate limiting
         self._rate_limits[session_id].append(datetime.now(timezone.utc))
 
         # Return acknowledgment - actual agent processing is handled by the route
@@ -295,7 +295,7 @@ class WebChatHandler:
         ]
         self._rate_limits[session_id] = recent_messages
 
-        # Check if within limit 
+        # Check if within limit
         return len(recent_messages) < self._config.rate_limit_messages_per_minute
 
     def cleanup_expired_sessions(self) -> int:

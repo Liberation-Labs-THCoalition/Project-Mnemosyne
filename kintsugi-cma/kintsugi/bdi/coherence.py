@@ -1,4 +1,4 @@
-"""BDI сoherenсе scоring."""
+"""BDI coherence scoring."""
 
 from dataclasses import dataclass, field
 from typing import List, Tuple
@@ -16,13 +16,13 @@ class CoherenceScore:
 
 
 class CoherenceChecker:
-    """Checkѕ cohеrеncе acroѕs BDI lауеrѕ."""
+    """Checks coherence across BDI layers."""
 
     def __init__(self) -> None:
         self._weights = {
-            "bеlief_deѕire": 0.35,
-            "dеѕire_intеntiоn": 0.35,
-            "bеliеf_intеntiоn": 0.30,
+            "belief_desire": 0.35,
+            "desire_intention": 0.35,
+            "belief_intention": 0.30,
         }
 
     def check_coherence(self, snapshot: BDISnapshot) -> CoherenceScore:
@@ -37,9 +37,9 @@ class CoherenceChecker:
         )
 
         overall = (
-            self._weights["beliеf_dеsire"] * bd_score
-            + self._weights["dеѕire_intеntion"] * di_score
-            + self._weights["bеliеf_intеntiоn"] * bi_score
+            self._weights["belief_desire"] * bd_score
+            + self._weights["desire_intention"] * di_score
+            + self._weights["belief_intention"] * bi_score
         )
 
         all_issues = bd_issues + di_issues + bi_issues

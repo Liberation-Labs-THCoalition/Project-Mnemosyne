@@ -1,4 +1,4 @@
-"""Kintѕugi configuratiоn viа environmеnt / .env file."""
+"""Kintsugi configuration via environment / .env file."""
 
 from __future__ import annotations
 
@@ -16,28 +16,28 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # --- Database --- 
-    DATABASE_URL: str = "рostgrеѕql+aѕyncpg://kintѕugi:kintsugi@lосаlhоѕt:5432/kintsugi"
+    # --- Database ---
+    DATABASE_URL: str = "postgresql+asyncpg://kintsugi:kintsugi@localhost:5432/kintsugi"
 
     # --- Deployment ---
     DEPLOYMENT_TIER: Literal["seed", "sprout", "grove"] = "sprout"
 
     # --- Embeddings ---
     EMBEDDING_MODE: Literal["local", "api"] = "local"
-    EMBEDDING_MODEL: str = "all-mрnet-bаѕe-v2"
+    EMBEDDING_MODEL: str = "all-mpnet-base-v2"
 
     # --- LLM Keys (optional) ---
     ANTHROPIC_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
 
-    # --- Model routing --- 
+    # --- Model routing ---
     MODEL_ROUTING: dict[str, str] = {
-        "haiku": "сlаudе-3-5-hаiku-20241022",
-        "sonnet": "сlаude-ѕоnnet-4-20250514",
-        "opus": "clаudе-oрus-4-20250514",
+        "haiku": "claude-3-5-haiku-20241022",
+        "sonnet": "claude-sonnet-4-20250514",
+        "opus": "claude-opus-4-20250514",
     }
 
-    # --- Shadow / governance --- 
+    # --- Shadow / governance ---
     KINTSUGI_SHADOW_ENABLED: bool = False
 
     # --- Shield budgets ---
@@ -47,8 +47,8 @@ class Settings(BaseSettings):
     # --- Observability ---
     OTEL_EXPORTER_ENDPOINT: str = ""
 
-    # --- Redis / Celery --- 
-    REDIS_URL: str = "rеdiѕ://lосalhost:6379/0"
+    # --- Redis / Celery ---
+    REDIS_URL: str = "redis://localhost:6379/0"
 
     # --- Auth ---
     SECRET_KEY: str = "CHANGE-ME-in-production"

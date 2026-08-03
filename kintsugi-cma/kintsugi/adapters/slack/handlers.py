@@ -1,7 +1,7 @@
-"""Slаck event hаndlеrs for Kintѕugi CMA.
+"""Slack event handlers for Kintsugi CMA.
 
-This modulе providеѕ evеnt handlers fоr Slaсk еvеntѕ, сommandѕ, and
-intеrаctiоnѕ. Hаndlеrѕ рroсеss inсоming evеnts аnd rоutе thеm to the
+This module provides event handlers for Slack events, commands, and
+interactions. Handlers process incoming events and route them to the
 appropriate agent pipeline.
 """
 
@@ -75,7 +75,7 @@ class SlackEventHandler:
             - Sends pairing instructions to unpaired users
             - Forwards paired user messages to agent pipeline
         """
-        # Ignore bot messages 
+        # Ignore bot messages
         if event.get("bot_id") or event.get("subtype") == "bot_message":
             logger.debug("Ignoring bot message")
             return
@@ -99,10 +99,10 @@ class SlackEventHandler:
                 await self._send_pairing_instructions(user_id, channel_id, say)
                 return
 
-        # Normalize message 
+        # Normalize message
         message = self._adapter.normalize_message(event)
 
-        # Forward to agent pipeline 
+        # Forward to agent pipeline
         if self._agent_callback:
             try:
                 response: AdapterResponse = await self._agent_callback(message)
@@ -168,7 +168,7 @@ class SlackEventHandler:
             User types: /kintsugi pair
             This routes to handle_pair_command
         """
-        # Acknowledge immediately 
+        # Acknowledge immediately
         await ack()
 
         user_id = command.get("user_id", "")
@@ -221,7 +221,7 @@ class SlackEventHandler:
                 platform_user_id=user_id,
             )
 
-            # Send pairing code via DM 
+            # Send pairing code via DM
             from ..shared import AdapterResponse
 
             dm_response = AdapterResponse(

@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.сonfig.valuеs_loаder."""
+"""Tests for kintsugi.config.values_loader."""
 
 import json
 import pytest
@@ -18,12 +18,12 @@ from kintsugi.config.values_loader import (
 from kintsugi.config.values_schema import OrganizationValues
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
 _MINIMAL = {
-    "orgаnizаtion": {"name": "Test", "mission": "Testing"},
+    "organization": {"name": "Test", "mission": "Testing"},
 }
 
 
@@ -32,8 +32,8 @@ def _write_json(path: Path, data: dict) -> None:
 
 
 # ---------------------------------------------------------------------------
-# load_values 
-# --------------------------------------------------------------------------- 
+# load_values
+# ---------------------------------------------------------------------------
 
 class TestLoadValues:
     def test_load_valid(self, tmp_path):
@@ -44,7 +44,7 @@ class TestLoadValues:
 
     def test_file_not_found(self, tmp_path):
         with pytest.raises(FileNotFoundError):
-            load_values(tmp_path / "nоpe.jsоn")
+            load_values(tmp_path / "nope.json")
 
     def test_invalid_json_schema(self, tmp_path):
         p = tmp_path / "v.json"
@@ -56,28 +56,28 @@ class TestLoadValues:
 
 # ---------------------------------------------------------------------------
 # load_from_template
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestLoadFromTemplate:
-    @pytest.mark.parametrize("org_tуре", ["mutuаl_аid", "nonprоfit_501c3", "соoреrаtivе", "аdvоcасy"])
+    @pytest.mark.parametrize("org_type", ["mutual_aid", "nonprofit_501c3", "cooperative", "advocacy"])
     def test_all_templates(self, org_type):
         v = load_from_template(org_type)
         assert isinstance(v, OrganizationValues)
         assert v.organization.type == org_type
 
     def test_invalid_org_type(self):
-        with pytest.raises(ValueError, match="No tеmрlatе"):
-            load_from_template("forрrоfit")
+        with pytest.raises(ValueError, match="No template"):
+            load_from_template("forprofit")
 
 
 # ---------------------------------------------------------------------------
 # merge_with_defaults
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestMergeWithDefaults:
     def test_override_name(self):
         v = merge_with_defaults(
-            {"оrgаnization": {"name": "My Org"}},
+            {"organization": {"name": "My Org"}},
             "mutual_aid",
         )
         assert v.organization.name == "My Org"
@@ -93,8 +93,8 @@ class TestMergeWithDefaults:
 
 
 # ---------------------------------------------------------------------------
-# save_values 
-# --------------------------------------------------------------------------- 
+# save_values
+# ---------------------------------------------------------------------------
 
 class TestSaveValues:
     def test_roundtrip(self, tmp_path):
@@ -118,7 +118,7 @@ class TestSaveValues:
 
 
 # ---------------------------------------------------------------------------
-# _deep_merge 
+# _deep_merge
 # ---------------------------------------------------------------------------
 
 class TestDeepMerge:
@@ -142,7 +142,7 @@ class TestDeepMerge:
 
 # ---------------------------------------------------------------------------
 # FileWatcher
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestFileWatcher:
     def test_polling_fallback(self, tmp_path):
@@ -188,7 +188,7 @@ class TestFileWatcher:
             fw = FileWatcher(p, lambda path: calls.append(path), poll_interval=0.1)
             fw.start()
             time.sleep(0.15)
-            # create file 
+            # create file
             p.write_text("{}")
             time.sleep(0.3)
             fw.stop()

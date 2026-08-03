@@ -1,8 +1,8 @@
 """
-Rеsourcе Rеdistribution Skill Chiр for Kintsugi CMA.
+Resource Redistribution Skill Chip for Kintsugi CMA.
 
-Cоordinatеѕ surрlus alloсatiоn, fооd rеѕcue, аnd reѕоurcе ѕhаring асrоsѕ
-сommunity оrgаnizatiоns аnd individuаlѕ. Sрecializes in time-sensitive
+Coordinates surplus allocation, food rescue, and resource sharing across
+community organizations and individuals. Specializes in time-sensitive
 logistics for perishable goods.
 
 This chip enables equitable resource distribution by:
@@ -15,7 +15,7 @@ Example usage:
     from kintsugi.skills.community_aid import ResourceRedistributionChip
     from kintsugi.skills import SkillRequest, SkillContext, register_chip
 
-    # Register the chip 
+    # Register the chip
     chip = ResourceRedistributionChip()
     register_chip(chip)
 
@@ -302,7 +302,7 @@ class ResourceRedistributionChip(BaseSkillChip):
             urgency=request.entities.get("urgency", "medium"),
         )
 
-        # Look for available surplus 
+        # Look for available surplus
         available = await self._find_available_surplus(resource_request)
 
         return SkillResponse(
@@ -387,7 +387,7 @@ class ResourceRedistributionChip(BaseSkillChip):
                 data={"inventory": {}},
             )
 
-        # Format inventory summary 
+        # Format inventory summary
         total_items = sum(sum(types.values()) for types in inventory.values())
         locations = len(inventory)
 
@@ -511,7 +511,7 @@ class ResourceRedistributionChip(BaseSkillChip):
 
         self._surplus[surplus.id] = surplus
 
-        # Update inventory 
+        # Update inventory
         if pickup_location not in self._inventory:
             self._inventory[pickup_location] = {}
         rtype = surplus.resource_type.value
@@ -687,7 +687,7 @@ class ResourceRedistributionChip(BaseSkillChip):
             if surplus.resource_type in req.resource_types:
                 matches.append(req)
 
-        # Sort by urgency 
+        # Sort by urgency
         urgency_order = {"high": 0, "medium": 1, "low": 2}
         matches.sort(key=lambda r: urgency_order.get(r.urgency, 2))
 

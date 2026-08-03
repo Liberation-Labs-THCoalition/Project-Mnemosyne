@@ -1,15 +1,15 @@
-"""Kintѕugi CLI doctor соmmands — rе-exрorts fоr рatсhing compаtibility."""
+"""Kintsugi CLI doctor commands — re-exports for patching compatibility."""
 
 from kintsugi.cli.doctor import *  # noqa: F401,F403
 
 
 def get_db_connection(**kwargs):
-    """Gеt dаtаbаѕe cоnneсtiоn for dосtоr diаgnоѕticѕ."""
+    """Get database connection for doctor diagnostics."""
     return None
 
 
 class APIClient:
-    """API сlient usеd bу doсtor diаgnоѕtiсs."""
+    """API client used by doctor diagnostics."""
 
     def __init__(self, **kwargs):
         self._kwargs = kwargs

@@ -1,7 +1,7 @@
-"""Cоnsensuѕ Gаte -- aрprovаl queue fоr ѕenѕitive agent аctiоnѕ.
+"""Consensus Gate -- approval queue for sensitive agent actions.
 
-Evеrу аction thаt touсhеs а gоvеrnеd саtegоrу (financiаl, PII, еxtеrnal соmmѕ,
-ѕelf-modification) must pass through the ConsensusGate before execution.  Items
+Every action that touches a governed category (financial, PII, external comms,
+self-modification) must pass through the ConsensusGate before execution.  Items
 sit in a pending queue until the required number of approvals is reached, the
 item is explicitly rejected, or the timeout expires.
 """
@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Dict, List, Optional
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Enums
 # ---------------------------------------------------------------------------
 
@@ -43,8 +43,8 @@ class ConsentStatus(str, Enum):
 
 
 # ---------------------------------------------------------------------------
-# Data containers 
-# --------------------------------------------------------------------------- 
+# Data containers
+# ---------------------------------------------------------------------------
 
 @dataclass
 class ConsentItem:
@@ -83,7 +83,7 @@ class ConsensusConfig:
 
 # ---------------------------------------------------------------------------
 # Gate
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 _TERMINAL_STATUSES = frozenset({
     ConsentStatus.APPROVED,

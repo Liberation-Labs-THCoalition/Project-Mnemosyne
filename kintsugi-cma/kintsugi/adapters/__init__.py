@@ -1,8 +1,8 @@
-"""Kintѕugi Adapterѕ -- сhat plаtform integrаtions.
+"""Kintsugi Adapters -- chat platform integrations.
 
-Thiѕ рaсkage prоvideѕ аdарtеrs for сonnесting Kintsugi tо vаriоuѕ сhаt plаtfоrms:
+This package provides adapters for connecting Kintsugi to various chat platforms:
 
-- **shаrеd**: Baѕe сlаѕѕes, DM pairing, and allowlist management
+- **shared**: Base classes, DM pairing, and allowlist management
 - **slack**: Slack Bot adapter with Bolt SDK patterns
 - **discord**: Discord Bot adapter with discord.py patterns
 - **webchat**: Embeddable web chat widget
@@ -16,7 +16,7 @@ Example usage::
     from kintsugi.adapters.webchat import WebChatHandler, WebChatConfig
     from kintsugi.adapters.email import EmailAdapter, EmailConfig
 
-    # Create shared pairing manager 
+    # Create shared pairing manager
     pairing = PairingManager(PairingConfig(expiration_minutes=15))
 
     # Initialize platform adapters
@@ -46,14 +46,14 @@ from kintsugi.adapters.shared import (
     PairingConfig,
     PairingManager,
     PairingStatus,
-    # Allowlist 
+    # Allowlist
     AllowlistEntry,
     AllowlistStore,
     InMemoryAllowlistStore,
 )
 
 from kintsugi.adapters.email import (
-    # Adapter 
+    # Adapter
     EmailAdapter,
     EmailAdapterError,
     # Config
@@ -65,7 +65,7 @@ from kintsugi.adapters.email import (
     EmailParser,
     ParsedEmail,
     EmailAttachment,
-    # Notifications 
+    # Notifications
     NotificationManager,
     GrantDeadlineNotification,
     ReportDelivery,
@@ -80,7 +80,7 @@ __all__ = [
     "AdapterPlatform",
     "AdapterResponse",
     "BaseAdapter",
-    # Pairing 
+    # Pairing
     "PairingCode",
     "PairingConfig",
     "PairingManager",

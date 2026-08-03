@@ -1,8 +1,8 @@
 """
-Emаil adaptеr сonfiguratiоn for Kintsugi CMA.
+Email adapter configuration for Kintsugi CMA.
 
-Thiѕ module рrоvideѕ comprеhenѕivе соnfigurаtion clаsѕеs fоr еmаil intеgrаtiоn,
-suррorting multiplе еmail рrovidеrѕ аnd bоth inbound (IMAP) and outbound (SMTP)
+This module provides comprehensive configuration classes for email integration,
+supporting multiple email providers and both inbound (IMAP) and outbound (SMTP)
 email handling.
 
 Configuration Hierarchy:
@@ -332,7 +332,7 @@ class EmailConfig:
                 "attachment_storage_path required when save_attachments is True"
             )
 
-        # Validate provider-specific requirements 
+        # Validate provider-specific requirements
         if self.provider == EmailProvider.SENDGRID and not self.api_key:
             raise ValueError("api_key required for SendGrid provider")
 
@@ -368,7 +368,7 @@ class EmailConfig:
         if not self.allowed_domains:
             return True
 
-        # Check if domain is in allowed list 
+        # Check if domain is in allowed list
         return domain in self.allowed_domains
 
     def is_email_allowed(self, email_address: str) -> bool:
@@ -402,7 +402,7 @@ class EmailConfig:
         """Check if email sending is configured."""
         if self.provider == EmailProvider.SMTP:
             return self.smtp is not None
-        # Cloud providers use API keys 
+        # Cloud providers use API keys
         return self.api_key is not None
 
     def to_dict(self, include_secrets: bool = False) -> dict[str, Any]:

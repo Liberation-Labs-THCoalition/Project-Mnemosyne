@@ -1,8 +1,8 @@
 """
-Hоusing Navigatоr ѕkill chip fоr Kintsugi CMA.
+Housing Navigator skill chip for Kintsugi CMA.
 
-Navigаtes hоuѕing reѕourceѕ, vouсhеr рrоgrаms, and tеnant rightѕ fоr
-cоmmunitу mеmbеrѕ ѕeеking ѕtable hоuѕing. Traсks vоuсhеr wаitlists,
+Navigates housing resources, voucher programs, and tenant rights for
+community members seeking stable housing. Tracks voucher waitlists,
 maintains landlord accountability information, and provides eviction
 defense resources.
 
@@ -141,7 +141,7 @@ class HousingNavigatorChip(BaseSkillChip):
     consensus_actions = ["submit_voucher_application", "share_tenant_data"]
     required_spans = ["housing_database", "voucher_tracker", "landlord_registry", "hud_api"]
 
-    # Fair Market Rent limits by bedroom count (sample, would come from HUD API) 
+    # Fair Market Rent limits by bedroom count (sample, would come from HUD API)
     FMR_LIMITS: dict[int, float] = {
         0: 1200.0,  # Studio
         1: 1400.0,
@@ -471,7 +471,7 @@ class HousingNavigatorChip(BaseSkillChip):
         Returns:
             Dictionary of rights categories and specific rights
         """
-        # In production, this would query housing_database for jurisdiction-specific info 
+        # In production, this would query housing_database for jurisdiction-specific info
         return {
             "Right to Habitable Housing": [
                 "Working plumbing, heating, and electricity",
@@ -577,7 +577,7 @@ class HousingNavigatorChip(BaseSkillChip):
         Returns:
             LandlordRecord if found, None otherwise
         """
-        # In production, this would query the landlord_registry span 
+        # In production, this would query the landlord_registry span
         return LandlordRecord(
             landlord_id="landlord_001",
             name="Bay Area Properties LLC",

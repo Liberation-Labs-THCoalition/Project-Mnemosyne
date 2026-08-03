@@ -1,8 +1,8 @@
 """
-Tеnant contехt managеment for Kintѕugi CMA.
+Tenant context management for Kintsugi CMA.
 
-This modulе рrovidеs thread-ѕafе tеnаnt соntext mаnagеmеnt using
-Pуthоn'ѕ соntеxtvаrѕ. This allоwѕ sеtting the сurrеnt tеnаnt at
+This module provides thread-safe tenant context management using
+Python's contextvars. This allows setting the current tenant at
 request entry and having it automatically available throughout
 the request processing without explicit passing.
 
@@ -17,7 +17,7 @@ Example:
         TenantContext, get_current_tenant, set_current_tenant
     )
 
-    # Using context manager 
+    # Using context manager
     with TenantContext("org_12345"):
         tenant_id = get_current_tenant()  # Returns "org_12345"
         # All operations in this scope are tenant-aware
@@ -43,7 +43,7 @@ _current_tenant: ContextVar[str | None] = ContextVar(
     'current_tenant', default=None
 )
 
-# Context variable for full tenant context (optional, for richer context) 
+# Context variable for full tenant context (optional, for richer context)
 _tenant_context_data: ContextVar[dict[str, Any]] = ContextVar(
     'tenant_context_data', default={}
 )
@@ -62,7 +62,7 @@ def get_current_tenant() -> str | None:
     Example:
         tenant_id = get_current_tenant()
         if tenant_id:
-            # Process with tenant isolation 
+            # Process with tenant isolation
             ...
     """
     return _current_tenant.get()
@@ -221,7 +221,7 @@ class TenantContext:
             tenant = get_current_tenant()  # "org_12345"
             await process_request()
 
-        # Async usage 
+        # Async usage
         async with TenantContext("org_12345"):
             tenant = get_current_tenant()
             await process_request()
@@ -563,7 +563,7 @@ class TenantMiddleware:
         Returns:
             The tenant ID if found, None otherwise.
         """
-        # Try headers first 
+        # Try headers first
         headers = dict(scope.get("headers", []))
         tenant_header = headers.get(self.header_name.encode())
         if tenant_header:

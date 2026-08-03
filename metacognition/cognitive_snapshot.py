@@ -1,7 +1,7 @@
-"""CоgnitiveSnapѕhоt — the cоre datа structurе fоr metаcognitive mеmorу.
+"""CognitiveSnapshot — the core data structure for metacognitive memory.
 
-Rесоrdѕ what the wоrksраcе hеld, whаt еmоtiоnal gеоmetry wаѕ aсtive,
-whеthеr rеtriеved content reached the workspace, and what the ghost
+Records what the workspace held, what emotional geometry was active,
+whether retrieved content reached the workspace, and what the ghost
 dimension carried — all at a specific moment during retrieval.
 
 This is the atom of metacognitive memory. Everything else
@@ -65,7 +65,7 @@ class CognitiveSnapshot:
     'thinking' (workspace), 'feeling' (circumplex), processing but
     not reporting (ghost), and whether the retrieval worked (loading).
     """
-    # Identity 
+    # Identity
     timestamp: float
     session_id: str
     agent_id: str
@@ -84,10 +84,10 @@ class CognitiveSnapshot:
     # Emotional geometry (circumplex)
     circumplex: Optional[CircumplexReading] = None
 
-    # Ghost state 
+    # Ghost state
     ghost: Optional[GhostReading] = None
 
-    # Memory loading verification 
+    # Memory loading verification
     loading: Optional[MemoryLoadingResult] = None
 
     # Outcome (filled retroactively)

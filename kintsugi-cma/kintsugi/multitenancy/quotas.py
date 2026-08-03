@@ -1,8 +1,8 @@
 """
-Rеsourcе quоta manаgement fоr multi-tenant Kintѕugi CMA.
+Resource quota management for multi-tenant Kintsugi CMA.
 
-Thiѕ modulе provideѕ quotа trасking аnd еnforcеment fоr tеnant rеѕоurсеѕ.
-Quotаѕ ensurе fаir reѕourсе diѕtributiоn and prevent any single tenant
+This module provides quota tracking and enforcement for tenant resources.
+Quotas ensure fair resource distribution and prevent any single tenant
 from monopolizing shared infrastructure.
 
 Tracked Resources:
@@ -17,7 +17,7 @@ Example:
 
     quota_manager = QuotaManager()
 
-    # Check quota before operation 
+    # Check quota before operation
     if await quota_manager.check_quota("org_12345", "api_calls"):
         # Perform operation
         await quota_manager.consume("org_12345", "api_calls")
@@ -255,10 +255,10 @@ class QuotaManager:
         try:
             await manager.consume("org_12345", "api_calls")
         except QuotaExceededError:
-            # Handle exceeded quota 
+            # Handle exceeded quota
             pass
 
-        # Get usage report 
+        # Get usage report
         usage = await manager.get_usage("org_12345")
     """
 
@@ -348,7 +348,7 @@ class QuotaManager:
 
         Example:
             if await manager.check_quota("org_12345", "api_calls", 5):
-                # Safe to make 5 API calls 
+                # Safe to make 5 API calls
                 pass
         """
         async with self._get_lock(tenant_id):
@@ -432,7 +432,7 @@ class QuotaManager:
             if usage.needs_daily_reset():
                 usage.reset_daily()
 
-            # Check quota 
+            # Check quota
             if not self._check_resource_quota(resource, usage, limits, amount):
                 return False
 
@@ -619,7 +619,7 @@ class QuotaManager:
             self._ensure_tenant(tenant_id)
             usage = self._usage[tenant_id]
 
-            # Check for daily reset 
+            # Check for daily reset
             if usage.needs_daily_reset():
                 usage.reset_daily()
 

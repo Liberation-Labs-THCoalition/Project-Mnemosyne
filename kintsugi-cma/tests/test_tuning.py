@@ -1,10 +1,10 @@
-"""Cоmprehenѕivе testѕ for Kintsugi tuning mоdule.
+"""Comprehensive tests for Kintsugi tuning module.
 
-Teѕtѕ cоver:
-- TuningStrategу enum vаluеѕ
-- TuningOutсоme datаclаѕs сrеаtiоn аnd vаlidatiоn
-- TuningCоnfig defaultѕ аnd validаtion
-- EFETunеr сrеаtion, outcome recording, tuning logic, and weight management
+Tests cover:
+- TuningStrategy enum values
+- TuningOutcome dataclass creation and validation
+- TuningConfig defaults and validation
+- EFETuner creation, outcome recording, tuning logic, and weight management
 - FeedbackType enum values
 - Feedback dataclass creation and validation
 - FeedbackCollector recording, aggregation, and stakeholder weights
@@ -21,7 +21,7 @@ import pytest
 import pytest_asyncio
 
 from kintsugi.tuning import (
-    # Strategy and config 
+    # Strategy and config
     TuningStrategy,
     TuningConfig,
     # Outcomes
@@ -35,10 +35,10 @@ from kintsugi.tuning import (
     StakeholderWeight,
 )
 from kintsugi.tuning.feedback import StakeholderRole
-# Note: EFETuner uses dict[str, float] for weights, not EFEWeights class 
+# Note: EFETuner uses dict[str, float] for weights, not EFEWeights class
 
 
-# =========================================================================== 
+# ===========================================================================
 # TuningStrategy Tests (4 tests)
 # ===========================================================================
 
@@ -63,7 +63,7 @@ class TestTuningStrategy:
         assert TuningStrategy.MANUAL.value == "manual"
 
 
-# =========================================================================== 
+# ===========================================================================
 # TuningOutcome Tests (6 tests)
 # ===========================================================================
 
@@ -136,7 +136,7 @@ class TestTuningOutcome:
         assert outcome.timestamp == custom_time
 
 
-# =========================================================================== 
+# ===========================================================================
 # TuningConfig Tests (6 tests)
 # ===========================================================================
 
@@ -188,8 +188,8 @@ class TestTuningConfig:
         assert any("learning_rate" in e for e in errors)
 
 
-# =========================================================================== 
-# EFETuner Tests (15 tests) 
+# ===========================================================================
+# EFETuner Tests (15 tests)
 # ===========================================================================
 
 
@@ -230,7 +230,7 @@ class TestEFETuner:
 
     def test_should_tune_returns_false_with_few_samples(self, tuner):
         """EFETuner.should_tune() returns False with fewer than min_samples."""
-        # Default min_samples is 50, add only 10 
+        # Default min_samples is 50, add only 10
         for i in range(10):
             outcome = TuningOutcome(
                 decision_id=f"dec_{i}",
@@ -347,7 +347,7 @@ class TestEFETuner:
         tuner.apply_weights(weights1, approver="admin1")
         tuner.apply_weights(weights2, approver="admin2")
 
-        # Weight history tracked internally as list of (timestamp, weights) tuples 
+        # Weight history tracked internally as list of (timestamp, weights) tuples
         assert len(tuner._weight_history) >= 2
         assert all(isinstance(h, tuple) and len(h) == 2 for h in tuner._weight_history)
 
@@ -363,11 +363,11 @@ class TestEFETuner:
             tuner_low_min_samples.record_outcome(outcome)
 
         proposed = tuner_low_min_samples.propose_weights()
-        # All weights should be non-negative 
+        # All weights should be non-negative
         assert proposed["risk"] >= 0
         assert proposed["ambiguity"] >= 0
         assert proposed["epistemic"] >= 0
-        # Should still sum to ~1.0 
+        # Should still sum to ~1.0
         total = proposed["risk"] + proposed["ambiguity"] + proposed["epistemic"]
         assert math.isclose(total, 1.0, abs_tol=0.05)
 
@@ -396,9 +396,9 @@ class TestEFETuner:
         assert len(tuner._outcomes) == 1
 
 
-# =========================================================================== 
-# FeedbackType Tests (3 tests) 
-# =========================================================================== 
+# ===========================================================================
+# FeedbackType Tests (3 tests)
+# ===========================================================================
 
 
 class TestFeedbackType:
@@ -423,7 +423,7 @@ class TestFeedbackType:
 
 # ===========================================================================
 # Feedback Tests (5 tests)
-# =========================================================================== 
+# ===========================================================================
 
 
 class TestFeedback:
@@ -504,8 +504,8 @@ class TestFeedback:
         assert feedback.metadata["category"] == "quality"
 
 
-# =========================================================================== 
-# FeedbackCollector Tests (10 tests) 
+# ===========================================================================
+# FeedbackCollector Tests (10 tests)
 # ===========================================================================
 
 
@@ -531,7 +531,7 @@ class TestFeedbackCollector:
 
     def test_get_for_decision_returns_feedback_list(self, collector):
         """FeedbackCollector.get_for_decision() returns list of feedback."""
-        # Add feedback for multiple decisions 
+        # Add feedback for multiple decisions
         feedback1 = Feedback(
             decision_id="dec_123",
             feedback_type=FeedbackType.OUTCOME,
@@ -583,12 +583,12 @@ class TestFeedbackCollector:
         collector.record(feedback2)
 
         score = collector.aggregate_score("dec_123")
-        # Should be weighted average 
+        # Should be weighted average
         assert 0.6 <= score <= 0.8
 
     def test_get_stakeholder_weights_returns_weights(self, collector):
         """FeedbackCollector.get_stakeholder_weights() returns weight dictionary."""
-        # First record some feedback to populate stakeholders 
+        # First record some feedback to populate stakeholders
         feedback = Feedback(
             decision_id="dec_123",
             feedback_type=FeedbackType.RATING,
@@ -603,7 +603,7 @@ class TestFeedbackCollector:
 
     def test_multiple_stakeholder_roles(self, collector):
         """FeedbackCollector handles multiple stakeholder roles."""
-        # Add feedback from different stakeholders with different roles 
+        # Add feedback from different stakeholders with different roles
         feedback_user = Feedback(
             decision_id="dec_123",
             feedback_type=FeedbackType.RATING,
@@ -630,7 +630,7 @@ class TestFeedbackCollector:
         collector.record(feedback_admin)
         collector.record(feedback_subject)
 
-        # Score should consider stakeholder weights 
+        # Score should consider stakeholder weights
         score = collector.aggregate_score("dec_123")
         assert -1.0 <= score <= 1.0
 
@@ -687,9 +687,9 @@ class TestFeedbackCollector:
         assert set(result) == set(decisions)
 
 
-# =========================================================================== 
+# ===========================================================================
 # StakeholderRole Tests (3 additional tests)
-# =========================================================================== 
+# ===========================================================================
 
 
 class TestStakeholderRole:

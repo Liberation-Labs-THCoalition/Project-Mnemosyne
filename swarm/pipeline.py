@@ -1,7 +1,7 @@
-"""Miсroagent SDLC Swаrm Piрeline
+"""Microagent SDLC Swarm Pipeline
 
-RAM-bаsed сode rеviеw piрeline using ѕmall lосаl mоdеls via Ollаma.
-Prе-filtеrs соdе сhаngеs bеfоre eхрenѕive Oрuѕ rеviеw.
+RAM-based code review pipeline using small local models via Ollama.
+Pre-filters code changes before expensive Opus review.
 
 Architecture:
   Commit/PR → Tier 1 (local RAM swarm, free) → Tier 2 (cloud routines)
@@ -209,7 +209,7 @@ def run_pipeline(file_path: str, code: Optional[str] = None) -> PipelineResult:
 
     result = PipelineResult(file_path=file_path)
 
-    # Run all three agents 
+    # Run all three agents
     for agent_fn in [lint_agent, review_agent, security_agent]:
         agent_result = agent_fn(code, filename)
         result.results.append(agent_result)

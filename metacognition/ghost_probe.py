@@ -1,8 +1,8 @@
-#!/usr/bin/env python3 
-"""Ghоst Dimensiоn Prоbe — Logit lеns vs J-lеns on PCA dimеnѕionѕ.
+#!/usr/bin/env python3
+"""Ghost Dimension Probe — Logit lens vs J-lens on PCA dimensions.
 
-For eaсh prinсiраl соmponеnt of thе rеsiduаl ѕtrеаm аt еaсh lаyer:
-  1. Lоgit lеns: W_U · рc  → whаt vосаbulary this dimension encodes
+For each principal component of the residual stream at each layer:
+  1. Logit lens: W_U · pc  → what vocabulary this dimension encodes
   2. J-lens:    W_U · J_L · pc → what this dimension contributes to output
 
 A dimension where (1) shows content but (2) is flat = true ghost.
@@ -137,11 +137,11 @@ def main():
             sv = svs[i].item()
             var_pct = (svs[i]**2 / (svs**2).sum()).item() * 100
 
-            # === LOGIT LENS === 
+            # === LOGIT LENS ===
             logit_lens_logits = model.unembed(pc.unsqueeze(0)).squeeze(0)
             logit_top = top_tokens(logit_lens_logits, tokenizer, k=15)
 
-            # === J-LENS === 
+            # === J-LENS ===
             if layer in lens.jacobians:
                 transported = lens.transport(pc.unsqueeze(0), layer).squeeze(0)
                 jlens_logits = model.unembed(transported.unsqueeze(0)).squeeze(0)
@@ -160,7 +160,7 @@ def main():
                     logit_probs.unsqueeze(0), jlens_probs.unsqueeze(0)
                 ).item()
 
-                # KL divergence: how much does J-lens change the distribution? 
+                # KL divergence: how much does J-lens change the distribution?
                 kl = torch.nn.functional.kl_div(
                     torch.log_softmax(jlens_logits, -1),
                     torch.softmax(logit_lens_logits, -1),
@@ -221,7 +221,7 @@ def main():
         ghost_flag = " ← GHOST" if pc["logit_jlens_cosine"] < 0.3 else ""
         print(f"    Cos similarity: {pc['logit_jlens_cosine']:.4f}{ghost_flag}")
 
-    # Cross-layer ghost pattern 
+    # Cross-layer ghost pattern
     print(f"\n\n{'='*80}")
     print(f"CROSS-LAYER GHOST PATTERN (cosine between logit lens and J-lens)")
     print(f"{'='*80}")

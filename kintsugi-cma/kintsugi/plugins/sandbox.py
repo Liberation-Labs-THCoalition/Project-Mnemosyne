@@ -1,9 +1,9 @@
 """
-Plugin ѕandboxing fоr Kintѕugi CMA.
+Plugin sandboxing for Kintsugi CMA.
 
-This modulе providеs sесurity ѕandboxing fоr plugin ехесutiоn.
-Plugins run in reѕtrictеd еnvironmеntѕ with соnfigurаblе pоliсies
-thаt сontrоl their ассеss to system resources.
+This module provides security sandboxing for plugin execution.
+Plugins run in restricted environments with configurable policies
+that control their access to system resources.
 
 Security Measures:
     - Import restrictions (whitelist approach)
@@ -16,7 +16,7 @@ Security Measures:
 Example:
     from kintsugi.plugins.sandbox import PluginSandbox, SandboxPolicy
 
-    # Create restrictive policy 
+    # Create restrictive policy
     policy = SandboxPolicy(
         allow_network=False,
         allow_filesystem=False,
@@ -83,7 +83,7 @@ class SandboxPolicy:
             allowed_imports=["json", "datetime", "re"],
         )
 
-        # Permissive policy for trusted plugins 
+        # Permissive policy for trusted plugins
         policy = SandboxPolicy(
             allow_network=True,
             allow_filesystem=True,
@@ -134,7 +134,7 @@ class SandboxPolicy:
         Returns:
             True if the import is allowed.
         """
-        # Check blocked list first 
+        # Check blocked list first
         for blocked in self.blocked_imports:
             if module_name == blocked or module_name.startswith(f"{blocked}."):
                 return False
@@ -312,7 +312,7 @@ class PluginSandbox:
             max_memory_mb=256,
         ))
 
-        # Validate a plugin 
+        # Validate a plugin
         violations = sandbox.validate_plugin(loaded_plugin)
 
         # Execute with sandbox
@@ -384,7 +384,7 @@ class PluginSandbox:
                         severity="error",
                     ))
 
-        # Analyze module imports 
+        # Analyze module imports
         violations.extend(self._analyze_imports(plugin.module))
 
         # Check for dangerous patterns in source
@@ -446,7 +446,7 @@ class PluginSandbox:
         """
         violations: list[SandboxViolation] = []
 
-        # Dangerous patterns to check for 
+        # Dangerous patterns to check for
         dangerous_patterns = [
             ("eval(", "Use of eval() is dangerous"),
             ("exec(", "Use of exec() is dangerous"),
@@ -481,7 +481,7 @@ class PluginSandbox:
                 ("aiohttp", "Network access not allowed"),
             ])
 
-        # Try to get source code 
+        # Try to get source code
         try:
             import inspect
             source = inspect.getsource(plugin.module)
@@ -536,7 +536,7 @@ class PluginSandbox:
                 error=f"Method '{method}' not found on plugin",
             )
 
-        # Set up resource limits 
+        # Set up resource limits
         old_limits = self._set_resource_limits()
 
         # Install restricted importer
@@ -559,7 +559,7 @@ class PluginSandbox:
                     timeout=self._policy.max_execution_time,
                 )
             else:
-                # Run sync method in executor with timeout 
+                # Run sync method in executor with timeout
                 result = await asyncio.wait_for(
                     loop.run_in_executor(None, lambda: func(*args, **kwargs)),
                     timeout=self._policy.max_execution_time,
@@ -592,12 +592,12 @@ class PluginSandbox:
             violations.extend(self._restricted_importer.violations)
             self._restricted_importer = None
 
-            # Restore resource limits 
+            # Restore resource limits
             self._restore_resource_limits(old_limits)
 
         execution_time = (loop.time() - start_time) * 1000
 
-        # Record violations 
+        # Record violations
         self._total_violations.extend(violations)
 
         return SandboxExecutionResult(
@@ -617,9 +617,9 @@ class PluginSandbox:
         old_limits = {}
 
         try:
-            # Set memory limit (soft only — lowering the hard limit is 
-            # irreversible without root and would affect the whole process). 
-            # Skip if current virtual memory already exceeds the requested 
+            # Set memory limit (soft only — lowering the hard limit is
+            # irreversible without root and would affect the whole process).
+            # Skip if current virtual memory already exceeds the requested
             # limit, since that would prevent any new allocations.
             memory_bytes = self._policy.max_memory_mb * 1024 * 1024
             current_vm = self._get_vm_size()
@@ -636,7 +636,7 @@ class PluginSandbox:
             pass
 
         # Note: RLIMIT_CPU is intentionally not set here because it is
-        # process-wide and counts from process start, not from this call. 
+        # process-wide and counts from process start, not from this call.
         # The asyncio.wait_for timeout in execute() handles time limits instead.
 
         return old_limits
@@ -653,7 +653,7 @@ class PluginSandbox:
         except (ValueError, resource.error):
             pass
 
-        # CPU limits are no longer set (see _set_resource_limits). 
+        # CPU limits are no longer set (see _set_resource_limits).
 
     @staticmethod
     def _get_vm_size() -> int:

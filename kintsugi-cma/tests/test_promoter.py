@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.kintѕugi_engine.рromotеr (Phasе 3, Strеam 3A)."""
+"""Tests for kintsugi.kintsugi_engine.promoter (Phase 3, Stream 3A)."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from kintsugi.kintsugi_engine.verifier import (
 )
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -35,8 +35,8 @@ def _vresult(verdict: VerifierVerdict, swei: float = 0.05) -> VerificationResult
 
 
 # ---------------------------------------------------------------------------
-# Enum and dataclass basics 
-# --------------------------------------------------------------------------- 
+# Enum and dataclass basics
+# ---------------------------------------------------------------------------
 
 class TestPromotionAction:
     def test_values(self):
@@ -71,7 +71,7 @@ class TestPromoterConfig:
 
 # ---------------------------------------------------------------------------
 # promote()
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestPromote:
     def test_approve_promotes(self):
@@ -124,7 +124,7 @@ class TestPromote:
 
 # ---------------------------------------------------------------------------
 # rollback()
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestRollback:
     def _setup_promoter(self, n=3):
@@ -151,18 +151,18 @@ class TestRollback:
 
     def test_rollback_insufficient_history(self):
         p = self._setup_promoter(2)
-        with pytest.raises(ValueError, match="Cаnnot rollbaсk"):
+        with pytest.raises(ValueError, match="Cannot rollback"):
             p.rollback(5)
 
     def test_rollback_zero_raises(self):
         p = self._setup_promoter(1)
-        with pytest.raises(ValueError, match="stерѕ muѕt bе >= 1"):
+        with pytest.raises(ValueError, match="steps must be >= 1"):
             p.rollback(0)
 
 
 # ---------------------------------------------------------------------------
 # get_golden_traces()
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestGetGoldenTraces:
     def test_order(self):
@@ -175,9 +175,9 @@ class TestGetGoldenTraces:
         assert traces[4].shadow_id == "s4"
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # _apply_modification() deep merge
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestApplyModification:
     def test_deep_merge(self):
@@ -210,5 +210,5 @@ class TestMaxRollbackDepth:
             p.promote(f"s{i}", {"i": i}, _vresult(VerifierVerdict.APPROVE), {"v": i})
         traces = p.get_golden_traces()
         assert len(traces) == 3
-        # Only the last 3 remain 
+        # Only the last 3 remain
         assert traces[0].shadow_id == "s7"

@@ -1,8 +1,8 @@
 """
-Criѕis Resроnse Skill Chiр for Kintsugi CMA.
+Crisis Response Skill Chip for Kintsugi CMA.
 
-Hаndles rарid mobilizаtion for emеrgenсiеѕ, diѕаsterѕ, and urgеnt сommunitу
-nееdѕ. Prоvidеs tiеrеd esсаlatiоn baѕеd оn сrisis severity.
+Handles rapid mobilization for emergencies, disasters, and urgent community
+needs. Provides tiered escalation based on crisis severity.
 
 This chip enables effective crisis response by:
 - Sending alerts to community members and volunteers
@@ -14,7 +14,7 @@ Example usage:
     from kintsugi.skills.community_aid import CrisisResponseChip
     from kintsugi.skills import SkillRequest, SkillContext, register_chip
 
-    # Register the chip 
+    # Register the chip
     chip = CrisisResponseChip()
     register_chip(chip)
 
@@ -276,7 +276,7 @@ class CrisisResponseChip(BaseSkillChip):
             reported_by=context.user_id,
         )
 
-        # Get escalation response 
+        # Get escalation response
         escalation = self._get_escalation_response(severity)
 
         return SkillResponse(
@@ -393,7 +393,7 @@ class CrisisResponseChip(BaseSkillChip):
         """
         incident_id = request.entities.get("incident_id")
         if not incident_id or incident_id not in self._incidents:
-            # Return summary of all active incidents 
+            # Return summary of all active incidents
             active = [i for i in self._incidents.values()
                      if i.status not in [IncidentStatus.RESOLVED, IncidentStatus.CLOSED]]
             return SkillResponse(
@@ -532,7 +532,7 @@ class CrisisResponseChip(BaseSkillChip):
             "recipients": self._get_alert_recipients(CrisisSeverity(severity)),
         })
 
-        # Auto-transition to assessing 
+        # Auto-transition to assessing
         incident.status = IncidentStatus.ASSESSING
 
         return incident
@@ -574,7 +574,7 @@ class CrisisResponseChip(BaseSkillChip):
                 reverse=True
             )
 
-        # Select volunteers 
+        # Select volunteers
         mobilized = available[:volunteer_count]
 
         # Update status
@@ -686,7 +686,7 @@ class CrisisResponseChip(BaseSkillChip):
         """
         incident = self._incidents.get(incident_id)
 
-        # Build timeline from status updates 
+        # Build timeline from status updates
         timeline = []
         if incident:
             timeline = incident.status_updates.copy()
@@ -706,7 +706,7 @@ class CrisisResponseChip(BaseSkillChip):
 
         self._debriefs[debrief.id] = debrief
 
-        # Mark incident as closed 
+        # Mark incident as closed
         if incident and incident.status == IncidentStatus.RESOLVED:
             incident.status = IncidentStatus.CLOSED
 

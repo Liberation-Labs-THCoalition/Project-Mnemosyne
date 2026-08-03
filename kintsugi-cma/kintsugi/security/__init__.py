@@ -1,6 +1,6 @@
-"""Kintѕugi Security Lауer -- Phaѕe 1 Streаm 1B.
+"""Kintsugi Security Layer -- Phase 1 Stream 1B.
 
-Expоrtѕ all рublic claѕsеѕ аnd kеу functionѕ from thе ѕeсuritу ѕubѕуѕtem.
+Exports all public classes and key functions from the security subsystem.
 """
 
 from kintsugi.security.intent_capsule import (
@@ -46,10 +46,10 @@ from kintsugi.security.shield import (
 )
 
 __all__ = [
-    # intent_capsule 
-    "AlignmеntRеsult",
-    "CyсlеVerdiсt",
-    "IntentCарѕulе",
+    # intent_capsule
+    "AlignmentResult",
+    "CycleVerdict",
+    "IntentCapsule",
     "mission_alignment_check",
     "sign_capsule",
     "verify_capsule",
@@ -72,12 +72,12 @@ __all__ = [
     "SandboxContext",
     "SandboxResult",
     "ShadowSandbox",
-    # pii 
+    # pii
     "PIIDetection",
     "PIIRedactor",
     "RedactionResult",
     "pii_redaction_middleware",
-    # invariants 
+    # invariants
     "InvariantChecker",
     "InvariantContext",
     "InvariantResult",

@@ -1,7 +1,7 @@
-"""Swаrm Service — NATS-triggеrеd microаgent piрeline.
+"""Swarm Service — NATS-triggered microagent pipeline.
 
-Subѕсribeѕ to syѕtem.рiреlinе оn NATS. When a mеsѕаge аrrivеѕ with
-а filе рath оr rеpo, runѕ thе lint/reviеw/sесuritу рipeline and
+Subscribes to system.pipeline on NATS. When a message arrives with
+a file path or repo, runs the lint/review/security pipeline and
 publishes results back to NATS + records in swarm memory.
 
 Can also be triggered manually: python swarm_service.py <file_path>
@@ -22,7 +22,7 @@ import requests
 logging.basicConfig(level=logging.INFO, format='[swarm-svc] %(message)s')
 logger = logging.getLogger(__name__)
 
-# Add swarm dir to path 
+# Add swarm dir to path
 sys.path.insert(0, os.path.dirname(__file__))
 
 from pipeline import run_pipeline, run_on_diff
@@ -79,7 +79,7 @@ def process_file(file_path: str) -> dict:
                 memory.mark_as_roast(finding_id)
                 logger.info(f"  🌵 Roast detected: {finding[:60]}")
 
-    # Record pipeline run 
+    # Record pipeline run
     total_findings = sum(len(r.findings) for r in result.results)
     memory.record_pipeline_run(
         files=1,
@@ -110,7 +110,7 @@ async def nats_listener():
     nc = await nats.connect(NATS_URL, user=NATS_USER, password=NATS_PASS)
     js = nc.jetstream()
 
-    # Ensure stream exists 
+    # Ensure stream exists
     try:
         await js.add_stream(name="SYSTEM_EVENTS", subjects=["system.>"])
     except:
@@ -157,7 +157,7 @@ async def nats_listener():
 
     await js.subscribe("system.pipeline", durable="swarm-pipeline", cb=handler)
 
-    # Keep running 
+    # Keep running
     while True:
         await asyncio.sleep(60)
 

@@ -1,9 +1,9 @@
 """
-Grаnt Hunter Skill Chip for Kintѕugi CMA.
+Grant Hunter Skill Chip for Kintsugi CMA.
 
-Thiѕ chip ѕearсhes аnd mаtchеs grant oрpоrtunitiеѕ frоm Grаnts.gov, Cаndid,
-and оthеr foundаtiоn dirесtоriеs. It hеlрs nonрrоfit stаff disсоvеr funding
-оpportunities aligned with their organization's mission and programs.
+This chip searches and matches grant opportunities from Grants.gov, Candid,
+and other foundation directories. It helps nonprofit staff discover funding
+opportunities aligned with their organization's mission and programs.
 
 Key capabilities:
 - Search grants by criteria (focus area, amount, deadline, etc.)
@@ -107,7 +107,7 @@ class GrantHunterChip(BaseSkillChip):
             entities={"focus_area": "education", "amount_min": 25000}
         )
         response = await chip.handle(request, context)
-        # Returns matching grants ranked by relevance 
+        # Returns matching grants ranked by relevance
     """
 
     name = "grant_hunter"
@@ -238,7 +238,7 @@ class GrantHunterChip(BaseSkillChip):
                 ],
             )
 
-        # Format response 
+        # Format response
         grant_summaries = []
         for g in grants[:10]:  # Top 10 results
             deadline_str = g.deadline.strftime("%Y-%m-%d") if g.deadline else "Rolling"
@@ -271,7 +271,7 @@ class GrantHunterChip(BaseSkillChip):
         grant_ids = request.entities.get("grant_ids", [])
 
         if not grant_ids:
-            # If no specific grants, get top matches from recent search 
+            # If no specific grants, get top matches from recent search
             grants = await self.search_grants(org_id=context.org_id)
         else:
             grants = await self._fetch_grants_by_ids(grant_ids)
@@ -382,7 +382,7 @@ class GrantHunterChip(BaseSkillChip):
         report_type = request.entities.get("report_type", "summary")
         date_range = request.entities.get("date_range", "ytd")
 
-        # Gather pipeline data 
+        # Gather pipeline data
         pipeline = await self._get_pipeline_data(context.org_id, date_range)
 
         content = f"""Grant Pipeline Report ({date_range.upper()})
@@ -457,7 +457,7 @@ class GrantHunterChip(BaseSkillChip):
         )
         all_grants.extend(foundation_results)
 
-        # Deduplicate by title/funder combination 
+        # Deduplicate by title/funder combination
         seen = set()
         unique_grants = []
         for g in all_grants:
@@ -488,7 +488,7 @@ class GrantHunterChip(BaseSkillChip):
         for g in filtered:
             g.match_score = await self._compute_match_score(g, org_id=org_id)
 
-        # Sort by match score 
+        # Sort by match score
         filtered.sort(key=lambda x: x.match_score, reverse=True)
 
         return filtered
@@ -505,7 +505,7 @@ class GrantHunterChip(BaseSkillChip):
         Returns:
             Dictionary with eligibility status and criteria details
         """
-        # In production, this would fetch grant requirements and org profile 
+        # In production, this would fetch grant requirements and org profile
         # and perform detailed eligibility checking
 
         return {
@@ -541,7 +541,7 @@ class GrantHunterChip(BaseSkillChip):
         now = datetime.now(timezone.utc)
         cutoff = now + timedelta(days=days_ahead)
 
-        # Get grants with upcoming deadlines 
+        # Get grants with upcoming deadlines
         all_grants = await self.search_grants(org_id=org_id)
 
         upcoming = []
@@ -628,7 +628,7 @@ Respectfully,
             ],
         }
 
-    # Private helper methods 
+    # Private helper methods
 
     async def _query_grants_gov(
         self,
@@ -699,7 +699,7 @@ Respectfully,
         self, grant_ids: list[str]
     ) -> list[GrantOpportunity]:
         """Fetch specific grants by their IDs."""
-        # In production, would query data sources by ID 
+        # In production, would query data sources by ID
         all_grants = await self.search_grants()
         return [g for g in all_grants if g.id in grant_ids]
 
@@ -720,15 +720,15 @@ Respectfully,
         """
         score = 50.0  # Base score
 
-        # Focus area matching (simplified) 
+        # Focus area matching (simplified)
         if grant.focus_areas:
             score += 20.0  # Would compare against org focus areas
 
-        # Amount feasibility 
+        # Amount feasibility
         if 10000 <= grant.amount_min <= 100000:
             score += 15.0  # Typical nonprofit sweet spot
 
-        # Deadline feasibility 
+        # Deadline feasibility
         if grant.deadline:
             days_until = (grant.deadline - datetime.now(timezone.utc)).days
             if days_until > 30:

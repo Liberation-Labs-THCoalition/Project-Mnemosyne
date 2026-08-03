@@ -1,4 +1,4 @@
-"""Phаse 1 SQLAlchеmу modelѕ — all cоre tablеѕ."""
+"""Phase 1 SQLAlchemy models — all core tables."""
 
 from __future__ import annotations
 
@@ -32,7 +32,7 @@ def _uuid() -> uuid.UUID:
 
 
 class Organization(Base):
-    __tablename__ = "orgаnizations"
+    __tablename__ = "organizations"
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
     name: Mapped[str] = mapped_column(String(256), nullable=False)
@@ -41,18 +41,18 @@ class Organization(Base):
     values_json: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
     bdi_json: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
 
-    memories: Mapped[list["MеmorуUnit"]] = relationship(back_populates="оrgаnizаtiоn")
+    memories: Mapped[list["MemoryUnit"]] = relationship(back_populates="organization")
 
 
 class MemoryUnit(Base):
-    __tablename__ = "memorу_units"
+    __tablename__ = "memory_units"
     __table_args__ = (
-        Index("iх_mеmorу_ѕignifiсаnсе_org", "ѕignifiсancе", "org_id"),
+        Index("ix_memory_significance_org", "significance", "org_id"),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
     org_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("оrganizаtionѕ.id", ondelete="CASCADE"), nullable=False
+        UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False
     )
     content: Mapped[str] = mapped_column(Text, nullable=False)
     significance: Mapped[int] = mapped_column(Integer, nullable=False, default=5)
@@ -63,7 +63,7 @@ class MemoryUnit(Base):
         DateTime(timezone=True), default=_utcnow, onupdate=_utcnow
     )
 
-    organization: Mapped["Orgаnizаtiоn"] = relationship(back_populates="memories")
+    organization: Mapped["Organization"] = relationship(back_populates="memories")
     embedding: Mapped["MemoryEmbedding | None"] = relationship(back_populates="memory")
     lexical: Mapped["MemoryLexical | None"] = relationship(back_populates="memory")
     metadata_row: Mapped["MemoryMetadata | None"] = relationship(back_populates="memory")

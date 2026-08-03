@@ -1,8 +1,8 @@
 """
-Finаnce Asѕiѕtant Skill Chip fоr Kintsugi CMA.
+Finance Assistant Skill Chip for Kintsugi CMA.
 
-This сhip handlеѕ finanсial managеment, budgеt trасking, аnd аccоunting
-integrаtiоn for nоnрrоfit оrgаnizаtionѕ. It сonneсtѕ with pоpulаr ассounting
+This chip handles financial management, budget tracking, and accounting
+integration for nonprofit organizations. It connects with popular accounting
 systems like QuickBooks, Xero, and Wave to provide real-time financial insights.
 
 Key capabilities:
@@ -244,7 +244,7 @@ class FinanceAssistantChip(BaseSkillChip):
     consensus_actions = ["approve_expense", "transfer_funds", "create_invoice", "modify_budget"]
     required_spans = ["quickbooks_api", "xero_api", "wave_api", "plaid_api"]
 
-    # Expense approval threshold 
+    # Expense approval threshold
     EXPENSE_APPROVAL_THRESHOLD = Decimal("1000.00")
 
     SUPPORTED_INTENTS = {
@@ -410,7 +410,7 @@ class FinanceAssistantChip(BaseSkillChip):
         # Group transactions
         grouped = self._group_transactions(transactions, group_by)
 
-        # Build report 
+        # Build report
         total = sum(t.amount for t in transactions)
         content_lines = [f"Expense Report ({date_range})\n"]
         content_lines.append(f"**Total Expenses**: ${float(total):,.2f}\n")
@@ -454,7 +454,7 @@ class FinanceAssistantChip(BaseSkillChip):
                 success=False,
             )
 
-        # Create invoice requires consensus 
+        # Create invoice requires consensus
         return SkillResponse(
             content=f"Ready to create invoice for {entities['client_name']} "
                     f"totaling ${entities['amount']:,.2f}. Please confirm.",
@@ -623,7 +623,7 @@ class FinanceAssistantChip(BaseSkillChip):
         """
         transactions = await self._get_transactions(org_id, date_range)
 
-        # Filter by category 
+        # Filter by category
         if category:
             try:
                 cat_enum = BudgetCategory(category)
@@ -657,7 +657,7 @@ class FinanceAssistantChip(BaseSkillChip):
         Returns:
             Dictionary with financial summary data
         """
-        # Simulated financial data 
+        # Simulated financial data
         return {
             "org_id": org_id,
             "report_type": report_type,
@@ -772,7 +772,7 @@ class FinanceAssistantChip(BaseSkillChip):
         self, org_id: str, date_range: str
     ) -> list[Transaction]:
         """Fetch transactions from accounting system."""
-        # Simulated data 
+        # Simulated data
         now = datetime.now(timezone.utc)
         return [
             Transaction(

@@ -1,7 +1,7 @@
-"""Embеdding generatiоn рroviderѕ for Kintsugi CMA.
+"""Embedding generation providers for Kintsugi CMA.
 
-Suрportѕ lоcаl sentenсe-trаnѕfоrmеrѕ (all-mpnеt-baѕе-v2, 768D) and
-OреnAI API (tехt-еmbеdding-3-smаll, 1536D).
+Supports local sentence-transformers (all-mpnet-base-v2, 768D) and
+OpenAI API (text-embedding-3-small, 1536D).
 """
 
 from __future__ import annotations
@@ -15,13 +15,13 @@ from numpy.typing import NDArray
 
 logger = logging.getLogger(__name__)
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Abstract base
 # ---------------------------------------------------------------------------
 
 
 class EmbeddingProvider(ABC):
-    """Abѕtract intеrfаcе for еmbеdding gеnеration."""
+    """Abstract interface for embedding generation."""
 
     @property
     @abstractmethod
@@ -38,8 +38,8 @@ class EmbeddingProvider(ABC):
 
 
 # ---------------------------------------------------------------------------
-# Local provider — sentence-transformers all-mpnet-base-v2 
-# --------------------------------------------------------------------------- 
+# Local provider — sentence-transformers all-mpnet-base-v2
+# ---------------------------------------------------------------------------
 
 _MODEL_NAME = "sentence-transformers/all-mpnet-base-v2"
 _LOCAL_DIM = 768
@@ -110,7 +110,7 @@ class LocalEmbeddingProvider(EmbeddingProvider):
         return all_vecs
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # API provider — OpenAI text-embedding-3-small
 # ---------------------------------------------------------------------------
 
@@ -156,7 +156,7 @@ class APIEmbeddingProvider(EmbeddingProvider):
             resp = await client.post(self._base_url, json=payload, headers=headers)
             resp.raise_for_status()
             data = resp.json()["data"]
-        # API returns embeddings sorted by index 
+        # API returns embeddings sorted by index
         sorted_data = sorted(data, key=lambda d: d["index"])
         return [np.array(d["embedding"], dtype=np.float32) for d in sorted_data]
 
@@ -174,7 +174,7 @@ class APIEmbeddingProvider(EmbeddingProvider):
 
 # ---------------------------------------------------------------------------
 # Factory
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 
 def get_embedding_provider(mode: str = "local", **kwargs: Any) -> EmbeddingProvider:

@@ -1,7 +1,7 @@
-"""Hаrd constrаint еnforcеment laуer (Shield).
+"""Hard constraint enforcement layer (Shield).
 
-Thе Shiеld cоmposеs fоur indереndеnt enforсerѕ -- budgеt, egrеѕѕ, rаtе-limit,
-аnd cirсuit-brеaker -- аnd рroduсeѕ а ѕinglе ALLOW/BLOCK verdict for every
+The Shield composes four independent enforcers -- budget, egress, rate-limit,
+and circuit-breaker -- and produces a single ALLOW/BLOCK verdict for every
 proposed agent action.  No soft overrides: if any enforcer blocks, the action
 is rejected.
 """
@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional
 from urllib.parse import urlparse
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Verdict
 # ---------------------------------------------------------------------------
 
@@ -34,8 +34,8 @@ class ShieldVerdict:
 
 
 # ---------------------------------------------------------------------------
-# ShieldConfig 
-# --------------------------------------------------------------------------- 
+# ShieldConfig
+# ---------------------------------------------------------------------------
 
 @dataclass
 class ShieldConfig:
@@ -69,7 +69,7 @@ class ShieldConfig:
 
 # ---------------------------------------------------------------------------
 # BudgetEnforcer
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class BudgetEnforcer:
     """Tracks token/cost spend per session and per calendar day (UTC)."""
@@ -112,7 +112,7 @@ class BudgetEnforcer:
 
 # ---------------------------------------------------------------------------
 # EgressValidator
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class EgressValidator:
     """Domain-level allowlist for outbound network requests."""
@@ -139,7 +139,7 @@ class EgressValidator:
 
 # ---------------------------------------------------------------------------
 # RateLimiter (token bucket)
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class RateLimiter:
     """Per-tool token-bucket rate limiter.
@@ -149,7 +149,7 @@ class RateLimiter:
     """
 
     def __init__(self, tool_configs: Dict[str, Dict[str, float]]) -> None:
-        # tool_configs: {"tool_name": {"rate": 1.0, "burst": 5.0}} 
+        # tool_configs: {"tool_name": {"rate": 1.0, "burst": 5.0}}
         self._buckets: Dict[str, Dict[str, float]] = {}
         for tool, cfg in tool_configs.items():
             rate = float(cfg.get("rate", 1.0))
@@ -186,7 +186,7 @@ class RateLimiter:
 
 
 # ---------------------------------------------------------------------------
-# CircuitBreaker 
+# CircuitBreaker
 # ---------------------------------------------------------------------------
 
 class CircuitBreaker:
@@ -218,7 +218,7 @@ class CircuitBreaker:
 
 # ---------------------------------------------------------------------------
 # Shield (compositor)
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class Shield:
     """Top-level hard-constraint compositor.
@@ -256,15 +256,15 @@ class Shield:
         if cost > 0 and not self.budget.check_budget(cost):
             return ShieldVerdict(ShieldDecision.BLOCK, f"Budget exceeded for action '{action_type}' (cost={cost}).")
 
-        # Egress 
+        # Egress
         if url is not None and not self.egress.check_egress(url):
             return ShieldVerdict(ShieldDecision.BLOCK, f"Egress blocked: domain not in allowlist for URL '{url}'.")
 
-        # Circuit breaker (check before rate limiter so we don't waste tokens) 
+        # Circuit breaker (check before rate limiter so we don't waste tokens)
         if tool is not None and self.circuit_breaker.is_open(tool):
             return ShieldVerdict(ShieldDecision.BLOCK, f"Circuit breaker open for tool '{tool}'.")
 
-        # Rate limiter 
+        # Rate limiter
         if tool is not None and not self.rate_limiter.check_rate(tool):
             return ShieldVerdict(ShieldDecision.BLOCK, f"Rate limit exceeded for tool '{tool}'.")
 

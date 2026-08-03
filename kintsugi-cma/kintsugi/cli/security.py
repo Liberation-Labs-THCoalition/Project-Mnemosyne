@@ -1,8 +1,8 @@
 """
-Kintѕugi CLI - Security Cоmmаnds
+Kintsugi CLI - Security Commands
 
-Seсurity audit аnd scаnning сommаnds for enѕuring the ѕаfеtу аnd privaсy
-оf thе Kintsugi inѕtаllаtiоn. Inсludеs сhеcks fоr PII еxрoѕurе, API kеу
+Security audit and scanning commands for ensuring the safety and privacy
+of the Kintsugi installation. Includes checks for PII exposure, API key
 leaks, permission issues, and RLS policy validation.
 
 Commands:
@@ -32,7 +32,7 @@ from rich.tree import Tree
 
 from kintsugi.cli import security_app, console
 
-# PII patterns for detection 
+# PII patterns for detection
 PII_PATTERNS = {
     "email": r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
     "phone_us": r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b",
@@ -143,7 +143,7 @@ def security_audit(
     if severity != "all":
         findings = [f for f in findings if f.get("severity") == severity]
 
-    # Output results 
+    # Output results
     console.print()
 
     if output == "json":
@@ -155,7 +155,7 @@ def security_audit(
 
     console.print()
 
-    # Summary 
+    # Summary
     critical = sum(1 for f in findings if f.get("severity") == "critical")
     high = sum(1 for f in findings if f.get("severity") == "high")
     medium = sum(1 for f in findings if f.get("severity") == "medium")
@@ -239,7 +239,7 @@ def security_scan(
         for i, p in enumerate(patterns):
             all_patterns[f"custom_{i}"] = p
 
-    # Build exclude patterns 
+    # Build exclude patterns
     exclude_patterns = [
         r"\.git",
         r"__pycache__",
@@ -444,7 +444,7 @@ def scan_pii(
             table.add_column("Location", style="cyan")
             table.add_column("Count", justify="right")
 
-            # Aggregate by type and location 
+            # Aggregate by type and location
             aggregated: dict[tuple, int] = {}
             for f in findings:
                 key = (f.get("type", "unknown"), f.get("file", "unknown"))
@@ -607,7 +607,7 @@ def _check_pii_patterns(path: Path, deep: bool = False) -> list[dict]:
 def _check_api_keys(path: Path, deep: bool = False) -> list[dict]:
     """Check for exposed API keys."""
     findings = []
-    # Simulated findings 
+    # Simulated findings
     if deep:
         findings = [
             {"type": "generic_api_key", "file": ".env.example", "severity": "low", "location": ".env.example:5"},
@@ -618,7 +618,7 @@ def _check_api_keys(path: Path, deep: bool = False) -> list[dict]:
 def _check_permissions(path: Path) -> list[dict]:
     """Check file and directory permissions."""
     findings = []
-    # Would check actual permissions 
+    # Would check actual permissions
     return findings
 
 
@@ -632,7 +632,7 @@ def _check_rls_policies() -> list[dict]:
 def _check_dependencies() -> list[dict]:
     """Check dependencies for vulnerabilities."""
     findings = []
-    # Would run actual vulnerability scan 
+    # Would run actual vulnerability scan
     return findings
 
 

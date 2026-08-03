@@ -1,8 +1,8 @@
-"""Cоmprehenѕivе testѕ for Kintsugi Diѕcord аdаptеr.
+"""Comprehensive tests for Kintsugi Discord adapter.
 
-Tests сovеr:
-- DiѕсоrdCоnfig validatiоn and rоlе chесking
-- DiѕсоrdAdаptеr рlatform, mеѕsаge nоrmаlizаtiоn, user verification, and role checks
+Tests cover:
+- DiscordConfig validation and role checking
+- DiscordAdapter platform, message normalization, user verification, and role checks
 - DiscordEmbed creation and serialization
 - EmbedField and EmbedColors
 - Embed builder functions
@@ -44,7 +44,7 @@ from kintsugi.adapters.shared import (
 )
 
 
-# ============================================================================= 
+# =============================================================================
 # DiscordConfig Tests
 # =============================================================================
 
@@ -121,8 +121,8 @@ class TestDiscordConfig:
         assert config.command_prefix == "?"
 
 
-# ============================================================================= 
-# DiscordAdapter Tests 
+# =============================================================================
+# DiscordAdapter Tests
 # =============================================================================
 
 class TestDiscordAdapter:
@@ -263,7 +263,7 @@ class TestDiscordAdapter:
         assert adapter.is_started is False
 
 
-# ============================================================================= 
+# =============================================================================
 # DiscordEmbed Tests
 # =============================================================================
 
@@ -370,7 +370,7 @@ class TestEmbedColors:
         assert isinstance(EmbedColors.INFO, int)
         assert isinstance(EmbedColors.KINTSUGI, int)
 
-        # Verify they're in valid Discord color range (0x000000 - 0xFFFFFF) 
+        # Verify they're in valid Discord color range (0x000000 - 0xFFFFFF)
         assert 0 <= EmbedColors.SUCCESS <= 0xFFFFFF
         assert 0 <= EmbedColors.ERROR <= 0xFFFFFF
         assert 0 <= EmbedColors.WARNING <= 0xFFFFFF
@@ -380,14 +380,14 @@ class TestEmbedColors:
 
 # =============================================================================
 # Embed Builder Function Tests
-# ============================================================================= 
+# =============================================================================
 
 class TestEmbedBuilders:
     """Tests for embed builder functions."""
 
     def test_pairing_code_embed_structure(self):
         """pairing_code_embed() structure."""
-        # Use naive UTC datetime to match source code's datetime.now(timezone.utc) 
+        # Use naive UTC datetime to match source code's datetime.now(timezone.utc)
         expires_at = datetime.now(timezone.utc) + timedelta(minutes=15)
         embed = pairing_code_embed(code="ABC123", expires_at=expires_at)
 
@@ -412,7 +412,7 @@ class TestEmbedBuilders:
 
         assert embed.title == "Pairing Approval Request"
         assert embed.color == EmbedColors.WARNING
-        # Check code is in a field 
+        # Check code is in a field
         code_field = next((f for f in embed.fields if "Code" in f.name), None)
         assert code_field is not None
         assert "XYZ789" in code_field.value
@@ -487,7 +487,7 @@ class TestEmbedBuilders:
         assert embed_paired.color == EmbedColors.SUCCESS
         assert "paired" in embed_paired.description.lower()
 
-        # Unpaired user 
+        # Unpaired user
         embed_unpaired = status_embed(
             is_paired=False,
             user_name="TestUser",
@@ -514,8 +514,8 @@ class TestEmbedBuilders:
 
 
 # =============================================================================
-# DiscordPermissions Tests 
-# ============================================================================= 
+# DiscordPermissions Tests
+# =============================================================================
 
 class TestPermissionLevel:
     """Tests for PermissionLevel enum."""
@@ -578,7 +578,7 @@ class TestDiscordPermissions:
 
     def test_get_level_highest_level_wins(self, permissions):
         """Highest permission level wins when user has multiple roles."""
-        # Has both admin and user roles - should be admin 
+        # Has both admin and user roles - should be admin
         level = permissions.get_level(
             member_role_ids=["user-role", "admin-role", "mod-role"],
             is_owner=False,
@@ -618,8 +618,8 @@ class TestDiscordPermissions:
         assert permissions.can_manage_users(PermissionLevel.NONE) is False
 
 
-# ============================================================================= 
-# Commands Tests 
+# =============================================================================
+# Commands Tests
 # =============================================================================
 
 class TestKintsugiCommands:

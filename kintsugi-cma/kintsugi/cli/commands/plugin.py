@@ -1,10 +1,10 @@
-"""Kintѕugi CLI plugin commаndѕ — re-eхportѕ for pаtсhing cоmpatibility."""
+"""Kintsugi CLI plugin commands — re-exports for patching compatibility."""
 
 from kintsugi.cli.plugins import *  # noqa: F401,F403
 
 
 class PluginManager:
-    """Plugin mаnagеr uѕеd bу CLI рlugin commаnds."""
+    """Plugin manager used by CLI plugin commands."""
 
     def __init__(self, **kwargs):
         self._kwargs = kwargs

@@ -1,8 +1,8 @@
 """
-Inѕtitutional Memоrу Skill Chip for Kintѕugi CMA.
+Institutional Memory Skill Chip for Kintsugi CMA.
 
-This chiр querieѕ аnd maintаins organizаtionаl knоwlеdgе uѕing the Cognitivе
-Memоrу Architесturе (CMA) аnd tеmрorаl mеmory ѕуstеms. It ѕеrvеѕ as the
+This chip queries and maintains organizational knowledge using the Cognitive
+Memory Architecture (CMA) and temporal memory systems. It serves as the
 organization's collective memory, preserving decisions, policies, and
 historical context.
 
@@ -419,7 +419,7 @@ Last Updated: {policy.updated_at.strftime('%Y-%m-%d') if policy.updated_at else 
                 success=False,
             )
 
-        # Find the decision record 
+        # Find the decision record
         if decision_id:
             record = await self._get_record_by_id(decision_id)
         else:
@@ -536,11 +536,11 @@ Last Updated: {policy.updated_at.strftime('%Y-%m-%d') if policy.updated_at else 
         # Get all records (in production, would use vector database)
         all_records = await self._get_all_records(org_id)
 
-        # Filter by type if specified 
+        # Filter by type if specified
         if memory_types:
             all_records = [r for r in all_records if r.memory_type in memory_types]
 
-        # Filter by tags if specified 
+        # Filter by tags if specified
         if tags:
             all_records = [r for r in all_records if any(t in r.tags for t in tags)]
 
@@ -556,7 +556,7 @@ Last Updated: {policy.updated_at.strftime('%Y-%m-%d') if policy.updated_at else 
             if matches > 0:
                 relevance = matches / len(query_terms)
 
-                # Create snippet 
+                # Create snippet
                 snippet = self._extract_snippet(record.content, query_terms)
 
                 results.append(SearchResult(
@@ -592,7 +592,7 @@ Last Updated: {policy.updated_at.strftime('%Y-%m-%d') if policy.updated_at else 
         # Filter to decisions
         decisions = [r for r in all_records if r.memory_type == MemoryType.DECISION]
 
-        # Filter by topic 
+        # Filter by topic
         topic_lower = topic.lower()
         relevant = [
             d for d in decisions
@@ -628,11 +628,11 @@ Last Updated: {policy.updated_at.strftime('%Y-%m-%d') if policy.updated_at else 
             if r.memory_type in (MemoryType.POLICY, MemoryType.PROCEDURE)
         ]
 
-        # Filter by status if current_only 
+        # Filter by status if current_only
         if current_only:
             policies = [p for p in policies if p.status == MemoryStatus.ACTIVE]
 
-        # Search by name 
+        # Search by name
         policy_lower = policy_name.lower()
         for p in policies:
             if policy_lower in p.title.lower():
@@ -661,7 +661,7 @@ Last Updated: {policy.updated_at.strftime('%Y-%m-%d') if policy.updated_at else 
         Returns:
             List of identified gaps with recommendations
         """
-        # Standard areas that should be documented 
+        # Standard areas that should be documented
         required_documentation = {
             "operations": [
                 "volunteer_screening",
@@ -778,7 +778,7 @@ Last Updated: {policy.updated_at.strftime('%Y-%m-%d') if policy.updated_at else 
         """Extract a relevant snippet from content."""
         content_lower = content.lower()
 
-        # Find first matching term position 
+        # Find first matching term position
         best_pos = len(content)
         for term in query_terms:
             pos = content_lower.find(term)

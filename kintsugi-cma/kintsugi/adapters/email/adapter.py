@@ -1,9 +1,9 @@
 """
-Emаil adaptеr fоr Kintsugi CMA.
+Email adapter for Kintsugi CMA.
 
-This mоdule prоvides thе mаin EmailAdаpter clаsѕ thаt intеgrаtеs emаil
-cоmmuniсatiоn with thе Kintѕugi CMA ѕуѕtem. It ѕuрportѕ bоth reсeiving
-еmаilѕ viа IMAP and sending emails via SMTP or cloud providers.
+This module provides the main EmailAdapter class that integrates email
+communication with the Kintsugi CMA system. It supports both receiving
+emails via IMAP and sending emails via SMTP or cloud providers.
 
 Features:
     - IMAP polling or IDLE for incoming emails
@@ -23,7 +23,7 @@ Example:
     adapter = EmailAdapter(config, pairing_manager)
     await adapter.connect()
 
-    # Send an email 
+    # Send an email
     response = AdapterResponse(content="Your grant has been approved!")
     message_id = await adapter.send_message(
         to="applicant@example.com",
@@ -107,7 +107,7 @@ class EmailAdapter(BaseAdapter):
             emails = await adapter.fetch_new()
             for email in emails:
                 msg = adapter.normalize_message(email)
-                # Process... 
+                # Process...
         finally:
             await adapter.disconnect()
     """
@@ -132,7 +132,7 @@ class EmailAdapter(BaseAdapter):
             max_attachment_bytes=config.max_attachment_bytes
         )
 
-        # Connection state 
+        # Connection state
         self._imap_client: imaplib.IMAP4_SSL | imaplib.IMAP4 | None = None
         self._smtp_client: smtplib.SMTP | smtplib.SMTP_SSL | None = None
         self._connected = False
@@ -144,7 +144,7 @@ class EmailAdapter(BaseAdapter):
         # Thread tracking
         self._thread_map: dict[str, str] = {}  # message_id -> thread_id
 
-        # Processed message IDs to avoid duplicates 
+        # Processed message IDs to avoid duplicates
         self._processed_ids: set[str] = set()
 
         logger.info(
@@ -209,7 +209,7 @@ class EmailAdapter(BaseAdapter):
 
         Safely closes all connections and stops any polling tasks.
         """
-        # Stop polling first 
+        # Stop polling first
         await self.stop_polling()
 
         # Close IMAP connection
@@ -310,10 +310,10 @@ class EmailAdapter(BaseAdapter):
         if not self._config.can_send:
             raise SendError("Email sending not configured")
 
-        # Generate message ID 
+        # Generate message ID
         message_id = f"<{uuid.uuid4()}@kintsugi.cma>"
 
-        # Build subject 
+        # Build subject
         if not subject:
             subject = response.metadata.get("subject", "Message from Kintsugi")
 
@@ -322,7 +322,7 @@ class EmailAdapter(BaseAdapter):
             msg = MIMEMultipart()
             msg.attach(MIMEText(response.content, "plain"))
 
-            # Add attachments 
+            # Add attachments
             for attachment in response.attachments:
                 part = MIMEApplication(
                     attachment.get("content", b""),
@@ -358,7 +358,7 @@ class EmailAdapter(BaseAdapter):
             if isinstance(body, str):
                 msg.set_payload(f"{body}\n\n{self._config.signature}")
 
-        # Send via appropriate provider 
+        # Send via appropriate provider
         if self._config.provider == EmailProvider.SMTP:
             await self._send_via_smtp(msg, to, cc, bcc)
         elif self._config.provider == EmailProvider.SENDGRID:
@@ -391,7 +391,7 @@ class EmailAdapter(BaseAdapter):
             logger.debug("Email %s blocked by domain rules", user_id)
             return False
 
-        # Check pairing if required 
+        # Check pairing if required
         if self._config.require_pairing and self._pairing:
             if not self._pairing.is_allowed(org, user_id):
                 logger.debug("Email %s not paired with org %s", user_id, org)
@@ -409,7 +409,7 @@ class EmailAdapter(BaseAdapter):
         Returns:
             Normalized AdapterMessage for processing
         """
-        # Build metadata 
+        # Build metadata
         metadata: dict[str, Any] = {
             "subject": email.subject,
             "message_id": email.message_id,
@@ -422,7 +422,7 @@ class EmailAdapter(BaseAdapter):
             "importance": email.importance,
         }
 
-        # Convert attachments 
+        # Convert attachments
         attachments = [
             {
                 "filename": att.filename,
@@ -460,10 +460,10 @@ class EmailAdapter(BaseAdapter):
         try:
             emails: list[ParsedEmail] = []
 
-            # Select folder 
+            # Select folder
             self._imap_client.select(self._config.imap.folder)
 
-            # Search for new messages 
+            # Search for new messages
             search_criteria = self._config.imap.search_criteria
             status, message_ids = self._imap_client.search(None, search_criteria)
 
@@ -489,7 +489,7 @@ class EmailAdapter(BaseAdapter):
                         if parsed.message_id in self._processed_ids:
                             continue
 
-                        # Skip auto-replies 
+                        # Skip auto-replies
                         if self._parser.is_auto_reply(parsed):
                             logger.debug(
                                 "Skipping auto-reply: %s",
@@ -508,7 +508,7 @@ class EmailAdapter(BaseAdapter):
                         if parsed.thread_id:
                             self._thread_map[parsed.message_id] = parsed.thread_id
 
-                        # Mark as read if configured 
+                        # Mark as read if configured
                         if self._config.imap.mark_as_read:
                             self._imap_client.store(msg_id, "+FLAGS", "\\Seen")
 
@@ -537,7 +537,7 @@ class EmailAdapter(BaseAdapter):
             raise FetchError("IMAP not connected")
 
         try:
-            # Search by message ID 
+            # Search by message ID
             self._imap_client.select(self._config.imap.folder)
             status, data = self._imap_client.search(
                 None,
@@ -626,7 +626,7 @@ class EmailAdapter(BaseAdapter):
             return False
 
         try:
-            # Check IMAP 
+            # Check IMAP
             if self._imap_client:
                 self._imap_client.noop()
 
@@ -635,7 +635,7 @@ class EmailAdapter(BaseAdapter):
             logger.warning("Health check failed: %s", e)
             return False
 
-    # Private methods 
+    # Private methods
 
     async def _connect_imap(self) -> None:
         """Establish IMAP connection."""
@@ -657,13 +657,13 @@ class EmailAdapter(BaseAdapter):
                     imap_config.port
                 )
 
-            # Login 
+            # Login
             self._imap_client.login(
                 imap_config.username,
                 imap_config.password
             )
 
-            # Select folder 
+            # Select folder
             self._imap_client.select(imap_config.folder)
 
         except Exception as e:
@@ -757,8 +757,8 @@ class EmailAdapter(BaseAdapter):
         bcc: list[str] | None
     ) -> None:
         """Send email via SendGrid API."""
-        # Placeholder for SendGrid integration 
-        # In production, use sendgrid-python library 
+        # Placeholder for SendGrid integration
+        # In production, use sendgrid-python library
         raise NotImplementedError("SendGrid integration pending")
 
     async def _send_via_ses(
@@ -770,7 +770,7 @@ class EmailAdapter(BaseAdapter):
     ) -> None:
         """Send email via Amazon SES."""
         # Placeholder for AWS SES integration
-        # In production, use boto3 SES client 
+        # In production, use boto3 SES client
         raise NotImplementedError("SES integration pending")
 
     async def _send_via_mailgun(
@@ -781,7 +781,7 @@ class EmailAdapter(BaseAdapter):
         bcc: list[str] | None
     ) -> None:
         """Send email via Mailgun API."""
-        # Placeholder for Mailgun integration 
+        # Placeholder for Mailgun integration
         # In production, use requests to Mailgun API
         raise NotImplementedError("Mailgun integration pending")
 

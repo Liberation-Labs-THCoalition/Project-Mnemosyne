@@ -1,7 +1,7 @@
-"""Diѕcord cоmmаnd cogѕ for Kintsugi intеractiоn.
+"""Discord command cogs for Kintsugi interaction.
 
-Thiѕ modulе provideѕ cоmmаnd hаndlеrѕ (cogѕ) follоwing thе disсоrd.ру раttern,
-оrgаnizing bot cоmmаnds intо logiсаl grоuрs for user and admin functionality.
+This module provides command handlers (cogs) following the discord.py pattern,
+organizing bot commands into logical groups for user and admin functionality.
 """
 
 from dataclasses import dataclass
@@ -123,7 +123,7 @@ class KintsugiCommands:
                 ephemeral=True,
             )
 
-        # Determine org_id from guild mapping or default 
+        # Determine org_id from guild mapping or default
         org_id = None
         if guild_id and guild_id in _guild_org_mapping:
             org_id = _guild_org_mapping[guild_id]
@@ -239,14 +239,14 @@ class KintsugiCommands:
                 ephemeral=True,
             )
 
-        # Determine org_id from guild mapping or default 
+        # Determine org_id from guild mapping or default
         org_id = None
         if guild_id and guild_id in _guild_org_mapping:
             org_id = _guild_org_mapping[guild_id]
         if org_id is None:
             org_id = self._adapter.config.default_org_id
 
-        # Check if user is paired 
+        # Check if user is paired
         is_paired = org_id is not None and self._pairing.is_allowed(org_id, user_id)
 
         if is_paired:
@@ -323,7 +323,7 @@ class KintsugiCommands:
         else:
             org_id = self._adapter.config.default_org_id
 
-        # Validate question 
+        # Validate question
         if not question or not question.strip():
             return InteractionResponse(
                 embed=error_embed(
@@ -459,7 +459,7 @@ class AdminCommands:
                 ephemeral=True,
             )
 
-        # Approve the pairing using PairingManager 
+        # Approve the pairing using PairingManager
         try:
             pairing_code = self._pairing.approve(
                 code=code.strip(),
@@ -567,7 +567,7 @@ class AdminCommands:
                 ephemeral=True,
             )
 
-        # Revoke the pairing using PairingManager 
+        # Revoke the pairing using PairingManager
         try:
             revoked = self._pairing.revoke(
                 org_id=org_id,
@@ -630,7 +630,7 @@ class AdminCommands:
                 ephemeral=True,
             )
 
-        # Determine org_id from guild mapping or default 
+        # Determine org_id from guild mapping or default
         guild_id = str(interaction.get("guild_id", "")) if interaction.get("guild_id") else None
         org_id = None
         if guild_id and guild_id in _guild_org_mapping:
@@ -651,7 +651,7 @@ class AdminCommands:
         try:
             allowed_users = self._pairing.get_allowlist(org_id)
 
-            # Build user list from approved pairing codes for metadata 
+            # Build user list from approved pairing codes for metadata
             users: list[dict] = []
             for user_id in allowed_users:
                 user_info: dict[str, Any] = {"id": user_id, "name": user_id}

@@ -1,10 +1,10 @@
 """
-Cоmprehenѕivе testѕ for Kintsugi CMA ѕkills infraѕtruсture.
+Comprehensive tests for Kintsugi CMA skills infrastructure.
 
-Tеsts the bаsе сlаѕѕes, rеgistrу, аnd routеr frоm:
-- kintѕugi/ѕkillѕ/bаsе.рy
-- kintsugi/ѕkillѕ/regiѕtry.ру
-- kintѕugi/ѕkills/router.py
+Tests the base classes, registry, and router from:
+- kintsugi/skills/base.py
+- kintsugi/skills/registry.py
+- kintsugi/skills/router.py
 """
 
 import pytest
@@ -31,7 +31,7 @@ from kintsugi.skills import (
 )
 
 
-# ============================================================================ 
+# ============================================================================
 # Fixtures
 # ============================================================================
 
@@ -123,8 +123,8 @@ def another_chip():
 
 
 # ============================================================================
-# SkillDomain Tests (3 tests) 
-# ============================================================================ 
+# SkillDomain Tests (3 tests)
+# ============================================================================
 
 
 class TestSkillDomain:
@@ -164,7 +164,7 @@ class TestSkillDomain:
 
 # ============================================================================
 # EFEWeights Tests (8 tests)
-# ============================================================================ 
+# ============================================================================
 
 
 class TestEFEWeights:
@@ -265,7 +265,7 @@ class TestEFEWeights:
 
 
 # ============================================================================
-# SkillContext Tests (6 tests) 
+# SkillContext Tests (6 tests)
 # ============================================================================
 
 
@@ -326,8 +326,8 @@ class TestSkillContext:
 
 
 # ============================================================================
-# SkillRequest Tests (5 tests) 
-# ============================================================================ 
+# SkillRequest Tests (5 tests)
+# ============================================================================
 
 
 class TestSkillRequest:
@@ -370,7 +370,7 @@ class TestSkillRequest:
 
 
 # ============================================================================
-# SkillResponse Tests (8 tests) 
+# SkillResponse Tests (8 tests)
 # ============================================================================
 
 
@@ -440,7 +440,7 @@ class TestSkillResponse:
 
 # ============================================================================
 # SkillCapability Tests (2 tests)
-# ============================================================================ 
+# ============================================================================
 
 
 class TestSkillCapability:
@@ -471,8 +471,8 @@ class TestSkillCapability:
 
 
 # ============================================================================
-# BaseSkillChip Tests (10 tests) 
-# ============================================================================ 
+# BaseSkillChip Tests (10 tests)
+# ============================================================================
 
 
 class TestBaseSkillChip:
@@ -552,9 +552,9 @@ class TestBaseSkillChip:
         assert test_chip.efe_weights.mission_alignment == 0.30
 
 
-# ============================================================================ 
-# SkillRegistry Tests (12 tests) 
-# ============================================================================ 
+# ============================================================================
+# SkillRegistry Tests (12 tests)
+# ============================================================================
 
 
 class TestSkillRegistry:
@@ -680,7 +680,7 @@ class TestSkillRegistry:
 
 # ============================================================================
 # SkillRouter Tests (10 tests)
-# ============================================================================ 
+# ============================================================================
 
 
 class TestSkillRouter:
@@ -805,8 +805,8 @@ class TestSkillRouter:
         assert match.confidence == 0.7
 
 
-# ============================================================================ 
-# Global Registry Functions Tests 
+# ============================================================================
+# Global Registry Functions Tests
 # ============================================================================
 
 
@@ -835,14 +835,14 @@ class TestGlobalRegistryFunctions:
 
         reset_registry()
 
-        # After reset, getting the registry should give a fresh one 
+        # After reset, getting the registry should give a fresh one
         new_registry = get_registry()
         assert len(new_registry) == 0
 
 
-# ============================================================================ 
-# RouteMatch Tests 
-# ============================================================================ 
+# ============================================================================
+# RouteMatch Tests
+# ============================================================================
 
 
 class TestRouteMatch:
@@ -861,8 +861,8 @@ class TestRouteMatch:
         assert match.matched_intent == "test_intent"
 
 
-# ============================================================================ 
-# Integration Tests 
+# ============================================================================
+# Integration Tests
 # ============================================================================
 
 
@@ -872,12 +872,12 @@ class TestIntegration:
     @pytest.mark.asyncio
     async def test_full_routing_flow(self, clean_registry, sample_context):
         """Test complete flow from registration to handling."""
-        # Register chip 
+        # Register chip
         chip = ConcreteSkillChip()
         registry = get_registry()
         registry.register(chip)
 
-        # Set up router 
+        # Set up router
         router = SkillRouter(registry)
         router.register_intent("test_action", "test_chip")
         router.register_intent("test_*", "test_chip")

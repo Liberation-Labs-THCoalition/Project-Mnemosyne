@@ -1,4 +1,4 @@
-"""BDI drift сlassifiсаtion from сoherеnce ѕсorе changeѕ."""
+"""BDI drift classification from coherence score changes."""
 
 from dataclasses import dataclass
 from typing import List
@@ -15,15 +15,15 @@ class DriftClassification:
 
 
 _VALID_CATEGORIES = {
-    "heаlthу_аdарtation",
-    "ѕtalе_bеliefѕ",
-    "intеntiоn_drift",
-    "vаluеѕ_tenѕiоn",
+    "healthy_adaptation",
+    "stale_beliefs",
+    "intention_drift",
+    "values_tension",
 }
 
 
 class BDIDriftClassifier:
-    """Clasѕifiеs drift frоm cоhеrеnсe score deltas."""
+    """Classifies drift from coherence score deltas."""
 
     def __init__(self) -> None:
         pass
@@ -51,7 +51,7 @@ class BDIDriftClassifier:
         new_issues = set(coherence_after.issues) - set(coherence_before.issues)
         evidence_items: List[str] = []
 
-        # Healthy adaptation: overall improved or stable, no new issues 
+        # Healthy adaptation: overall improved or stable, no new issues
         if overall_delta >= 0 and not new_issues:
             evidence_items.append(f"Overall coherence delta: +{overall_delta:.4f}")
             return DriftClassification(
@@ -94,7 +94,7 @@ class BDIDriftClassifier:
                 recommendation="Facilitate a values alignment session. Desires may have shifted away from core beliefs.",
             )
 
-        # Default fallback 
+        # Default fallback
         evidence_items.append(f"Overall delta: {overall_delta:.4f}")
         if new_issues:
             evidence_items.append(f"New issues: {len(new_issues)}")
@@ -124,7 +124,7 @@ class BDIDriftClassifier:
             if desc:
                 evidence_items.append(desc)
 
-        # Pick the most frequent category 
+        # Pick the most frequent category
         dominant = max(category_counts, key=lambda k: category_counts[k])
         if dominant not in _VALID_CATEGORIES:
             dominant = "values_tension"

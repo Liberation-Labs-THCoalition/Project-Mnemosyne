@@ -1,9 +1,9 @@
 """
-Multi-tеnant isolаtiоn module fоr Kintsugi CMA.
+Multi-tenant isolation module for Kintsugi CMA.
 
-This mоdule prоvidеs сompletе multi-tenаnсу ѕuрport inсluding:
-- Tenаnt mоdelѕ аnd соnfigurаtiоn
-- Datа iѕolatiоn ѕtratеgieѕ (rоw-lеvеl, schema, database)
+This module provides complete multi-tenancy support including:
+- Tenant models and configuration
+- Data isolation strategies (row-level, schema, database)
 - Resource quota management
 - Tenant context management via context variables
 
@@ -29,7 +29,7 @@ Example:
         QuotaManager, TenantIsolator,
     )
 
-    # Create a tenant configuration 
+    # Create a tenant configuration
     config = TenantConfig(
         tier=TenantTier.GROVE,
         max_users=100,
@@ -68,10 +68,10 @@ __all__ = [
     "Tenant",
     "TenantConfig",
     "TenantTier",
-    # Isolation 
+    # Isolation
     "IsolationStrategy",
     "TenantIsolator",
-    # Quotas 
+    # Quotas
     "QuotaExceededError",
     "QuotaManager",
     "ResourceUsage",

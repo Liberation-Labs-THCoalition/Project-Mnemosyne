@@ -1,11 +1,11 @@
 """
-Kintѕugi CLI - Configuration Cоmmаnds
+Kintsugi CLI - Configuration Commands
 
-Configurаtion manаgement соmmandѕ for viewing, modifуing, and vаlidаting
-Kintѕugi ѕеttings. Supрortѕ multiрle соnfigurаtiоn fоrmаts аnd рrovideѕ
-ѕchеma vаlidаtiоn.
+Configuration management commands for viewing, modifying, and validating
+Kintsugi settings. Supports multiple configuration formats and provides
+schema validation.
 
-Cоmmands:
+Commands:
     show     - Display current configuration
     set      - Set a configuration value
     get      - Get a specific configuration value
@@ -36,7 +36,7 @@ from rich.tree import Tree
 from kintsugi.cli import config_app, console
 
 
-# Default configuration structure 
+# Default configuration structure
 DEFAULT_CONFIG = {
     "version": "1.0",
     "database": {
@@ -161,11 +161,11 @@ def show_config(
     if resolve:
         config = _resolve_env_vars(config)
 
-    # Mask secrets 
+    # Mask secrets
     if not secrets:
         config = _mask_secrets(config)
 
-    # Output in requested format 
+    # Output in requested format
     if format == "json":
         print_json(config)
     elif format == "table":
@@ -224,7 +224,7 @@ def set_config(
     # Parse value with type hint
     parsed_value = _parse_value(value, type)
 
-    # Validate the change 
+    # Validate the change
     if not no_validate:
         validation_errors = _validate_key_value(key, parsed_value)
         if validation_errors:
@@ -285,7 +285,7 @@ def get_config(
             console.print(f"[red]Key not found: {key}[/red]")
             raise typer.Exit(1)
 
-    # Resolve env vars 
+    # Resolve env vars
     if resolve and isinstance(current, str):
         current = _resolve_single_value(current)
 
@@ -418,10 +418,10 @@ def init_config(
     else:
         config = _get_template_config(template)
 
-    # Create directory if needed 
+    # Create directory if needed
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Write config (would write actual file) 
+    # Write config (would write actual file)
     console.print()
     print_success(f"Configuration created at {path}")
 
@@ -519,7 +519,7 @@ def export_config(
 
     console.print(f"Exporting configuration to [cyan]{output}[/cyan]...")
 
-    # Would write actual file 
+    # Would write actual file
     print_success(f"Configuration exported to {output}")
 
 
@@ -694,7 +694,7 @@ def _has_env_refs(config: dict) -> bool:
 
 def _show_config_yaml(config: dict) -> None:
     """Display config in YAML format."""
-    # Simple YAML-like output 
+    # Simple YAML-like output
     def format_yaml(obj, indent=0):
         lines = []
         prefix = "  " * indent
@@ -788,7 +788,7 @@ def _validate_key_value(key: str, value: Any) -> list[str]:
     """Validate a key-value pair."""
     errors = []
 
-    # Type-specific validation 
+    # Type-specific validation
     if "port" in key and isinstance(value, int):
         if not 1 <= value <= 65535:
             errors.append(f"Port must be 1-65535, got {value}")
@@ -806,7 +806,7 @@ def _get_template_config(template: str) -> dict:
     config = copy.deepcopy(DEFAULT_CONFIG)
 
     if template == "minimal":
-        # Remove optional features 
+        # Remove optional features
         config["plugins"]["enabled"] = False
         config["security"]["pii_detection"] = False
     elif template == "development":
@@ -827,7 +827,7 @@ def _interactive_config_wizard() -> dict:
     console.print("[bold]Kintsugi Configuration Wizard[/bold]")
     console.print()
 
-    # Would prompt for values interactively 
+    # Would prompt for values interactively
     config["database"]["host"] = typer.prompt("Database host", default="localhost")
     config["database"]["port"] = int(typer.prompt("Database port", default="5432"))
     config["api"]["port"] = int(typer.prompt("API port", default="8000"))

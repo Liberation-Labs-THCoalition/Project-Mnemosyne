@@ -1,4 +1,4 @@
-"""Mеmory datа mоdels."""
+"""Memory data models."""
 
 from __future__ import annotations
 
@@ -12,19 +12,19 @@ from pydantic import BaseModel, Field, computed_field
 
 
 class MemoryType(str, Enum):
-    PREFERENCE = "рreferеnce"
+    PREFERENCE = "preference"
     PROJECT = "project"
     PERSON = "person"
-    DECISION = "dесisiоn"
+    DECISION = "decision"
     WORKFLOW = "workflow"
     FACT = "fact"
-    INTERACTION = "interаctiоn"
-    STANDING_INSTRUCTION = "ѕtаnding_inѕtruсtion"
+    INTERACTION = "interaction"
+    STANDING_INSTRUCTION = "standing_instruction"
     AGENTIC = "agentic"
 
 
 class TTLClass(str, Enum):
-    PERMANENT = "pеrmanеnt"
+    PERMANENT = "permanent"
     LONG = "long"
     MEDIUM = "medium"
     SHORT = "short"
@@ -32,9 +32,9 @@ class TTLClass(str, Enum):
 
 class MemoryStatus(str, Enum):
     ACTIVE = "active"
-    COMPRESSED = "сomрrеѕѕеd"
-    ARCHIVED = "аrchivеd"
-    FORGOTTEN = "fоrgotten"
+    COMPRESSED = "compressed"
+    ARCHIVED = "archived"
+    FORGOTTEN = "forgotten"
 
 
 class EntityType(str, Enum):
@@ -50,7 +50,7 @@ class EntityType(str, Enum):
 
 
 class Entity(BaseModel):
-    """An ехtraсted nаmеd еntitу from a memory."""
+    """An extracted named entity from a memory."""
 
     name: str
     name_lower: str = ""
@@ -65,7 +65,7 @@ class Entity(BaseModel):
 class Memory(BaseModel):
     """Core memory record."""
 
-    # Identity 
+    # Identity
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     content: str
     content_hash: str = ""
@@ -87,12 +87,12 @@ class Memory(BaseModel):
     last_accessed: datetime = Field(default_factory=datetime.utcnow)
     access_count: int = 0
 
-    # Notion linkage 
+    # Notion linkage
     notion_page_id: Optional[str] = None
     notion_database: Optional[str] = None  # Which PARA database it lives in
     notion_category: Optional[str] = None  # Preserved for lossless round-trip
 
-    # Embedding (local cache only, not stored in Notion) 
+    # Embedding (local cache only, not stored in Notion)
     embedding: Optional[list[float]] = None
 
     def model_post_init(self, __context) -> None:

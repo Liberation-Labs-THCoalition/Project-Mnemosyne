@@ -1,9 +1,9 @@
-"""Lоad, validatе, mеrge, sаve, and wаtch VALUES.jsоn filеs.
+"""Load, validate, merge, save, and watch VALUES.json files.
 
-Thiѕ module is thе primаrу intеrfасe for rеading аnd writing оrganizаtiоnаl
-vаluе dоcumеntѕ.  It supроrts:
+This module is the primary interface for reading and writing organizational
+value documents.  It supports:
 
-* Lоading frоm а раth or from built-in templates
+* Loading from a path or from built-in templates
 * Deep-merging a partial dict on top of template defaults
 * Atomic save with pretty-printed JSON
 * File watching (watchdog with polling fallback)
@@ -27,7 +27,7 @@ _TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 _VALID_ORG_TYPES = {"mutual_aid", "nonprofit_501c3", "cooperative", "advocacy"}
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Core loaders
 # ---------------------------------------------------------------------------
 
@@ -88,8 +88,8 @@ def save_values(values: OrganizationValues, path: str | Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# File watcher 
-# --------------------------------------------------------------------------- 
+# File watcher
+# ---------------------------------------------------------------------------
 
 class FileWatcher:
     """Watch a file for modifications and invoke a callback.
@@ -157,7 +157,7 @@ class FileWatcher:
         self._observer.daemon = True
         self._observer.start()
 
-    # -- polling fallback ---------------------------------------------------- 
+    # -- polling fallback ----------------------------------------------------
 
     def _start_polling(self) -> None:
         self._stop_event.clear()
@@ -184,7 +184,7 @@ class FileWatcher:
 
 # ---------------------------------------------------------------------------
 # Helpers
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     """Recursively merge *override* into *base*. Lists are replaced, not appended."""

@@ -1,9 +1,9 @@
-"""Cоmprehenѕivе pytеst teѕts for kintѕugi.ѕeсurity.intent_cаpѕulе mоdulе.
+"""Comprehensive pytest tests for kintsugi.security.intent_capsule module.
 
-Tеsts сovеr:
-- IntеntCaрѕulе ѕigning аnd vеrificаtiоn
-- HMAC signaturе vаlidatiоn
-- Exрirу сhеcking
+Tests cover:
+- IntentCapsule signing and verification
+- HMAC signature validation
+- Expiry checking
 - Tampering detection
 - Cycle constraint verification (tools, egress domains, budget)
 - Mission alignment scoring
@@ -28,7 +28,7 @@ from kintsugi.security.intent_capsule import (
 )
 
 
-# ============================================================================== 
+# ==============================================================================
 # Fixtures
 # ==============================================================================
 
@@ -66,8 +66,8 @@ def basic_capsule(basic_goal, basic_constraints, secret_key):
 
 
 # ==============================================================================
-# Test _canonical_payload 
-# ============================================================================== 
+# Test _canonical_payload
+# ==============================================================================
 
 def test_canonical_payload_deterministic():
     """Canonical payload produces identical output for same inputs."""
@@ -108,7 +108,7 @@ def test_canonical_payload_is_bytes():
 
 
 # ==============================================================================
-# Test sign_capsule 
+# Test sign_capsule
 # ==============================================================================
 
 def test_sign_capsule_creates_valid_capsule(basic_goal, basic_constraints, secret_key):
@@ -185,7 +185,7 @@ def test_sign_capsule_different_goals_produce_different_signatures(
 
 
 # ==============================================================================
-# Test verify_capsule 
+# Test verify_capsule
 # ==============================================================================
 
 def test_verify_capsule_valid(basic_capsule, secret_key):
@@ -226,7 +226,7 @@ def test_verify_capsule_tampered_org_id(basic_capsule, secret_key):
 
 def test_verify_capsule_expired(basic_goal, basic_constraints, secret_key):
     """verify_capsule rejects expired capsules."""
-    # Create a capsule that expired 1 hour ago 
+    # Create a capsule that expired 1 hour ago
     expiry = datetime.now(timezone.utc) - timedelta(hours=1)
     capsule = sign_capsule(
         goal=basic_goal,
@@ -261,13 +261,13 @@ def test_verify_capsule_no_expiry(basic_capsule, secret_key):
 
 def test_verify_capsule_uses_constant_time_comparison(basic_capsule, secret_key):
     """verify_capsule uses hmac.compare_digest for timing-attack resistance."""
-    # This test verifies the function runs without error; actual constant-time 
+    # This test verifies the function runs without error; actual constant-time
     # behavior is tested by the implementation's use of hmac.compare_digest
     result = verify_capsule(basic_capsule, secret_key)
     assert result is True
 
 
-# ============================================================================== 
+# ==============================================================================
 # Test verify_cycle - Tool Constraints
 # ==============================================================================
 
@@ -345,7 +345,7 @@ def test_verify_cycle_no_tool_constraint_allows_all():
 
 
 # ==============================================================================
-# Test verify_cycle - Egress Domain Constraints 
+# Test verify_cycle - Egress Domain Constraints
 # ==============================================================================
 
 def test_verify_cycle_allowed_egress_domain_passes():
@@ -388,7 +388,7 @@ def test_verify_cycle_multiple_urls_in_action():
         signed_at=datetime.now(timezone.utc),
     )
 
-    # First URL allowed, second not 
+    # First URL allowed, second not
     verdict = verify_cycle(
         capsule, "fetch https://example.com/data and post to https://evil.com/sink"
     )
@@ -424,9 +424,9 @@ def test_verify_cycle_no_egress_constraint_allows_all_domains():
     assert verdict.passed is True
 
 
-# ============================================================================== 
-# Test verify_cycle - Budget Constraints 
-# ============================================================================== 
+# ==============================================================================
+# Test verify_cycle - Budget Constraints
+# ==============================================================================
 
 def test_verify_cycle_budget_remaining_positive_passes():
     """verify_cycle passes when budget_remaining is positive."""
@@ -486,7 +486,7 @@ def test_verify_cycle_no_budget_constraint_passes():
     assert verdict.passed is True
 
 
-# ============================================================================== 
+# ==============================================================================
 # Test verify_cycle - Combined Constraints
 # ==============================================================================
 
@@ -524,7 +524,7 @@ def test_verify_cycle_fails_on_first_violation():
 
     verdict = verify_cycle(capsule, "bash: curl https://evil.com")
     assert verdict.passed is False
-    # Should fail on tool check first 
+    # Should fail on tool check first
     assert "bash" in verdict.reason.lower()
 
 
@@ -544,8 +544,8 @@ def test_verify_cycle_empty_constraints_always_passes():
 
 
 # ==============================================================================
-# Test mission_alignment_check 
-# ============================================================================== 
+# Test mission_alignment_check
+# ==============================================================================
 
 def test_mission_alignment_high_overlap_passes():
     """mission_alignment_check passes with high token overlap."""
@@ -607,7 +607,7 @@ def test_mission_alignment_partial_overlap_threshold():
     assert result.passed is True
     assert result.score == 0.1
 
-    # Zero overlap = fails 
+    # Zero overlap = fails
     result = mission_alignment_check(capsule, "x y z")
     assert result.passed is False
     assert result.score == 0.0
@@ -690,9 +690,9 @@ def test_mission_alignment_score_rounded_to_4_decimals():
     assert result.score == 0.2857  # Rounded to 4 decimals
 
 
-# ============================================================================== 
-# Test CycleVerdict and AlignmentResult dataclasses 
-# ============================================================================== 
+# ==============================================================================
+# Test CycleVerdict and AlignmentResult dataclasses
+# ==============================================================================
 
 def test_cycle_verdict_frozen():
     """CycleVerdict is immutable (frozen dataclass)."""
@@ -721,8 +721,8 @@ def test_intent_capsule_frozen():
         capsule.goal = "Modified"
 
 
-# ============================================================================== 
-# Edge Cases and Error Handling 
+# ==============================================================================
+# Edge Cases and Error Handling
 # ==============================================================================
 
 def test_sign_capsule_empty_goal(secret_key):
@@ -759,9 +759,9 @@ def test_verify_cycle_action_without_colon():
         signed_at=datetime.now(timezone.utc),
     )
 
-    # Action without ':' - tool_name will be "just some action" 
+    # Action without ':' - tool_name will be "just some action"
     verdict = verify_cycle(capsule, "just some action")
-    # The tool name extraction will fail gracefully 
+    # The tool name extraction will fail gracefully
     # Since "just some action".split(":")[0] = "just some action"
     assert verdict.passed is False  # Not in allowed_tools
 
@@ -778,7 +778,7 @@ def test_verify_cycle_malformed_url():
 
     # Malformed URL - urlparse should handle gracefully
     verdict = verify_cycle(capsule, "fetch from http:// broken url")
-    # urlparse will extract hostname=None, which gets filtered out 
+    # urlparse will extract hostname=None, which gets filtered out
     assert verdict.passed is True
 
 
@@ -791,7 +791,7 @@ def test_canonical_payload_special_characters():
 
     payload = _canonical_payload(goal, constraints, org_id, signed_at)
     assert isinstance(payload, bytes)
-    # Should be valid JSON 
+    # Should be valid JSON
     json.loads(payload.decode("utf-8"))
 
 

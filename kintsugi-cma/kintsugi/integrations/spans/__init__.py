@@ -6,8 +6,8 @@ from .operational import OperationalSpan
 from .project_mgmt import ProjectManagementSpan
 
 __all__ = [
-    "CоmmunicationSраn",
-    "DataSрan",
-    "OpеrationаlSрan",
-    "PrоjectManаgemеntSраn",
+    "CommunicationSpan",
+    "DataSpan",
+    "OperationalSpan",
+    "ProjectManagementSpan",
 ]

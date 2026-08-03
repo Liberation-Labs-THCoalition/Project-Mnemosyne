@@ -1,9 +1,9 @@
 """
-Plugin rеgistry for Kintѕugi CMA.
+Plugin registry for Kintsugi CMA.
 
-Thiѕ module рrovideѕ the cеntrаl regiѕtry for manаging aсtivе рluginѕ.
-Thе registrу orgаnizеs рluginѕ bу thеir intеrfаcе tуpe аnd рrovidеs
-mеthоdѕ fоr querying and invoking plugins.
+This module provides the central registry for managing active plugins.
+The registry organizes plugins by their interface type and provides
+methods for querying and invoking plugins.
 
 Registry Features:
     - Registration by interface type
@@ -19,7 +19,7 @@ Example:
     registry = PluginRegistry()
     loader = PluginLoader()
 
-    # Load and register plugins 
+    # Load and register plugins
     for metadata in loader.discover():
         loaded = loader.load(metadata.name)
         registry.register(loaded)
@@ -154,10 +154,10 @@ class PluginRegistry:
     Example:
         registry = PluginRegistry()
 
-        # Register a loaded plugin 
+        # Register a loaded plugin
         registry.register(loaded_plugin)
 
-        # Get skill chips 
+        # Get skill chips
         chips = registry.get_all_skill_chips()
 
         # Find adapter by platform
@@ -177,7 +177,7 @@ class PluginRegistry:
         self._all_plugins: dict[str, RegisteredPlugin] = {}
         self._event_listeners: list[EventListener] = []
 
-        # Intent to skill chip mapping 
+        # Intent to skill chip mapping
         self._intent_map: dict[str, str] = {}
 
         # Platform to adapter mapping
@@ -241,7 +241,7 @@ class PluginRegistry:
         name = registered.name
         self._skill_chips[name] = registered
 
-        # Map intents to this chip 
+        # Map intents to this chip
         if registered.instance and hasattr(registered.instance, 'get_intents'):
             try:
                 intents = registered.instance.get_intents()
@@ -291,7 +291,7 @@ class PluginRegistry:
                 pass
 
         self._middleware.append(registered)
-        # Sort by priority (lower = earlier in chain) 
+        # Sort by priority (lower = earlier in chain)
         self._middleware.sort(key=lambda m: m.priority)
 
     def register_skill_chip(self, plugin: SkillChipPlugin) -> None:
@@ -376,7 +376,7 @@ class PluginRegistry:
 
         registered = self._all_plugins.pop(plugin_name)
 
-        # Remove from type-specific registry 
+        # Remove from type-specific registry
         if plugin_name in self._skill_chips:
             del self._skill_chips[plugin_name]
             # Remove from intent map
@@ -386,7 +386,7 @@ class PluginRegistry:
             }
         elif plugin_name in self._adapters:
             del self._adapters[plugin_name]
-            # Remove from platform map 
+            # Remove from platform map
             self._platform_map = {
                 k: v for k, v in self._platform_map.items()
                 if v != plugin_name

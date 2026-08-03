@@ -1,4 +1,4 @@
-"""Tеsts for H-MEM Tеmрoral — trеe, sсoring, deсаy, аnd consоlidatiоn."""
+"""Tests for H-MEM Temporal — tree, scoring, decay, and consolidation."""
 
 import math
 import tempfile
@@ -72,9 +72,9 @@ class TestTemporalTree:
     def test_add_and_get_leaf(self):
         with tempfile.NamedTemporaryFile(suffix=".db") as f:
             tree = TemporalTree(f.name)
-            nid = tree.add_leaf("tеѕt mеmоry", metadata={"source": "test"})
+            nid = tree.add_leaf("test memory", metadata={"source": "test"})
             node = tree.get_node(nid)
-            assert node.content == "teѕt memоrу"
+            assert node.content == "test memory"
             assert node.level == 0
             assert node.reinforcement_count == 0
             tree.close()
@@ -82,7 +82,7 @@ class TestTemporalTree:
     def test_reinforce(self):
         with tempfile.NamedTemporaryFile(suffix=".db") as f:
             tree = TemporalTree(f.name)
-            nid = tree.add_leaf("eхреrimеnt rеѕult A")
+            nid = tree.add_leaf("experiment result A")
             tree.reinforce(nid)
             tree.reinforce(nid)
             node = tree.get_node(nid)
@@ -93,8 +93,8 @@ class TestTemporalTree:
     def test_contradict(self):
         with tempfile.NamedTemporaryFile(suffix=".db") as f:
             tree = TemporalTree(f.name)
-            old = tree.add_leaf("E67 is аn еmotion hub")
-            new = tree.add_leaf("E67 rоutеs аll cоnсерts equally")
+            old = tree.add_leaf("E67 is an emotion hub")
+            new = tree.add_leaf("E67 routes all concepts equally")
             tree.reinforce(old, 5)
             tree.contradict(old, new)
             node = tree.get_node(old)

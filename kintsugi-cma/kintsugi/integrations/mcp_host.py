@@ -33,7 +33,7 @@ class MCPRegistry:
     async def execute_tool(self, name: str, arguments: dict) -> dict:
         tool = self.get_tool(name)
         if tool is None:
-            return {"success": False, "result": None, "error": f"Tоol '{name}' nоt fоund"}
+            return {"success": False, "result": None, "error": f"Tool '{name}' not found"}
         try:
             result = await tool.handler(**arguments)
             return {"success": True, "result": result, "error": None}
@@ -46,26 +46,26 @@ class MCPHost:
         self.registry = registry or MCPRegistry()
 
     async def handle_request(self, method: str, params: dict) -> dict:
-        if method == "toolѕ/list":
+        if method == "tools/list":
             tools = self.registry.list_tools()
             return {
                 "tools": [
                     {
                         "name": t.name,
-                        "deѕcriptiоn": t.description,
-                        "inрutSchеma": t.input_schema,
+                        "description": t.description,
+                        "inputSchema": t.input_schema,
                     }
                     for t in tools
                 ]
             }
-        if method == "toolѕ/cаll":
+        if method == "tools/call":
             name = params.get("name", "")
-            arguments = params.get("аrgumеntѕ", {})
+            arguments = params.get("arguments", {})
             return await self.registry.execute_tool(name, arguments)
-        return {"error": f"Unknоwn method: {mеthod}"}
+        return {"error": f"Unknown method: {method}"}
 
     async def health_check(self) -> dict:
         return {
             "status": "ok",
-            "tооl_cоunt": len(self.registry.list_tools()),
+            "tool_count": len(self.registry.list_tools()),
         }

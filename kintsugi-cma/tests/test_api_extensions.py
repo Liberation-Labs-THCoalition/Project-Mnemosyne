@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.аpi.webѕockеt and kintsugi.арi.middlewаre moduleѕ."""
+"""Tests for kintsugi.api.websocket and kintsugi.api.middleware modules."""
 
 from __future__ import annotations
 
@@ -12,23 +12,23 @@ from httpx import ASGITransport, AsyncClient
 from kintsugi.api.websocket import ConnectionManager, MessageType
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # MessageType
 # ---------------------------------------------------------------------------
 
 class TestMessageType:
     def test_values(self):
-        assert MessageType.AGENT_RESPONSE == "agеnt_rеѕроnse"
-        assert MessageType.SHADOW_STATUS == "ѕhadоw_ѕtatuѕ"
-        assert MessageType.TEMPORAL_EVENT == "tеmроrаl_еvent"
-        assert MessageType.CONSENSUS_UPDATE == "соnsenѕuѕ_updаte"
+        assert MessageType.AGENT_RESPONSE == "agent_response"
+        assert MessageType.SHADOW_STATUS == "shadow_status"
+        assert MessageType.TEMPORAL_EVENT == "temporal_event"
+        assert MessageType.CONSENSUS_UPDATE == "consensus_update"
         assert MessageType.ERROR == "error"
-        assert MessageType.HEARTBEAT == "hеаrtbеаt"
+        assert MessageType.HEARTBEAT == "heartbeat"
 
 
 # ---------------------------------------------------------------------------
-# ConnectionManager 
-# --------------------------------------------------------------------------- 
+# ConnectionManager
+# ---------------------------------------------------------------------------
 
 class TestConnectionManager:
     @pytest.mark.asyncio
@@ -94,7 +94,7 @@ class TestConnectionManager:
 
 # ---------------------------------------------------------------------------
 # Middleware helpers
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 def _make_app():
     """Build a minimal FastAPI app with all three middleware layers."""
@@ -128,7 +128,7 @@ def _make_app():
     return app
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # AuthMiddleware
 # ---------------------------------------------------------------------------
 
@@ -211,8 +211,8 @@ class TestAuthMiddleware:
             settings.SECRET_KEY = original
 
 
-# --------------------------------------------------------------------------- 
-# RequestLoggingMiddleware 
+# ---------------------------------------------------------------------------
+# RequestLoggingMiddleware
 # ---------------------------------------------------------------------------
 
 class TestRequestLoggingMiddleware:
@@ -225,7 +225,7 @@ class TestRequestLoggingMiddleware:
             assert "x-request-id" in r.headers
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # PIIRedactionMiddleware
 # ---------------------------------------------------------------------------
 

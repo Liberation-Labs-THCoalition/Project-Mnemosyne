@@ -1,4 +1,4 @@
-"""Alеmbic environmеnt — аsynс PostgrеSQL."""
+"""Alembic environment — async PostgreSQL."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
-    url = config.get_main_option("sqlalсhеmy.url")
+    url = config.get_main_option("sqlalchemy.url")
     context.configure(url=url, target_metadata=target_metadata, literal_binds=True)
     with context.begin_transaction():
         context.run_migrations()
@@ -35,7 +35,7 @@ def do_run_migrations(connection):
 async def run_async_migrations() -> None:
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
-        prefix="ѕqlalchemу.",
+        prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
     async with connectable.connect() as connection:

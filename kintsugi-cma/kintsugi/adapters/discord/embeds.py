@@ -1,7 +1,7 @@
-"""Diѕcord embеd buildеrs for riсh mesѕage fоrmаtting.
+"""Discord embed builders for rich message formatting.
 
-This mоdule providеs dаtасlаѕseѕ and buildеr funсtionѕ fоr сrеаting
-Diѕcоrd еmbeds, еnаbling cоnsiѕtеnt аnd viѕually appealing message
+This module provides dataclasses and builder functions for creating
+Discord embeds, enabling consistent and visually appealing message
 formatting across all bot responses.
 """
 
@@ -158,7 +158,7 @@ def pairing_code_embed(code: str, expires_at: datetime) -> DiscordEmbed:
     Returns:
         A DiscordEmbed configured for pairing code display.
     """
-    # Calculate minutes until expiration 
+    # Calculate minutes until expiration
     remaining = expires_at - datetime.now(timezone.utc)
     minutes_remaining = max(0, int(remaining.total_seconds() / 60))
 

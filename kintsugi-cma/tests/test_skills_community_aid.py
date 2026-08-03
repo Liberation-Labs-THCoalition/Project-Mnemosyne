@@ -1,10 +1,10 @@
 """
-Cоmprehenѕivе testѕ for Kintsugi CMA Phаse 4с Cоmmunity Aid Skill Chiрs.
+Comprehensive tests for Kintsugi CMA Phase 4c Community Aid Skill Chips.
 
-This modulе prоvidеѕ 100+ tеѕts for аll 10 Phaѕе 4c ѕkill сhiрѕ:
-- MutuаlAidCоordinаtоrChip
-- ReѕоurcеRediѕtributiоnChiр
-- CriѕisResponseChip
+This module provides 100+ tests for all 10 Phase 4c skill chips:
+- MutualAidCoordinatorChip
+- ResourceRedistributionChip
+- CrisisResponseChip
 - CommunityAssetMapperChip
 - CoalitionBuilderChip
 - KnowYourRightsChip
@@ -48,7 +48,7 @@ from kintsugi.skills.community_aid import (
 )
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
 
@@ -170,8 +170,8 @@ def rapid_response_chip() -> RapidResponseChip:
 
 
 # ===========================================================================
-# MutualAidCoordinatorChip Tests (10 tests) 
-# =========================================================================== 
+# MutualAidCoordinatorChip Tests (10 tests)
+# ===========================================================================
 
 class TestMutualAidCoordinatorChip:
     """Tests for MutualAidCoordinatorChip."""
@@ -195,7 +195,7 @@ class TestMutualAidCoordinatorChip:
         # The intents are defined in the handle method's intent_handlers dict
         # We verify by checking the chip handles these intents
         chip_info = mutual_aid_chip.get_info()
-        # Verify chip is configured correctly 
+        # Verify chip is configured correctly
         assert chip_info["name"] == "mutual_aid_coordinator"
 
     def test_consensus_actions(self, mutual_aid_chip: MutualAidCoordinatorChip):
@@ -261,7 +261,7 @@ class TestMutualAidCoordinatorChip:
         )
         await mutual_aid_chip.handle(offer_request, context)
 
-        # Check match - should require consensus for sharing info 
+        # Check match - should require consensus for sharing info
         match_request = SkillRequest(
             intent="match_request",
             entities={"need_id": need_id},
@@ -297,8 +297,8 @@ class TestMutualAidCoordinatorChip:
 
 
 # ===========================================================================
-# ResourceRedistributionChip Tests (10 tests) 
-# =========================================================================== 
+# ResourceRedistributionChip Tests (10 tests)
+# ===========================================================================
 
 class TestResourceRedistributionChip:
     """Tests for ResourceRedistributionChip."""
@@ -373,7 +373,7 @@ class TestResourceRedistributionChip:
         self, resource_chip: ResourceRedistributionChip, context: SkillContext
     ):
         """Test inventory check returns data."""
-        # First add some inventory 
+        # First add some inventory
         await resource_chip.report_surplus(
             partner_id="test-partner",
             resource_type="shelf_stable",
@@ -448,7 +448,7 @@ class TestResourceRedistributionChip:
 
 # ===========================================================================
 # CrisisResponseChip Tests (10 tests)
-# =========================================================================== 
+# ===========================================================================
 
 class TestCrisisResponseChip:
     """Tests for CrisisResponseChip."""
@@ -548,7 +548,7 @@ class TestCrisisResponseChip:
         self, crisis_chip: CrisisResponseChip, context: SkillContext
     ):
         """Test volunteer mobilization."""
-        # First create an incident 
+        # First create an incident
         alert_req = SkillRequest(
             intent="crisis_alert",
             entities={"crisis_type": "food_insecurity", "severity": "medium"},
@@ -556,7 +556,7 @@ class TestCrisisResponseChip:
         alert_resp = await crisis_chip.handle(alert_req, context)
         incident_id = alert_resp.data["incident_id"]
 
-        # Now mobilize 
+        # Now mobilize
         request = SkillRequest(
             intent="mobilize_response",
             entities={"incident_id": incident_id, "volunteer_count": 10},
@@ -570,7 +570,7 @@ class TestCrisisResponseChip:
         self, crisis_chip: CrisisResponseChip, context: SkillContext
     ):
         """Test post-incident debrief."""
-        # Create incident 
+        # Create incident
         alert_req = SkillRequest(
             intent="crisis_alert",
             entities={"crisis_type": "infrastructure", "severity": "low"},
@@ -578,7 +578,7 @@ class TestCrisisResponseChip:
         alert_resp = await crisis_chip.handle(alert_req, context)
         incident_id = alert_resp.data["incident_id"]
 
-        # Debrief 
+        # Debrief
         request = SkillRequest(
             intent="debrief",
             entities={
@@ -592,7 +592,7 @@ class TestCrisisResponseChip:
         assert "debrief_id" in response.data
 
 
-# =========================================================================== 
+# ===========================================================================
 # CommunityAssetMapperChip Tests (10 tests)
 # ===========================================================================
 
@@ -655,7 +655,7 @@ class TestCommunityAssetMapperChip:
         )
         response = await asset_mapper_chip.handle(request, context)
         assert response.success
-        # Response should include geo_location 
+        # Response should include geo_location
         assert "geo_location" in response.data
         if response.data["geo_location"]:
             assert "lat" in response.data["geo_location"]
@@ -746,8 +746,8 @@ class TestCommunityAssetMapperChip:
         assert "skills_inventory" in response.data
 
 
-# =========================================================================== 
-# CoalitionBuilderChip Tests (10 tests) 
+# ===========================================================================
+# CoalitionBuilderChip Tests (10 tests)
 # ===========================================================================
 
 class TestCoalitionBuilderChip:
@@ -835,7 +835,7 @@ class TestCoalitionBuilderChip:
         )
         response = await coalition_chip.handle(request, context)
         assert response.success
-        # Creating a shared campaign requires consensus 
+        # Creating a shared campaign requires consensus
         assert response.requires_consensus or "id" in response.data
 
     @pytest.mark.asyncio
@@ -849,7 +849,7 @@ class TestCoalitionBuilderChip:
         )
         response = await coalition_chip.handle(request, context)
         assert response.success
-        # Partners should be filterable by alignment 
+        # Partners should be filterable by alignment
         assert "partners" in response.data
 
     @pytest.mark.asyncio
@@ -872,9 +872,9 @@ class TestCoalitionBuilderChip:
         assert "meeting_id" in response.data
 
 
-# =========================================================================== 
-# KnowYourRightsChip Tests (10 tests) 
-# =========================================================================== 
+# ===========================================================================
+# KnowYourRightsChip Tests (10 tests)
+# ===========================================================================
 
 class TestKnowYourRightsChip:
     """Tests for KnowYourRightsChip."""
@@ -927,7 +927,7 @@ class TestKnowYourRightsChip:
             entities={"topic": "worker_rights"},
         )
         response = await rights_chip.handle(request, context)
-        # Response content should include disclaimer 
+        # Response content should include disclaimer
         assert "DISCLAIMER" in response.content or "legal advice" in response.content.lower()
 
     @pytest.mark.asyncio
@@ -979,8 +979,8 @@ class TestKnowYourRightsChip:
         assert "workshop_plan" in response.data
 
 
-# =========================================================================== 
-# HousingNavigatorChip Tests (10 tests) 
+# ===========================================================================
+# HousingNavigatorChip Tests (10 tests)
 # ===========================================================================
 
 class TestHousingNavigatorChip:
@@ -1086,8 +1086,8 @@ class TestHousingNavigatorChip:
         assert "resources" in response.data
 
 
-# =========================================================================== 
-# FoodAccessChip Tests (10 tests) 
+# ===========================================================================
+# FoodAccessChip Tests (10 tests)
 # ===========================================================================
 
 class TestFoodAccessChip:
@@ -1142,7 +1142,7 @@ class TestFoodAccessChip:
         )
         response = await food_chip.handle(request, context)
         assert response.success
-        # Should filter by dietary needs 
+        # Should filter by dietary needs
         assert "pantries" in response.data
 
     @pytest.mark.asyncio
@@ -1168,7 +1168,7 @@ class TestFoodAccessChip:
         """Test SNAP income limits are defined."""
         assert hasattr(food_chip, "SNAP_INCOME_LIMITS")
         assert len(food_chip.SNAP_INCOME_LIMITS) > 0
-        # Should have limits for household sizes 1-8 
+        # Should have limits for household sizes 1-8
         assert 1 in food_chip.SNAP_INCOME_LIMITS
         assert 4 in food_chip.SNAP_INCOME_LIMITS
 
@@ -1203,9 +1203,9 @@ class TestFoodAccessChip:
         assert "donation_id" in response.data
 
 
-# =========================================================================== 
-# SolidarityEconomyChip Tests (10 tests) 
-# =========================================================================== 
+# ===========================================================================
+# SolidarityEconomyChip Tests (10 tests)
+# ===========================================================================
 
 class TestSolidarityEconomyChip:
     """Tests for SolidarityEconomyChip."""
@@ -1254,7 +1254,7 @@ class TestSolidarityEconomyChip:
         )
         response = await solidarity_chip.handle(request, context)
         assert response.success
-        # Coop start requires consensus 
+        # Coop start requires consensus
         assert response.requires_consensus
 
     @pytest.mark.asyncio
@@ -1316,13 +1316,13 @@ class TestSolidarityEconomyChip:
         )
         response = await solidarity_chip.handle(request, context)
         assert response.success
-        # Should include governance-related templates 
+        # Should include governance-related templates
         assert "templates" in response.data
 
 
-# =========================================================================== 
+# ===========================================================================
 # RapidResponseChip Tests (10 tests)
-# =========================================================================== 
+# ===========================================================================
 
 class TestRapidResponseChip:
     """Tests for RapidResponseChip."""
@@ -1419,7 +1419,7 @@ class TestRapidResponseChip:
 
 # ===========================================================================
 # Cross-chip Integration Tests
-# =========================================================================== 
+# ===========================================================================
 
 class TestCrossChipIntegration:
     """Tests for cross-chip integration patterns."""
@@ -1559,7 +1559,7 @@ class TestEdgeCases:
         for chip, intent in chips_and_intents:
             request = SkillRequest(intent=intent, entities={})
             response = await chip.handle(request, context)
-            # Should not crash, may or may not succeed 
+            # Should not crash, may or may not succeed
             assert isinstance(response, SkillResponse)
 
     @pytest.mark.asyncio

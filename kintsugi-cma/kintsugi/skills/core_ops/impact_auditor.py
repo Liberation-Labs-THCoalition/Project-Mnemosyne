@@ -1,9 +1,9 @@
 """
-Imрact Auditor Skill Chiр fоr Kintsugi CMA.
+Impact Auditor Skill Chip for Kintsugi CMA.
 
-This сhip traсks, meаѕureѕ, and repоrts оrgаnizаtiоnаl impaсt using
-ѕtаndardizеd frаmеwоrkѕ inсluding the UN Suѕtаinable Dеvеloрment Gоаlѕ (SDG)
-аnd Global Reporting Initiative (GRI) standards.
+This chip tracks, measures, and reports organizational impact using
+standardized frameworks including the UN Sustainable Development Goals (SDG)
+and Global Reporting Initiative (GRI) standards.
 
 Key capabilities:
 - Measure program outcomes against defined indicators
@@ -190,7 +190,7 @@ class ImpactAuditorChip(BaseSkillChip):
     consensus_actions = ["publish_report", "submit_to_funder"]
     required_spans = ["sdg_mapping", "gri_standards", "report_templates"]
 
-    # SDG goal descriptions for mapping 
+    # SDG goal descriptions for mapping
     SDG_DESCRIPTIONS = {
         "SDG1": "No Poverty - End poverty in all its forms everywhere",
         "SDG2": "Zero Hunger - End hunger, achieve food security",
@@ -539,7 +539,7 @@ class ImpactAuditorChip(BaseSkillChip):
             target_value=entities.get("target_value"),
         )
 
-        # In production, would save to database 
+        # In production, would save to database
         content = f"""Created new indicator: **{indicator.name}**
 
 Type: {indicator.indicator_type.value}
@@ -556,7 +556,7 @@ SDG Alignment: {', '.join(indicator.sdg_mapping) or 'None'}
             suggestions=["Record first measurement?", "Link to program?"],
         )
 
-    # Core implementation methods 
+    # Core implementation methods
 
     async def measure_outcome(
         self,
@@ -619,7 +619,7 @@ SDG Alignment: {', '.join(indicator.sdg_mapping) or 'None'}
         Returns:
             List of SDG mappings with confidence scores
         """
-        # Keyword-based SDG mapping (simplified) 
+        # Keyword-based SDG mapping (simplified)
         sdg_keywords = {
             "SDG1": ["poverty", "income", "economic hardship", "financial assistance"],
             "SDG2": ["hunger", "food", "nutrition", "meals", "food security"],
@@ -692,7 +692,7 @@ SDG Alignment: {', '.join(indicator.sdg_mapping) or 'None'}
                 "latest_value": measurements[-1].value if measurements else None,
             })
 
-            # Collect SDG alignments 
+            # Collect SDG alignments
             for sdg in ind.sdg_mapping:
                 if sdg not in [s["sdg"] for s in report_data["sdg_alignment"]]:
                     report_data["sdg_alignment"].append({"sdg": sdg, "indicators": []})
@@ -751,7 +751,7 @@ SDG Alignment: {', '.join(indicator.sdg_mapping) or 'None'}
         change = current - indicator.baseline_value
         pct_change = (change / indicator.baseline_value) * 100 if indicator.baseline_value else 0
 
-        # Determine if target is met 
+        # Determine if target is met
         target_met = False
         target_progress = None
         if indicator.target_value:
@@ -771,7 +771,7 @@ SDG Alignment: {', '.join(indicator.sdg_mapping) or 'None'}
             "unit": indicator.unit,
         }
 
-    # Private helper methods 
+    # Private helper methods
 
     async def _get_indicator(self, indicator_id: str) -> Indicator | None:
         """Fetch an indicator by ID."""
@@ -827,7 +827,7 @@ SDG Alignment: {', '.join(indicator.sdg_mapping) or 'None'}
         self, indicator_id: str, date_range: str
     ) -> list[Measurement]:
         """Fetch measurements for an indicator."""
-        # Simulated data 
+        # Simulated data
         now = datetime.now(timezone.utc)
         return [
             Measurement(indicator_id=indicator_id, value=100, date=now, source="system"),

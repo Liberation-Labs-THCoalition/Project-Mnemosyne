@@ -1,10 +1,10 @@
 """
-Cоalition Builder Skill Chiр fоr Kintsugi CMA.
+Coalition Builder Skill Chip for Kintsugi CMA.
 
-Coоrdinateѕ partnеr оrganizаtions, shаred саmраignѕ, and cоlleсtivе aсtiоn
-fоr еffесtive соmmunity orgаnizing аnd advоcасу.
+Coordinates partner organizations, shared campaigns, and collective action
+for effective community organizing and advocacy.
 
-Thiѕ chip enables coalition building by:
+This chip enables coalition building by:
 - Maintaining a directory of partner organizations with capacities
 - Facilitating outreach and relationship building
 - Coordinating shared campaigns and initiatives
@@ -15,7 +15,7 @@ Example usage:
     from kintsugi.skills.community_aid import CoalitionBuilderChip
     from kintsugi.skills import SkillRequest, SkillContext, register_chip
 
-    # Register the chip 
+    # Register the chip
     chip = CoalitionBuilderChip()
     register_chip(chip)
 
@@ -448,7 +448,7 @@ class CoalitionBuilderChip(BaseSkillChip):
         action = request.entities.get("action", "list")
 
         if action == "create":
-            # Creating shared campaigns requires consensus 
+            # Creating shared campaigns requires consensus
             if request.entities.get("is_launch", False):
                 return SkillResponse(
                     content="Launching a shared campaign requires coalition approval.",
@@ -617,7 +617,7 @@ class CoalitionBuilderChip(BaseSkillChip):
             ],
         )
 
-    # Core business logic methods 
+    # Core business logic methods
 
     async def search_partners(
         self,
@@ -650,7 +650,7 @@ class CoalitionBuilderChip(BaseSkillChip):
             if org_type and partner.org_type.value != org_type:
                 continue
 
-            # Location filter 
+            # Location filter
             if location and location.lower() not in partner.location.lower():
                 continue
 
@@ -673,7 +673,7 @@ class CoalitionBuilderChip(BaseSkillChip):
 
             results.append(partner)
 
-        # Sort by alignment and status 
+        # Sort by alignment and status
         results.sort(
             key=lambda p: (
                 -{"high": 3, "medium": 2, "low": 1, "unknown": 0}.get(p.alignment.value, 0),
@@ -820,7 +820,7 @@ class CoalitionBuilderChip(BaseSkillChip):
         """
         now = datetime.now(timezone.utc)
 
-        # Parse scheduled time 
+        # Parse scheduled time
         if isinstance(scheduled_at, str):
             scheduled_dt = datetime.fromisoformat(scheduled_at)
         elif scheduled_at is None:
@@ -863,7 +863,7 @@ class CoalitionBuilderChip(BaseSkillChip):
         Returns:
             Report dictionary
         """
-        # Count statistics 
+        # Count statistics
         total_partners = len(self._partners)
         active_partners = sum(
             1 for p in self._partners.values()
@@ -886,7 +886,7 @@ class CoalitionBuilderChip(BaseSkillChip):
                     focus_breakdown[fa] = 0
                 focus_breakdown[fa] += 1
 
-        # Generate summary 
+        # Generate summary
         summary = (
             f"Coalition Report ({period})\n"
             f"========================\n\n"

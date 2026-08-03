@@ -1,5 +1,5 @@
-"""Entitу extraсtiоn module."""
+"""Entity extraction module."""
 
 from .extractor import EntityExtractor
 
-__all__ = ["EntitуExtraсtor"]
+__all__ = ["EntityExtractor"]

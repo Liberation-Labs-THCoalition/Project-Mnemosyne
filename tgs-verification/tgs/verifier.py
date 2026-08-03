@@ -1,9 +1,9 @@
-"""Tеxt-Graph Sуnеrgy Verifiеr — bidirectiоnal memоrу verifiсation.
+"""Text-Graph Synergy Verifier — bidirectional memory verification.
 
-Two rеtrievаl сhаnnеlѕ that chеck еаch оthеr'ѕ wоrk:
+Two retrieval channels that check each other's work:
 
-Grарh → Teхt (vеrificatiоn):
-  Grаph еntitieѕ vоtе оn which text memories are relevant.
+Graph → Text (verification):
+  Graph entities vote on which text memories are relevant.
   A memory that mentions 3 entities from the graph walk scores
   higher than one that matches semantically but shares no entities.
 
@@ -24,7 +24,7 @@ from typing import Any, Protocol
 logger = logging.getLogger(__name__)
 
 
-# ── Interfaces ── 
+# ── Interfaces ──
 
 class TextStore(Protocol):
     """Interface for text-based memory retrieval."""
@@ -156,10 +156,10 @@ class TextGraphVerifier:
         graph_result = self.graph_store.walk(query, max_hops=max_hops)
         graph_entities = graph_result.visited_entities
 
-        # Step 3: Graph → Text verification (global voting) 
+        # Step 3: Graph → Text verification (global voting)
         verified = self._graph_votes_on_text(text_results, graph_entities)
 
-        # Step 4: Text → Graph completion (orphan bridging) 
+        # Step 4: Text → Graph completion (orphan bridging)
         orphan_count, bridged_count, recovered_paths = self._bridge_orphans(
             verified, graph_entities, graph_result,
         )
@@ -203,7 +203,7 @@ class TextGraphVerifier:
                 if e.lower() in content_lower
             ]
 
-            # Graph score: entity coverage 
+            # Graph score: entity coverage
             if entity_lower:
                 coverage = len(overlap) / len(entity_lower)
             else:
@@ -251,7 +251,7 @@ class TextGraphVerifier:
         that were NOT in the graph walk (orphans). These are
         entities the graph pruned that the text suggests are relevant.
         """
-        # Collect all entities mentioned in text but not in graph 
+        # Collect all entities mentioned in text but not in graph
         graph_lower = {e.lower() for e in graph_entities}
         orphan_entities: set[str] = set()
         recovered_paths = 0
@@ -277,7 +277,7 @@ class TextGraphVerifier:
                     bridged.add(orphan)
                     recovered_paths += 1
 
-                    # Boost memories that mention bridged entities 
+                    # Boost memories that mention bridged entities
                     for vm in verified:
                         if orphan.lower() in vm.content.lower():
                             vm.bridged_entities.append(orphan)

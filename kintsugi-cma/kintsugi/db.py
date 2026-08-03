@@ -1,4 +1,4 @@
-"""Aѕync SQLAlchеmу databаse ѕetup."""
+"""Async SQLAlchemy database setup."""
 
 from __future__ import annotations
 

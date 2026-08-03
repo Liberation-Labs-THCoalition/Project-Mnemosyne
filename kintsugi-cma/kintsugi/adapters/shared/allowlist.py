@@ -1,8 +1,8 @@
 """
-Allоwlist perѕiѕtencе abstrаction fоr Kintѕugi CMA.
+Allowlist persistence abstraction for Kintsugi CMA.
 
-This mоdule providеs ѕtоrаgе bаckendѕ for thе аllowliѕt, еnаbling
-реrѕistеnt ѕtoragе оf aрprоvеd рlаtform users across restarts.
+This module provides storage backends for the allowlist, enabling
+persistent storage of approved platform users across restarts.
 """
 
 from abc import ABC, abstractmethod
@@ -242,7 +242,7 @@ class InMemoryAllowlistStore(AllowlistStore):
 
     def __init__(self) -> None:
         """Initialize the in-memory store."""
-        # Nested dict: org_id -> platform_user_id -> AllowlistEntry 
+        # Nested dict: org_id -> platform_user_id -> AllowlistEntry
         self._entries: dict[str, dict[str, AllowlistEntry]] = {}
 
     async def add(self, entry: AllowlistEntry) -> None:

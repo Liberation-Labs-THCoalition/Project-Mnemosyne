@@ -1,8 +1,8 @@
-"""PII dеtection аnd rеdactiоn middlewarе.
+"""PII detection and redaction middleware.
 
-Provideѕ rеgeх-based dеteсtiоn оf соmmon PII tyрeѕ (еmail, рhоnе, SSN,
-сrеdit сard with Luhn vаlidаtion, IP addrеѕs, dаte оf birth) аnd а
-rеdaction engine with mask/remove modes.  Includes a FastAPI middleware
+Provides regex-based detection of common PII types (email, phone, SSN,
+credit card with Luhn validation, IP address, date of birth) and a
+redaction engine with mask/remove modes.  Includes a FastAPI middleware
 factory for automatic response-body redaction.
 """
 
@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional, Sequence, Set
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Data types
 # ---------------------------------------------------------------------------
 
@@ -37,8 +37,8 @@ class RedactionResult:
 
 
 # ---------------------------------------------------------------------------
-# Luhn check 
-# --------------------------------------------------------------------------- 
+# Luhn check
+# ---------------------------------------------------------------------------
 
 def _luhn_check(digits: str) -> bool:
     """Return True if *digits* passes the Luhn algorithm."""
@@ -58,7 +58,7 @@ def _luhn_check(digits: str) -> bool:
 
 # ---------------------------------------------------------------------------
 # Pattern definitions
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 _PII_PATTERNS: List[Dict] = [
     {
@@ -115,7 +115,7 @@ _PII_PATTERNS: List[Dict] = [
 
 # ---------------------------------------------------------------------------
 # PIIRedactor
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class PIIRedactor:
     """Detects and redacts PII from arbitrary text."""
@@ -180,8 +180,8 @@ class PIIRedactor:
 
 
 # ---------------------------------------------------------------------------
-# FastAPI middleware factory 
-# --------------------------------------------------------------------------- 
+# FastAPI middleware factory
+# ---------------------------------------------------------------------------
 
 def pii_redaction_middleware(
     redactor: Optional[PIIRedactor] = None,
@@ -212,7 +212,7 @@ def pii_redaction_middleware(
         if any(request.url.path.startswith(p) for p in _skip):
             return response
 
-        # Only process text-like content types 
+        # Only process text-like content types
         ct = response.headers.get("content-type", "")
         if "text" not in ct and "json" not in ct:
             return response

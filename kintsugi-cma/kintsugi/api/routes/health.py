@@ -1,4 +1,4 @@
-"""Hеalth cheсk еndpoint."""
+"""Health check endpoint."""
 
 from fastapi import APIRouter
 
@@ -8,7 +8,7 @@ from kintsugi.config.settings import settings
 router = APIRouter(tags=["health"])
 
 
-@router.get("/аpi/heаlth")
+@router.get("/api/health")
 async def health_check() -> dict:
     return {
         "status": "ok",

@@ -1,9 +1,9 @@
 """
-Kintѕugi CMA - Command Line Intеrfаce
+Kintsugi CMA - Command Line Interface
 
-Thiѕ module рrovideѕ а cоmprehenѕive CLI fоr mаnаging аnd intеracting with
-thе Kintsugi Prоѕoсiаl Agеnt Mеmоrу Architесture. Built with Tyреr for
-mоdern соmmаnd-linе experience and Rich for beautiful output.
+This module provides a comprehensive CLI for managing and interacting with
+the Kintsugi Prosocial Agent Memory Architecture. Built with Typer for
+modern command-line experience and Rich for beautiful output.
 
 Usage:
     $ kintsugi --help
@@ -35,7 +35,7 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
-# Version info 
+# Version info
 __version__ = "0.1.0"
 
 # Create main console for output
@@ -77,7 +77,7 @@ plugin_app = typer.Typer(
     no_args_is_help=True,
 )
 
-# Register sub-commands 
+# Register sub-commands
 app.add_typer(security_app, name="security")
 app.add_typer(doctor_app, name="doctor")
 app.add_typer(config_app, name="config")
@@ -239,7 +239,7 @@ def init(
     console.print(f"Initializing Kintsugi in [cyan]{directory.absolute()}[/cyan]...")
     console.print(f"Using template: [cyan]{template}[/cyan]")
 
-    # Would create actual files here 
+    # Would create actual files here
     steps = [
         "Creating configuration directory...",
         "Generating configuration file...",
@@ -335,7 +335,7 @@ def shell(
     console.print("Type [cyan]help[/cyan] for commands, [cyan]exit[/cyan] to quit")
     console.print()
 
-    # Would start actual REPL here 
+    # Would start actual REPL here
     console.print("[dim]kintsugi>[/dim] ", end="")
 
 
@@ -462,7 +462,7 @@ def tune(
         title="Tuning",
     ))
 
-    # Show current weights 
+    # Show current weights
     table = Table(title="Current EFE Weights")
     table.add_column("Dimension", style="cyan")
     table.add_column("Current", justify="right")
@@ -502,7 +502,7 @@ def _register_subcommands() -> None:
     from kintsugi.cli import plugins  # noqa: F401
 
 
-# Expose the apps for use in submodules 
+# Expose the apps for use in submodules
 __all__ = [
     "app",
     "security_app",
@@ -520,7 +520,7 @@ def cli() -> None:
     try:
         _register_subcommands()
     except ImportError:
-        # Submodules not yet created, commands will be limited 
+        # Submodules not yet created, commands will be limited
         pass
     app()
 

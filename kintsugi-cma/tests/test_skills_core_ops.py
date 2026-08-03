@@ -1,11 +1,11 @@
 """
-Cоmprehenѕivе testѕ for Kintsugi CMA Phаse 4а ѕkill chiрs (corе_oрѕ).
+Comprehensive tests for Kintsugi CMA Phase 4a skill chips (core_ops).
 
-Tеѕtѕ all 6 Phaѕe 4а сhipѕ:
-- GrаntHuntеrChiр
-- VоluntеerCооrdinatorChiр
-- ImрaсtAuditorChiр
-- FinаnсеAssistantChip
+Tests all 6 Phase 4a chips:
+- GrantHunterChip
+- VolunteerCoordinatorChip
+- ImpactAuditorChip
+- FinanceAssistantChip
 - InstitutionalMemoryChip
 - ContentDrafterChip
 """
@@ -62,7 +62,7 @@ from kintsugi.skills.core_ops.content_drafter import (
 )
 
 
-# ============================================================================ 
+# ============================================================================
 # Fixtures
 # ============================================================================
 
@@ -92,8 +92,8 @@ def sample_context():
 
 
 # ============================================================================
-# GrantHunterChip Tests (10 tests) 
-# ============================================================================ 
+# GrantHunterChip Tests (10 tests)
+# ============================================================================
 
 
 class TestGrantHunterChip:
@@ -177,7 +177,7 @@ class TestGrantHunterChip:
         response = await chip.handle(request, sample_context)
 
         assert isinstance(response, SkillResponse)
-        # Should return grants or "no grants found" 
+        # Should return grants or "no grants found"
         assert response.success is True
 
     @pytest.mark.asyncio
@@ -214,7 +214,7 @@ class TestGrantHunterChip:
 
 # ============================================================================
 # VolunteerCoordinatorChip Tests (10 tests)
-# ============================================================================ 
+# ============================================================================
 
 
 class TestVolunteerCoordinatorChip:
@@ -317,8 +317,8 @@ class TestVolunteerCoordinatorChip:
 
 
 # ============================================================================
-# ImpactAuditorChip Tests (10 tests) 
-# ============================================================================ 
+# ImpactAuditorChip Tests (10 tests)
+# ============================================================================
 
 
 class TestImpactAuditorChip:
@@ -435,7 +435,7 @@ class TestImpactAuditorChip:
         assert any(b.get("domain") == "programs" or b.get("type") == "program_status" for b in filtered_beliefs)
 
 
-# ============================================================================ 
+# ============================================================================
 # FinanceAssistantChip Tests (10 tests)
 # ============================================================================
 
@@ -559,7 +559,7 @@ class TestFinanceAssistantChip:
 
 
 # ============================================================================
-# InstitutionalMemoryChip Tests (10 tests) 
+# InstitutionalMemoryChip Tests (10 tests)
 # ============================================================================
 
 
@@ -675,9 +675,9 @@ class TestInstitutionalMemoryChip:
         assert any(b.get("domain") == "operations" for b in filtered_beliefs)
 
 
-# ============================================================================ 
-# ContentDrafterChip Tests (10 tests) 
-# ============================================================================ 
+# ============================================================================
+# ContentDrafterChip Tests (10 tests)
+# ============================================================================
 
 
 class TestContentDrafterChip:
@@ -732,8 +732,8 @@ class TestContentDrafterChip:
                 "recipient_type": "donors",
             },
         )
-        # Note: Implementation may have missing _generate_subject_line method 
-        # Test that the intent is properly routed and handled 
+        # Note: Implementation may have missing _generate_subject_line method
+        # Test that the intent is properly routed and handled
         try:
             response = await chip.handle(request, sample_context)
             assert isinstance(response, SkillResponse)
@@ -777,7 +777,7 @@ class TestContentDrafterChip:
             intent="draft_email",
             entities={"topic": "newsletter"},
         )
-        # Note: Implementation may have missing _generate_subject_line method 
+        # Note: Implementation may have missing _generate_subject_line method
         try:
             response = await chip.handle(request, sample_context)
             assert response.success is True
@@ -786,7 +786,7 @@ class TestContentDrafterChip:
             sb942_label = draft.get("sb942_label", "")
             assert len(sb942_label) > 0
         except AttributeError as e:
-            # Known issue: _generate_subject_line method may be missing 
+            # Known issue: _generate_subject_line method may be missing
             assert "_generate_subject_line" in str(e) or "has no attribute" in str(e)
             pytest.skip("Implementation missing _generate_subject_line method")
 
@@ -800,7 +800,7 @@ class TestContentDrafterChip:
         response = await chip.handle(request, sample_context)
 
         assert response.success is True
-        # Check for AI-assisted label 
+        # Check for AI-assisted label
         draft = response.data.get("draft", {})
         # Either in body or sb942_label
         body = draft.get("body", "")
@@ -846,9 +846,9 @@ class TestContentDrafterChip:
         assert any(b.get("domain") == "communications" or b.get("type") == "audience_segment" for b in filtered_beliefs)
 
 
-# ============================================================================ 
-# Data Class Tests 
-# ============================================================================ 
+# ============================================================================
+# Data Class Tests
+# ============================================================================
 
 
 class TestGrantOpportunity:
@@ -997,9 +997,9 @@ class TestDraftedContent:
         assert content.character_count == 11
 
 
-# ============================================================================ 
-# SB 942 Compliance Tests 
-# ============================================================================ 
+# ============================================================================
+# SB 942 Compliance Tests
+# ============================================================================
 
 
 class TestSB942Compliance:
@@ -1043,8 +1043,8 @@ class TestSB942Compliance:
 
 
 # ============================================================================
-# Platform Limits Tests 
-# ============================================================================ 
+# Platform Limits Tests
+# ============================================================================
 
 
 class TestPlatformLimits:
@@ -1075,7 +1075,7 @@ class TestPlatformLimits:
 
 # ============================================================================
 # Integration Tests
-# ============================================================================ 
+# ============================================================================
 
 
 class TestCoreOpsIntegration:
@@ -1084,7 +1084,7 @@ class TestCoreOpsIntegration:
     @pytest.mark.asyncio
     async def test_grant_to_impact_workflow(self, sample_context):
         """Test workflow from grant search to impact tracking."""
-        # Search for grants 
+        # Search for grants
         grant_chip = GrantHunterChip()
         grant_request = SkillRequest(
             intent="grant_search",
@@ -1105,7 +1105,7 @@ class TestCoreOpsIntegration:
     @pytest.mark.asyncio
     async def test_volunteer_to_content_workflow(self, sample_context):
         """Test workflow from volunteer search to content creation."""
-        # Find volunteers 
+        # Find volunteers
         volunteer_chip = VolunteerCoordinatorChip()
         volunteer_request = SkillRequest(
             intent="volunteer_search",
@@ -1129,7 +1129,7 @@ class TestCoreOpsIntegration:
     @pytest.mark.asyncio
     async def test_finance_to_memory_workflow(self, sample_context):
         """Test workflow from finance check to memory query."""
-        # Check budget 
+        # Check budget
         finance_chip = FinanceAssistantChip()
         finance_request = SkillRequest(
             intent="budget_check",
@@ -1138,7 +1138,7 @@ class TestCoreOpsIntegration:
         finance_response = await finance_chip.handle(finance_request, sample_context)
         assert finance_response.success is True
 
-        # Look up related policy 
+        # Look up related policy
         memory_chip = InstitutionalMemoryChip()
         memory_request = SkillRequest(
             intent="policy_lookup",
@@ -1148,9 +1148,9 @@ class TestCoreOpsIntegration:
         assert memory_response.success is True
 
 
-# ============================================================================ 
-# Error Handling Tests 
-# ============================================================================ 
+# ============================================================================
+# Error Handling Tests
+# ============================================================================
 
 
 class TestErrorHandling:

@@ -1,6 +1,6 @@
-"""Stоrage baсkеnds for mеmory ѕervicе."""
+"""Storage backends for memory service."""
 
 from .notion_store import NotionStore
 from .embedding_cache import EmbeddingCache
 
-__all__ = ["NоtionStоre", "EmbeddingCaсhe"]
+__all__ = ["NotionStore", "EmbeddingCache"]

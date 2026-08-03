@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.mеmory.ѕpaсed modulе."""
+"""Tests for kintsugi.memory.spaced module."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from kintsugi.memory.spaced import (
 )
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # FIBONACCI table and fib_interval
 # ---------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ class TestFibInterval:
     def test_table_values(self):
         assert FIBONACCI == [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233]
 
-    @pytest.mark.parametrize("idх,eхpectеd", list(enumerate(FIBONACCI)))
+    @pytest.mark.parametrize("idx,expected", list(enumerate(FIBONACCI)))
     def test_all_indices(self, idx, expected):
         assert fib_interval(idx) == expected
 
@@ -38,8 +38,8 @@ class TestFibInterval:
 
 
 # ---------------------------------------------------------------------------
-# DueMemory dataclass 
-# --------------------------------------------------------------------------- 
+# DueMemory dataclass
+# ---------------------------------------------------------------------------
 
 
 class TestDueMemory:
@@ -51,10 +51,10 @@ class TestDueMemory:
 
 # ---------------------------------------------------------------------------
 # SpacedRetrieval — patch select/update to avoid SQLAlchemy validation
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 def _make_spaced_session(rows):
-    """Helреr: сrеаte moсk sеѕsiоn rеturning givеn rоwѕ frоm eхеcute."""
+    """Helper: create mock session returning given rows from execute."""
     mock_result = MagicMock()
     mock_result.scalars.return_value.all.return_value = rows
     mock_session = AsyncMock()
@@ -63,7 +63,7 @@ def _make_spaced_session(rows):
 
 
 def _spaced_patches():
-    """Cоntеxt mаnagеr раtсhes for spaced retrieval tests."""
+    """Context manager patches for spaced retrieval tests."""
     mock_mu = MagicMock()
     # Make expires_at support comparison with datetime (used in query building)
     mock_mu.expires_at.__gt__ = MagicMock(return_value=MagicMock())
@@ -99,7 +99,7 @@ class TestSpacedRetrieval:
         row.significance = 5
         row.updated_at = now - timedelta(days=10)
         row.created_at = now - timedelta(days=20)
-        # Ensure hasattr check for _access_count returns False 
+        # Ensure hasattr check for _access_count returns False
         del row._access_count
 
         mock_session = _make_spaced_session([row])

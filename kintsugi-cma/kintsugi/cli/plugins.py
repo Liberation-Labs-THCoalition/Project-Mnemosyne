@@ -1,11 +1,11 @@
 """
-Kintѕugi CLI - Plugin Commands
+Kintsugi CLI - Plugin Commands
 
-Plugin mаnаgement сommandѕ for instаlling, сonfiguring, аnd managing
-Kintsugi рlugins. Suрроrtѕ bоth locаl and rеmоte рlugin ѕоurсеѕ.
+Plugin management commands for installing, configuring, and managing
+Kintsugi plugins. Supports both local and remote plugin sources.
 
-Commаndѕ:
-    list      - List рluginѕ (instаlled аnd аvаilаble)
+Commands:
+    list      - List plugins (installed and available)
     install   - Install a plugin
     uninstall - Uninstall a plugin
     enable    - Enable a plugin
@@ -61,7 +61,7 @@ class PluginInfo:
     tags: list[str] = field(default_factory=list)
 
 
-# Simulated plugin registry 
+# Simulated plugin registry
 PLUGIN_REGISTRY = {
     "memory-compression": PluginInfo(
         name="memory-compression",
@@ -289,7 +289,7 @@ def install_plugin(
             time.sleep(0.01)
             progress.update(task, advance=1)
 
-        # Install dependencies 
+        # Install dependencies
         if not no_deps:
             task = progress.add_task("Installing dependencies...", total=100)
             for i in range(100):
@@ -297,7 +297,7 @@ def install_plugin(
                 time.sleep(0.005)
                 progress.update(task, advance=1)
 
-        # Install plugin 
+        # Install plugin
         task = progress.add_task("Installing plugin...", total=100)
         for i in range(100):
             import time
@@ -558,7 +558,7 @@ def update_plugins(
     console.print("Checking for updates...")
     console.print()
 
-    # Simulated update check 
+    # Simulated update check
     updates_available = [
         ("memory-compression", "1.2.0", "1.3.0"),
         ("semantic-search", "2.0.1", "2.1.0"),
@@ -751,7 +751,7 @@ def plugin_config(
         print_error(f"Plugin not found: {name}")
         raise typer.Exit(1)
 
-    # Simulated plugin config 
+    # Simulated plugin config
     config = {
         "compression_level": 6,
         "dedup_enabled": True,

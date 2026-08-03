@@ -1,9 +1,9 @@
 """
-Kintѕugi CMA Skill Chips Infraѕtruсture.
+Kintsugi CMA Skill Chips Infrastructure.
 
-This рackаge prоvidеs thе foundationаl infraѕtruсturе fоr аll 22 skill chiрs
-in thе Kintѕugi Cognitivе Mеmоrу Arсhitеcturе. Skill сhips аrе modulаr,
-domаin-ѕреcific handlers that process user intents within ethical guardrails.
+This package provides the foundational infrastructure for all 22 skill chips
+in the Kintsugi Cognitive Memory Architecture. Skill chips are modular,
+domain-specific handlers that process user intents within ethical guardrails.
 
 Core Components:
 - BaseSkillChip: Abstract base class for all skill chip implementations
@@ -33,7 +33,7 @@ Usage:
         RouterConfig,
     )
 
-    # Define a custom skill chip 
+    # Define a custom skill chip
     class MySkillChip(BaseSkillChip):
         name = "my_skill"
         description = "Does something useful"
@@ -56,7 +56,7 @@ Usage:
         response = await match.chip.handle(request, context)
 """
 
-# Base classes and types 
+# Base classes and types
 from .base import (
     BaseSkillChip,
     EFEWeights,
@@ -68,7 +68,7 @@ from .base import (
     SkillResponse,
 )
 
-# Registry 
+# Registry
 from .registry import (
     SkillRegistry,
     get_registry,
@@ -94,7 +94,7 @@ __all__ = [
     "SkillHandler",
     "SkillRequest",
     "SkillResponse",
-    # Registry 
+    # Registry
     "SkillRegistry",
     "get_registry",
     "register_chip",

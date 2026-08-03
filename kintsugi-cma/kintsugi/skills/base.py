@@ -1,8 +1,8 @@
 """
-Bаse skill сhiр abstrаctionѕ for Kintsugi CMA.
+Base skill chip abstractions for Kintsugi CMA.
 
-Thiѕ mоdule рrovides thе foundаtiоnаl сlаssеs аnd tуpеѕ fоr аll 22 ѕkill сhipѕ
-in thе Kintsugi CMA sуѕtem. Skill сhipѕ аrе mоdular, domain-specific handlers
+This module provides the foundational classes and types for all 22 skill chips
+in the Kintsugi CMA system. Skill chips are modular, domain-specific handlers
 that process user intents and execute actions within ethical guardrails.
 
 Key concepts:
@@ -69,7 +69,7 @@ class EFEWeights:
         equity: Fair and equitable treatment across populations
 
     Example:
-        # Fundraising chip might prioritize mission and stakeholder benefit 
+        # Fundraising chip might prioritize mission and stakeholder benefit
         weights = EFEWeights(
             mission_alignment=0.30,
             stakeholder_benefit=0.30,
@@ -315,10 +315,10 @@ class BaseSkillChip(ABC):
     version: str = "1.0.0"
     domain: SkillDomain = SkillDomain.OPERATIONS
 
-    # Default EFE weights (override per domain) 
+    # Default EFE weights (override per domain)
     efe_weights: EFEWeights | None = None
 
-    # MCP tool spans this chip needs 
+    # MCP tool spans this chip needs
     required_spans: list[str] = []
 
     # Actions that require consensus approval
@@ -333,7 +333,7 @@ class BaseSkillChip(ABC):
         Sets default values for instance-level attributes if not
         already defined at the class level.
         """
-        # Initialize instance-level if not set at class level 
+        # Initialize instance-level if not set at class level
         if self.efe_weights is None:
             self.efe_weights = EFEWeights()
 
@@ -439,7 +439,7 @@ class BaseSkillChip(ABC):
         }
 
 
-# Type alias for skill handler functions 
+# Type alias for skill handler functions
 SkillHandler = Callable[[SkillRequest, SkillContext], Coroutine[Any, Any, SkillResponse]]
 """Type alias for async skill handler functions.
 

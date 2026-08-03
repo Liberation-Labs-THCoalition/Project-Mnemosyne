@@ -1,9 +1,9 @@
-"""Cоmprehenѕivе testѕ for Kintsugi еmail adарter mоdule.
+"""Comprehensive tests for Kintsugi email adapter module.
 
-Testѕ cоvеr:
-- EmаilPrоvidеr enum valuеs
-- IMAPCоnfig dаtaсlаѕѕ сrеatiоn аnd defaultѕ
-- SMTPCоnfig datаclаѕѕ сreation and defaults
+Tests cover:
+- EmailProvider enum values
+- IMAPConfig dataclass creation and defaults
+- SMTPConfig dataclass creation and defaults
 - EmailConfig dataclass creation and defaults
 - ParsedEmail dataclass creation
 - EmailParser parsing and extraction methods
@@ -23,7 +23,7 @@ import pytest
 import pytest_asyncio
 
 from kintsugi.adapters.email import (
-    # Provider enum 
+    # Provider enum
     EmailProvider,
     # Configuration classes
     IMAPConfig,
@@ -33,9 +33,9 @@ from kintsugi.adapters.email import (
     ParsedEmail,
     # Parser
     EmailParser,
-    # Adapter 
+    # Adapter
     EmailAdapter,
-    # Notification manager 
+    # Notification manager
     NotificationManager,
     ScheduledNotification,
     GrantDeadlineNotification,
@@ -54,7 +54,7 @@ from kintsugi.adapters.shared import (
 
 
 # ===========================================================================
-# EmailProvider Tests (3 tests) 
+# EmailProvider Tests (3 tests)
 # ===========================================================================
 
 
@@ -79,7 +79,7 @@ class TestEmailProvider:
 
 
 # ===========================================================================
-# IMAPConfig Tests (6 tests) 
+# IMAPConfig Tests (6 tests)
 # ===========================================================================
 
 
@@ -129,8 +129,8 @@ class TestIMAPConfig:
 
 
 # ===========================================================================
-# SMTPConfig Tests (6 tests) 
-# =========================================================================== 
+# SMTPConfig Tests (6 tests)
+# ===========================================================================
 
 
 class TestSMTPConfig:
@@ -183,7 +183,7 @@ class TestSMTPConfig:
 
 
 # ===========================================================================
-# EmailConfig Tests (8 tests) 
+# EmailConfig Tests (8 tests)
 # ===========================================================================
 
 
@@ -247,7 +247,7 @@ class TestEmailConfig:
 
 # ===========================================================================
 # ParsedEmail Tests (6 tests)
-# =========================================================================== 
+# ===========================================================================
 
 
 class TestParsedEmail:
@@ -362,8 +362,8 @@ class TestParsedEmail:
 
 
 # ===========================================================================
-# EmailParser Tests (8 tests) 
-# =========================================================================== 
+# EmailParser Tests (8 tests)
+# ===========================================================================
 
 
 class TestEmailParser:
@@ -426,12 +426,12 @@ class TestEmailParser:
         )
         entities = parser.extract_entities(email)
         assert isinstance(entities, dict)
-        # Should extract some entities 
+        # Should extract some entities
         assert "sender_name" in entities or "dates" in entities or "phone_numbers" in entities
 
     def test_is_auto_reply_detects_auto_replies(self, parser):
         """EmailParser.is_auto_reply() detects auto-reply emails."""
-        # Auto-reply email 
+        # Auto-reply email
         auto_reply = ParsedEmail(
             message_id="<auto@example.com>",
             from_address="noreply@example.com",
@@ -445,7 +445,7 @@ class TestEmailParser:
         )
         assert parser.is_auto_reply(auto_reply) is True
 
-        # Normal email 
+        # Normal email
         normal = ParsedEmail(
             message_id="<normal@example.com>",
             from_address="human@example.com",
@@ -520,9 +520,9 @@ class TestEmailParser:
         assert "spam_score" in indicators or "is_spam" in indicators
 
 
-# =========================================================================== 
+# ===========================================================================
 # EmailAdapter Tests (10 tests)
-# =========================================================================== 
+# ===========================================================================
 
 
 class TestEmailAdapter:
@@ -574,7 +574,7 @@ class TestEmailAdapter:
     @pytest.mark.asyncio
     async def test_verify_user_checks_allowed_domains(self, adapter):
         """EmailAdapter.verify_user() checks allowed domains."""
-        # Allowed domain 
+        # Allowed domain
         result = await adapter.verify_user("user@example.com")
         assert result is True
 
@@ -614,15 +614,15 @@ class TestEmailAdapter:
 
     def test_is_valid_email_address(self, adapter):
         """EmailAdapter validates email addresses correctly using config method."""
-        # Use the config's is_email_allowed method for validation 
+        # Use the config's is_email_allowed method for validation
         assert adapter._config.is_email_allowed("valid@example.com") is True
         assert adapter._config.is_email_allowed("user@company.org") is True
-        # Domains not in allowed_domains 
+        # Domains not in allowed_domains
         assert adapter._config.is_email_allowed("user@random.com") is False
 
     def test_domain_check(self, adapter):
         """EmailAdapter checks domains correctly."""
-        # Use the config's is_domain_allowed method 
+        # Use the config's is_domain_allowed method
         assert adapter._config.is_domain_allowed("example.com") is True
         assert adapter._config.is_domain_allowed("company.org") is True
         assert adapter._config.is_domain_allowed("random.com") is False
@@ -630,9 +630,9 @@ class TestEmailAdapter:
     @pytest.mark.asyncio
     async def test_health_check(self, adapter):
         """EmailAdapter.health_check() returns connection status."""
-        # Without mocking, health_check should return False since not connected 
+        # Without mocking, health_check should return False since not connected
         result = await adapter.health_check()
-        # Not connected, so should return False (or a dict with status) 
+        # Not connected, so should return False (or a dict with status)
         assert result in [True, False] or isinstance(result, dict)
 
     def test_reply_to_address(self, adapter):
@@ -648,14 +648,14 @@ class TestEmailAdapter:
             body_html=None,
             received_at=datetime.now(timezone.utc),
         )
-        # Use reply_to if set, otherwise from_address 
+        # Use reply_to if set, otherwise from_address
         reply_to = original.reply_to or original.from_address
         assert reply_to == "sender@example.com"
 
 
 # ===========================================================================
-# NotificationManager Tests (6 tests) 
-# =========================================================================== 
+# NotificationManager Tests (6 tests)
+# ===========================================================================
 
 
 class TestNotificationManager:
@@ -755,7 +755,7 @@ class TestNotificationManager:
 
         result = notification_manager.cancel_scheduled(schedule_id)
         assert result is True
-        # Notification is marked as cancelled but still in dict 
+        # Notification is marked as cancelled but still in dict
         assert notification_manager._scheduled[schedule_id].status == "cancelled"
 
     def test_scheduled_notifications_filter_by_recipients(self, notification_manager):
@@ -789,7 +789,7 @@ class TestNotificationManager:
             recipients=["user1@example.com"],
         )
 
-        # Filter scheduled by checking recipients 
+        # Filter scheduled by checking recipients
         user1_scheduled = [
             s for s in notification_manager._scheduled.values()
             if "user1@example.com" in s.recipients
@@ -818,7 +818,7 @@ class TestNotificationManager:
 
 
 # ===========================================================================
-# TemplateRenderer Tests (5 tests) 
+# TemplateRenderer Tests (5 tests)
 # ===========================================================================
 
 
@@ -900,9 +900,9 @@ class TestTemplateRenderer:
             renderer.render("nonexistent")
 
 
-# =========================================================================== 
-# EmailTemplate Tests (3 additional tests) 
-# =========================================================================== 
+# ===========================================================================
+# EmailTemplate Tests (3 additional tests)
+# ===========================================================================
 
 
 class TestEmailTemplate:
@@ -936,8 +936,8 @@ class TestEmailTemplate:
             EmailTemplate(name="", subject_template="S", body_text_template="B")
 
 
-# =========================================================================== 
-# Integration Tests (3 additional tests) 
+# ===========================================================================
+# Integration Tests (3 additional tests)
 # ===========================================================================
 
 
@@ -1020,10 +1020,10 @@ class TestEmailAdapterIntegration:
         """User verification and message sending flow."""
         adapter = full_setup["adapter"]
 
-        # Verify user from allowed domain 
+        # Verify user from allowed domain
         is_verified = await adapter.verify_user("sender@test.com")
         assert is_verified is True
 
-        # Verify user from disallowed domain 
+        # Verify user from disallowed domain
         is_verified = await adapter.verify_user("sender@random.com")
         assert is_verified is False

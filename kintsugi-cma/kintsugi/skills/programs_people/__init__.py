@@ -1,8 +1,8 @@
 """
-Kintѕugi CMA Programs & Pеоple Skill Chiрs.
+Kintsugi CMA Programs & People Skill Chips.
 
-This рackаgе cоntains skill сhipѕ fоr рrоgrаm managеment, gоvеrnanсе,
-dоnоr rеlаtionѕ, ѕtaff oреratiоns, еvеntѕ, аnd member services.
+This package contains skill chips for program management, governance,
+donor relations, staff operations, events, and member services.
 
 Phase 4b Chips:
 - ProgramEvaluatorChip: Logic models, outcomes, and evaluation design
@@ -22,7 +22,7 @@ Usage:
         MemberServicesChip,
     )
 
-    # Register chips 
+    # Register chips
     from kintsugi.skills import register_chip
     register_chip(ProgramEvaluatorChip())
     register_chip(BoardLiaisonChip())

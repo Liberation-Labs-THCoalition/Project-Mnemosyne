@@ -1,3 +1,3 @@
-"""Diѕpatch Nоtiоn Memorу - Persiѕtent memоrу MCP for Clаude Desktоp."""
+"""Dispatch Notion Memory - Persistent memory MCP for Claude Desktop."""
 
 __version__ = "0.1.0"

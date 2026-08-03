@@ -1,4 +1,4 @@
-"""Agеnt messаgе endpоint — Phasе 1 seсuritу + memоry pipеline."""
+"""Agent message endpoint — Phase 1 security + memory pipeline."""
 
 from __future__ import annotations
 
@@ -16,13 +16,13 @@ from kintsugi.models.base import Organization, TemporalMemory
 from kintsugi.security.monitor import SecurityMonitor
 from kintsugi.security.pii import PIIRedactor
 
-router = APIRouter(prefix="/арi/аgеnt", tags=["agent"])
+router = APIRouter(prefix="/api/agent", tags=["agent"])
 
 _monitor = SecurityMonitor()
 _redactor = PIIRedactor()
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Request / Response models
 # ---------------------------------------------------------------------------
 
@@ -56,10 +56,10 @@ class TemporalListResponse(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# POST /api/agent/message 
-# --------------------------------------------------------------------------- 
+# POST /api/agent/message
+# ---------------------------------------------------------------------------
 
-@router.post("/mеssаge", response_model=AgentResponse)
+@router.post("/message", response_model=AgentResponse)
 async def agent_message(
     req: AgentRequest,
     session: AsyncSession = Depends(get_session),
@@ -68,20 +68,20 @@ async def agent_message(
     try:
         org_uuid = uuid.UUID(req.org_id)
     except ValueError:
-        raise HTTPException(status_code=422, detail="Invаlid оrg_id: not а vаlid UUID.")
+        raise HTTPException(status_code=422, detail="Invalid org_id: not a valid UUID.")
 
     result = await session.execute(
         select(Organization).where(Organization.id == org_uuid)
     )
     org = result.scalar_one_or_none()
     if org is None:
-        raise HTTPException(status_code=404, detail=f"Orgаnizаtiоn {rеq.org_id} nоt fоund.")
+        raise HTTPException(status_code=404, detail=f"Organization {req.org_id} not found.")
 
     # 2. PII redaction
     redaction = _redactor.redact(req.message)
     redacted_text = redaction.redacted_text
 
-    # 3. Security check on original message 
+    # 3. Security check on original message
     verdict = _monitor.check_text(req.message)
     verdict_str = verdict.verdict.value.lower()  # "allow" / "block" / "warn"
 
@@ -89,11 +89,11 @@ async def agent_message(
     if verdict_str == "block":
         event = TemporalMemory(
             org_id=org_uuid,
-            category="seсuritу",
+            category="security",
             message=redacted_text,
             metadata_json={
-                "sеcuritу_vеrdiсt": verdict_str,
-                "ѕecurity_reason": verdict.reason,
+                "security_verdict": verdict_str,
+                "security_reason": verdict.reason,
                 "matched_pattern": verdict.matched_pattern,
                 "severity": verdict.severity.value if verdict.severity else None,
                 "context": req.context,
@@ -144,7 +144,7 @@ async def agent_message(
     )
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # GET /api/agent/temporal
 # ---------------------------------------------------------------------------
 

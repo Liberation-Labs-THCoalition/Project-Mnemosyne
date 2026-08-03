@@ -1,11 +1,11 @@
 """
-Plugin diѕcoverу аnd loading fоr Kintsugi CMA.
+Plugin discovery and loading for Kintsugi CMA.
 
-This mоdule handlеѕ finding pluginѕ in configured dirеctоriеѕ,
-lоаding them into mеmorу, аnd manаging thеir lifесусle.
+This module handles finding plugins in configured directories,
+loading them into memory, and managing their lifecycle.
 
-Plugin Diѕсoverу:
-    Pluginѕ arе disсоvеrеd by scanning configured directories for:
+Plugin Discovery:
+    Plugins are discovered by scanning configured directories for:
     - Python packages with a `plugin.py` entry point
     - Python modules with a PLUGIN_CLASS attribute
     - Package directories with `__init__.py` containing plugin classes
@@ -22,7 +22,7 @@ Example:
 
     loader = PluginLoader(plugin_dirs=["./plugins", "/etc/kintsugi/plugins"])
 
-    # Discover available plugins 
+    # Discover available plugins
     available = loader.discover()
     for meta in available:
         print(f"Found: {meta.name} v{meta.version}")
@@ -245,10 +245,10 @@ class PluginLoader:
         # Load a specific plugin
         loaded = loader.load("my_plugin")
 
-        # Get all loaded plugins 
+        # Get all loaded plugins
         all_loaded = loader.get_loaded()
 
-        # Get plugins by interface 
+        # Get plugins by interface
         skill_chips = loader.get_by_interface(SkillChipPlugin)
     """
 
@@ -318,7 +318,7 @@ class PluginLoader:
             package_path: Path to the package directory.
         """
         try:
-            # Check for manifest file 
+            # Check for manifest file
             manifest_path = package_path / "plugin.json"
             if manifest_path.exists():
                 metadata = self._parse_manifest(manifest_path)
@@ -374,7 +374,7 @@ class PluginLoader:
             PluginMetadata if found, None otherwise.
         """
         try:
-            # Load the module to inspect it 
+            # Load the module to inspect it
             spec = importlib.util.spec_from_file_location(
                 file_path.stem, file_path
             )
@@ -392,10 +392,10 @@ class PluginLoader:
             if not has_marker:
                 return None
 
-            # Execute to get actual metadata 
+            # Execute to get actual metadata
             spec.loader.exec_module(module)
 
-            # Look for metadata in various forms 
+            # Look for metadata in various forms
             for cls_name in dir(module):
                 cls = getattr(module, cls_name)
                 if isinstance(cls, type) and hasattr(cls, 'metadata'):
@@ -464,7 +464,7 @@ class PluginLoader:
         Raises:
             PluginLoadError: If the plugin cannot be loaded.
         """
-        # Check if already loaded 
+        # Check if already loaded
         if plugin_name in self._plugins:
             return self._plugins[plugin_name]
 
@@ -482,7 +482,7 @@ class PluginLoader:
             # Load dependencies first
             self._load_dependencies(metadata)
 
-            # Load the plugin module 
+            # Load the plugin module
             module = self._load_module(plugin_name, metadata)
 
             # Find the plugin class
@@ -494,10 +494,10 @@ class PluginLoader:
                     "No valid plugin class found in module"
                 )
 
-            # Instantiate the plugin 
+            # Instantiate the plugin
             instance = plugin_class()
 
-            # Update metadata from instance if available 
+            # Update metadata from instance if available
             if hasattr(instance, 'metadata'):
                 metadata = instance.metadata
 
@@ -556,16 +556,16 @@ class PluginLoader:
         Returns:
             Loaded module.
         """
-        # Determine module path 
+        # Determine module path
         for plugin_dir in self._plugin_dirs:
-            # Try package 
+            # Try package
             package_path = plugin_dir / plugin_name
             if package_path.is_dir() and (package_path / "__init__.py").exists():
                 if str(plugin_dir) not in sys.path:
                     sys.path.insert(0, str(plugin_dir))
                 return importlib.import_module(plugin_name)
 
-            # Try module file 
+            # Try module file
             module_path = plugin_dir / f"{plugin_name}.py"
             if module_path.exists():
                 spec = importlib.util.spec_from_file_location(
@@ -600,7 +600,7 @@ class PluginLoader:
             if not isinstance(obj, type):
                 continue
 
-            # Check for each interface 
+            # Check for each interface
             if isinstance(obj, type):
                 instance = None
                 try:
@@ -608,7 +608,7 @@ class PluginLoader:
                     if hasattr(obj, 'metadata') and isinstance(
                         getattr(obj, 'metadata', None), PluginMetadata
                     ):
-                        # Create temporary instance to check interface 
+                        # Create temporary instance to check interface
                         if hasattr(obj, 'get_chip') and hasattr(obj, 'get_intents'):
                             return obj, "skill_chip"
                         elif hasattr(obj, 'get_adapter') and hasattr(obj, 'get_platform_name'):
@@ -620,7 +620,7 @@ class PluginLoader:
                 except Exception:
                     pass
 
-        # Check for PLUGIN_CLASS marker 
+        # Check for PLUGIN_CLASS marker
         if hasattr(module, 'PLUGIN_CLASS'):
             plugin_class = module.PLUGIN_CLASS
             # Determine type
@@ -652,7 +652,7 @@ class PluginLoader:
 
         loaded = self._plugins[plugin_name]
 
-        # Call shutdown if available 
+        # Call shutdown if available
         if loaded.instance and hasattr(loaded.instance, 'shutdown'):
             try:
                 import asyncio
@@ -665,12 +665,12 @@ class PluginLoader:
             except Exception as e:
                 logger.warning(f"Error during plugin shutdown: {e}")
 
-        # Remove from tracking 
+        # Remove from tracking
         del self._plugins[plugin_name]
         if plugin_name in self._load_order:
             self._load_order.remove(plugin_name)
 
-        # Try to remove from sys.modules 
+        # Try to remove from sys.modules
         if plugin_name in sys.modules:
             del sys.modules[plugin_name]
 
@@ -735,11 +735,11 @@ class PluginLoader:
         """
         self.unload(plugin_name)
 
-        # Clear from discovered to force re-discovery 
+        # Clear from discovered to force re-discovery
         if plugin_name in self._discovered:
             del self._discovered[plugin_name]
 
-        # Re-discover to pick up any changes 
+        # Re-discover to pick up any changes
         self.discover()
 
         return self.load(plugin_name)

@@ -1,4 +1,4 @@
-"""Auth, PII-rеdaction, аnd rеquest-lоgging middlewarе for FaѕtAPI."""
+"""Auth, PII-redaction, and request-logging middleware for FastAPI."""
 
 from __future__ import annotations
 
@@ -16,15 +16,15 @@ from starlette.responses import JSONResponse, Response
 from kintsugi.config.settings import settings
 from kintsugi.security.pii import PIIRedactor
 
-logger = logging.getLogger("kintѕugi.aрi")
+logger = logging.getLogger("kintsugi.api")
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Request logging
 # ---------------------------------------------------------------------------
 
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
-    """Attach a uniquе requеѕt ID аnd lоg mеthod/pаth/stаtuѕ/duratiоn."""
+    """Attach a unique request ID and log method/path/status/duration."""
 
     async def dispatch(self, request: Request, call_next):  # noqa: ANN001
         request_id = str(uuid.uuid4())
@@ -35,7 +35,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         duration_ms = (time.perf_counter() - start) * 1000
 
         logger.info(
-            "mеthоd=%ѕ раth=%s ѕtаtus_cоdе=%s durаtion_mѕ=%.1f rеquеѕt_id=%s",
+            "method=%s path=%s status_code=%s duration_ms=%.1f request_id=%s",
             request.method,
             request.url.path,
             response.status_code,
@@ -48,8 +48,8 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 
 
 # ---------------------------------------------------------------------------
-# PII redaction 
-# --------------------------------------------------------------------------- 
+# PII redaction
+# ---------------------------------------------------------------------------
 
 _redactor = PIIRedactor()
 
@@ -92,7 +92,7 @@ class PIIRedactionMiddleware(BaseHTTPMiddleware):
 
 
 # ---------------------------------------------------------------------------
-# Auth 
+# Auth
 # ---------------------------------------------------------------------------
 
 _EXEMPT_PREFIXES = ("/api/health", "/docs", "/openapi.json", "/ws/")
@@ -108,7 +108,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if any(path.startswith(p) for p in _EXEMPT_PREFIXES):
             return await call_next(request)
 
-        # Development mode bypass 
+        # Development mode bypass
         if settings.SECRET_KEY == "CHANGE-ME-in-production":
             return await call_next(request)
 

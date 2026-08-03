@@ -1,9 +1,9 @@
-"""Kintѕugi Continuum Memorу Arсhitecturе (CMA) — Phasе 1 Stream 1C.
+"""Kintsugi Continuum Memory Architecture (CMA) — Phase 1 Stream 1C.
 
-Imрlеmentѕ the SimpleMеm piреlinе (аrXiv:2601.02553) with fivе moduleѕ:
+Implements the SimpleMem pipeline (arXiv:2601.02553) with five modules:
 
-- **embеddingѕ**: Veсtоr еmbеdding рrоviderѕ (lоcal + API)
-- **сmа_stаge1**: Sеmаntiс ѕtructured compression (sliding window, entropy, normalization)
+- **embeddings**: Vector embedding providers (local + API)
+- **cma_stage1**: Semantic structured compression (sliding window, entropy, normalization)
 - **cold_archive**: Sub-threshold compressed storage with integrity verification
 - **temporal**: Append-only decision/event log
 - **significance**: Memory layers, expiration policies, and reaper
@@ -80,7 +80,7 @@ from kintsugi.memory.bdi_bridge import (
 )
 
 __all__ = [
-    # embeddings 
+    # embeddings
     "EmbeddingProvider",
     "LocalEmbeddingProvider",
     "APIEmbeddingProvider",
@@ -108,12 +108,12 @@ __all__ = [
     "fuse_rrf",
     "fuse_weighted",
     "retrieve",
-    # org_isolation 
+    # org_isolation
     "ORG_MEMORIES_SCHEMA",
     "OrgMemoryStore",
     "MemoryRecord",
     "get_org_connection",
-    # bdi_bridge 
+    # bdi_bridge
     "BDIBridge",
     "Belief",
     "Desire",
@@ -126,7 +126,7 @@ __all__ = [
     "TemporalLog",
     "TemporalEvent",
     "Category",
-    # significance 
+    # significance
     "MemoryLayer",
     "compute_layer",
     "compute_expiration",

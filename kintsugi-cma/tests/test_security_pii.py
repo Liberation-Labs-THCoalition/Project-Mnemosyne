@@ -1,8 +1,8 @@
-"""Cоmprehenѕivе pytеst teѕt suite fоr kintѕugi.sеcurity.pii mоdule.
+"""Comprehensive pytest test suite for kintsugi.security.pii module.
 
-Tеѕtѕ соver:
-- PIIDetеctiоn аnd RedасtiоnRеѕult dаtaсlаssеѕ
-- _luhn_chеck vаlidаtiоn аlgorithm
+Tests cover:
+- PIIDetection and RedactionResult dataclasses
+- _luhn_check validation algorithm
 - PIIRedactor detection and redaction for all PII types
 - Edge cases, negative cases, and mode variations
 - pii_redaction_middleware behavior
@@ -18,7 +18,7 @@ import re
 
 import pytest
 
-# Ensure the kintsugi package is importable 
+# Ensure the kintsugi package is importable
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from kintsugi.security.pii import (
@@ -39,7 +39,7 @@ class TestLuhnCheck:
 
     def test_luhn_valid_card_numbers(self):
         """Valid credit card numbers pass Luhn check."""
-        # Known valid test card numbers 
+        # Known valid test card numbers
         assert _luhn_check("4532015112830366") is True  # Visa
         assert _luhn_check("5425233430109903") is True  # Mastercard
         assert _luhn_check("374245455400126") is True   # Amex
@@ -49,7 +49,7 @@ class TestLuhnCheck:
         """Invalid credit card numbers fail Luhn check."""
         assert _luhn_check("4532015112830367") is False  # Changed last digit
         assert _luhn_check("1234567812345678") is False  # Made up number
-        # Note: 0000000000000000 actually passes Luhn (checksum is 0) 
+        # Note: 0000000000000000 actually passes Luhn (checksum is 0)
 
     def test_luhn_edge_cases(self):
         """Edge cases for Luhn validation."""
@@ -61,7 +61,7 @@ class TestLuhnCheck:
         assert _luhn_check("4532-0151-1283-0366") is True  # Valid with dashes
         assert _luhn_check("4532 0151 1283 0366") is True  # Valid with spaces
 
-        # Mixed alphanumeric 
+        # Mixed alphanumeric
         assert _luhn_check("abc123") is False
 
     def test_luhn_single_digit(self):
@@ -72,7 +72,7 @@ class TestLuhnCheck:
 
 # =============================================================================
 # Test PIIDetection dataclass
-# ============================================================================= 
+# =============================================================================
 
 class TestPIIDetection:
     """Test the PIIDetection dataclass."""
@@ -101,7 +101,7 @@ class TestPIIDetection:
 
 # =============================================================================
 # Test RedactionResult dataclass
-# ============================================================================= 
+# =============================================================================
 
 class TestRedactionResult:
     """Test the RedactionResult dataclass."""
@@ -126,9 +126,9 @@ class TestRedactionResult:
             result.detections_count = 5
 
 
-# ============================================================================= 
+# =============================================================================
 # Test PIIRedactor.detect() - Individual PII Types
-# ============================================================================= 
+# =============================================================================
 
 class TestPIIDetectionByType:
     """Test detection of each PII type."""
@@ -252,7 +252,7 @@ class TestPIIDetectionByType:
         text = "Invalid: 999.999.999.999"
         detections = redactor.detect(text)
         ip_detections = [d for d in detections if d.pii_type == "IP_ADDRESS"]
-        # The regex should prevent this, but if detected it's an edge case 
+        # The regex should prevent this, but if detected it's an edge case
         # In practice, the regex pattern prevents >255 octets
         assert len(ip_detections) == 0
 
@@ -282,9 +282,9 @@ class TestPIIDetectionByType:
         assert len(dob_detections) == 0
 
 
-# ============================================================================= 
-# Test PIIRedactor.detect() - Edge Cases 
-# ============================================================================= 
+# =============================================================================
+# Test PIIRedactor.detect() - Edge Cases
+# =============================================================================
 
 class TestPIIDetectionEdgeCases:
     """Test edge cases for PII detection."""
@@ -319,14 +319,14 @@ class TestPIIDetectionEdgeCases:
         detections = redactor.detect(text)
 
         assert len(detections) == 3
-        # Verify sorted by start position 
+        # Verify sorted by start position
         for i in range(len(detections) - 1):
             assert detections[i].start < detections[i + 1].start
 
     def test_overlapping_patterns_both_detected(self):
         """When patterns overlap, both are detected."""
         redactor = PIIRedactor()
-        # Edge case: if patterns somehow overlap (rare with these patterns) 
+        # Edge case: if patterns somehow overlap (rare with these patterns)
         text = "Email: test@test.com"
         detections = redactor.detect(text)
         assert len(detections) == 1
@@ -334,7 +334,7 @@ class TestPIIDetectionEdgeCases:
 
 # =============================================================================
 # Test PIIRedactor with extra_patterns
-# ============================================================================= 
+# =============================================================================
 
 class TestPIIRedactorExtraPatterns:
     """Test PIIRedactor with custom extra patterns."""
@@ -385,8 +385,8 @@ class TestPIIRedactorExtraPatterns:
         assert len(detections) == 1
 
 
-# ============================================================================= 
-# Test PIIRedactor.redact() - Mask Mode 
+# =============================================================================
+# Test PIIRedactor.redact() - Mask Mode
 # =============================================================================
 
 class TestPIIRedactionMaskMode:
@@ -431,9 +431,9 @@ class TestPIIRedactionMaskMode:
         assert result.detections_count == 1
 
 
-# ============================================================================= 
-# Test PIIRedactor.redact() - Remove Mode 
-# ============================================================================= 
+# =============================================================================
+# Test PIIRedactor.redact() - Remove Mode
+# =============================================================================
 
 class TestPIIRedactionRemoveMode:
     """Test redaction in remove mode."""
@@ -469,9 +469,9 @@ class TestPIIRedactionRemoveMode:
         assert result.redacted_text == ""
 
 
-# ============================================================================= 
-# Test PIIRedactor.redact() - Edge Cases 
-# ============================================================================= 
+# =============================================================================
+# Test PIIRedactor.redact() - Edge Cases
+# =============================================================================
 
 class TestPIIRedactionEdgeCases:
     """Test edge cases for redaction."""
@@ -503,7 +503,7 @@ class TestPIIRedactionEdgeCases:
 
         # Two emails, one phone
         assert result.detections_count == 3
-        # types_found should be sorted and unique 
+        # types_found should be sorted and unique
         assert result.types_found == ["EMAIL", "PHONE"]  # Alphabetically sorted
 
     def test_redact_default_mode_is_mask(self):
@@ -524,7 +524,7 @@ class TestPIIRedactionEdgeCases:
         assert result.redacted_text.endswith("[REDACTED_PHONE]")
 
 
-# ============================================================================= 
+# =============================================================================
 # Test pii_redaction_middleware
 # =============================================================================
 
@@ -552,8 +552,8 @@ class TestPIIRedactionMiddleware:
         custom_redactor = PIIRedactor()
         middleware = pii_redaction_middleware(redactor=custom_redactor)
 
-        # Verify the middleware has captured the redactor 
-        # We can't easily test the async behavior without pytest-asyncio, 
+        # Verify the middleware has captured the redactor
+        # We can't easily test the async behavior without pytest-asyncio,
         # but we can verify the factory works correctly
         assert callable(middleware)
 
@@ -562,7 +562,7 @@ class TestPIIRedactionMiddleware:
         skip_paths = ["/health", "/metrics"]
         middleware = pii_redaction_middleware(skip_paths=skip_paths)
 
-        # Verify the middleware has captured skip_paths 
+        # Verify the middleware has captured skip_paths
         assert callable(middleware)
 
     def test_middleware_handles_none_skip_paths(self):
@@ -582,8 +582,8 @@ class TestPIIRedactionMiddleware:
 
 
 # =============================================================================
-# Integration Tests 
-# ============================================================================= 
+# Integration Tests
+# =============================================================================
 
 class TestPIIIntegration:
     """Integration tests combining multiple features."""
@@ -593,11 +593,11 @@ class TestPIIIntegration:
         redactor = PIIRedactor()
         text = "Contact: test@example.com, Phone: 555-123-4567, SSN: 123-45-6789"
 
-        # First detect 
+        # First detect
         detections = redactor.detect(text)
         assert len(detections) == 3
 
-        # Then redact 
+        # Then redact
         result = redactor.redact(text, mode="mask")
         assert result.detections_count == 3
         assert len(result.types_found) == 3
@@ -620,7 +620,7 @@ class TestPIIIntegration:
         detections = redactor.detect(text)
         detected_types = {d.pii_type for d in detections}
 
-        # All types should be detected 
+        # All types should be detected
         expected_types = {"EMAIL", "PHONE", "SSN", "CREDIT_CARD", "IP_ADDRESS", "DATE_OF_BIRTH"}
         assert detected_types == expected_types
 
@@ -637,16 +637,16 @@ class TestPIIIntegration:
         mask_result = redactor.redact(text, mode="mask")
         remove_result = redactor.redact(text, mode="remove")
 
-        # Both should find same number of detections 
+        # Both should find same number of detections
         assert mask_result.detections_count == remove_result.detections_count
         assert mask_result.types_found == remove_result.types_found
 
-        # But text should differ 
+        # But text should differ
         assert mask_result.redacted_text != remove_result.redacted_text
 
 
 # =============================================================================
-# Run pytest with coverage 
+# Run pytest with coverage
 # =============================================================================
 
 if __name__ == "__main__":

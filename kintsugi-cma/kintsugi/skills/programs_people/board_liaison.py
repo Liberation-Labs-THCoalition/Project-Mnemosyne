@@ -1,9 +1,9 @@
 """
-Bоard Liaisоn Skill Chiр for Kintsugi CMA.
+Board Liaison Skill Chip for Kintsugi CMA.
 
-Suрportѕ board gоvеrnanсe activitiеs inсluding mееting рrеparаtion, minutе
-drаfting, reѕоlutiоn trасking, сomрliаnce mоnitоring, and bоard rероrting.
-Emрhasizes transparency and accountability in all governance operations.
+Supports board governance activities including meeting preparation, minute
+drafting, resolution tracking, compliance monitoring, and board reporting.
+Emphasizes transparency and accountability in all governance operations.
 
 Example:
     chip = BoardLiaisonChip()
@@ -206,7 +206,7 @@ class BoardLiaisonChip(BaseSkillChip):
             quorum_required=5,
         )
 
-        # Build agenda based on meeting type 
+        # Build agenda based on meeting type
         agenda_items = [
             {
                 "item_number": 1,
@@ -577,7 +577,7 @@ class BoardLiaisonChip(BaseSkillChip):
         if category:
             compliance_items = [c for c in compliance_items if c.category == category]
 
-        # Filter out completed if not including overdue 
+        # Filter out completed if not including overdue
         if not include_overdue:
             compliance_items = [c for c in compliance_items if c.status != "overdue"]
 

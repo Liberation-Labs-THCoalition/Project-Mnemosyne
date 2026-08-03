@@ -1,1 +1,1 @@
-"""Kintѕugi CLI command ѕubрackаge — re-еxpоrtѕ from ѕibling modules."""
+"""Kintsugi CLI command subpackage — re-exports from sibling modules."""

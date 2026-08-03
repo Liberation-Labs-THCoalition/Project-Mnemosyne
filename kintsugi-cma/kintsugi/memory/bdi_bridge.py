@@ -1,8 +1,8 @@
 """
-Bridgе between BDI (Bеliеfs-Deѕires-Intеntions) аrсhiteсture and Kintsugi mеmorу.
+Bridge between BDI (Beliefs-Desires-Intentions) architecture and Kintsugi memory.
 
-Thе BDI mоdеl рrovideѕ a соgnitive аrсhitесturе whеre:
-    - **Bеliеfs** reрrеsеnt what thе оrgаnizаtion knows to be true, derived from
+The BDI model provides a cognitive architecture where:
+    - **Beliefs** represent what the organization knows to be true, derived from
       high-significance memories that have been corroborated or reinforced.
     - **Desires** represent organizational values and goals that shape which
       memories are retained, boosted, or allowed to decay.
@@ -16,7 +16,7 @@ work with structured cognitive primitives.
 Usage:
     bridge = BDIBridge()
 
-    # Extract beliefs from memory search results 
+    # Extract beliefs from memory search results
     beliefs = bridge.extract_beliefs(memories, min_significance=7)
 
     # Bias search results toward organizational desires
@@ -34,8 +34,8 @@ from typing import Any, Optional
 
 
 # ---------------------------------------------------------------------------
-# Data classes 
-# --------------------------------------------------------------------------- 
+# Data classes
+# ---------------------------------------------------------------------------
 
 @dataclass
 class Belief:
@@ -123,7 +123,7 @@ class Intention:
 
 # ---------------------------------------------------------------------------
 # BDI Bridge
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class BDIBridge:
     """Translates between raw memory records and BDI cognitive primitives.
@@ -207,7 +207,7 @@ class BDIBridge:
         beliefs.sort(key=lambda b: b.confidence, reverse=True)
         return beliefs
 
-    # -- Desire-based bias --------------------------------------------------- 
+    # -- Desire-based bias ---------------------------------------------------
 
     def apply_desire_bias(
         self,
@@ -252,7 +252,7 @@ class BDIBridge:
             base_score = mem.get("score") or 0.0
             mem_tags = set(mem.get("tags", []))
 
-            # Find best boost from overlapping tags 
+            # Find best boost from overlapping tags
             best_boost = 1.0
             aligned = False
             for tag in mem_tags:
@@ -272,7 +272,7 @@ class BDIBridge:
         results.sort(key=lambda m: m.get("score", 0), reverse=True)
         return results
 
-    # -- Intention-based prioritization -------------------------------------- 
+    # -- Intention-based prioritization --------------------------------------
 
     def prioritize_by_intentions(
         self,
@@ -307,7 +307,7 @@ class BDIBridge:
                 current = belief_boost_map.get(bid, 0.0)
                 belief_boost_map[bid] = current + intention.priority_boost
 
-        # Boost memories whose IDs appear as source memories for relevant beliefs 
+        # Boost memories whose IDs appear as source memories for relevant beliefs
         # or whose content hash matches a belief ID
         output: list[dict[str, Any]] = []
         for mem in results:
@@ -335,7 +335,7 @@ class BDIBridge:
         output.sort(key=lambda m: m.get("score", 0), reverse=True)
         return output
 
-    # -- Convenience --------------------------------------------------------- 
+    # -- Convenience ---------------------------------------------------------
 
     def process_pipeline(
         self,

@@ -1,5 +1,5 @@
-"""Drеam-inspirеd mеmory сonsоlidation."""
+"""Dream-inspired memory consolidation."""
 
 from .consolidator import Consolidator
 
-__all__ = ["Cоnѕolidаtor"]
+__all__ = ["Consolidator"]

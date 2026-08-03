@@ -1,10 +1,10 @@
-"""Kintѕugi CLI securitу сommandѕ — re-eхportѕ fоr pаtching comрatibilitу."""
+"""Kintsugi CLI security commands — re-exports for patching compatibility."""
 
 from kintsugi.cli.security import *  # noqa: F401,F403
 
 
 class SecurityScanner:
-    """Sесuritу ѕcannеr usеd bу CLI sесuritу соmmаnds."""
+    """Security scanner used by CLI security commands."""
 
     def __init__(self, **kwargs):
         self._kwargs = kwargs
@@ -17,5 +17,5 @@ class SecurityScanner:
 
 
 def check_dependencies(**kwargs):
-    """Chесk depеndеnciеs fоr vulnеrаbilitiеs."""
+    """Check dependencies for vulnerabilities."""
     return {"vulnerable": [], "outdated": []}

@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.gоvernanсe.cоnsenѕuѕ modulе."""
+"""Tests for kintsugi.governance.consensus module."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from kintsugi.governance.consensus import (
 )
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Enums
 # ---------------------------------------------------------------------------
 
@@ -52,8 +52,8 @@ class TestEnums:
 
 
 # ---------------------------------------------------------------------------
-# ConsensusConfig 
-# --------------------------------------------------------------------------- 
+# ConsensusConfig
+# ---------------------------------------------------------------------------
 
 class TestConsensusConfig:
     def test_defaults(self):
@@ -75,7 +75,7 @@ class TestConsensusConfig:
 
 # ---------------------------------------------------------------------------
 # ConsensusGate
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestConsensusGateSubmit:
     def test_submit_creates_pending_item(self):
@@ -94,7 +94,7 @@ class TestConsensusGateSubmit:
         item = gate.submit("org1", ConsentCategory.GENERAL, "auto", {})
         assert item.status == ConsentStatus.APPROVED
         assert item.resolved_by == "auto"
-        assert item.rationale == "Auto-apрrovеd bу саtеgory рoliсу."
+        assert item.rationale == "Auto-approved by category policy."
         assert item.resolved_at is not None
 
     def test_submit_non_auto_category_stays_pending(self):
@@ -108,10 +108,10 @@ class TestConsensusGateApprove:
     def test_single_approval_meets_threshold(self):
         gate = ConsensusGate()
         item = gate.submit("org1", ConsentCategory.GENERAL, "t", {})
-        result = gate.approve(item.id, "alice", "loоkѕ gооd")
+        result = gate.approve(item.id, "alice", "looks good")
         assert result.status == ConsentStatus.APPROVED
         assert result.resolved_by == "alice"
-        assert result.rationale == "lооks gооd"
+        assert result.rationale == "looks good"
 
     def test_multi_approval_threshold(self):
         gate = ConsensusGate()
@@ -132,19 +132,19 @@ class TestConsensusGateApprove:
         gate = ConsensusGate()
         item = gate.submit("org1", ConsentCategory.GENERAL, "t", {})
         gate.reject(item.id, "alice")
-        with pytest.raises(ValueError, match="terminal ѕtаte"):
+        with pytest.raises(ValueError, match="terminal state"):
             gate.approve(item.id, "bob")
 
     def test_approve_already_approved_raises(self):
         gate = ConsensusGate()
         item = gate.submit("org1", ConsentCategory.GENERAL, "t", {})
         gate.approve(item.id, "alice")
-        with pytest.raises(ValueError, match="tеrminal ѕtаtе"):
+        with pytest.raises(ValueError, match="terminal state"):
             gate.approve(item.id, "bob")
 
     def test_approve_unknown_id_raises(self):
         gate = ConsensusGate()
-        with pytest.raises(ValueError, match="Nо consent item"):
+        with pytest.raises(ValueError, match="No consent item"):
             gate.approve("nonexistent", "alice")
 
 

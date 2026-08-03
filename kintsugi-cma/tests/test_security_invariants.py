@@ -1,8 +1,8 @@
-"""Cоmprehenѕivе pytеst teѕts for kintѕugi.ѕeсurity.invariantѕ modulе.
+"""Comprehensive pytest tests for kintsugi.security.invariants module.
 
-Tеѕtѕ сover:
-- Individuаl invariаnt сheсkѕ (ѕhеll ѕаfetу, еgresѕ, budgеt, PII, intent ѕignaturе)
-- Aggrеgаtе check_all() behavior
+Tests cover:
+- Individual invariant checks (shell safety, egress, budget, PII, intent signature)
+- Aggregate check_all() behavior
 - InvariantContext handling
 - Failure aggregation and reporting
 """
@@ -19,7 +19,7 @@ from kintsugi.security.invariants import (
 )
 
 
-# ============================================================================== 
+# ==============================================================================
 # Fixtures
 # ==============================================================================
 
@@ -47,8 +47,8 @@ def valid_capsule(secret_key):
 
 
 # ==============================================================================
-# Test check_shell_safety 
-# ============================================================================== 
+# Test check_shell_safety
+# ==============================================================================
 
 def test_check_shell_safety_safe_command_passes(checker):
     """check_shell_safety returns True for safe commands."""
@@ -77,14 +77,14 @@ def test_check_shell_safety_delegates_to_security_monitor(checker):
 
 def test_check_shell_safety_warn_verdict_passes(checker):
     """check_shell_safety treats WARN verdict as pass (not BLOCK)."""
-    # 'sudo rm' triggers WARN, not BLOCK 
+    # 'sudo rm' triggers WARN, not BLOCK
     result = checker.check_shell_safety("sudo rm file.txt")
     # WARN should pass (only BLOCK fails)
     assert result is True
 
 
 # ==============================================================================
-# Test check_egress 
+# Test check_egress
 # ==============================================================================
 
 def test_check_egress_allowed_domain_passes(checker):
@@ -131,7 +131,7 @@ def test_check_egress_malformed_url_fails(checker):
 def test_check_egress_partial_match_fails(checker):
     """check_egress requires exact domain or subdomain match."""
     allowlist = ["example.com"]
-    # Should not match 'notexample.com' 
+    # Should not match 'notexample.com'
     assert checker.check_egress("https://notexample.com", allowlist) is False
 
 
@@ -141,9 +141,9 @@ def test_check_egress_with_port(checker):
     assert checker.check_egress("https://example.com:8080/api", allowlist) is True
 
 
-# ============================================================================== 
+# ==============================================================================
 # Test check_budget
-# ============================================================================== 
+# ==============================================================================
 
 def test_check_budget_within_limit_passes(checker):
     """check_budget returns True when cost is within remaining budget."""
@@ -208,7 +208,7 @@ def test_check_pii_redacted_phone_fails(checker):
 
 def test_check_pii_redacted_credit_card_fails(checker):
     """check_pii_redacted returns False when text contains valid credit card."""
-    # Valid Luhn-checked credit card number 
+    # Valid Luhn-checked credit card number
     text = "Card: 4532-0151-1283-0366"
     assert checker.check_pii_redacted(text) is False
 
@@ -231,8 +231,8 @@ def test_check_pii_redacted_empty_string_passes(checker):
 
 
 # ==============================================================================
-# Test check_intent_signature 
-# ============================================================================== 
+# Test check_intent_signature
+# ==============================================================================
 
 def test_check_intent_signature_valid_capsule_passes(checker, valid_capsule, secret_key):
     """check_intent_signature returns True for valid capsule."""
@@ -264,9 +264,9 @@ def test_check_intent_signature_tampered_capsule_fails(checker, valid_capsule, s
     assert checker.check_intent_signature(tampered, secret_key) is False
 
 
-# ============================================================================== 
-# Test check_all - Empty Context 
-# ============================================================================== 
+# ==============================================================================
+# Test check_all - Empty Context
+# ==============================================================================
 
 def test_check_all_empty_context_passes(checker):
     """check_all passes when context is completely empty (no checks run)."""
@@ -281,7 +281,7 @@ def test_check_all_empty_context_passes(checker):
 
 # ==============================================================================
 # Test check_all - Individual Checks
-# ============================================================================== 
+# ==============================================================================
 
 def test_check_all_shell_safety_pass(checker):
     """check_all includes shell_safety check when command is provided."""
@@ -434,8 +434,8 @@ def test_check_all_intent_signature_skipped_when_key_missing(checker, valid_caps
 
 
 # ==============================================================================
-# Test check_all - Multiple Checks 
-# ============================================================================== 
+# Test check_all - Multiple Checks
+# ==============================================================================
 
 def test_check_all_multiple_checks_all_pass(checker, valid_capsule, secret_key):
     """check_all passes when all applicable checks pass."""
@@ -505,8 +505,8 @@ def test_check_all_mixed_applicable_and_skipped(checker):
 
 
 # ==============================================================================
-# Test InvariantResult Dataclass 
-# ============================================================================== 
+# Test InvariantResult Dataclass
+# ==============================================================================
 
 def test_invariant_result_frozen():
     """InvariantResult is immutable (frozen dataclass)."""
@@ -529,9 +529,9 @@ def test_invariant_result_includes_timestamp(checker):
     assert before <= result.checked_at <= after
 
 
-# ============================================================================== 
-# Test InvariantContext Defaults 
-# ============================================================================== 
+# ==============================================================================
+# Test InvariantContext Defaults
+# ==============================================================================
 
 def test_invariant_context_all_fields_default_none():
     """InvariantContext has all fields default to None."""
@@ -560,9 +560,9 @@ def test_invariant_context_partial_initialization():
     assert context.text is None
 
 
-# ============================================================================== 
+# ==============================================================================
 # Edge Cases
-# ============================================================================== 
+# ==============================================================================
 
 def test_check_all_with_zero_cost_and_zero_budget(checker):
     """check_all handles zero cost with zero budget."""
@@ -580,7 +580,7 @@ def test_check_all_empty_string_fields_are_checked(checker):
     )
     result = checker.check_all(context)
 
-    # Empty command passes shell safety (no dangerous patterns) 
+    # Empty command passes shell safety (no dangerous patterns)
     # Empty text passes PII check (no PII detected)
     assert result.all_passed is True
 
@@ -614,8 +614,8 @@ def test_check_all_negative_budget_values(checker):
 def test_check_egress_with_ip_address(checker):
     """check_egress handles IP addresses in allowlist."""
     allowlist = ["192.168.1.1"]
-    # IP address won't have hostname from urlparse 
-    # This tests edge case handling 
+    # IP address won't have hostname from urlparse
+    # This tests edge case handling
     result = checker.check_egress("http://192.168.1.1/api", allowlist)
     # The implementation uses parsed.hostname which should return IP
     assert result is True
@@ -625,7 +625,7 @@ def test_check_egress_file_url(checker):
     """check_egress handles file:// URLs."""
     allowlist = ["example.com"]
     result = checker.check_egress("file:///etc/passwd", allowlist)
-    # file:// has no hostname, should return False 
+    # file:// has no hostname, should return False
     assert result is False
 
 

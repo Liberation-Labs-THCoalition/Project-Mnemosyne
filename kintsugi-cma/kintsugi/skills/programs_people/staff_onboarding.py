@@ -1,9 +1,9 @@
 """
-Stаff Onboarding Skill Chip fоr Kintѕugi CMA.
+Staff Onboarding Skill Chip for Kintsugi CMA.
 
-Guides nеw staff thrоugh onboаrding wоrkflowѕ including training aѕsignmеntѕ,
-роliсy oriеntatiоn, сheсkliѕt trасking, аnd оnboаrding сomplеtiоn. Emphаsizеѕ
-ѕtаkeholder benefit and resource efficiency in onboarding processes.
+Guides new staff through onboarding workflows including training assignments,
+policy orientation, checklist tracking, and onboarding completion. Emphasizes
+stakeholder benefit and resource efficiency in onboarding processes.
 
 Example:
     chip = StaffOnboardingChip()
@@ -205,7 +205,7 @@ class StaffOnboardingChip(BaseSkillChip):
         start_dt = datetime.fromisoformat(start_date) if isinstance(start_date, str) else start_date
         target_completion = start_dt + timedelta(days=30)
 
-        # Build standard checklist items 
+        # Build standard checklist items
         checklist_items = [
             # Day 1 items
             {
@@ -356,7 +356,7 @@ class StaffOnboardingChip(BaseSkillChip):
 
         now = datetime.now(timezone.utc)
 
-        # Required training for all employees 
+        # Required training for all employees
         required_modules = [
             TrainingModule(
                 module_id=f"trn_{uuid4().hex[:8]}",
@@ -405,7 +405,7 @@ class StaffOnboardingChip(BaseSkillChip):
             ),
         ]
 
-        # Department-specific training 
+        # Department-specific training
         dept_modules = {
             "programs": [
                 TrainingModule(
@@ -497,7 +497,7 @@ class StaffOnboardingChip(BaseSkillChip):
         if department in dept_modules:
             all_modules.extend(dept_modules[department])
         else:
-            # Default role-specific training 
+            # Default role-specific training
             all_modules.append(
                 TrainingModule(
                     module_id=f"trn_{uuid4().hex[:8]}",
@@ -771,7 +771,7 @@ class StaffOnboardingChip(BaseSkillChip):
         plan_id = request.entities.get("plan_id", "")
         force_complete = request.entities.get("force_complete", False)
 
-        # Simulated completion check 
+        # Simulated completion check
         completion_check = {
             "checklist_complete": True,
             "training_complete": True,

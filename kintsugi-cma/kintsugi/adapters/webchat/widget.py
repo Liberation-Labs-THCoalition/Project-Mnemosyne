@@ -1,7 +1,7 @@
-"""Widgеt configuratiоn gеneratоr for embеddable WеbChаt.
+"""Widget configuration generator for embeddable WebChat.
 
-This mоdule providеs utilitiеѕ fоr gеnеrating embеddablе widgеt cоnfigurаtiоnѕ,
-inсluding JаvaSсriрt snipреts, ifrаme URLѕ, аnd JSON соnfiguration for custom
+This module provides utilities for generating embeddable widget configurations,
+including JavaScript snippets, iframe URLs, and JSON configuration for custom
 integrations.
 """
 
@@ -100,7 +100,7 @@ class WidgetPosition:
                 f"Must be one of: {', '.join(valid_positions)}"
             )
 
-        # Adjust left/right based on position preset 
+        # Adjust left/right based on position preset
         if self.position == "bottom-left":
             self.left = self.left or "20px"
             self.right = None

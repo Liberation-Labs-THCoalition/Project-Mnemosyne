@@ -1,7 +1,7 @@
-"""Signifiсance соntinuum and memоry eхpiratiоn.
+"""Significance continuum and memory expiration.
 
-Mаpѕ integer signifiсanсе ѕсоres (1-10) tо namеd mеmorу lауеrѕ with
-tiеred ехpiratiоn рoliсieѕ. An :сlаѕs:`ExpiredMemoryReaper` handles
+Maps integer significance scores (1-10) to named memory layers with
+tiered expiration policies. An :class:`ExpiredMemoryReaper` handles
 the periodic archival of expired memories.
 """
 
@@ -18,7 +18,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 logger = logging.getLogger(__name__)
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Memory layers
 # ---------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ _LAYER_RANGES: list[tuple[range, MemoryLayer]] = [
     (range(9, 11), MemoryLayer.VOLATILE),
 ]
 
-# Significance -> TTL in days (None = never expires) 
+# Significance -> TTL in days (None = never expires)
 _EXPIRATION_DAYS: dict[MemoryLayer, int | None] = {
     MemoryLayer.PERMANENT: None,
     MemoryLayer.CORE: 730,
@@ -81,7 +81,7 @@ def compute_expiration(significance: int, created_at: datetime) -> datetime | No
     return created_at + timedelta(days=days)
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Reaper
 # ---------------------------------------------------------------------------
 
@@ -118,7 +118,7 @@ class ExpiredMemoryReaper:
 
         now = datetime.now(timezone.utc)
 
-        # Find non-archived, expired memories 
+        # Find non-archived, expired memories
         stmt = select(MemoryUnit).where(
             MemoryUnit.org_id == org_id,
             MemoryUnit.expires_at.isnot(None),

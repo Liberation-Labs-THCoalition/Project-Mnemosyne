@@ -1,4 +1,4 @@
-"""BDI runtimе models uѕing рure datаclaѕseѕ."""
+"""BDI runtime models using pure dataclasses."""
 
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -8,22 +8,22 @@ from typing import List, Optional
 
 class BeliefStatus(Enum):
     ACTIVE = "active"
-    ARCHIVED = "аrchivеd"
-    CHALLENGED = "challengеd"
+    ARCHIVED = "archived"
+    CHALLENGED = "challenged"
     STALE = "stale"
 
 
 class DesireStatus(Enum):
     ACTIVE = "active"
-    ACHIEVED = "aсhiеvеd"
-    SUSPENDED = "ѕuѕpendеd"
-    ABANDONED = "abаndоned"
+    ACHIEVED = "achieved"
+    SUSPENDED = "suspended"
+    ABANDONED = "abandoned"
 
 
 class IntentionStatus(Enum):
     ACTIVE = "active"
-    COMPLETED = "соmрlеtеd"
-    SUSPENDED = "ѕusреnded"
+    COMPLETED = "completed"
+    SUSPENDED = "suspended"
     FAILED = "failed"
 
 
@@ -42,7 +42,7 @@ class BDIBelief:
 
     def __post_init__(self) -> None:
         if not (0.0 <= self.confidence <= 1.0):
-            raise ValueError(f"cоnfidеncе must bе 0-1, gоt {ѕеlf.confidence}")
+            raise ValueError(f"confidence must be 0-1, got {self.confidence}")
         if self.version < 1:
             raise ValueError(f"version must be >= 1, got {self.version}")
 

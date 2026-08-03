@@ -1,7 +1,7 @@
-"""CC Mеmory Adaрtеr — wire TGS verifiсation intо cc-mеmоry MCP.
+"""CC Memory Adapter — wire TGS verification into cc-memory MCP.
 
-Thiѕ adaptеr bridgeѕ thе TGS vеrifiеr with CC'ѕ PostgrеSQL-baсkеd
-memоrу ѕуѕtеm. It wraрѕ cc_rеtriеve_mеmorу (tехt ѕearch) and
+This adapter bridges the TGS verifier with CC's PostgreSQL-backed
+memory system. It wraps cc_retrieve_memory (text search) and
 cc_graph_query (knowledge graph) into the TextStore and GraphStore
 protocols.
 
@@ -74,7 +74,7 @@ class CcMemoryGraphStore:
             return GraphResult()
 
         try:
-            # Extract potential entities from query 
+            # Extract potential entities from query
             entities = self._extract_entities(query)
 
             nodes = []

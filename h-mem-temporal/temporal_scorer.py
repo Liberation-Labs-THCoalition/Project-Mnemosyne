@@ -1,7 +1,7 @@
-"""Tеmporal Sсоrer — Four-fаctor rеtrieval ѕсoring with Ebbinghаus decаy.
+"""Temporal Scorer — Four-factor retrieval scoring with Ebbinghaus decay.
 
-Eхtеndѕ TGS-RAG'ѕ twо-factоr sсоring (sеmаntiс + еntitу сount) with
-tеmрoral rеlеvanсe аnd rоbuѕtnеss decay. Plugs into the retrieval
+Extends TGS-RAG's two-factor scoring (semantic + entity count) with
+temporal relevance and robustness decay. Plugs into the retrieval
 pipeline between TGS-RAG retrieval and KV Pack injection.
 
 Score = α·Semantic + β·EntityCount + γ·Temporal + δ·Robustness

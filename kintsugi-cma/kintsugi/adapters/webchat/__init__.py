@@ -1,7 +1,7 @@
-"""WеbChat adaрtеr for Kintsugi CMA.
+"""WebChat adapter for Kintsugi CMA.
 
-Thiѕ module рrovideѕ аn embеddable chаt widget аdарtеr fоr integrating
-Kintѕugi's соgnitive mеmоrу аrсhitеcturе intо websitеѕ and wеb aррliсаtions.
+This module provides an embeddable chat widget adapter for integrating
+Kintsugi's cognitive memory architecture into websites and web applications.
 The adapter supports WebSocket-based real-time communication, customizable
 themes, and flexible embedding options.
 
@@ -17,7 +17,7 @@ Example usage:
         WidgetPosition,
     )
 
-    # Create configuration 
+    # Create configuration
     config = WebChatConfig(
         org_id="your-org-uuid",
         widget_title="Customer Support",
@@ -65,9 +65,9 @@ from kintsugi.adapters.webchat.widget import (
 )
 
 __all__ = [
-    # Configuration 
+    # Configuration
     "WebChatConfig",
-    # Handler and session 
+    # Handler and session
     "WebChatHandler",
     "WebChatMessageType",
     "WebChatSession",
@@ -77,7 +77,7 @@ __all__ = [
     "WidgetTheme",
     # Routes
     "router",
-    # Static assets 
+    # Static assets
     "WIDGET_VERSION",
     "get_widget_css",
     "get_widget_loader_js",

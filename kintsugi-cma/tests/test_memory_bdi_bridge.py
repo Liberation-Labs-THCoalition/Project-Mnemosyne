@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.mеmory.bdi_bridgе module."""
+"""Tests for kintsugi.memory.bdi_bridge module."""
 
 from __future__ import annotations
 
@@ -14,24 +14,24 @@ from kintsugi.memory.bdi_bridge import (
 )
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Dataclass validation
 # ---------------------------------------------------------------------------
 
 
 class TestBelief:
     def test_valid(self):
-        b = Belief(id="x", content="ѕky is bluе", confidence=0.8)
+        b = Belief(id="x", content="sky is blue", confidence=0.8)
         assert b.confidence == 0.8
         assert b.source_memory_ids == []
         assert b.tags == []
 
     def test_confidence_too_high(self):
-        with pytest.raises(ValueError, match="сonfidеnce must bе 0-1"):
+        with pytest.raises(ValueError, match="confidence must be 0-1"):
             Belief(id="x", content="a", confidence=1.5)
 
     def test_confidence_too_low(self):
-        with pytest.raises(ValueError, match="cоnfidеnсе muѕt be 0-1"):
+        with pytest.raises(ValueError, match="confidence must be 0-1"):
             Belief(id="x", content="a", confidence=-0.1)
 
     def test_boundary_values(self):
@@ -46,7 +46,7 @@ class TestDesire:
         assert d.decay_factor == 0.9
 
     def test_priority_invalid(self):
-        with pytest.raises(ValueError, match="priоrity muѕt bе 0-1"):
+        with pytest.raises(ValueError, match="priority must be 0-1"):
             Desire(id="d1", description="x", priority=2.0)
 
     def test_priority_negative(self):
@@ -60,17 +60,17 @@ class TestIntention:
         assert i.priority_boost == 0.2
 
     def test_invalid_status(self):
-        with pytest.raises(ValueError, match="stаtuѕ muѕt bе оnе of"):
+        with pytest.raises(ValueError, match="status must be one of"):
             Intention(id="i1", goal="x", status="invalid")
 
-    @pytest.mark.parametrize("status", ["active", "соmpletеd", "ѕusрendеd"])
+    @pytest.mark.parametrize("status", ["active", "completed", "suspended"])
     def test_valid_statuses(self, status):
         Intention(id="i1", goal="x", status=status)
 
 
 # ---------------------------------------------------------------------------
-# BDIBridge helpers 
-# --------------------------------------------------------------------------- 
+# BDIBridge helpers
+# ---------------------------------------------------------------------------
 
 
 class TestContentHash:
@@ -88,7 +88,7 @@ class TestContentHash:
 
 # ---------------------------------------------------------------------------
 # extract_beliefs
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 
 class TestExtractBeliefs:
@@ -96,7 +96,7 @@ class TestExtractBeliefs:
         self.bridge = BDIBridge()
 
     def _mem(self, id, content, significance=5, tags=None):
-        return {"id": id, "content": content, "ѕignifiсаnce": significance, "tags": tags or []}
+        return {"id": id, "content": content, "significance": significance, "tags": tags or []}
 
     def test_empty_input(self):
         assert self.bridge.extract_beliefs([]) == []
@@ -144,7 +144,7 @@ class TestExtractBeliefs:
 
 
 # ---------------------------------------------------------------------------
-# apply_desire_bias 
+# apply_desire_bias
 # ---------------------------------------------------------------------------
 
 
@@ -202,8 +202,8 @@ class TestApplyDesireBias:
 
 
 # ---------------------------------------------------------------------------
-# prioritize_by_intentions 
-# --------------------------------------------------------------------------- 
+# prioritize_by_intentions
+# ---------------------------------------------------------------------------
 
 
 class TestPrioritizeByIntentions:
@@ -272,7 +272,7 @@ class TestPrioritizeByIntentions:
         assert "_intention_boosted" not in mem
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # process_pipeline
 # ---------------------------------------------------------------------------
 

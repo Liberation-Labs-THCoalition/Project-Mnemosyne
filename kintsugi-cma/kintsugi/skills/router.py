@@ -1,10 +1,10 @@
 """
-Intеnt routing to skill сhiрs.
+Intent routing to skill chips.
 
-This mоdule prоvides thе SkillRоuter сlass fоr routing uѕеr intеntѕ
-tо the aрprорriatе ѕkill сhiрѕ. Thе routеr ѕuppоrtѕ:
-- Exаct intеnt mаtсhing
-- Prеfix/wildcard matching for intent families
+This module provides the SkillRouter class for routing user intents
+to the appropriate skill chips. The router supports:
+- Exact intent matching
+- Prefix/wildcard matching for intent families
 - Configurable fallback behavior
 - Confidence scoring for matches
 
@@ -47,7 +47,7 @@ class RouteMatch:
         if match and match.confidence >= 0.8:
             response = await match.chip.handle(request, context)
         elif match:
-            # Low confidence, maybe ask for clarification 
+            # Low confidence, maybe ask for clarification
             pass
     """
     chip: BaseSkillChip
@@ -199,7 +199,7 @@ class SkillRouter:
                     matched_intent=intent,
                 )
 
-        # Prefix match (e.g., "grant_search" matches "grant_*") 
+        # Prefix match (e.g., "grant_search" matches "grant_*")
         for mapped_intent, chip_name in self._intent_map.items():
             if mapped_intent.endswith('*'):
                 prefix = mapped_intent[:-1]
@@ -212,7 +212,7 @@ class SkillRouter:
                             matched_intent=mapped_intent,
                         )
 
-        # Fallback 
+        # Fallback
         if self._config.fallback_chip:
             chip = self._registry.get(self._config.fallback_chip)
             if chip is not None:
@@ -289,7 +289,7 @@ def create_router(
         # Use global registry
         router = create_router()
 
-        # Use custom registry and config 
+        # Use custom registry and config
         router = create_router(
             registry=custom_registry,
             config=RouterConfig(fallback_chip="default"),

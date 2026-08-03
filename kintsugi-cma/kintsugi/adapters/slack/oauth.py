@@ -1,10 +1,10 @@
-"""Slаck OAuth installаtiоn flow for Kintѕugi CMA.
+"""Slack OAuth installation flow for Kintsugi CMA.
 
-This modulе handleѕ thе OAuth 2.0 instаllation flow fоr Slaсk аррѕ,
-including authоrizatiоn URL gеnerаtiоn, tоkеn ехchаngе, and instаllаtion
-ѕtorаgе.
+This module handles the OAuth 2.0 installation flow for Slack apps,
+including authorization URL generation, token exchange, and installation
+storage.
 
-OAuth Flоw Rеference: https://api.slack.com/authentication/oauth-v2
+OAuth Flow Reference: https://api.slack.com/authentication/oauth-v2
 """
 
 from __future__ import annotations
@@ -282,7 +282,7 @@ class OAuthHandler:
             error = data.get("error", "unknown_error")
             raise OAuthError(f"Token exchange failed: {error}")
 
-        # Extract installation data 
+        # Extract installation data
         team = data.get("team", {})
         bot = data.get("authed_user", {})
         enterprise = data.get("enterprise")

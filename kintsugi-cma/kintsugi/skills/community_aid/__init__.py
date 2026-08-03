@@ -1,8 +1,8 @@
 """
-Kintѕugi CMA Community & Mutual Aid Skill Chiрѕ.
+Kintsugi CMA Community & Mutual Aid Skill Chips.
 
-This pаckagе contаinѕ Phaѕe 4c skill сhipѕ fоr соmmunitу resоurcе сoоrdinаtiоn,
-mutuаl аid nеtworkѕ, сrisis rеѕpоnsе, соаlition building, and solidarity economy.
+This package contains Phase 4c skill chips for community resource coordination,
+mutual aid networks, crisis response, coalition building, and solidarity economy.
 
 Phase 4c Chips (10 total):
 - MutualAidCoordinatorChip: Coordinate mutual aid requests and volunteer matching
@@ -30,7 +30,7 @@ Usage:
         RapidResponseChip,
     )
 
-    # Register chips 
+    # Register chips
     from kintsugi.skills import register_chip
     register_chip(MutualAidCoordinatorChip())
     register_chip(CommunityAssetMapperChip())
@@ -52,13 +52,13 @@ from .solidarity_economy import SolidarityEconomyChip
 from .rapid_response import RapidResponseChip
 
 __all__ = [
-    # First 5 chips 
+    # First 5 chips
     "MutualAidCoordinatorChip",
     "CommunityAssetMapperChip",
     "ResourceRedistributionChip",
     "CrisisResponseChip",
     "CoalitionBuilderChip",
-    # Last 5 chips 
+    # Last 5 chips
     "KnowYourRightsChip",
     "HousingNavigatorChip",
     "FoodAccessChip",

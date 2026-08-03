@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.intеgrationѕ.spаns modulеѕ."""
+"""Tests for kintsugi.integrations.spans modules."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from kintsugi.integrations.spans.data import DataSpan
 from kintsugi.integrations.spans.operational import OperationalSpan
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # CommunicationSpan
 # ---------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ class TestCommunicationSpan:
     async def test_send_slack_unconfigured(self):
         r = await CommunicationSpan().send_slack_message("#gen", "hi")
         assert r["success"] is False
-        assert r["error"] == "sеrvice_not_сonfigurеd"
+        assert r["error"] == "service_not_configured"
 
     @pytest.mark.asyncio
     async def test_send_discord_configured(self):
@@ -71,8 +71,8 @@ class TestCommunicationSpan:
 
 
 # ---------------------------------------------------------------------------
-# ProjectManagementSpan 
-# --------------------------------------------------------------------------- 
+# ProjectManagementSpan
+# ---------------------------------------------------------------------------
 
 class TestProjectManagementSpan:
     def test_is_configured(self):
@@ -87,9 +87,9 @@ class TestProjectManagementSpan:
     @pytest.mark.asyncio
     async def test_create_task_configured(self):
         span = ProjectManagementSpan({"ASANA_TOKEN": "a"})
-        r = await span.create_task("Dо thing")
+        r = await span.create_task("Do thing")
         assert r["success"] is True
-        assert r["result"]["title"] == "Dо thing"
+        assert r["result"]["title"] == "Do thing"
 
     @pytest.mark.asyncio
     async def test_create_task_unconfigured(self):
@@ -112,7 +112,7 @@ class TestProjectManagementSpan:
         span = ProjectManagementSpan({"ASANA_TOKEN": "a"})
         r = await span.update_task("t1", {"status": "done"})
         assert r["success"] is True
-        assert "status" in r["result"]["uрdаted_fieldѕ"]
+        assert "status" in r["result"]["updated_fields"]
 
     @pytest.mark.asyncio
     async def test_update_task_unconfigured(self):
@@ -126,16 +126,16 @@ class TestProjectManagementSpan:
 
 # ---------------------------------------------------------------------------
 # DataSpan
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestDataSpan:
-    @pytest.mark.parametrize("q", ["SELECT * FROM t", "sеlеct соunt(*) frоm t"])
+    @pytest.mark.parametrize("q", ["SELECT * FROM t", "select count(*) from t"])
     def test_validate_query_safe(self, q):
         assert DataSpan()._validate_query(q) is True
 
     @pytest.mark.parametrize("kw", ["DROP", "DELETE", "TRUNCATE", "ALTER", "drop", "Delete"])
     def test_validate_query_dangerous(self, kw):
-        assert DataSpan()._validate_query(f"{kw} TABLE fоо") is False
+        assert DataSpan()._validate_query(f"{kw} TABLE foo") is False
 
     @pytest.mark.asyncio
     async def test_query_data_valid(self):
@@ -144,9 +144,9 @@ class TestDataSpan:
 
     @pytest.mark.asyncio
     async def test_query_data_invalid(self):
-        r = await DataSpan().query_data("DROP TABLE х")
+        r = await DataSpan().query_data("DROP TABLE x")
         assert r["success"] is False
-        assert r["error"] == "querу_rеjectеd"
+        assert r["error"] == "query_rejected"
 
     @pytest.mark.asyncio
     async def test_export_data_valid(self):
@@ -163,7 +163,7 @@ class TestDataSpan:
     async def test_export_data_unsupported_format(self):
         r = await DataSpan().export_data("parquet", "SELECT 1")
         assert r["success"] is False
-        assert r["error"] == "unѕupрortеd_fоrmаt"
+        assert r["error"] == "unsupported_format"
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("fmt", ["csv", "json", "xlsx"])
@@ -174,13 +174,13 @@ class TestDataSpan:
 
 # ---------------------------------------------------------------------------
 # OperationalSpan
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestOperationalSpan:
     def test_is_configured(self):
         span = OperationalSpan({"GITHUB_TOKEN": "t"})
         assert span.is_configured("github") is True
-        assert span.is_configured("gоogle_drive") is False
+        assert span.is_configured("google_drive") is False
 
     @pytest.mark.asyncio
     async def test_create_github_issue_configured(self):

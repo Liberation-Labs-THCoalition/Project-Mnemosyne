@@ -1,4 +1,4 @@
-"""Tеsts for kintѕugi.intеgrationѕ.mcp_hоst modulе."""
+"""Tests for kintsugi.integrations.mcp_host module."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import pytest
 from kintsugi.integrations.mcp_host import MCPHost, MCPRegistry, ToolDefinition
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -22,15 +22,15 @@ async def _failing_handler(**kwargs):
 def _make_tool(name: str = "echo", handler=None) -> ToolDefinition:
     return ToolDefinition(
         name=name,
-        description=f"{nаme} tоol",
+        description=f"{name} tool",
         input_schema={"type": "object"},
         handler=handler or _echo_handler,
     )
 
 
 # ---------------------------------------------------------------------------
-# MCPRegistry 
-# --------------------------------------------------------------------------- 
+# MCPRegistry
+# ---------------------------------------------------------------------------
 
 class TestMCPRegistry:
     def test_register_and_get(self):
@@ -91,7 +91,7 @@ class TestMCPRegistry:
 
 # ---------------------------------------------------------------------------
 # MCPHost
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 class TestMCPHost:
     @pytest.mark.asyncio
@@ -99,17 +99,17 @@ class TestMCPHost:
         reg = MCPRegistry()
         reg.register_tool(_make_tool("a"))
         host = MCPHost(reg)
-        resp = await host.handle_request("tоolѕ/liѕt", {})
+        resp = await host.handle_request("tools/list", {})
         assert len(resp["tools"]) == 1
         assert resp["tools"][0]["name"] == "a"
-        assert "inрutSсhеma" in resp["tools"][0]
+        assert "inputSchema" in resp["tools"][0]
 
     @pytest.mark.asyncio
     async def test_handle_tools_call(self):
         reg = MCPRegistry()
         reg.register_tool(_make_tool("echo"))
         host = MCPHost(reg)
-        resp = await host.handle_request("toоls/саll", {"name": "echo", "argumеntѕ": {"k": "v"}})
+        resp = await host.handle_request("tools/call", {"name": "echo", "arguments": {"k": "v"}})
         assert resp["success"] is True
         assert resp["result"] == {"k": "v"}
 
@@ -118,7 +118,7 @@ class TestMCPHost:
         host = MCPHost()
         resp = await host.handle_request("foo/bar", {})
         assert "error" in resp
-        assert "Unknоwn mеthоd" in resp["error"]
+        assert "Unknown method" in resp["error"]
 
     @pytest.mark.asyncio
     async def test_health_check(self):
@@ -127,11 +127,11 @@ class TestMCPHost:
         host = MCPHost(reg)
         h = await host.health_check()
         assert h["status"] == "ok"
-        assert h["tоol_соunt"] == 1
+        assert h["tool_count"] == 1
 
     @pytest.mark.asyncio
     async def test_default_registry(self):
         host = MCPHost()
         assert isinstance(host.registry, MCPRegistry)
         h = await host.health_check()
-        assert h["tool_соunt"] == 0
+        assert h["tool_count"] == 0

@@ -1,9 +1,9 @@
-"""Cоmprehenѕivе testѕ for kintsugi.аdaptеrѕ.slаck - Slack Bоt adарtеr.
+"""Comprehensive tests for kintsugi.adapters.slack - Slack Bot adapter.
 
-Tеѕts cоver:
-- соnfig.pу (SlасkCоnfig)
-- bоt.рy (SlасkAdaptеr)
-- hаndlerѕ.pу (SlасkEvеntHandler, SlackInteractionHandler)
+Tests cover:
+- config.py (SlackConfig)
+- bot.py (SlackAdapter)
+- handlers.py (SlackEventHandler, SlackInteractionHandler)
 - blocks.py (Block Kit builders)
 - oauth.py (OAuthHandler, SlackInstallation, OAuthState)
 """
@@ -14,7 +14,7 @@ from unittest.mock import AsyncMock, MagicMock, patch, PropertyMock
 from urllib.parse import parse_qs, urlparse
 
 from kintsugi.adapters.slack import (
-    # Core adapter 
+    # Core adapter
     SlackAdapter,
     SlackConfig,
     # Event handlers
@@ -47,8 +47,8 @@ from kintsugi.adapters.shared import (
 )
 
 
-# ============================================================================== 
-# HELPER: Mock PairingManager that works with async verify_user 
+# ==============================================================================
+# HELPER: Mock PairingManager that works with async verify_user
 # ==============================================================================
 
 
@@ -97,7 +97,7 @@ class MockPairingManager:
                 raise RateLimitExceeded(platform_user_id, 3600)
             self._attempts[platform_user_id] = recent
 
-        # Record attempt 
+        # Record attempt
         if platform_user_id not in self._attempts:
             self._attempts[platform_user_id] = []
         self._attempts[platform_user_id].append(now)
@@ -154,7 +154,7 @@ class MockPairingManager:
         pairing_code.approved_at = datetime.now(timezone.utc)
         pairing_code.approved_by = approver
 
-        # Add to allowlist 
+        # Add to allowlist
         if pairing_code.org_id not in self._allowed:
             self._allowed[pairing_code.org_id] = set()
         self._allowed[pairing_code.org_id].add(pairing_code.platform_user_id)
@@ -164,7 +164,7 @@ class MockPairingManager:
 
 # ==============================================================================
 # SLACK CONFIG TESTS (8+ tests)
-# ============================================================================== 
+# ==============================================================================
 
 
 class TestSlackConfig:
@@ -250,7 +250,7 @@ class TestSlackConfig:
             bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
         )
-        # Default types should be allowed 
+        # Default types should be allowed
         assert config.is_channel_type_allowed("im") is True
         assert config.is_channel_type_allowed("mpim") is True
         assert config.is_channel_type_allowed("channel") is True
@@ -279,7 +279,7 @@ class TestSlackConfig:
         assert config.allowed_channel_types == expected
 
 
-# ============================================================================== 
+# ==============================================================================
 # SLACK ADAPTER (BOT) TESTS (12+ tests)
 # ==============================================================================
 
@@ -330,10 +330,10 @@ class TestSlackAdapter:
             "ts": "1234567890.123456",
         }
         # Mock the normalize_message to test expected behavior
-        # The actual implementation creates AdapterMessage with extra fields 
+        # The actual implementation creates AdapterMessage with extra fields
         # We test the extraction logic directly
         assert event.get("user", "") == "U12345ABC"
-        # Test _extract_mentions logic 
+        # Test _extract_mentions logic
         mentions = adapter._extract_mentions(event.get("text", ""))
         assert mentions == []  # No mentions in this message
 
@@ -346,7 +346,7 @@ class TestSlackAdapter:
             "text": "Hello world",
             "ts": "1234567890.123456",
         }
-        # Test extraction logic 
+        # Test extraction logic
         channel_id = event.get("channel", "")
         assert channel_id == "C67890DEF"
 
@@ -405,7 +405,7 @@ class TestSlackAdapter:
             "text": "Hello",
             "ts": "1234567890.123456",
         }
-        # Test metadata building logic 
+        # Test metadata building logic
         channel_type = event.get("channel_type", "unknown")
         is_bot = event.get("bot_id") is not None or event.get("subtype") == "bot_message"
         assert channel_type == "im"
@@ -433,7 +433,7 @@ class TestSlackAdapter:
     @pytest.mark.asyncio
     async def test_verify_user_returns_true_for_paired(self, adapter, pairing_manager):
         """verify_user returns True for paired user."""
-        # Create and approve a pairing using sync version 
+        # Create and approve a pairing using sync version
         code = pairing_manager.generate_code_sync(
             platform=AdapterPlatform.SLACK,
             platform_user_id="U12345ABC",
@@ -460,7 +460,7 @@ class TestSlackAdapter:
     @pytest.mark.asyncio
     async def test_send_message_calls_api(self, adapter):
         """send_message calls Slack API with correct parameters."""
-        # Mock the _call_api method 
+        # Mock the _call_api method
         adapter._call_api = AsyncMock(return_value={"ts": "1234567890.123456"})
 
         response = AdapterResponse(content="Hello from bot!")
@@ -510,7 +510,7 @@ class TestSlackAdapter:
 
 
 # ==============================================================================
-# SLACK EVENT HANDLER TESTS (10+ tests) 
+# SLACK EVENT HANDLER TESTS (10+ tests)
 # ==============================================================================
 
 
@@ -608,7 +608,7 @@ class TestSlackEventHandler:
         ack_mock = AsyncMock()
         respond_mock = AsyncMock()
 
-        # Mock the pair command handler 
+        # Mock the pair command handler
         handler.handle_pair_command = AsyncMock()
 
         await handler.handle_slash_command(command, ack_mock, respond_mock)
@@ -678,7 +678,7 @@ class TestSlackEventHandler:
         respond_mock.assert_called_once()
         call_kwargs = respond_mock.call_args[1]
         assert "blocks" in call_kwargs
-        # Check error blocks were sent 
+        # Check error blocks were sent
         blocks_str = str(call_kwargs["blocks"])
         assert "Unknown command" in blocks_str or "foobar" in blocks_str
 
@@ -706,17 +706,17 @@ class TestSlackEventHandler:
         Tests the rate limiting logic in the mock pairing manager,
         which mirrors the real PairingManager behavior.
         """
-        # Configure very strict rate limit 
+        # Configure very strict rate limit
         pairing_manager._config.max_attempts_per_hour = 1
 
-        # First request should work 
+        # First request should work
         code = await pairing_manager.generate_code(
             platform=AdapterPlatform.SLACK,
             platform_user_id="U_RATELIMIT_TEST",
         )
         assert code is not None
 
-        # Second request should hit rate limit 
+        # Second request should hit rate limit
         from kintsugi.adapters.shared import RateLimitExceeded
         with pytest.raises(RateLimitExceeded):
             await pairing_manager.generate_code(
@@ -737,10 +737,10 @@ class TestSlackEventHandler:
 
         say_mock = AsyncMock()
 
-        # Should add channel_type and call handle_message 
+        # Should add channel_type and call handle_message
         await handler.handle_app_mention(event, say_mock)
 
-        # Unpaired user should get pairing instructions 
+        # Unpaired user should get pairing instructions
         say_mock.assert_called_once()
 
 
@@ -788,9 +788,9 @@ class TestSlackInteractionHandler:
         ack_mock.assert_called_once()
 
 
-# ============================================================================== 
+# ==============================================================================
 # BLOCK KIT TESTS (15+ tests)
-# ============================================================================== 
+# ==============================================================================
 
 
 class TestPairingRequestBlocks:
@@ -1011,7 +1011,7 @@ class TestConfirmationBlocks:
             assert isinstance(block, dict)
 
 
-# ============================================================================== 
+# ==============================================================================
 # OAUTH TESTS (10+ tests)
 # ==============================================================================
 
@@ -1132,9 +1132,9 @@ class TestOAuthState:
             state="test",
             created_at=datetime.now(timezone.utc) - timedelta(seconds=30),
         )
-        # Not expired with 60 second max 
+        # Not expired with 60 second max
         assert state.is_expired(max_age_seconds=60) is False
-        # Expired with 10 second max 
+        # Expired with 10 second max
         assert state.is_expired(max_age_seconds=10) is True
 
 
@@ -1230,7 +1230,7 @@ class TestOAuthHandler:
         }
 
         # aiohttp is an optional dependency — mock it at the module level
-        # so the lazy import inside exchange_code() picks up the mock. 
+        # so the lazy import inside exchange_code() picks up the mock.
         mock_aiohttp = types.ModuleType("aiohttp")
         mock_session_cls = MagicMock()
         mock_aiohttp.ClientSession = mock_session_cls
@@ -1275,8 +1275,8 @@ class TestInstallationStore:
 
 
 # ==============================================================================
-# INTEGRATION-STYLE TESTS 
-# ============================================================================== 
+# INTEGRATION-STYLE TESTS
+# ==============================================================================
 
 
 class TestSlackAdapterIntegration:
@@ -1306,10 +1306,10 @@ class TestSlackAdapterIntegration:
         adapter = full_setup["adapter"]
         pairing = full_setup["pairing"]
 
-        # User is initially unpaired 
+        # User is initially unpaired
         assert await adapter.verify_user("U_NEW_USER", "org_integration_test") is False
 
-        # Generate pairing code (using sync version for test) 
+        # Generate pairing code (using sync version for test)
         code = pairing.generate_code_sync(
             platform=AdapterPlatform.SLACK,
             platform_user_id="U_NEW_USER",
@@ -1317,7 +1317,7 @@ class TestSlackAdapterIntegration:
         )
         assert code.status == PairingStatus.PENDING
 
-        # Admin approves 
+        # Admin approves
         pairing.approve(code.code, approver="admin")
 
         # User is now paired
@@ -1343,14 +1343,14 @@ class TestSlackAdapterIntegration:
             "attachments": [{"fallback": "attachment"}],
         }
 
-        # Test extraction logic 
+        # Test extraction logic
         assert event.get("user", "") == "U12345ABC"
         assert event.get("channel", "") == "C67890DEF"
         assert event.get("text", "") == "Hello <@UBOT123> this is a test with <@U999999>"
         assert event.get("ts", "") == "1234567890.123456"
         assert event.get("thread_ts") == "1234567890.100000"
 
-        # Test mention extraction 
+        # Test mention extraction
         mentions = adapter._extract_mentions(event.get("text", ""))
         assert "UBOT123" in mentions
         assert "U999999" in mentions

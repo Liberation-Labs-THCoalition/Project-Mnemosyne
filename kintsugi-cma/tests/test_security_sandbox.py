@@ -1,8 +1,8 @@
-"""Cоmprehenѕivе pytеst teѕts for kintѕugi.ѕeсurity.sandbоx mоdulе.
+"""Comprehensive pytest tests for kintsugi.security.sandbox module.
 
-Tеѕtѕ covеr:
-- Sandbох crеаtiоn аnd сlеanuр
-- Cоde eхеcutiоn with stdоut/ѕtdеrr сapture
+Tests cover:
+- Sandbox creation and cleanup
+- Code execution with stdout/stderr capture
 - Timeout enforcement
 - Exit code handling
 - Auto-cleanup vs manual cleanup
@@ -23,7 +23,7 @@ from kintsugi.security.sandbox import (
 )
 
 
-# ============================================================================== 
+# ==============================================================================
 # Fixtures
 # ==============================================================================
 
@@ -42,8 +42,8 @@ def temp_base_dir(tmp_path):
     return str(tmp_path / "sandbox_base")
 
 
-# ============================================================================== 
-# Test SandboxContext and SandboxResult Dataclasses 
+# ==============================================================================
+# Test SandboxContext and SandboxResult Dataclasses
 # ==============================================================================
 
 def test_sandbox_context_frozen():
@@ -73,7 +73,7 @@ def test_sandbox_result_frozen():
 
 
 # ==============================================================================
-# Test ShadowSandbox Initialization 
+# Test ShadowSandbox Initialization
 # ==============================================================================
 
 def test_shadow_sandbox_init_default():
@@ -90,7 +90,7 @@ def test_shadow_sandbox_init_with_base_dir(temp_base_dir):
 
 
 # ==============================================================================
-# Test create_sandbox 
+# Test create_sandbox
 # ==============================================================================
 
 def test_create_sandbox_returns_context(sandbox):
@@ -154,8 +154,8 @@ def test_create_sandbox_sets_created_at_timestamp(sandbox):
 
 
 # ==============================================================================
-# Test execute_in_sandbox - Basic Execution 
-# ============================================================================== 
+# Test execute_in_sandbox - Basic Execution
+# ==============================================================================
 
 def test_execute_simple_code(sandbox):
     """execute_in_sandbox runs simple Python code."""
@@ -205,7 +205,7 @@ def test_execute_empty_code(sandbox):
 
 
 # ==============================================================================
-# Test execute_in_sandbox - Error Handling 
+# Test execute_in_sandbox - Error Handling
 # ==============================================================================
 
 def test_execute_code_with_syntax_error(sandbox):
@@ -257,9 +257,9 @@ print("stderr message", file=sys.stderr)
     assert result.exit_code == 0
 
 
-# ============================================================================== 
+# ==============================================================================
 # Test execute_in_sandbox - Timeout
-# ============================================================================== 
+# ==============================================================================
 
 def test_execute_timeout_kills_long_running_code(sandbox):
     """execute_in_sandbox enforces timeout and kills process."""
@@ -294,7 +294,7 @@ def test_execute_timeout_default_value(sandbox):
 
 def test_execute_timeout_boundary(sandbox):
     """execute_in_sandbox handles timeout boundary conditions."""
-    # Code that sleeps just under the timeout 
+    # Code that sleeps just under the timeout
     code = """
 import time
 time.sleep(0.5)
@@ -306,9 +306,9 @@ print('completed')
     assert "completed" in result.stdout
 
 
-# ============================================================================== 
-# Test execute_in_sandbox - Execution Time Tracking 
-# ============================================================================== 
+# ==============================================================================
+# Test execute_in_sandbox - Execution Time Tracking
+# ==============================================================================
 
 def test_execute_tracks_execution_time(sandbox):
     """execute_in_sandbox measures execution time."""
@@ -335,7 +335,7 @@ def test_execute_time_rounded_to_2_decimals(sandbox):
 
 
 # ==============================================================================
-# Test execute_in_sandbox - Sandbox Reuse 
+# Test execute_in_sandbox - Sandbox Reuse
 # ==============================================================================
 
 def test_execute_with_explicit_sandbox_id(sandbox):
@@ -352,7 +352,7 @@ def test_execute_reuses_sandbox_directory(sandbox):
     """execute_in_sandbox reuses sandbox directory for same sandbox_id."""
     ctx = sandbox.create_sandbox()
 
-    # First execution creates a file 
+    # First execution creates a file
     code1 = """
 with open('test.txt', 'w') as f:
     f.write('hello')
@@ -360,7 +360,7 @@ with open('test.txt', 'w') as f:
     result1 = sandbox.execute_in_sandbox(code1, sandbox_id=ctx.id)
     assert result1.exit_code == 0
 
-    # Second execution reads the file 
+    # Second execution reads the file
     code2 = """
 with open('test.txt', 'r') as f:
     print(f.read())
@@ -397,26 +397,26 @@ def test_execute_with_sandbox_id_no_auto_cleanup(sandbox):
     result = sandbox.execute_in_sandbox("print('test')", sandbox_id=ctx.id)
 
     assert result.exit_code == 0
-    # Sandbox should still exist 
+    # Sandbox should still exist
     assert ctx.id in sandbox._sandboxes
     assert os.path.exists(ctx.path)
 
 
 def test_execute_auto_cleanup_removes_sandbox(sandbox):
     """execute_in_sandbox auto-cleanup removes temporary sandbox."""
-    # Count initial sandboxes 
+    # Count initial sandboxes
     initial_count = len(sandbox._sandboxes)
 
     result = sandbox.execute_in_sandbox("print('test')")  # No sandbox_id
 
     assert result.exit_code == 0
-    # Should return to initial count (auto-cleanup) 
+    # Should return to initial count (auto-cleanup)
     assert len(sandbox._sandboxes) == initial_count
 
 
-# ============================================================================== 
-# Test cleanup 
-# ============================================================================== 
+# ==============================================================================
+# Test cleanup
+# ==============================================================================
 
 def test_cleanup_removes_directory(sandbox):
     """cleanup removes sandbox directory from filesystem."""
@@ -452,7 +452,7 @@ def test_cleanup_already_cleaned_sandbox(sandbox):
     ctx = sandbox.create_sandbox()
 
     sandbox.cleanup(ctx.id)
-    # Second cleanup should not error 
+    # Second cleanup should not error
     sandbox.cleanup(ctx.id)
 
 
@@ -460,7 +460,7 @@ def test_cleanup_ignores_errors_during_removal(sandbox):
     """cleanup uses ignore_errors=True for rmtree."""
     ctx = sandbox.create_sandbox()
 
-    # Even if directory is already removed, cleanup should not error 
+    # Even if directory is already removed, cleanup should not error
     import shutil
 
     shutil.rmtree(ctx.path, ignore_errors=True)
@@ -470,7 +470,7 @@ def test_cleanup_ignores_errors_during_removal(sandbox):
 
 # ==============================================================================
 # Test cleanup_all
-# ============================================================================== 
+# ==============================================================================
 
 def test_cleanup_all_removes_all_sandboxes(sandbox):
     """cleanup_all removes all registered sandboxes."""
@@ -507,9 +507,9 @@ def test_cleanup_all_is_idempotent(sandbox):
     assert len(sandbox._sandboxes) == 0
 
 
-# ============================================================================== 
+# ==============================================================================
 # Test Sandbox Isolation
-# ============================================================================== 
+# ==============================================================================
 
 def test_sandbox_isolated_working_directory(sandbox):
     """execute_in_sandbox runs code in sandbox directory."""
@@ -538,7 +538,7 @@ print(f"HOME={home}")
     # Environment should be restricted
     assert "PATH=" in result.stdout
     assert "HOME=" in result.stdout
-    # HOME should be set to sandbox path 
+    # HOME should be set to sandbox path
     assert ctx.path in result.stdout
 
 
@@ -547,7 +547,7 @@ def test_sandbox_filesystem_isolation(sandbox):
     ctx1 = sandbox.create_sandbox()
     ctx2 = sandbox.create_sandbox()
 
-    # Write file in sandbox 1 
+    # Write file in sandbox 1
     code1 = """
 with open('data.txt', 'w') as f:
     f.write('sandbox1')
@@ -556,7 +556,7 @@ print('written')
     result1 = sandbox.execute_in_sandbox(code1, sandbox_id=ctx1.id)
     assert "written" in result1.stdout
 
-    # Try to read in sandbox 2 (should fail) 
+    # Try to read in sandbox 2 (should fail)
     code2 = """
 import os
 exists = os.path.exists('data.txt')
@@ -566,8 +566,8 @@ print(f"File exists: {exists}")
     assert "File exists: False" in result2.stdout
 
 
-# ============================================================================== 
-# Test Script File Creation 
+# ==============================================================================
+# Test Script File Creation
 # ==============================================================================
 
 def test_execute_creates_script_file(sandbox):
@@ -586,10 +586,10 @@ def test_execute_overwrites_previous_script(sandbox):
     """execute_in_sandbox overwrites script.py on subsequent runs."""
     ctx = sandbox.create_sandbox()
 
-    # First execution 
+    # First execution
     sandbox.execute_in_sandbox("print('first')", sandbox_id=ctx.id)
 
-    # Second execution 
+    # Second execution
     sandbox.execute_in_sandbox("print('second')", sandbox_id=ctx.id)
 
     script_path = Path(ctx.path) / "script.py"
@@ -598,7 +598,7 @@ def test_execute_overwrites_previous_script(sandbox):
 
 
 # ==============================================================================
-# Edge Cases 
+# Edge Cases
 # ==============================================================================
 
 def test_execute_unicode_code(sandbox):
@@ -748,7 +748,7 @@ def test_execute_handles_subprocess_general_exception(sandbox):
     """execute_in_sandbox handles general exceptions in subprocess.run."""
     import unittest.mock as mock
 
-    # Mock subprocess.run to raise a general exception 
+    # Mock subprocess.run to raise a general exception
     with mock.patch("subprocess.run") as mock_run:
         mock_run.side_effect = RuntimeError("Simulated subprocess error")
 

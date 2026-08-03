@@ -1,8 +1,8 @@
 """
-Dаta isolаtiоn stratеgies fоr multi-tenant Kintѕugi CMA.
+Data isolation strategies for multi-tenant Kintsugi CMA.
 
-Thiѕ modulе provideѕ meсhаniѕmѕ tо ensurе tenаnt dаta iѕ рrореrlу
-isоlаted baѕеd on thе chоѕеn ѕtrategy. Isolation is critical for:
+This module provides mechanisms to ensure tenant data is properly
+isolated based on the chosen strategy. Isolation is critical for:
 - Data privacy and security
 - Regulatory compliance
 - Performance isolation
@@ -22,7 +22,7 @@ Example:
     isolator = TenantIsolator(strategy=IsolationStrategy.ROW_LEVEL)
     await isolator.ensure_isolation("org_12345")
 
-    # For queries, get the tenant filter 
+    # For queries, get the tenant filter
     filter_dict = isolator.get_tenant_filter("org_12345")
 """
 
@@ -157,7 +157,7 @@ class TenantIsolator:
         filter_dict = isolator.get_tenant_filter("org_12345")
         # Use filter_dict in SQLAlchemy queries
 
-        # Migrate tenant to schema isolation 
+        # Migrate tenant to schema isolation
         await isolator.migrate_tenant(
             "org_12345",
             IsolationStrategy.ROW_LEVEL,
@@ -165,7 +165,7 @@ class TenantIsolator:
         )
     """
 
-    # Tables that need tenant isolation 
+    # Tables that need tenant isolation
     ISOLATED_TABLES = [
         "memories",
         "beliefs",
@@ -223,7 +223,7 @@ class TenantIsolator:
         """
         # Remove 'org_' prefix and sanitize
         base_name = tenant_id.replace("org_", "tenant_")
-        # Ensure it's a valid PostgreSQL identifier 
+        # Ensure it's a valid PostgreSQL identifier
         return re.sub(r"[^a-zA-Z0-9_]", "_", base_name).lower()
 
     async def ensure_isolation(self, tenant_id: str) -> None:
@@ -284,7 +284,7 @@ class TenantIsolator:
 
             # In production, execute SQL:
             # ALTER TABLE {table} ENABLE ROW LEVEL SECURITY;
-            # CREATE POLICY {policy_name} ON {table} 
+            # CREATE POLICY {policy_name} ON {table}
             #   USING (tenant_id = current_setting('app.current_tenant'));
 
             logger.debug(f"Created RLS policy for {table}")
@@ -310,8 +310,8 @@ class TenantIsolator:
         self._schemas[tenant_id] = schema_info
 
         # In production, execute SQL:
-        # CREATE SCHEMA IF NOT EXISTS {schema_name}; 
-        # For each table, create a copy in the new schema 
+        # CREATE SCHEMA IF NOT EXISTS {schema_name};
+        # For each table, create a copy in the new schema
 
         logger.info(f"Created schema {schema_name} for {tenant_id}")
 
@@ -327,7 +327,7 @@ class TenantIsolator:
         db_name = f"kintsugi_{tenant_id.replace('org_', '')}"
 
         # In production, this would:
-        # 1. Create a new database 
+        # 1. Create a new database
         # 2. Run migrations
         # 3. Store connection details securely
 
@@ -396,7 +396,7 @@ class TenantIsolator:
             return {"tenant_id": tenant_id}
         elif self._strategy == IsolationStrategy.SCHEMA:
             # For schema isolation, the search_path handles filtering
-            # but we still return tenant_id for explicit filtering 
+            # but we still return tenant_id for explicit filtering
             return {"tenant_id": tenant_id}
         else:
             # For database isolation, connection itself provides isolation
@@ -453,7 +453,7 @@ class TenantIsolator:
             f"Migrating {tenant_id} from {from_strategy.value} to {to_strategy.value}"
         )
 
-        # Validate migration path 
+        # Validate migration path
         valid_paths = [
             (IsolationStrategy.ROW_LEVEL, IsolationStrategy.SCHEMA),
             (IsolationStrategy.ROW_LEVEL, IsolationStrategy.DATABASE),
@@ -465,7 +465,7 @@ class TenantIsolator:
                 f"Invalid migration path: {from_strategy.value} -> {to_strategy.value}"
             )
 
-        # Perform migration steps 
+        # Perform migration steps
         if from_strategy == IsolationStrategy.ROW_LEVEL:
             if to_strategy == IsolationStrategy.SCHEMA:
                 await self._migrate_rls_to_schema(tenant_id)
@@ -490,17 +490,17 @@ class TenantIsolator:
         Args:
             tenant_id: The tenant to migrate.
         """
-        # 1. Create new schema 
+        # 1. Create new schema
         schema_name = await self.create_tenant_schema(tenant_id)
 
-        # 2. Copy tenant data to new schema 
+        # 2. Copy tenant data to new schema
         for table in self.ISOLATED_TABLES:
-            # In production: 
+            # In production:
             # INSERT INTO {schema_name}.{table}
             # SELECT * FROM public.{table} WHERE tenant_id = '{tenant_id}';
             logger.debug(f"Migrating {table} to schema {schema_name}")
 
-        # 3. Delete from shared tables (after verification) 
+        # 3. Delete from shared tables (after verification)
         # DELETE FROM public.{table} WHERE tenant_id = '{tenant_id}';
 
         logger.info(f"Completed RLS to schema migration for {tenant_id}")
@@ -512,13 +512,13 @@ class TenantIsolator:
             tenant_id: The tenant to migrate.
         """
         logger.info(f"Starting RLS to database migration for {tenant_id}")
-        # This would involve infrastructure automation to: 
-        # 1. Provision new database 
+        # This would involve infrastructure automation to:
+        # 1. Provision new database
         # 2. Run migrations
-        # 3. Export tenant data 
-        # 4. Import into new database 
-        # 5. Verify integrity 
-        # 6. Delete from source 
+        # 3. Export tenant data
+        # 4. Import into new database
+        # 5. Verify integrity
+        # 6. Delete from source
 
     async def _migrate_schema_to_database(self, tenant_id: str) -> None:
         """Migrate from schema to database isolation.
@@ -534,7 +534,7 @@ class TenantIsolator:
             f"Starting schema to database migration for {tenant_id} "
             f"(schema: {schema_info.schema_name})"
         )
-        # Similar to RLS to database, but source is the schema 
+        # Similar to RLS to database, but source is the schema
 
     def _log_audit(
         self,

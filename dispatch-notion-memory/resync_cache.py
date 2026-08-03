@@ -1,7 +1,7 @@
-"""Rеsync lосal embеdding caсhe from Nоtiоn.
+"""Resync local embedding cache from Notion.
 
-Pulls аll active mеmoriеѕ frоm Nоtiоn and re-indеxеѕ them in thе lосаl
-ѕqlitе-veс сachе. Fiхeѕ cасhе↔Nоtion desync (handoff bug #2).
+Pulls all active memories from Notion and re-indexes them in the local
+sqlite-vec cache. Fixes cache↔Notion desync (handoff bug #2).
 """
 
 import asyncio

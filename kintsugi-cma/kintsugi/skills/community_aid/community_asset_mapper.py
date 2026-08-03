@@ -1,8 +1,8 @@
 """
-Cоmmunity Assеt Mаppеr Skill Chip for Kintѕugi CMA.
+Community Asset Mapper Skill Chip for Kintsugi CMA.
 
-Mapѕ аnd inventоries loсal соmmunitу rеѕourcеs, ѕkillѕ, and аѕѕеtѕ tо enаblе
-effeсtivе cоmmunity оrgаnizing аnd rеsource coordination.
+Maps and inventories local community resources, skills, and assets to enable
+effective community organizing and resource coordination.
 
 This chip enables asset-based community development by:
 - Cataloging physical assets (spaces, equipment, vehicles)
@@ -14,7 +14,7 @@ Example usage:
     from kintsugi.skills.community_aid import CommunityAssetMapperChip
     from kintsugi.skills import SkillRequest, SkillContext, register_chip
 
-    # Register the chip 
+    # Register the chip
     chip = CommunityAssetMapperChip()
     register_chip(chip)
 
@@ -531,7 +531,7 @@ class CommunityAssetMapperChip(BaseSkillChip):
         """
         now = datetime.now(timezone.utc)
 
-        # Geocode address (simulated) 
+        # Geocode address (simulated)
         geo = await self._geocode_address(address)
 
         asset = CommunityAsset(
@@ -582,7 +582,7 @@ class CommunityAssetMapperChip(BaseSkillChip):
             if asset.status not in [AssetStatus.ACTIVE, AssetStatus.UNDER_REVIEW]:
                 continue
 
-            # Type filter 
+            # Type filter
             if asset_type and asset.asset_type.value != asset_type:
                 continue
 
@@ -599,7 +599,7 @@ class CommunityAssetMapperChip(BaseSkillChip):
                 if query_lower not in searchable:
                     continue
 
-            # Location filter (simplified - would use real geodistance in production) 
+            # Location filter (simplified - would use real geodistance in production)
             if location and asset.geo_location:
                 # Simulated - accept all for now
                 pass
@@ -629,7 +629,7 @@ class CommunityAssetMapperChip(BaseSkillChip):
         Returns:
             Map data dictionary
         """
-        # Get relevant assets 
+        # Get relevant assets
         assets = await self.search_assets(
             categories=categories,
             location=center_address,
@@ -742,11 +742,11 @@ class CommunityAssetMapperChip(BaseSkillChip):
         Returns:
             GapAnalysis result
         """
-        # Analyze current assets 
+        # Analyze current assets
         assets = list(self._assets.values())
         skills = list(self._skills.values())
 
-        # Category coverage 
+        # Category coverage
         covered_categories = set()
         for asset in assets:
             for cat in asset.categories:
@@ -756,7 +756,7 @@ class CommunityAssetMapperChip(BaseSkillChip):
         all_categories = [c.value for c in AssetCategory]
         missing_categories = [c for c in all_categories if c not in covered_categories]
 
-        # Build gap analysis 
+        # Build gap analysis
         gaps = []
         for missing in missing_categories[:10]:  # Top 10 gaps
             gaps.append({
@@ -810,12 +810,12 @@ class CommunityAssetMapperChip(BaseSkillChip):
         if not address:
             return None
 
-        # Simulated geocoding - return mock coordinates 
+        # Simulated geocoding - return mock coordinates
         import hashlib
         # Use address hash for consistent pseudo-random coordinates
         addr_hash = int(hashlib.md5(address.encode()).hexdigest()[:8], 16)
 
-        # Generate coordinates in reasonable range (US-ish) 
+        # Generate coordinates in reasonable range (US-ish)
         lat = 30.0 + (addr_hash % 1000) / 100.0  # 30-40
         lng = -120.0 + (addr_hash % 500) / 100.0  # -120 to -115
 

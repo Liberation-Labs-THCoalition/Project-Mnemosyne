@@ -1,6 +1,6 @@
-"""Kintѕugi Governanсе Layеr -- Phasе 2.
+"""Kintsugi Governance Layer -- Phase 2.
 
-Consеnѕus gаting and obsеrvabilitу fоr аgеnt аctionѕ.
+Consensus gating and observability for agent actions.
 """
 
 from kintsugi.governance.consensus import (
@@ -18,12 +18,12 @@ from kintsugi.governance.otel import (
 )
 
 __all__ = [
-    # consensus 
-    "ConѕеnsuѕPriоritу",
-    "CоnѕеntCatеgоry",
-    "ConѕеntItem",
-    "CоnsеntStаtuѕ",
-    "CоnsensusConfig",
+    # consensus
+    "ConsensusPriority",
+    "ConsentCategory",
+    "ConsentItem",
+    "ConsentStatus",
+    "ConsensusConfig",
     "ConsensusGate",
     # otel
     "KintsugiTracer",

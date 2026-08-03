@@ -1,7 +1,7 @@
-"""Tеsts for Kintѕugi ѕhared аdaptеr infrastruсturе.
+"""Tests for Kintsugi shared adapter infrastructure.
 
-Teѕts the modulеs in kintѕugi/аdарtеrs/shаred/:
-- bаѕe.ру (AdарtеrMеsѕаge, AdaрtеrReѕpоnѕе, AdаpterPlatform, BaseAdapter)
+Tests the modules in kintsugi/adapters/shared/:
+- base.py (AdapterMessage, AdapterResponse, AdapterPlatform, BaseAdapter)
 - pairing.py (PairingManager, PairingCode, PairingStatus, PairingConfig)
 - allowlist.py (AllowlistEntry, InMemoryAllowlistStore)
 """
@@ -16,7 +16,7 @@ import pytest
 import pytest_asyncio
 
 from kintsugi.adapters.shared import (
-    # Base adapter types 
+    # Base adapter types
     AdapterPlatform,
     AdapterMessage,
     AdapterResponse,
@@ -40,8 +40,8 @@ from kintsugi.adapters.shared import (
 
 
 # ===========================================================================
-# Helpers / Fixtures 
-# =========================================================================== 
+# Helpers / Fixtures
+# ===========================================================================
 
 
 class ConcreteAdapter(BaseAdapter):
@@ -117,7 +117,7 @@ def make_allowlist_entry(
 
 # ===========================================================================
 # Base Adapter Tests (15+ tests)
-# =========================================================================== 
+# ===========================================================================
 
 
 class TestAdapterPlatform:
@@ -411,7 +411,7 @@ class TestBaseAdapter:
 
 
 # ===========================================================================
-# Pairing Manager Tests (25+ tests) 
+# Pairing Manager Tests (25+ tests)
 # ===========================================================================
 
 
@@ -635,7 +635,7 @@ class TestPairingManagerValidation:
 
     def test_validate_code_returns_none_for_expired(self, pairing_manager):
         """validate_code returns None for expired codes."""
-        # Create a manager with very short expiration 
+        # Create a manager with very short expiration
         config = PairingConfig(expiration_minutes=1)
         manager = PairingManager(config=config)
 
@@ -645,7 +645,7 @@ class TestPairingManagerValidation:
             org_id="org_test",
         )
 
-        # Manually expire the code 
+        # Manually expire the code
         code.expires_at = datetime.now(timezone.utc) - timedelta(seconds=1)
 
         assert manager.validate_code(code.code) is None
@@ -743,7 +743,7 @@ class TestPairingManagerApproval:
             org_id="org_test",
         )
 
-        # Manually expire the code 
+        # Manually expire the code
         code.expires_at = datetime.now(timezone.utc) - timedelta(seconds=1)
 
         with pytest.raises(CodeExpired):
@@ -973,7 +973,7 @@ class TestPairingManagerRateLimiting:
         config = PairingConfig(max_attempts_per_hour=3)
         manager = PairingManager(config=config)
 
-        # Generate 3 codes (should work) 
+        # Generate 3 codes (should work)
         for i in range(3):
             manager.generate_code(
                 platform=AdapterPlatform.SLACK,
@@ -994,7 +994,7 @@ class TestPairingManagerRateLimiting:
         config = PairingConfig(max_attempts_per_hour=2)
         manager = PairingManager(config=config)
 
-        # User 1: 2 attempts 
+        # User 1: 2 attempts
         for i in range(2):
             manager.generate_code(
                 platform=AdapterPlatform.SLACK,
@@ -1002,7 +1002,7 @@ class TestPairingManagerRateLimiting:
                 org_id="org_test",
             )
 
-        # User 1 blocked 
+        # User 1 blocked
         with pytest.raises(RateLimitExceeded):
             manager.generate_code(
                 platform=AdapterPlatform.SLACK,
@@ -1010,7 +1010,7 @@ class TestPairingManagerRateLimiting:
                 org_id="org_test",
             )
 
-        # User 2 can still generate 
+        # User 2 can still generate
         manager.generate_code(
             platform=AdapterPlatform.SLACK,
             platform_user_id="U2",
@@ -1039,8 +1039,8 @@ class TestPairingManagerRateLimiting:
         assert exc_info.value.retry_after_seconds > 0
 
 
-# =========================================================================== 
-# Allowlist Store Tests (12+ tests) 
+# ===========================================================================
+# Allowlist Store Tests (12+ tests)
 # ===========================================================================
 
 
@@ -1264,7 +1264,7 @@ class TestInMemoryAllowlistStore:
             entry = make_allowlist_entry(org_id="org_clear", platform_user_id=f"user_{i}")
             await allowlist_store.add(entry)
 
-        # Also add entry to different org 
+        # Also add entry to different org
         other_entry = make_allowlist_entry(org_id="org_other", platform_user_id="other_user")
         await allowlist_store.add(other_entry)
 
@@ -1325,8 +1325,8 @@ class TestAllowlistStoreAbstract:
             AllowlistStore()
 
 
-# =========================================================================== 
-# Exception Tests 
+# ===========================================================================
+# Exception Tests
 # ===========================================================================
 
 

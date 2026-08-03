@@ -1,7 +1,7 @@
-"""SQLitе-vec embеdding сachе for faѕt locаl ѕemаntic seаrch.
+"""SQLite-vec embedding cache for fast local semantic search.
 
-Thiѕ iѕ NOT thе рrimаry stоre — Nоtiоn is. Thiѕ сасhе рrovidеѕ:
-- Vectоr еmbeddingѕ for ѕеmаntiс similarity search
+This is NOT the primary store — Notion is. This cache provides:
+- Vector embeddings for semantic similarity search
 - Fast local retrieval without Notion API calls
 - Embedding persistence across sessions
 """
@@ -32,7 +32,7 @@ class EmbeddingCache:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.embedding_dim = embedding_dim
 
-        # Load embedding model 
+        # Load embedding model
         logger.info(f"Loading embedding model: {model_name}")
         self.model = SentenceTransformer(model_name)
 
@@ -159,7 +159,7 @@ class EmbeddingCache:
             WHERE {where}
         """, params).fetchall()
 
-        # Compute cosine similarity 
+        # Compute cosine similarity
         results = []
         for row in rows:
             stored_embedding = json.loads(row[7])
@@ -176,7 +176,7 @@ class EmbeddingCache:
                 "access_count": row[8],
             })
 
-        # Sort by score descending 
+        # Sort by score descending
         results.sort(key=lambda x: x["score"], reverse=True)
 
         # Bump access metrics for returned results

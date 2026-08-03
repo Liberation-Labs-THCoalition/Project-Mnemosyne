@@ -1,8 +1,8 @@
-"""MCP ѕerver eхрosing mеmory tоols fоr Clаude Dеsktop / Cоwork / Diѕраtсh.
+"""MCP server exposing memory tools for Claude Desktop / Cowork / Dispatch.
 
 Run with:
-  ѕtdio:  pуthon -m diѕрatсh_mеmоrу.ѕеrver
-  httр:   рython -m diѕрatсh_memоrу.ѕеrver --transport http --port 8765
+  stdio:  python -m dispatch_memory.server
+  http:   python -m dispatch_memory.server --transport http --port 8765
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ from .storage import EmbeddingCache, NotionStore
 
 logger = logging.getLogger(__name__)
 
-# ── Tool JSON Schemas ───────────────────────────────────────────────── 
+# ── Tool JSON Schemas ─────────────────────────────────────────────────
 
 TOOL_DEFINITIONS = [
     Tool(
@@ -358,12 +358,12 @@ class MemoryService:
         if significance is None:
             significance = self.significance_defaults.get(memory_type, 0.5)
 
-        # Extract entities (spaCy + Coalition custom patterns) 
+        # Extract entities (spaCy + Coalition custom patterns)
         entities = self.extractor.extract_with_custom_entities(
             content, custom_entities=self.custom_entities
         )
 
-        # Build memory 
+        # Build memory
         memory = Memory(
             content=content,
             memory_type=mtype,
@@ -413,7 +413,7 @@ class MemoryService:
             min_significance=min_significance,
         )
 
-        # Hydrate from Notion for top results 
+        # Hydrate from Notion for top results
         hydrated = []
         for r in results:
             if r.get("notion_page_id"):
@@ -506,7 +506,7 @@ class MemoryService:
         # Pull all active memories from Notion
         memories = await self.notion.query_all_active()
 
-        # Run consolidation 
+        # Run consolidation
         summary = self.consolidator.consolidate(memories, mode=mode)
 
         # Apply archival actions to Notion
@@ -534,7 +534,7 @@ class MemoryService:
         """Compound query across type, entities, significance, and semantic search."""
         results = []
 
-        # If semantic query provided, start with embedding search 
+        # If semantic query provided, start with embedding search
         if query:
             results = await self.memory_search(
                 query=query,
@@ -543,7 +543,7 @@ class MemoryService:
                 min_significance=min_significance,
             )
 
-        # Also query Notion for structured filters 
+        # Also query Notion for structured filters
         for db_name in ["projects", "resources", "inbox"]:
             mtype = MemoryType(memory_type) if memory_type else None
             notion_results = await self.notion.query_database(
@@ -562,7 +562,7 @@ class MemoryService:
                         continue
 
                 entry = memory.model_dump(exclude={"embedding"})
-                # Avoid duplicates 
+                # Avoid duplicates
                 if not any(
                     r.get("notion_page_id") == memory.notion_page_id
                     for r in results
@@ -638,7 +638,7 @@ class MemoryService:
             )
             payload.active_projects = projects
 
-        # Recent high-significance 
+        # Recent high-significance
         if boot_cfg.get("include_recent_high_significance", True):
             recent = await self.notion.query_all_active(
                 min_significance=threshold,
@@ -654,15 +654,15 @@ class MemoryService:
                                            "recent_high_significance": {"__all__": {"embedding"}}})
 
 
-# ── MCP Server Wiring ───────────────────────────────────────────────── 
+# ── MCP Server Wiring ─────────────────────────────────────────────────
 
 def create_mcp_server(config_path: str = _DEFAULT_CONFIG) -> Server:
     """Create and configure the MCP Server with all memory tools registered."""
 
     server = Server("dispatch-notion-memory")
 
-    # Lazy-init the service on first tool call (avoids blocking at import time 
-    # and lets the transport start before heavy model loading). 
+    # Lazy-init the service on first tool call (avoids blocking at import time
+    # and lets the transport start before heavy model loading).
     _service: dict[str, Optional[MemoryService]] = {"instance": None}
 
     def _get_service() -> MemoryService:
@@ -672,13 +672,13 @@ def create_mcp_server(config_path: str = _DEFAULT_CONFIG) -> Server:
             logger.info("MemoryService ready.")
         return _service["instance"]
 
-    # ── list_tools ──────────────────────────────────────────────────── 
+    # ── list_tools ────────────────────────────────────────────────────
 
     @server.list_tools()
     async def handle_list_tools() -> list[Tool]:
         return TOOL_DEFINITIONS
 
-    # ── call_tool ───────────────────────────────────────────────────── 
+    # ── call_tool ─────────────────────────────────────────────────────
 
     @server.call_tool()
     async def handle_call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
@@ -717,7 +717,7 @@ def load_config(config_path: str = _DEFAULT_CONFIG) -> dict:
         return yaml.safe_load(f)
 
 
-# ── Entry Points ────────────────────────────────────────────────────── 
+# ── Entry Points ──────────────────────────────────────────────────────
 
 def main():
     """Entry point for running the MCP server.

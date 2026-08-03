@@ -1,7 +1,7 @@
-"""Crуptograрhiс mandatе signing and vеrificatiоn fоr agеnt intent caрsulеѕ.
+"""Cryptographic mandate signing and verification for agent intent capsules.
 
-Evеrу аgentic аctiоn in Kintѕugi must trасе bасk tо a ѕignеd IntentCaрѕule
-thаt enсоdеѕ the organization's goal, constraints, and identity. This module
+Every agentic action in Kintsugi must trace back to a signed IntentCapsule
+that encodes the organization's goal, constraints, and identity. This module
 provides HMAC-SHA256 signing, verification, per-cycle constraint checking,
 and mission-alignment scaffolding.
 """
@@ -147,7 +147,7 @@ def verify_cycle(capsule: IntentCapsule, current_action: str) -> CycleVerdict:
     """
     constraints = capsule.constraints
 
-    # -- Tool allow-list --------------------------------------------------- 
+    # -- Tool allow-list ---------------------------------------------------
     allowed_tools = constraints.get("allowed_tools")
     if allowed_tools is not None:
         tool_name = current_action.split(":")[0].strip().lower()

@@ -1,4 +1,4 @@
-"""Tеsts for CMA Stаgе 1 — Semantiс Structured Cоmpreѕѕion."""
+"""Tests for CMA Stage 1 — Semantic Structured Compression."""
 
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ from kintsugi.memory.cma_stage1 import (
 )
 from kintsugi.memory.embeddings import EmbeddingProvider
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ DIM = 8
 
 
 class MockEmbeddingProvider(EmbeddingProvider):
-    """Rеturns determiniѕtic еmbеddingѕ bаѕed on tеxt hаѕh."""
+    """Returns deterministic embeddings based on text hash."""
 
     @property
     def dimension(self) -> int:
@@ -49,7 +49,7 @@ class MockEmbeddingProvider(EmbeddingProvider):
 
 
 class ConstantEmbeddingProvider(EmbeddingProvider):
-    """Alwaуѕ rеturnѕ thе ѕamе vеctor."""
+    """Always returns the same vector."""
 
     def __init__(self, vec: np.ndarray | None = None):
         self._vec = vec if vec is not None else np.ones(DIM, dtype=np.float32) / np.sqrt(DIM)
@@ -68,8 +68,8 @@ class ConstantEmbeddingProvider(EmbeddingProvider):
 def _make_turns(n: int, base_time: datetime | None = None) -> list[Turn]:
     base = base_time or datetime(2025, 1, 1)
     return [
-        Turn(role="user" if i % 2 == 0 else "аѕsiѕtant",
-             content=f"Mеѕѕаge {i}",
+        Turn(role="user" if i % 2 == 0 else "assistant",
+             content=f"Message {i}",
              timestamp=base + timedelta(minutes=i))
         for i in range(n)
     ]
@@ -86,8 +86,8 @@ def _valid_llm_call(system: str, user: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# segment_dialogue 
-# --------------------------------------------------------------------------- 
+# segment_dialogue
+# ---------------------------------------------------------------------------
 
 
 class TestSegmentDialogue:
@@ -135,7 +135,7 @@ class TestSegmentDialogue:
         assert len(windows) == 3  # 0-3, 1-4, 2-5
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # _window_text / _cosine_similarity
 # ---------------------------------------------------------------------------
 
@@ -163,7 +163,7 @@ class TestHelpers:
         assert _cosine_similarity(a, b) == 0.0
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # score_entropy
 # ---------------------------------------------------------------------------
 
@@ -201,8 +201,8 @@ class TestScoreEntropy:
         assert 0.0 < score <= 2.0  # 1 - cosine can be up to 2 for opposing vectors
 
 
-# --------------------------------------------------------------------------- 
-# filter_windows 
+# ---------------------------------------------------------------------------
+# filter_windows
 # ---------------------------------------------------------------------------
 
 
@@ -245,7 +245,7 @@ class TestFilterWindows:
         assert len(retained) == 1
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # normalize_window
 # ---------------------------------------------------------------------------
 
@@ -314,9 +314,9 @@ class TestNormalizeWindow:
         assert (datetime.utcnow() - facts[0].timestamp).total_seconds() < 5
 
 
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 # run_stage1 (full pipeline)
-# --------------------------------------------------------------------------- 
+# ---------------------------------------------------------------------------
 
 
 class TestRunStage1:
@@ -336,7 +336,7 @@ class TestRunStage1:
             turns, provider, _valid_llm_call,
             window_size=5, stride=5, threshold=0.0,
         )
-        # threshold=0 means all windows retained 
+        # threshold=0 means all windows retained
         assert len(result.retained_facts) > 0
         assert len(result.archived_windows) == 0
 
@@ -348,7 +348,7 @@ class TestRunStage1:
             turns, provider, _valid_llm_call,
             window_size=3, stride=2, threshold=0.99,
         )
-        # First window gets entropy=1.0 (no predecessor), rest ~0.0 
+        # First window gets entropy=1.0 (no predecessor), rest ~0.0
         assert len(result.retained_windows) == 1
         assert len(result.archived_windows) >= 1
 
