@@ -253,7 +253,7 @@ Every 4 hours (via cron), the dreamer:
 3. Writes back: topics, significance (1-5), entities, summary
 
 ### Setup
-See the full dreamer implementation in the [Memory System Spec](../nexus-memory-archive/MEMORY_SYSTEM_SPEC.md). The core is a Python script that runs as a cron job.
+The full dreamer implementation lives in the operator's private memory archive (**not included in this repo**). The core is a Python script that runs as a cron job; `h-mem-temporal/dreamer_consolidator.py` in this repo shows the consolidation pass that runs on the same cycle.
 
 ### Without a local model
 Skip this layer. Layers 1-3 give you persistent memory without enrichment. Enrichment adds semantic depth but isn't required.
@@ -272,7 +272,7 @@ Semantic graph search across all memories. Optional but powerful.
 **Keep personal and federated graphs separate.** Personal memories (conversations, reflections) go in an isolated graph. Shared knowledge (research papers, curated facts) goes in a federated graph. Never bridge personal → federated without PII scrubbing.
 
 ### Setup
-See [MEMORY_ARCHITECTURE.md](../agents/nexus/MEMORY_ARCHITECTURE.md) for the two-graph design.
+The full two-graph design doc is Coalition-internal (**not included in this repo**); the architecture note above is the operative summary. For the KG layer itself, see `hipporag-catrag-kg/DESIGN.md` (design spec — bring your own implementation).
 
 ---
 
@@ -294,7 +294,7 @@ Converts text (ethics knowledge, domain expertise, persona) into pre-computed KV
 - Persona control via circular emotion geometry
 
 ### Setup
-See `kv-knowledge-packs/kv_packs.py` for the core builder. The `KVPackBuilder.encode()` method takes arbitrary text and returns a `CacheBlock`.
+The core builder (`kv_packs.py`, whose `KVPackBuilder.encode()` takes arbitrary text and returns a `CacheBlock`) is part of `kv-knowledge-packs`, which is **external / not in this public repo** (see COMPONENT_MANIFEST.md). The guidance below applies to any KV-cache pack implementation.
 
 **Critical:** HuggingFace DynamicCache is mutated in-place during forward passes. Always deep-copy before reuse:
 ```python

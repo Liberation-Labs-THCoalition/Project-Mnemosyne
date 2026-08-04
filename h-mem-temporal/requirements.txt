@@ -1,0 +1,6 @@
+# h-mem-temporal runtime dependencies.
+# dreamer_consolidator.py calls an Ollama-compatible endpoint via requests;
+# temporal_tree.py and temporal_scorer.py are stdlib-only.
+requests>=2.31
+# Test suite:
+pytest>=8.0

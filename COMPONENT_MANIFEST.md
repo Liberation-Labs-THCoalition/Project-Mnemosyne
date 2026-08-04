@@ -4,6 +4,9 @@ Honest status of every component advertised by Project Mnemosyne, so a fresh
 clone knows what is runnable now, what is external/gated, and what is still a
 design spec. Created in response to issue #4 (reproducibility).
 
+Last full audit: **2026-08-04** — every table row below was re-verified from the
+working tree on that date (see `AUDIT_REPORT.md` for method and details).
+
 **Legend**
 - **Implemented** — source is in this repository and runs/tests from a clean checkout.
 - **External / private** — referenced by the docs but **not present in this public repo** (gated, private, or a separate artifact).
@@ -11,14 +14,14 @@ design spec. Created in response to issue #4 (reproducibility).
 
 | Component | Status | In repo? | Verified | Notes |
 |---|---|---|---|---|
-| `kintsugi-cma` | Implemented | yes | 2,052 passed / 6 skipped (reported) | Docker build context fixed to `.` (was `./engine`, which does not exist). |
-| `h-mem-temporal` | Implemented | yes | **26 passed** (re-run) | Time-aware retrieval with Ebbinghaus decay. |
-| `tgs-verification` | Implemented | yes | **10 passed** (re-run) | Bidirectional text↔graph verification. |
-| `tgs-rag-bridge` | Implemented | yes | imports OK | Requires `aiohttp` — now declared in `tgs-rag-bridge/requirements.txt`. |
-| `sira-enrichment` | Implemented | yes | **17 passed** (re-run, was 14 + 3 failing) | Fixture bug fixed: content now uses the `example_user` trigger key. |
-| `dispatch-notion-memory` | Implemented | yes | **11 passed** with `PYTHONPATH=src` (re-run) | `src/` layout, no packaging file — run/test with `PYTHONPATH=src`. Needs Notion creds at runtime. |
-| `metacognition` | Implemented (in-tree) | yes | imports after installing jlens | Needs `jlens` from GitHub (not PyPI) **and** your own model + fitted J-lens. Default distilled model/lens pair is Coalition-internal. |
-| `swarm` | Implemented | yes | runs | Requires external NATS + Ollama. Discord is now **opt-in** (`SWARM_DISCORD_ENABLED`); see `swarm/.env.example`. No hardcoded token path/channel. |
+| `kintsugi-cma` | Implemented | yes | **2,052 passed / 6 skipped** (verified 2026-08-04, 71s) | Docker build context fixed to `.` (was `./engine`, which does not exist). Test suite needs only `requirements-test.txt`; full runtime deps live in `pyproject.toml` (used by the Docker build). |
+| `h-mem-temporal` | Implemented | yes | **26 passed** (verified 2026-08-04) | Time-aware retrieval with Ebbinghaus decay. `requests` (used by `dreamer_consolidator.py`) now declared in `h-mem-temporal/requirements.txt`. |
+| `tgs-verification` | Implemented | yes | **10 passed** (verified 2026-08-04) | Bidirectional text↔graph verification. Stdlib-only — no third-party runtime deps. |
+| `tgs-rag-bridge` | Implemented | yes | imports OK (verified 2026-08-04) | Requires `aiohttp` — declared in `tgs-rag-bridge/requirements.txt`. No test suite yet. |
+| `sira-enrichment` | Implemented | yes | **17 passed** (verified 2026-08-04) | Fixture bug fixed: content now uses the `example_user` trigger key. `requests` now declared in `sira-enrichment/requirements.txt`. |
+| `dispatch-notion-memory` | Implemented | yes | **11 passed** with `PYTHONPATH=src` (verified 2026-08-04) | `src/` layout, no packaging file — run/test with `PYTHONPATH=src`. Needs Notion creds at runtime. `config/config.example.yaml` ships placeholder database IDs — fill in your own. |
+| `metacognition` | Implemented (in-tree) | yes | compiles; imports need `jlens` (declared in requirements.txt via git URL) | Needs `jlens` from GitHub (not PyPI) **and** your own model + fitted J-lens (`--model` / `--lens`). Default distilled model/lens pair is Coalition-internal. `cognitive_snapshot` imports standalone. |
+| `swarm` | Implemented | yes | imports OK (verified 2026-08-04) | Requires external NATS + Ollama. Discord is now **opt-in** (`SWARM_DISCORD_ENABLED`); see `swarm/.env.example`. No hardcoded token path/channel. Pip deps (`requests`, `nats-py`) declared in `swarm/requirements.txt`. No test suite yet. |
 | `oracle-memory` | **External / private** | **no** (0 tracked files) | — | Referenced by README; not published in this public repo. |
 | `kv-knowledge-packs` | **External / private** | **no** (0 tracked files) | — | Referenced by README; not published in this public repo. |
 | `mnemosyne-metacognition` (standalone repo) | **External / private** | n/a | — | The GitHub URL 404s (private). The in-tree `metacognition/` is the reference implementation. |
@@ -59,3 +62,12 @@ bash setup.sh myagent            # auto-detects Claude Code / OpenClaw / Hermes 
   implementation you provide.
 - OpenClaw integration is experimental and unverified — see the caveat in
   `AGENT_SETUP.md` (only Claude Code is currently supported end-to-end).
+- CI (`.github/workflows/ci.yml`) runs the `kintsugi-cma` suite only; the other
+  component suites are verified manually (commands above).
+- `.gitignore` contains a blanket `dispatch-notion-memory/` entry: the 21
+  already-tracked files stay tracked, but **new** files added under that
+  directory are silently ignored unless force-added.
+- `kintsugi-cma/requirements.txt` (test/dev path) and `pyproject.toml`
+  (runtime/Docker path) have diverged; each covers its own path, but they are
+  two sources of truth. Optional adapter deps (`slack_sdk`, `aiohttp` for Slack
+  OAuth) are lazily imported and not declared as extras.

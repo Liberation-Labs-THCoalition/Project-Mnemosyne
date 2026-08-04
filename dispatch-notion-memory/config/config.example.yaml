@@ -6,13 +6,14 @@ notion:
   # Create at https://www.notion.so/my-integrations
   token: "ntn_..."
 
-  # Database IDs from your Second Brain PARA structure
+  # Database IDs from your Second Brain PARA structure.
+  # Find a database's ID in its Notion URL (the 32-char hex segment).
   databases:
-    inbox: "a7e0b81a-3452-4d4d-9aec-967f70a467b7"
-    projects: "084ec1ff-eb97-4949-b239-fe42dc693222"
+    inbox: ""
+    projects: ""
     # areas: ""        # Add when Areas database exists
-    resources: "9e9dd1fc-d32b-4886-9e53-bc88f64507ed"
-    archive: "e73b5410-319a-4bc7-b792-28bea2cd545c"
+    resources: ""
+    archive: ""
 
 storage:
   # Local SQLite-vec database for embeddings

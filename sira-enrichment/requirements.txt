@@ -1,0 +1,5 @@
+# sira-enrichment runtime dependencies.
+# sira.py calls an Ollama-compatible endpoint via requests.
+requests>=2.31
+# Test suite:
+pytest>=8.0

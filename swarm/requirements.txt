@@ -1,0 +1,5 @@
+# swarm runtime dependencies.
+# swarm_service.py and pipeline.py call HTTP APIs (Ollama, optionally Discord)
+# via requests; the NATS listener needs the nats-py client.
+requests>=2.31
+nats-py>=2.6
