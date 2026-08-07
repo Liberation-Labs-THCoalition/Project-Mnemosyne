@@ -333,6 +333,74 @@ class TestPIIDetectionEdgeCases:
 
 
 # =============================================================================
+# International / E.164 phone numbers (audit finding #6)
+# =============================================================================
+
+class TestPIIPhoneInternational:
+    """UK and other E.164 numbers must be detected in mixed content."""
+
+    def test_detect_uk_mobile_spaced(self):
+        redactor = PIIRedactor()
+        text = "Ring me on +44 7700 900123 tomorrow"
+        phones = [d for d in redactor.detect(text) if d.pii_type == "PHONE"]
+        assert len(phones) == 1
+        assert phones[0].original == "+44 7700 900123"
+
+    def test_detect_uk_mobile_compact(self):
+        redactor = PIIRedactor()
+        phones = [d for d in redactor.detect("Call +447700900123 now")
+                  if d.pii_type == "PHONE"]
+        assert len(phones) == 1
+        assert phones[0].original == "+447700900123"
+
+    def test_detect_uk_landline_hyphenated(self):
+        redactor = PIIRedactor()
+        phones = [d for d in redactor.detect("Office: +44-20-7946-0958.")
+                  if d.pii_type == "PHONE"]
+        assert len(phones) == 1
+        assert phones[0].original == "+44-20-7946-0958"
+
+    def test_detect_e164_compact_us(self):
+        redactor = PIIRedactor()
+        phones = [d for d in redactor.detect("Fax +14155552671 please")
+                  if d.pii_type == "PHONE"]
+        assert len(phones) == 1
+        assert phones[0].original == "+14155552671"
+
+    def test_uk_number_in_mixed_content(self):
+        """The audit's failing case: UK number alongside other PII."""
+        redactor = PIIRedactor()
+        text = (
+            "Contact Priya at priya@example.co.uk or on +44 7700 900123 "
+            "if the 555-123-4567 line is busy."
+        )
+        detections = redactor.detect(text)
+        types = [d.pii_type for d in detections]
+        assert types.count("EMAIL") == 1
+        assert types.count("PHONE") == 2
+        originals = {d.original for d in detections if d.pii_type == "PHONE"}
+        assert originals == {"+44 7700 900123", "555-123-4567"}
+
+    def test_redact_uk_number_leaves_no_digits(self):
+        redactor = PIIRedactor()
+        result = redactor.redact("Reach me on +44 7700 900123, cheers")
+        assert "+44" not in result.redacted_text
+        assert "7700" not in result.redacted_text
+        assert "900123" not in result.redacted_text
+        assert "[REDACTED_PHONE]" in result.redacted_text
+
+    def test_us_intl_prefix_single_detection(self):
+        """A number matched by both phone patterns yields one finding."""
+        redactor = PIIRedactor()
+        phones = [d for d in redactor.detect("US +1-555-123-4567")
+                  if d.pii_type == "PHONE"]
+        assert len(phones) == 1
+        assert phones[0].original == "+1-555-123-4567"
+        result = redactor.redact("US +1-555-123-4567")
+        assert result.redacted_text.count("[REDACTED_PHONE]") == 1
+
+
+# =============================================================================
 # Test PIIRedactor with extra_patterns
 # =============================================================================
 

@@ -41,16 +41,16 @@ class TestMemoryLayer:
 
 class TestComputeLayer:
     @pytest.mark.parametrize("sig,expected", [
-        (1, MemoryLayer.PERMANENT),
-        (2, MemoryLayer.PERMANENT),
-        (3, MemoryLayer.CORE),
-        (4, MemoryLayer.CORE),
+        (1, MemoryLayer.VOLATILE),
+        (2, MemoryLayer.VOLATILE),
+        (3, MemoryLayer.STANDARD),
+        (4, MemoryLayer.STANDARD),
         (5, MemoryLayer.IMPORTANT),
         (6, MemoryLayer.IMPORTANT),
-        (7, MemoryLayer.STANDARD),
-        (8, MemoryLayer.STANDARD),
-        (9, MemoryLayer.VOLATILE),
-        (10, MemoryLayer.VOLATILE),
+        (7, MemoryLayer.CORE),
+        (8, MemoryLayer.CORE),
+        (9, MemoryLayer.PERMANENT),
+        (10, MemoryLayer.PERMANENT),
     ])
     def test_all_ranges(self, sig, expected):
         assert compute_layer(sig) == expected
@@ -69,14 +69,14 @@ class TestComputeLayer:
 class TestComputeExpiration:
     def test_permanent_returns_none(self):
         t = datetime(2024, 1, 1, tzinfo=timezone.utc)
-        assert compute_expiration(1, t) is None
-        assert compute_expiration(2, t) is None
+        assert compute_expiration(9, t) is None
+        assert compute_expiration(10, t) is None
 
     @pytest.mark.parametrize("sig,days", [
-        (3, 730), (4, 730),
+        (7, 730), (8, 730),
         (5, 365), (6, 365),
-        (7, 90), (8, 90),
-        (9, 30), (10, 30),
+        (3, 90), (4, 90),
+        (1, 30), (2, 30),
     ])
     def test_ttls(self, sig, days):
         t = datetime(2024, 1, 1, tzinfo=timezone.utc)

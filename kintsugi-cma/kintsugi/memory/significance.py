@@ -24,22 +24,27 @@ logger = logging.getLogger(__name__)
 
 
 class MemoryLayer(str, enum.Enum):
-    """Named memory tiers mapped from significance scores."""
+    """Named memory tiers mapped from significance scores.
 
-    PERMANENT = "PERMANENT"   # 1-2
-    CORE = "CORE"             # 3-4
+    Convention (matches org_isolation and the API docs): significance runs
+    from 1 = low/ephemeral to 10 = high/core.  High-significance memories
+    live in the most durable layers.
+    """
+
+    PERMANENT = "PERMANENT"   # 9-10
+    CORE = "CORE"             # 7-8
     IMPORTANT = "IMPORTANT"   # 5-6
-    STANDARD = "STANDARD"     # 7-8
-    VOLATILE = "VOLATILE"     # 9-10
+    STANDARD = "STANDARD"     # 3-4
+    VOLATILE = "VOLATILE"     # 1-2
 
 
-# Significance -> layer mapping
+# Significance -> layer mapping (1 = ephemeral ... 10 = core/permanent)
 _LAYER_RANGES: list[tuple[range, MemoryLayer]] = [
-    (range(1, 3), MemoryLayer.PERMANENT),
-    (range(3, 5), MemoryLayer.CORE),
+    (range(1, 3), MemoryLayer.VOLATILE),
+    (range(3, 5), MemoryLayer.STANDARD),
     (range(5, 7), MemoryLayer.IMPORTANT),
-    (range(7, 9), MemoryLayer.STANDARD),
-    (range(9, 11), MemoryLayer.VOLATILE),
+    (range(7, 9), MemoryLayer.CORE),
+    (range(9, 11), MemoryLayer.PERMANENT),
 ]
 
 # Significance -> TTL in days (None = never expires)

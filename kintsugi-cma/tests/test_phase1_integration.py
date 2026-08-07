@@ -19,8 +19,8 @@ assert verify_capsule(capsule, "secret")
 print("Capsule sign/verify OK")
 
 # --- Memory layers + fibonacci ---
-assert compute_layer(1) == MemoryLayer.PERMANENT
-assert compute_layer(9) == MemoryLayer.VOLATILE
+assert compute_layer(1) == MemoryLayer.VOLATILE
+assert compute_layer(9) == MemoryLayer.PERMANENT
 assert fib_interval(5) == 8
 print("Significance + spaced OK")
 

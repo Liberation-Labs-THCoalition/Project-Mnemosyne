@@ -13,13 +13,27 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from kintsugi.config.settings import settings
-from kintsugi.db import get_session
+from kintsugi.db import get_session, set_org_context
 from kintsugi.memory.cma_stage3 import ScoredResult, estimate_complexity, retrieve
 from kintsugi.memory.embeddings import get_embedding_provider
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/memory", tags=["memory"])
+
+# Symbolic search ranks purely by stored significance, where the documented
+# convention is 1 = low/ephemeral and 10 = high/core.  Higher-significance
+# memories must therefore rank first and receive the higher score.
+# CAST(... AS FLOAT) instead of ::float keeps the expression portable to the
+# SQLite seed tier.  Module-level so tests can exercise the exact query.
+SYMBOLIC_SQL = text("""
+    SELECT mu.id, mu.content, mu.significance, mu.memory_layer, mu.created_at,
+           CAST(mu.significance AS FLOAT) / 10.0 AS score
+    FROM memory_units mu
+    WHERE mu.org_id = :org_id
+    ORDER BY mu.significance DESC, mu.created_at DESC
+    LIMIT :limit
+""")
 
 
 # ---------------------------------------------------------------------------
@@ -75,6 +89,9 @@ async def memory_search(
 ) -> dict:
     oid = _parse_uuid(org_id)
 
+    # Bind the transaction to this org for row-level security (Postgres).
+    await set_org_context(session, str(oid))
+
     # --- embed query ---
     try:
         provider = _get_provider()
@@ -106,14 +123,7 @@ async def memory_search(
         LIMIT :limit
     """)
 
-    symbolic_sql = text("""
-        SELECT mu.id, mu.content, mu.significance, mu.memory_layer, mu.created_at,
-               (10 - mu.significance)::float / 10.0 AS score
-        FROM memory_units mu
-        WHERE mu.org_id = :org_id
-        ORDER BY mu.significance ASC, mu.created_at DESC
-        LIMIT :limit
-    """)
+    symbolic_sql = SYMBOLIC_SQL
 
     params_dense = {"query_vec": vec_lit, "org_id": str(oid), "limit": limit}
     params_lex = {"query": q, "org_id": str(oid), "limit": limit}
@@ -184,6 +194,9 @@ async def memory_store(
 ) -> dict:
     oid = _parse_uuid(body.org_id)
     memory_id = uuid.uuid4()
+
+    # Bind the transaction to this org for row-level security (Postgres).
+    await set_org_context(session, str(oid))
 
     # --- generate embedding ---
     try:

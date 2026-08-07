@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from kintsugi.db import get_session
+from kintsugi.db import get_session, set_org_context
 from kintsugi.models.base import Organization, TemporalMemory
 from kintsugi.security.monitor import SecurityMonitor
 from kintsugi.security.pii import PIIRedactor
@@ -20,6 +20,36 @@ router = APIRouter(prefix="/api/agent", tags=["agent"])
 
 _monitor = SecurityMonitor()
 _redactor = PIIRedactor()
+
+# Window within which an identical (org, category, message) event is treated
+# as a duplicate delivery (client retry / double submit) rather than a new
+# temporal event.  Audit finding #2: repeated POSTs of the same message were
+# creating duplicate temporal_memories rows.
+TEMPORAL_DEDUP_WINDOW_SECONDS = 60
+
+
+async def _find_recent_duplicate(
+    session: AsyncSession,
+    org_uuid: uuid.UUID,
+    category: str,
+    message: str,
+) -> TemporalMemory | None:
+    """Return a recent identical temporal event for this org, if any."""
+    cutoff = datetime.now(timezone.utc) - timedelta(
+        seconds=TEMPORAL_DEDUP_WINDOW_SECONDS
+    )
+    result = await session.execute(
+        select(TemporalMemory)
+        .where(
+            TemporalMemory.org_id == org_uuid,
+            TemporalMemory.category == category,
+            TemporalMemory.message == message,
+            TemporalMemory.created_at >= cutoff,
+        )
+        .order_by(TemporalMemory.created_at.desc())
+        .limit(1)
+    )
+    return result.scalars().first()
 
 
 # ---------------------------------------------------------------------------
@@ -39,6 +69,7 @@ class AgentResponse(BaseModel):
     redacted_input: str
     memory_context: list[dict] = []
     temporal_event_id: str | None = None
+    deduplicated: bool = False
 
 
 class TemporalEvent(BaseModel):
@@ -77,6 +108,9 @@ async def agent_message(
     if org is None:
         raise HTTPException(status_code=404, detail=f"Organization {req.org_id} not found.")
 
+    # Bind the transaction to this org for row-level security (Postgres).
+    await set_org_context(session, str(org_uuid))
+
     # 2. PII redaction
     redaction = _redactor.redact(req.message)
     redacted_text = redaction.redacted_text
@@ -87,21 +121,26 @@ async def agent_message(
 
     # 4/5. Log to TemporalMemory and build response
     if verdict_str == "block":
-        event = TemporalMemory(
-            org_id=org_uuid,
-            category="security",
-            message=redacted_text,
-            metadata_json={
-                "security_verdict": verdict_str,
-                "security_reason": verdict.reason,
-                "matched_pattern": verdict.matched_pattern,
-                "severity": verdict.severity.value if verdict.severity else None,
-                "context": req.context,
-                "pii_types_found": redaction.types_found,
-            },
+        event = await _find_recent_duplicate(
+            session, org_uuid, "security", redacted_text
         )
-        session.add(event)
-        await session.flush()
+        deduplicated = event is not None
+        if event is None:
+            event = TemporalMemory(
+                org_id=org_uuid,
+                category="security",
+                message=redacted_text,
+                metadata_json={
+                    "security_verdict": verdict_str,
+                    "security_reason": verdict.reason,
+                    "matched_pattern": verdict.matched_pattern,
+                    "severity": verdict.severity.value if verdict.severity else None,
+                    "context": req.context,
+                    "pii_types_found": redaction.types_found,
+                },
+            )
+            session.add(event)
+            await session.flush()
 
         return AgentResponse(
             response=f"Message blocked by security monitor: {verdict.reason}",
@@ -110,22 +149,28 @@ async def agent_message(
             redacted_input=redacted_text,
             memory_context=[],
             temporal_event_id=str(event.id),
+            deduplicated=deduplicated,
         )
 
     # ALLOW or WARN
-    event = TemporalMemory(
-        org_id=org_uuid,
-        category="interaction",
-        message=redacted_text,
-        metadata_json={
-            "security_verdict": verdict_str,
-            "security_reason": verdict.reason,
-            "context": req.context,
-            "pii_types_found": redaction.types_found,
-        },
+    event = await _find_recent_duplicate(
+        session, org_uuid, "interaction", redacted_text
     )
-    session.add(event)
-    await session.flush()
+    deduplicated = event is not None
+    if event is None:
+        event = TemporalMemory(
+            org_id=org_uuid,
+            category="interaction",
+            message=redacted_text,
+            metadata_json={
+                "security_verdict": verdict_str,
+                "security_reason": verdict.reason,
+                "context": req.context,
+                "pii_types_found": redaction.types_found,
+            },
+        )
+        session.add(event)
+        await session.flush()
 
     warning_note = ""
     if verdict_str == "warn":
@@ -141,6 +186,7 @@ async def agent_message(
         redacted_input=redacted_text,
         memory_context=[],
         temporal_event_id=str(event.id),
+        deduplicated=deduplicated,
     )
 
 
@@ -159,6 +205,9 @@ async def get_temporal_events(
         org_uuid = uuid.UUID(org_id)
     except ValueError:
         raise HTTPException(status_code=422, detail="Invalid org_id: not a valid UUID.")
+
+    # Bind the transaction to this org for row-level security (Postgres).
+    await set_org_context(session, str(org_uuid))
 
     stmt = (
         select(TemporalMemory)

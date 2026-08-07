@@ -78,6 +78,23 @@ _PII_PATTERNS: List[Dict] = [
         "validator": None,
     },
     {
+        # International / E.164 numbers (audit finding #6), e.g. UK
+        # "+44 7700 900123", compact "+447700900123", or "+44-20-7946-0958".
+        # A 1-3 digit country code followed by 2-5 digit groups with
+        # optional single separators.  The leading "+" keeps this from
+        # overlapping bare US-format numbers; where both patterns match
+        # (e.g. "+1-555-123-4567") detect() resolves the overlap to a
+        # single finding.
+        "type": "PHONE",
+        "regex": re.compile(
+            r"(?<![\d+])"
+            r"\+\d{1,3}"
+            r"(?:[-.\s]?\d{2,4}){2,5}"
+            r"(?!\d)"
+        ),
+        "validator": None,
+    },
+    {
         "type": "SSN",
         "regex": re.compile(r"(?<!\d)\d{3}-\d{2}-\d{4}(?!\d)"),
         "validator": None,
@@ -126,7 +143,15 @@ class PIIRedactor:
             self._patterns.extend(extra_patterns)
 
     def detect(self, text: str) -> List[PIIDetection]:
-        """Return all PII detections sorted by start position."""
+        """Return all PII detections sorted by start position.
+
+        Same-type overlapping matches (e.g. a "+1 ..." number caught by
+        both the US and the international phone pattern) are resolved to a
+        single detection, preferring the longest match at each position, so
+        that redaction never emits duplicate tokens for one finding.
+        Overlaps between *different* PII types are intentionally all
+        reported, as each represents a distinct kind of finding.
+        """
         detections: List[PIIDetection] = []
         for pat in self._patterns:
             for m in pat["regex"].finditer(text):
@@ -142,8 +167,20 @@ class PIIRedactor:
                         original=value,
                     )
                 )
-        detections.sort(key=lambda d: d.start)
-        return detections
+        # Position order; longest-first among same-start matches so overlap
+        # resolution keeps the most complete finding.
+        detections.sort(key=lambda d: (d.start, -(d.end - d.start)))
+
+        resolved: List[PIIDetection] = []
+        last_end_by_type: Dict[str, int] = {}
+        for det in detections:
+            if det.start < last_end_by_type.get(det.pii_type, 0):
+                continue  # same-type overlap: already covered by a kept match
+            resolved.append(det)
+            last_end_by_type[det.pii_type] = max(
+                det.end, last_end_by_type.get(det.pii_type, 0)
+            )
+        return resolved
 
     def redact(self, text: str, mode: str = "mask") -> RedactionResult:
         """Redact PII from *text*.
