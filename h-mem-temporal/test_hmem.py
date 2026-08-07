@@ -254,6 +254,68 @@ class TestDreamerConsolidator:
             assert all("KV" in n.content for n in kv_cluster[0])
             tree.close()
 
+    @patch("dreamer_consolidator.requests.post")
+    def test_instance_ollama_url_and_model_reach_llm(self, mock_post):
+        """Regression (audit #7): llm_generate must accept the instance
+        ollama_url/model instead of raising TypeError and silently using
+        the module-level environment defaults."""
+        mock_post.return_value.status_code = 200
+        mock_post.return_value.json.return_value = {"response": "A summary."}
+
+        with tempfile.NamedTemporaryFile(suffix=".db") as f:
+            tree = TemporalTree(f.name)
+            consolidator = DreamerConsolidator(
+                tree,
+                ollama_url="http://lab-node:11435",
+                model="qwen2.5:3b",
+            )
+            nodes = [
+                TreeNode(id=1, content="finding A", timestamp=0,
+                         level=0, window_start=0, window_end=0),
+                TreeNode(id=2, content="finding B", timestamp=0,
+                         level=0, window_start=0, window_end=0),
+            ]
+
+            summary = consolidator._generate_summary(nodes)
+
+            assert summary == "A summary."
+            url = mock_post.call_args.args[0]
+            payload = mock_post.call_args.kwargs["json"]
+            assert url == "http://lab-node:11435/api/generate"
+            assert payload["model"] == "qwen2.5:3b"
+            tree.close()
+
+    @patch("dreamer_consolidator.requests.post")
+    def test_relationship_check_uses_instance_settings(self, mock_post):
+        mock_post.return_value.status_code = 200
+        mock_post.return_value.json.return_value = {"response": "CONFIRMS"}
+
+        with tempfile.NamedTemporaryFile(suffix=".db") as f:
+            tree = TemporalTree(f.name)
+            consolidator = DreamerConsolidator(
+                tree, ollama_url="http://lab-node:11435", model="qwen2.5:3b"
+            )
+            old = TreeNode(id=1, content="old finding", timestamp=0,
+                           level=1, window_start=0, window_end=0)
+            new = TreeNode(id=2, content="new observation", timestamp=0,
+                           level=0, window_start=0, window_end=0)
+
+            assert consolidator._check_relationship(old, new) == "CONFIRMS"
+            assert mock_post.call_args.args[0] == "http://lab-node:11435/api/generate"
+            assert mock_post.call_args.kwargs["json"]["model"] == "qwen2.5:3b"
+            tree.close()
+
+    @patch("dreamer_consolidator.requests.post")
+    def test_defaults_used_when_not_overridden(self, mock_post):
+        from dreamer_consolidator import MODEL, OLLAMA_URL, llm_generate
+
+        mock_post.return_value.status_code = 200
+        mock_post.return_value.json.return_value = {"response": "ok"}
+
+        assert llm_generate("hi") == "ok"
+        assert mock_post.call_args.args[0] == f"{OLLAMA_URL}/api/generate"
+        assert mock_post.call_args.kwargs["json"]["model"] == MODEL
+
     @patch("dreamer_consolidator.llm_generate")
     def test_consolidate_level(self, mock_llm):
         mock_llm.return_value = "Summary: two related KV cache geometry experiments on deception detection."

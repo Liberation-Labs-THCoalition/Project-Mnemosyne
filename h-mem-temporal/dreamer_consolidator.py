@@ -48,12 +48,22 @@ Respond with exactly one of:
 Response (one word):"""
 
 
-def llm_generate(prompt: str, system: str = "", timeout: float = 120) -> Optional[str]:
+def llm_generate(prompt: str, system: str = "", timeout: float = 120,
+                 ollama_url: Optional[str] = None,
+                 model: Optional[str] = None) -> Optional[str]:
+    """Generate text via Ollama.
+
+    ``ollama_url`` and ``model`` default to the module-level environment
+    configuration but can be overridden per call (DreamerConsolidator
+    passes its instance settings).
+    """
+    resolved_url = ollama_url or OLLAMA_URL
+    resolved_model = model or MODEL
     try:
         resp = requests.post(
-            f"{OLLAMA_URL}/api/generate",
+            f"{resolved_url}/api/generate",
             json={
-                "model": MODEL,
+                "model": resolved_model,
                 "prompt": prompt,
                 "system": system,
                 "stream": False,
@@ -289,7 +299,7 @@ class DreamerConsolidator:
             f"[{i+1}] {node.content[:500]}" for i, node in enumerate(nodes)
         )
         prompt = CONSOLIDATION_PROMPT.format(entries=entries)
-        return llm_generate(prompt, ollama_url=self.ollama_url)
+        return llm_generate(prompt, ollama_url=self.ollama_url, model=self.model)
 
     def _check_relationship(self, old: TreeNode, new: TreeNode) -> str:
         """Ask LLM whether new finding confirms/contradicts old."""
@@ -297,7 +307,7 @@ class DreamerConsolidator:
             existing=old.content[:500],
             new=new.content[:500],
         )
-        response = llm_generate(prompt, ollama_url=self.ollama_url)
+        response = llm_generate(prompt, ollama_url=self.ollama_url, model=self.model)
         if response:
             response_upper = response.strip().upper()
             if "CONFIRMS" in response_upper:
