@@ -148,8 +148,42 @@ def main():
     print(f"  Significance recalibration suggestions: {len(recal)}")
     print("  PASS")
 
-    # === TEST 6: Circumplex sweep (E1) ===
-    print("\n[TEST 6] Circumplex sweep (subset of layers)...")
+    # === TEST 6: Workspace trajectory ===
+    print("\n[TEST 6] Workspace trajectory...")
+    trajectory = observer.store.workspace_trajectory("test_session")
+    print(f"  Trajectory length: {len(trajectory)} events")
+    for entry in trajectory:
+        print(f"    t={entry['timestamp']:.0f} mem={entry['memory_id']} "
+              f"onset=L{entry['onset_layer']} tokens={entry['dominant_tokens'][:3]}")
+    assert len(trajectory) == 2, f"Expected 2 events in session, got {len(trajectory)}"
+    print("  PASS")
+
+    # === TEST 7: Compare snapshots (variable landing measurement) ===
+    print("\n[TEST 7] Compare snapshots...")
+    # Re-observe the same memory to get a second snapshot
+    time.sleep(0.01)  # ensure distinct timestamps
+    snapshot3 = observer.observe_retrieval(
+        memory_id="mem_medical_001",
+        memory_content="Patient reported severe migraine headaches lasting three days. "
+                       "Prescribed sumatriptan 100mg.",
+        task_prompt="What medication was prescribed for the headaches?",
+        retrieval_method="sira",
+        significance=0.8,
+        session_id="test_session",
+        marker_tokens=["patient", "doctor", "medicine"],
+    )
+    delta = observer.store.compare_snapshots(
+        "mem_medical_001", snapshot.timestamp, snapshot3.timestamp)
+    print(f"  Workspace Jaccard: {delta.get('workspace_jaccard')}")
+    print(f"  Eccentricity delta: {delta.get('eccentricity_delta')}")
+    print(f"  Ghost Jaccard: {delta.get('ghost_jaccard')}")
+    print(f"  Loading changed: {delta.get('loading_changed')}")
+    assert "error" not in delta, f"compare_snapshots failed: {delta.get('error')}"
+    assert delta.get("workspace_jaccard") is not None, "No workspace comparison"
+    print("  PASS")
+
+    # === TEST 8: Circumplex sweep (E1) ===
+    print("\n[TEST 8] Circumplex sweep (subset of layers)...")
     circ_probe = CircumplexProbe(model, lens)
     sample_layers = [11, 23, 35, 45, 57]
     results = circ_probe.sweep(layers=sample_layers)
@@ -164,7 +198,10 @@ def main():
             "model": args.model,
             "snapshot_1": snapshot.to_dict(),
             "snapshot_2": snapshot2.to_dict(),
+            "snapshot_3_reobserve": snapshot3.to_dict(),
             "loading_stats": stats,
+            "workspace_trajectory": trajectory,
+            "variable_landing_delta": delta,
             "circumplex_sweep": [
                 {"layer": r.layer, "eccentricity": r.eccentricity,
                  "valence_jspace": r.valence_jspace_energy,

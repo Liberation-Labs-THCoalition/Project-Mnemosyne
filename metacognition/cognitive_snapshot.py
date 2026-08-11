@@ -229,6 +229,128 @@ class CognitiveMemoryStore:
                 series.append((snap["timestamp"], ghost["secondary_tokens"]))
         return series
 
+    def compare_snapshots(self, memory_id: str,
+                          snapshot_t1: float, snapshot_t2: float) -> dict:
+        """Compare two snapshots of the same memory across time.
+
+        Returns geometric deltas: workspace vocabulary overlap,
+        eccentricity change, ghost vocabulary overlap, and loading
+        status change. This is the measurement the variable landing
+        hypothesis depends on.
+        """
+        history = self.load_history(last_n=10000, memory_id=memory_id)
+        if not history:
+            return {"error": "no snapshots for this memory_id"}
+
+        # Find closest snapshots to requested timestamps
+        snap1 = min(history, key=lambda s: abs(s["timestamp"] - snapshot_t1))
+        snap2 = min(history, key=lambda s: abs(s["timestamp"] - snapshot_t2))
+
+        if snap1["timestamp"] == snap2["timestamp"]:
+            return {"error": "t1 and t2 resolved to the same snapshot"}
+
+        delta = {"memory_id": memory_id,
+                 "t1": snap1["timestamp"], "t2": snap2["timestamp"]}
+
+        # Workspace vocabulary delta
+        ws1_tokens = set()
+        ws2_tokens = set()
+        for r in snap1.get("workspace_readings", []):
+            ws1_tokens.update(t[0] for t in r.get("top_tokens", []))
+        for r in snap2.get("workspace_readings", []):
+            ws2_tokens.update(t[0] for t in r.get("top_tokens", []))
+
+        if ws1_tokens or ws2_tokens:
+            union = ws1_tokens | ws2_tokens
+            overlap = ws1_tokens & ws2_tokens
+            delta["workspace_jaccard"] = len(overlap) / max(len(union), 1)
+            delta["workspace_only_t1"] = sorted(ws1_tokens - ws2_tokens)
+            delta["workspace_only_t2"] = sorted(ws2_tokens - ws1_tokens)
+        else:
+            delta["workspace_jaccard"] = None
+
+        # Eccentricity delta
+        circ1 = snap1.get("circumplex")
+        circ2 = snap2.get("circumplex")
+        if circ1 and circ2:
+            delta["eccentricity_delta"] = circ2["eccentricity"] - circ1["eccentricity"]
+            delta["valence_delta"] = circ2["valence_magnitude"] - circ1["valence_magnitude"]
+            delta["arousal_delta"] = circ2["arousal_magnitude"] - circ1["arousal_magnitude"]
+        else:
+            delta["eccentricity_delta"] = None
+
+        # Ghost vocabulary delta
+        ghost1 = snap1.get("ghost")
+        ghost2 = snap2.get("ghost")
+        if ghost1 and ghost2:
+            g1_tokens = set(t[0] for t in ghost1.get("secondary_tokens", []))
+            g2_tokens = set(t[0] for t in ghost2.get("secondary_tokens", []))
+            g_union = g1_tokens | g2_tokens
+            g_overlap = g1_tokens & g2_tokens
+            delta["ghost_jaccard"] = len(g_overlap) / max(len(g_union), 1)
+            delta["ghost_cosine_delta"] = (ghost2["cosine_logit_jlens"]
+                                           - ghost1["cosine_logit_jlens"])
+        else:
+            delta["ghost_jaccard"] = None
+
+        # Loading status change
+        load1 = snap1.get("loading")
+        load2 = snap2.get("loading")
+        if load1 and load2:
+            delta["loading_changed"] = load1.get("loaded") != load2.get("loaded")
+            delta["loading_t1"] = load1.get("loaded")
+            delta["loading_t2"] = load2.get("loaded")
+        else:
+            delta["loading_changed"] = None
+
+        # Workspace onset layer change
+        onset1 = snap1.get("workspace_onset_layer", -1)
+        onset2 = snap2.get("workspace_onset_layer", -1)
+        if onset1 >= 0 and onset2 >= 0:
+            delta["onset_layer_delta"] = onset2 - onset1
+
+        return delta
+
+    def workspace_trajectory(self, session_id: str,
+                             last_n: int = 100) -> list[dict]:
+        """Track how the workspace evolves across a session.
+
+        Returns a time-ordered series of workspace summaries:
+        dominant tokens, onset layer, and workspace coverage at
+        each retrieval event in the session.
+        """
+        history = self.load_history(last_n=last_n)
+        session_snaps = [s for s in history if s.get("session_id") == session_id]
+        session_snaps.sort(key=lambda s: s["timestamp"])
+
+        trajectory = []
+        for snap in session_snaps:
+            ws_readings = snap.get("workspace_readings", [])
+            active_layers = [r["layer"] for r in ws_readings
+                             if r.get("in_workspace")]
+
+            all_tokens = []
+            for r in ws_readings:
+                for tok, score in r.get("top_tokens", [])[:5]:
+                    if tok.strip():
+                        all_tokens.append(tok)
+
+            from collections import Counter
+            token_counts = Counter(all_tokens)
+
+            trajectory.append({
+                "timestamp": snap["timestamp"],
+                "memory_id": snap.get("memory_id", ""),
+                "onset_layer": snap.get("workspace_onset_layer", -1),
+                "active_layers": active_layers,
+                "dominant_tokens": [t for t, _ in token_counts.most_common(10)],
+                "eccentricity": (snap.get("circumplex", {}) or {}).get("eccentricity"),
+                "ghost_cosine": (snap.get("ghost", {}) or {}).get("cosine_logit_jlens"),
+                "loaded": (snap.get("loading", {}) or {}).get("loaded"),
+            })
+
+        return trajectory
+
     def significance_recalibration(self, last_n: int = 500) -> dict:
         """Suggest significance score adjustments based on actual loading rates.
 
