@@ -8,9 +8,16 @@ venv/
 dist/
 build/
 .coverage
+coverage.xml
 .pytest_cache/
 htmlcov/
 *.db
 *.sqlite3
+*.bin
+*.pt
+*.safetensors
+data/
+jlens_results/
+node_modules/
 biometric-reader/
 dispatch-notion-memory/
