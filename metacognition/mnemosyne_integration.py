@@ -56,16 +56,22 @@ class MetacognitiveObserver:
                           task_prompt: str, retrieval_method: str = "sira",
                           significance: float = 0.5,
                           session_id: str = "",
-                          marker_tokens: Optional[list[str]] = None) -> CognitiveSnapshot:
+                          marker_tokens: Optional[list[str]] = None,
+                          prior_context: str = "") -> CognitiveSnapshot:
         """Record a full cognitive snapshot at a retrieval event.
 
         Call this after SIRA (or any retriever) returns a memory,
         before the memory is used in generation.
+
+        prior_context: accumulated conversational context to prepend.
+        Used by variable landing experiment to test whether retrieval
+        geometry changes when the system carries experiential history.
         """
         timestamp = time.time()
 
         # 1. Workspace readings at key layers
-        ws_readings = self._measure_workspace(memory_content, task_prompt)
+        ws_readings = self._measure_workspace(memory_content, task_prompt,
+                                              prior_context=prior_context)
 
         # 2. Circumplex at the ignition layer
         circ = self._measure_circumplex()
@@ -105,11 +111,15 @@ class MetacognitiveObserver:
 
         return snapshot
 
-    def _measure_workspace(self, context: str, task: str) -> list[JSpaceReading]:
+    def _measure_workspace(self, context: str, task: str,
+                            prior_context: str = "") -> list[JSpaceReading]:
         """J-lens readings at workspace layers."""
         from jlens.vis import compute_slice
 
-        prompt = f"Context:\n- {context}\n\nQuestion: {task}\nAnswer:"
+        if prior_context:
+            prompt = f"Conversation history:\n{prior_context}\n\nContext:\n- {context}\n\nQuestion: {task}\nAnswer:"
+        else:
+            prompt = f"Context:\n- {context}\n\nQuestion: {task}\nAnswer:"
         slice_data = compute_slice(
             self.model, self.lens, prompt,
             top_n=10, max_seq_len=512,
