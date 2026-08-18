@@ -19,7 +19,10 @@ import jlens
 from jlens.hf import HFLensModel
 from jlens.hooks import ActivationRecorder
 
-from cognitive_snapshot import CircumplexReading
+try:
+    from .cognitive_snapshot import CircumplexReading
+except ImportError:
+    from cognitive_snapshot import CircumplexReading
 
 
 # Emotion-anchored prompts for valence/arousal extraction
@@ -162,8 +165,63 @@ class CircumplexProbe:
             arousal_ghost_energy=1.0 - a_jspace,
         )
 
+    def calibrate(self, layer: int):
+        """Pre-compute and cache V/A directions at a layer. Call once per session."""
+        self._cached_layer = layer
+        self._valence_dir, self._valence_cal_mag = self._extract_direction(
+            VALENCE_POSITIVE, VALENCE_NEGATIVE, layer)
+        self._arousal_dir, self._arousal_cal_mag = self._extract_direction(
+            AROUSAL_HIGH, AROUSAL_LOW, layer)
+        self._calibrated = True
+
+    def measure_live(self, text: str, layer: Optional[int] = None) -> Optional[CircumplexReading]:
+        """Measure circumplex by projecting LIVE text activations onto calibrated directions.
+
+        This is the method for continuous monitoring. Calibrate once (caches V/A
+        directions from anchor prompts), then call measure_live on each conversation
+        turn to see how the model's emotional geometry responds to real content.
+        """
+        if not getattr(self, '_calibrated', False):
+            return None
+
+        layer = layer or self._cached_layer
+
+        try:
+            input_ids = self.model.encode(text, max_length=512)
+            with ActivationRecorder(self.model.layers, at=[layer]) as rec:
+                self.model.forward(input_ids)
+                h = rec.activations[layer][0].detach().float()
+                h_last = h[-1]  # last token position
+
+            v_proj = torch.dot(h_last, self._valence_dir).item()
+            a_proj = torch.dot(h_last, self._arousal_dir).item()
+
+            v_mag = abs(v_proj)
+            a_mag = abs(a_proj)
+
+            if v_mag > 0 and a_mag > 0:
+                major = max(v_mag, a_mag)
+                minor = min(v_mag, a_mag)
+                eccentricity = np.sqrt(1 - (minor / major) ** 2)
+            else:
+                eccentricity = 0.0
+
+            v_jspace = self._jspace_energy(self._valence_dir, layer)
+            a_jspace = self._jspace_energy(self._arousal_dir, layer)
+
+            return CircumplexReading(
+                eccentricity=eccentricity,
+                valence_magnitude=v_mag,
+                arousal_magnitude=a_mag,
+                valence_in_jspace=v_jspace,
+                arousal_in_jspace=a_jspace,
+                measurement_layer=layer,
+            )
+        except Exception:
+            return None
+
     def sweep(self, layers: Optional[list[int]] = None) -> list[CircumplexResult]:
-        """Measure circumplex at multiple layers."""
+        """Measure circumplex at multiple layers (benchmark mode, not live)."""
         if layers is None:
             layers = self.lens.source_layers
 
