@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mnemosyne-v10"
+version = "10.0.0"
+description = "Mnemosyne v10: whole-session retrieval for agent memory (BM25 + bge dense, RRF, 24k-token budget)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Hippocratic License 3.0 with commercial addendum (see LICENSE.md at the repository root)" }
+dependencies = [
+    # NumPy 2 scalar promotion (NEP 50), as in the run behind the published record; parity was verified on 2.4.4.
+    "numpy>=2.0",
+    "tiktoken>=0.7",
+    "nltk>=3.8",
+]
+
+[project.optional-dependencies]
+# The dense channel's encoder, BAAI/bge-base-en-v1.5 at a pinned revision. Not needed for BM25-only use, or
+# when every turn vector is precomputed.
+encoder = ["torch>=2.1", "transformers>=4.40"]
+# scikit-learn only for the test that checks the vendored stop-word list against it.
+test = ["pytest>=7", "scikit-learn"]
+
+[project.scripts]
+mnemosyne-v10 = "mnemosyne_v10.cli:main"
+
+[tool.setuptools]
+packages = ["mnemosyne_v10"]
+
+[tool.setuptools.package-data]
+mnemosyne_v10 = ["frozen_v10.json"]

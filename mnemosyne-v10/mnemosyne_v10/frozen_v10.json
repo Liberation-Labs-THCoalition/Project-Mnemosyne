@@ -1,0 +1,18 @@
+{
+ "channels": [
+  "bm25",
+  "dense"
+ ],
+ "rrf_k": 60,
+ "w_bm25": 1.0,
+ "w_dense": 2.0,
+ "w_assistant": 1.0,
+ "second_weight": 1.0,
+ "budget": 24000,
+ "whole_top": 99,
+ "window": 2,
+ "window_seeds": 2,
+ "bm25_k1": 1.2,
+ "bm25_b": 0.75,
+ "w_time": 1.0
+}
