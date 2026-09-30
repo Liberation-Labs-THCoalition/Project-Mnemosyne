@@ -18,10 +18,16 @@ complete (text-recovered).
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 logger = logging.getLogger(__name__)
+
+
+def _mentions(entity: str, text_lower: str) -> bool:
+    """Whole-token match, so the entity "CC" does not count inside "access" (a substring test did until 2026-09-29)."""
+    return re.search(r"(?<!\w)" + re.escape(entity.lower()) + r"(?!\w)", text_lower) is not None
 
 
 # ── Interfaces ──
@@ -200,7 +206,7 @@ class TextGraphVerifier:
             # Count entity overlap
             overlap = [
                 e for e in graph_entities
-                if e.lower() in content_lower
+                if _mentions(e, content_lower)
             ]
 
             # Graph score: entity coverage
@@ -279,7 +285,7 @@ class TextGraphVerifier:
 
                     # Boost memories that mention bridged entities
                     for vm in verified:
-                        if orphan.lower() in vm.content.lower():
+                        if _mentions(orphan, vm.content.lower()):
                             vm.bridged_entities.append(orphan)
                             vm.combined_score += self.entity_boost
                             if vm.verification == "weakened":

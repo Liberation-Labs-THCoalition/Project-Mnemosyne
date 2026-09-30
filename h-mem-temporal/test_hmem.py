@@ -346,3 +346,22 @@ class TestDreamerConsolidator:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
+
+class TestEntityVote:
+    def test_weighted_vote_preferred_over_raw_count(self):
+        # Since 2026-09-29 the TGS bridge sends rec_score (IDF- and length-weighted) beside the raw rec_count.
+        # A hub that mentions everything has the higher raw count but the lower weighted vote.
+        with tempfile.NamedTemporaryFile(suffix=".db") as f:
+            tree = TemporalTree(f.name)
+            now = time.time()
+            hub = tree.add_leaf("handoff note mentioning everything", timestamp=now - WEEK)
+            focused = tree.add_leaf("focused memory", timestamp=now - WEEK)
+            scorer = TemporalScorer(tree)
+            results = scorer.score_results([
+                {"content": "handoff note mentioning everything", "tgs_score": 0.7, "id": hub,
+                 "rec_count": 9, "rec_score": 0.2},
+                {"content": "focused memory", "tgs_score": 0.7, "id": focused, "rec_count": 3, "rec_score": 1.1},
+            ], now=now)
+            assert results[0].content == "focused memory"
+            tree.close()

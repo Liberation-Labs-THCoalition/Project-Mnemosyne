@@ -156,3 +156,17 @@ class TestVerificationReport:
         verifier = TextGraphVerifier(text_store, graph_store)
         report = verifier.retrieve("test")
         assert len(report.verified_memories) == 0
+
+
+class TestWholeTokenMatching:
+    def test_short_entity_does_not_match_inside_words(self):
+        # Until 2026-09-29 overlap was a substring test, so the entity "CC" voted for "access".
+        text_store = MockTextStore([
+            {"id": "a", "content": "Granted access to the successor account.", "score": 0.9},
+            {"id": "b", "content": "CC reviewed the patch (CC's second pass).", "score": 0.8},
+        ])
+        graph_store = MockGraphStore(nodes=[GraphNode("CC", "agent")], edges=[])
+        report = TextGraphVerifier(text_store, graph_store).retrieve("who reviewed")
+        by_id = {vm.memory_id: vm for vm in report.verified_memories}
+        assert "CC" not in by_id["a"].entity_overlap
+        assert "CC" in by_id["b"].entity_overlap

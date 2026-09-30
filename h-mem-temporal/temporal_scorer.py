@@ -116,8 +116,10 @@ class TemporalScorer:
                 level = 0
                 node_id = None
 
-            entity_score = result.get('rec_count', 0)
-            max_entity = max(r.get('rec_count', 0) for r in tgs_results) or 1
+            # rec_score is the TGS bridge's IDF- and length-weighted entity vote (since 2026-09-29); the raw
+            # rec_count lets a memory that mentions everything win. Fall back to it for older bridge responses.
+            entity_score = result.get('rec_score', result.get('rec_count', 0))
+            max_entity = max(r.get('rec_score', r.get('rec_count', 0)) for r in tgs_results) or 1
             norm_entity = entity_score / max_entity
 
             combined = (

@@ -19,14 +19,21 @@ TGS-RAG bridges them: graph structure validates text results, and text content d
 After graph traversal, ALL visited entities (including pruned paths) vote for text chunks:
 
 ```
-Score_final(chunk) = α × Norm(similarity) + (1-α) × Norm(entity_count)
+Score_final(chunk) = α × Norm(similarity) + (1-α) × Norm(entity_vote)
+
+entity_vote(chunk) = Σ w(e) over graph-visited entities e the chunk mentions as whole tokens
+                     ÷ (1 − b + b × n / avg_n)
+w(e)               = 1 / ln(1 + df(e))
 ```
 
 - `similarity` = text search relevance score (FTS rank or cosine similarity)
-- `entity_count` = number of graph-visited entities that appear in this chunk
+- `w(e)` = an entity that appears in many memories (`df`) counts less than a rare one
+- `n` = how many entities the chunk mentions; `avg_n` = the mean over the memory store; `b = 0.75` (`TGS_LENGTH_B`). This is BM25's length term, used as a divisor.
 - `α = 0.5` (balances semantic relevance vs structural endorsement)
 
 Chunks endorsed by many graph entities rise in rank even if their raw text similarity is mediocre. This surfaces memories that are structurally relevant but use different vocabulary.
+
+The weighting matters. Until 2026-09-29 this bridge used a raw count, `entity_count`, matched by substring. That lets a handoff note that mentions everything collect a vote from every query, and lets the entity `cc` vote for any chunk containing "access".
 
 ### Text → Graph: Orphan Entity Bridging
 

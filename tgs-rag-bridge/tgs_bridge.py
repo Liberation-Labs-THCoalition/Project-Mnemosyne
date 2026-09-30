@@ -6,7 +6,14 @@ using bidirectional verification:
   Text→Graph: Top text entities seed additional graph retrievals (orphan bridging)
 
 Scoring formula (Global Voting):
-  Score = alpha * Norm(text_similarity) + (1-alpha) * Norm(entity_count)
+  Score = alpha * Norm(text_similarity) + (1-alpha) * Norm(entity_vote)
+
+  entity_vote(memory) = sum(w(e) for graph entities e mentioned as whole tokens)
+                        / (1 - b + b * n / avg_n)
+  where w(e) = 1 / ln(1 + df(e)) weights rare entities up, n is how many entities the
+  memory mentions, and avg_n is the corpus mean (BM25's length term, pivoted). Without
+  both terms, memories that mention everything win every query. (Until 2026-09-29 this was
+  a raw substring count, so "cc" counted inside "access".)
 
 Based on arXiv:2605.05643 with adaptations for agent memory infrastructure.
 
@@ -16,14 +23,21 @@ Designed as a standalone HTTP service. Configure via environment:
   TGS_ALPHA       — Text vs graph weight balance (default: 0.5)
   TGS_ORPHAN_CAP  — Max orphan entities for graph bridging (default: 3)
   TGS_EPSILON     — Score discount for bridge results (default: 0.4)
+  TGS_LENGTH_B    — Strength of the length normalization, 0..1 (default: 0.75)
+
+Text search skips soft-deleted rows and the "Association between memories ..." pointer rows
+that mcp-memory-service consolidation writes when MCP_CONSOLIDATION_STORE_ASSOCIATIONS is true.
 """
 
 import asyncio
 import json
 import logging
+import math
 import os
 import re
 import sqlite3
+import time
+from collections import Counter
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from typing import Optional
 
@@ -37,6 +51,9 @@ MEMORY_DB = os.environ.get('MEMORY_DB', '')
 ALPHA = float(os.environ.get('TGS_ALPHA', '0.5'))
 ORPHAN_CAP = int(os.environ.get('TGS_ORPHAN_CAP', '3'))
 EPSILON = float(os.environ.get('TGS_EPSILON', '0.4'))
+LENGTH_B = float(os.environ.get('TGS_LENGTH_B', '0.75'))
+STATS_TTL = 3600  # seconds between entity-frequency passes over the memory DB
+LIVE_ROWS = "deleted_at IS NULL AND content NOT LIKE 'Association between memories %'"
 
 
 def normalize(scores: list[float]) -> list[float]:
@@ -65,6 +82,52 @@ def extract_entities(text: str) -> set[str]:
     return entities
 
 
+_stats: dict[str, dict] = {}
+
+
+def entity_stats(db_path: str) -> dict:
+    """Document frequency of each entity and the mean entities per memory, computed with the
+    same extract_entities over live memories. Cached per database for STATS_TTL seconds."""
+    cached = _stats.get(db_path)
+    if cached and time.time() - cached['at'] <= STATS_TTL:
+        return cached
+    df, total, n_rows = Counter(), 0, 0
+    if db_path:
+        conn = sqlite3.connect(f'file:{db_path}?mode=ro', uri=True)
+        try:
+            for (content,) in conn.execute(f'SELECT content FROM memories WHERE {LIVE_ROWS}'):
+                ents = extract_entities(content)
+                df.update(ents)
+                total += len(ents)
+                n_rows += 1
+        finally:
+            conn.close()
+    stats = {'df': df, 'avg_n': max(total / max(n_rows, 1), 1.0), 'at': time.time()}
+    _stats[db_path] = stats
+    logger.info(f'entity stats: {n_rows} memories, {len(df)} entities, {stats["avg_n"]:.1f} per memory')
+    return stats
+
+
+def entity_weight(ent: str, stats: dict) -> float:
+    """Rarer entities count more: 1 / ln(1 + df), df floored at 1."""
+    return 1.0 / math.log(1 + max(stats['df'].get(ent, 0), 1))
+
+
+def mention_pattern(ent: str) -> re.Pattern:
+    """Whole-token match, so 'cc' does not count inside 'access'."""
+    return re.compile(r'(?<!\w)' + re.escape(ent) + r'(?!\w)')
+
+
+def entity_vote(content: str, text_entities: set, patterns: dict, stats: dict) -> tuple[int, float]:
+    """(matched, score) for one text hit: the matched entities' weights divided by
+    (1 - b + b * n / avg_n), where n is how many entities the memory mentions."""
+    content_lower = content.lower()
+    matched = [e for e, p in patterns.items() if p.search(content_lower)]
+    n = max(len(text_entities), len(matched))
+    norm = 1 - LENGTH_B + LENGTH_B * n / stats['avg_n']
+    return len(matched), sum(entity_weight(e, stats) for e in matched) / norm
+
+
 def search_memory_fts(db_path: str, query: str, limit: int = 20) -> list[dict]:
     """Full-text search against memory SQLite with SIRA enrichment support."""
     if not db_path:
@@ -72,7 +135,7 @@ def search_memory_fts(db_path: str, query: str, limit: int = 20) -> list[dict]:
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     try:
-        fts_query = ' OR '.join(f'"{w}"' for w in query.split() if len(w) > 2)
+        fts_query = ' OR '.join('"' + w.replace('"', '""') + '"' for w in query.split() if len(w) > 2)
         if not fts_query:
             return []
         rows = conn.execute("""
@@ -81,11 +144,15 @@ def search_memory_fts(db_path: str, query: str, limit: int = 20) -> list[dict]:
             FROM memory_content_fts fts
             JOIN memories m ON m.id = fts.rowid
             WHERE memory_content_fts MATCH ?
+              AND m.deleted_at IS NULL
+              AND m.content NOT LIKE 'Association between memories %'
             UNION
             SELECT m.id, m.content, m.memory_type, m.tags,
                    -10.0 as fts_rank
             FROM memories m
             WHERE m.search_terms LIKE '%' || ? || '%'
+              AND m.deleted_at IS NULL
+              AND m.content NOT LIKE 'Association between memories %'
               AND m.id NOT IN (
                   SELECT rowid FROM memory_content_fts WHERE memory_content_fts MATCH ?
               )
@@ -141,25 +208,27 @@ async def tgs_retrieve(query: str, num_results: int = 10,
     for doc in graph_docs:
         graph_entities.update(extract_entities(doc))
 
+    stats = entity_stats(db)
+    patterns = {ge: mention_pattern(ge) for ge in graph_entities}
     scored_text = []
     for mem in text_results:
         content = mem.get('content', '')
         text_entities = extract_entities(content)
-        content_lower = content.lower()
-        rec_count = sum(1 for ge in graph_entities if ge in content_lower)
+        rec_count, rec_score = entity_vote(content, text_entities, patterns, stats)
         scored_text.append({
             'id': mem.get('id'),
             'content': content,
             'memory_type': mem.get('memory_type', ''),
             'fts_rank': mem.get('fts_rank', 0),
             'rec_count': rec_count,
+            'rec_score': round(rec_score, 4),
             'entities': text_entities,
             'source': 'text',
         })
 
     if scored_text:
         fts_scores = [-m['fts_rank'] for m in scored_text]
-        rec_scores = [m['rec_count'] for m in scored_text]
+        rec_scores = [m['rec_score'] for m in scored_text]
         norm_fts = normalize(fts_scores)
         norm_rec = normalize(rec_scores)
         for i, mem in enumerate(scored_text):
@@ -173,7 +242,8 @@ async def tgs_retrieve(query: str, num_results: int = 10,
     orphan_docs = []
 
     if orphan_entities:
-        top_orphans = list(orphan_entities)[:ORPHAN_CAP]
+        # rarest first, and deterministic (set order changes with each process's hash seed)
+        top_orphans = sorted(orphan_entities, key=lambda e: (-entity_weight(e, stats), e))[:ORPHAN_CAP]
         logger.info(f'Orphan entities for graph bridging: {top_orphans}')
         for orphan in top_orphans:
             bridge_result = await query_hipporag(hip_url, orphan, 3)
@@ -269,5 +339,7 @@ if __name__ == '__main__':
 
     logger.info(f'TGS-RAG Bridge on {args.host}:{args.port}')
     logger.info(f'HippoRAG: {HIPPORAG_URL} | Memory DB: {MEMORY_DB}')
-    logger.info(f'alpha={ALPHA} orphan_cap={ORPHAN_CAP} epsilon={EPSILON}')
+    logger.info(f'alpha={ALPHA} orphan_cap={ORPHAN_CAP} epsilon={EPSILON} length_b={LENGTH_B}')
+    if MEMORY_DB:
+        entity_stats(MEMORY_DB)  # warm the cache so the first query doesn't pay for the pass
     HTTPServer((args.host, args.port), TGSHandler).serve_forever()
