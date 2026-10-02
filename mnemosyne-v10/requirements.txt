@@ -1,0 +1,9 @@
+# Core runtime (same as [project.dependencies] in pyproject.toml). Parity was verified with
+# numpy 2.4.4, tiktoken 0.12.0, nltk 3.9.4 on Python 3.12. NumPy 1.x is not supported: it promotes
+# float32 scalars differently (NEP 50), and some session scores would not be computed as in the published run.
+numpy>=2.0
+tiktoken>=0.7
+nltk>=3.8
+# Dense encoder (the frozen config uses it): pip install torch transformers, or
+#   pip install "./mnemosyne-v10[encoder]"
+# Tests: pip install pytest scikit-learn, or "./mnemosyne-v10[test]"

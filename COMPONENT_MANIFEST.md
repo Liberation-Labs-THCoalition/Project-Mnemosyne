@@ -5,7 +5,8 @@ clone knows what is runnable now, what is external/gated, and what is still a
 design spec. Created in response to issue #4 (reproducibility).
 
 Last full audit: **2026-08-04** — every table row below was re-verified from the
-working tree on that date (see `AUDIT_REPORT.md` for method and details).
+working tree on that date (see `AUDIT_REPORT.md` for method and details). Rows
+added since carry their own verification date.
 
 **Legend**
 - **Implemented** — source is in this repository and runs/tests from a clean checkout.
@@ -14,6 +15,7 @@ working tree on that date (see `AUDIT_REPORT.md` for method and details).
 
 | Component | Status | In repo? | Verified | Notes |
 |---|---|---|---|---|
+| `mnemosyne-v10` | Implemented | yes | **35 passed** unit with the `[encoder,test]` extras (verified 2026-09-26); **parity: 400/400** held-out questions identical to the published frozen record, both controls detected (verified 2026-09-25) | The v10 release: whole-session retrieval (BM25 + bge dense, RRF, 24k-token budget), frozen config `7bc75f509aa0` as defaults. Runtime deps `numpy` ≥ 2.0, `tiktoken`, `nltk` (`requirements.txt` / `pyproject.toml`); the dense encoder needs `torch` + `transformers` (`[encoder]` extra). The parity test needs LongMemEval_S-cleaned and the v10 turn embeddings (not redistributed) and skips without them. |
 | `kintsugi-cma` | Implemented | yes | **2,068 passed / 6 skipped** (verified 2026-08-06, 62s) | Docker build context fixed to `.` (was `./engine`, which does not exist). Test suite needs only `requirements-test.txt`; full runtime deps live in `pyproject.toml` (used by the Docker build). Precious audit fixes applied 2026-08-06: significance ranking polarity, RLS on live tables (see below), E.164 phone PII, temporal-event dedup. |
 | `h-mem-temporal` | Implemented | yes | **29 passed** (verified 2026-08-06) | Time-aware retrieval with Ebbinghaus decay. `requests` (used by `dreamer_consolidator.py`) now declared in `h-mem-temporal/requirements.txt`. Audit fix: `DreamerConsolidator` instance `ollama_url`/`model` are now actually passed to `llm_generate` (previously a TypeError at runtime). |
 | `tgs-verification` | Implemented | yes | **10 passed** (verified 2026-08-04) | Bidirectional text↔graph verification. Stdlib-only — no third-party runtime deps. |
@@ -45,11 +47,17 @@ working tree on that date (see `AUDIT_REPORT.md` for method and details).
 bash setup.sh myagent            # auto-detects Claude Code / OpenClaw / Hermes / none
 
 # Component test suites that pass from a clean checkout:
+( cd mnemosyne-v10         && python -m pytest tests/test_unit.py -q )  # 35 passed with [encoder,test]
 ( cd kintsugi-cma          && python -m pytest -q )        # 2,068 passed / 6 skipped
 ( cd h-mem-temporal        && python -m pytest -q )        # 29 passed
 ( cd tgs-verification      && python -m pytest -q )        # 10 passed
 ( cd sira-enrichment       && python -m pytest -q )        # 17 passed
 ( cd dispatch-notion-memory && PYTHONPATH=src python -m pytest -q )  # 11 passed
+
+# mnemosyne-v10 parity with the published held-out record (needs LongMemEval_S-cleaned and the
+# v10 turn embeddings, which are not in this repo; skips without them):
+( cd mnemosyne-v10 && MNEMOSYNE_V10_DATA=/path/to/longmemeval_s_cleaned.json \
+    MNEMOSYNE_V10_EMB=/path/to/v10/emb python -m pytest tests/test_parity.py -q )
 ```
 
 ## Row-level security in kintsugi-cma (audit finding #12)
