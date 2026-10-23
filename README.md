@@ -22,12 +22,17 @@ evaluated for English conversations.
 - **Evidence recall** (retrieval alone, no reader): every `has_answer`-labelled evidence session reaches the
   context on **97.1%** of held-out questions; **96.0%** when every official `answer_session_ids` session is
   required.
-- **Placement:** the highest point estimates among the LongMemEval_S results in our survey that we could
+- **Placement:** the highest point estimates among the LongMemEval_S results in our survey (September 2026) that we could
   trace to a primary source. On all 500, the claude-sonnet-5-judge figure is one question above the best
   published claims, and every one of our 95% intervals includes those claims.
 - **Paper, code and data:** *Whole Sessions, Not Passages: Mnemosyne v10 Scores 96.2–96.8% on Held-Out
   LongMemEval_S-cleaned Under Two Claude Judges*, in
   [published-research/mnemosyne-longmemeval-v10](https://github.com/Liberation-Labs-THCoalition/published-research/tree/master/mnemosyne-longmemeval-v10).
+- **Scope:** v10 was designed and tuned on LongMemEval, where a session is one conversation. It does not carry
+  over to histories where a "session" is a large batch of messages: on our development split of the BEAM
+  benchmark (October 2026), whole-session packing fits almost nothing into a small budget, and a plain dense
+  retriever with a skip-and-continue packer retrieved more of the evidence at every budget we tried. Use v10 for
+  chat histories shaped like LongMemEval's; retrieval for other shapes is ongoing work.
 - **Reproducible here:** the library's defaults are the frozen configuration (hash `7bc75f509aa0`), and
   its parity test reproduces the published held-out retrieval record question by question.
 

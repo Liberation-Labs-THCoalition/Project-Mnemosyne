@@ -19,9 +19,14 @@ LongMemEval_S-cleaned Under Two Claude Judges*, in
 - **Evidence recall (no reader involved):** every `has_answer`-labelled evidence session is in the context
   on **97.1%** of held-out questions, and **96.0%** when every official `answer_session_ids` session is
   required.
-- **Placement:** these are the highest point estimates among the LongMemEval_S results in our survey that
+- **Placement:** these are the highest point estimates among the LongMemEval_S results in our survey (September 2026) that
   we could trace to a primary source. On all 500, the claude-sonnet-5-judge figure is one question above the
   best published claims, and every one of our 95% intervals includes those claims.
+- **Scope:** v10 was designed and tuned on LongMemEval, where a session is one conversation. It does not carry
+  over to histories where a "session" is a large batch of messages: on our development split of the BEAM
+  benchmark (October 2026), whole-session packing fits almost nothing into a small budget, and a plain dense
+  retriever with a skip-and-continue packer retrieved more of the evidence at every budget we tried. Use v10 for
+  chat histories shaped like LongMemEval's; retrieval for other shapes is ongoing work.
 
 The judges are Claude models using the official LongMemEval answer-check prompts, not the official GPT-4o
 judge, and the dataset is the S-cleaned variant. The paper lists every deviation from the official harness.
