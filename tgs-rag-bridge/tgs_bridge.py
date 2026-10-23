@@ -138,7 +138,14 @@ def search_memory_fts(db_path: str, query: str, limit: int = 20) -> list[dict]:
         fts_query = ' OR '.join('"' + w.replace('"', '""') + '"' for w in query.split() if len(w) > 2)
         if not fts_query:
             return []
-        rows = conn.execute("""
+        # SIRA-enriched rows the text index misses. search_terms is space-separated, so each query word is matched as
+        # a whole term, and these rows rank after every real text hit (FTS5 ranks are negative; 0.0 sorts last).
+        # Until 10-22 this matched the query's FIRST word only, as a substring, at a fixed -10.0: about the median
+        # real rank, so 46 to 609 enriched rows could outrank most real hits (Vera's report; measured 10-22).
+        words = [w.lower() for w in query.split() if len(w) >= 2]
+        patterns = ['% ' + w.replace('\\', '\\\\').replace('%', '\\%').replace('_', '\\_') + ' %' for w in words]
+        sira_match = ' OR '.join("(' ' || m.search_terms || ' ') LIKE ? ESCAPE '\\'" for _ in patterns) or '0'
+        rows = conn.execute(f"""
             SELECT m.id, m.content, m.memory_type, m.tags,
                    fts.rank as fts_rank
             FROM memory_content_fts fts
@@ -148,17 +155,17 @@ def search_memory_fts(db_path: str, query: str, limit: int = 20) -> list[dict]:
               AND m.content NOT LIKE 'Association between memories %'
             UNION
             SELECT m.id, m.content, m.memory_type, m.tags,
-                   -10.0 as fts_rank
+                   0.0 as fts_rank
             FROM memories m
-            WHERE m.search_terms LIKE '%' || ? || '%'
+            WHERE ({sira_match})
               AND m.deleted_at IS NULL
               AND m.content NOT LIKE 'Association between memories %'
               AND m.id NOT IN (
                   SELECT rowid FROM memory_content_fts WHERE memory_content_fts MATCH ?
               )
-            ORDER BY fts_rank
+            ORDER BY fts_rank, id DESC
             LIMIT ?
-        """, (fts_query, query.split()[0].lower() if query.split() else '', fts_query, limit)).fetchall()
+        """, (fts_query, *patterns, fts_query, limit)).fetchall()
         return [dict(r) for r in rows]
     except Exception as e:
         logger.error(f'FTS search failed: {e}')
