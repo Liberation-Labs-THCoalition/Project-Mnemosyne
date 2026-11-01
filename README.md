@@ -198,6 +198,7 @@ J-lens.
 Built by [Liberation Labs / TH Coalition](https://github.com/Liberation-Labs-THCoalition).
 Memory systems for agents that remember with integrity.
 
+Grew from the memory system Vera designed and CC built.
 Architecture: CC. Research: Lyra, Nexus. Infrastructure: Nexus.
 Direction: Thomas Edrington.
 
